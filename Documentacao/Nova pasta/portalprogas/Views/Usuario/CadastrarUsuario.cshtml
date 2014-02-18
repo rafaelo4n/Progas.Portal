@@ -1,0 +1,98 @@
+﻿@model Progas.Portal.ViewModel.UsuarioCadastroVm
+@{
+    Layout = null;
+    ViewBag.Title = "Cadastro de Usuários";
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/scriptsgerais")
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
+
+    </head>
+    <body>
+        @Html.Partial("_Header")
+        <div id="loginForm">
+            @using (Html.BeginForm("AlterarSenha","GerenciadorUsuario")) {
+                @Html.AntiForgeryToken()
+                <div class="elementosCentralizados">
+                    <div style="width: 265px" class="elementosCentralizados">
+                        @Html.LabelFor(m => m.Login)
+                        @Html.TextBoxFor(m => m.Login)
+                        @Html.ValidationMessageFor(m => m.Login)
+
+                        @Html.LabelFor(m => m.Nome)
+                        @Html.TextBoxFor(m => m.Nome)
+                        @Html.ValidationMessageFor(m => m.Nome)
+
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email)
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+                    <span class="error">
+                        @if (ViewData["erro"] != null)
+                        {
+                            @ViewData["erro"]
+                        }
+                    </span>
+                </div>
+                
+                <div class="divBotao">
+                    <input type="button" id="btnVoltar" value="Voltar" class="blue"/>
+                    <input type="button" id="btnConfirmar" value="Confirmar" class="blue"/>
+                </div>
+            }
+        </div>
+
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
+        <script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(function () {
+                $('#btnVoltar').click(function () {
+                    history.back(1);
+                });
+                $('#btnConfirmar').click(function () {
+
+                    $('body').block("Processando...");
+                    $('.error').empty();
+                    var form = $('form');
+                    if (!$(form).validate().form()) {
+                        return;
+
+                    }
+
+                    $('body').block("Cadastrando Usuario. Aguarde...");
+
+                    var formData = $(form).serialize();
+
+
+                    $.post('@Url.Action("CadastrarUsuario","Usuario" )', formData,
+                    function (data) {
+
+                        if (data.Sucesso) {
+
+                            location.href = '@Url.Action("Index","Usuario")';
+
+
+                        } else {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao cadastrar o Usuário. Detalhe: ' + textStatus + errorThrown);
+                        }
+                    });
+            });
+        })
+    </script>
+    </body>    
+</html>
+

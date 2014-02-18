@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.TituloDaPagina = "Material";
+}
+
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <div id="divFornecedores">
+        <div id="divFiltros">
+            <fieldset>
+                <legend>Filtros</legend>
+                <div class="colunaFiltro">
+                    @Html.Label("Codigo")
+                    @Html.TextBox("Codigo","", new{@class="campomedio"})
+                </div>
+                <div class="colunaFiltro">
+                    @Html.Label("Nome")
+                    @Html.TextBox("Nome","", new{@class="campomedio"})
+                </div>
+                <div class="divBotao">
+                    <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+                    <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+                </div>
+            </fieldset>
+        </div>
+        <div id="gridFornecedores" class="divGrid"></div>
+    </div>
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script>
+        $(document).ready(function() {
+            $("#gridFornecedores").customKendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'Registros',
+                        model: {
+                            fields: {
+                                Codigo: {type: "string"},
+                                Descricao: {type: "string"},
+                                Centro: { type: "string" },
+                                Tipo: { type: "string" },
+                                UnidadeMedida: { type: "string" }
+                            }
+                        },
+                        total: 'QuantidadeDeRegistros'
+                    },
+                    serverFiltering: true,
+                    serverPaging: true,
+                    transport: {
+                        read: {
+                            url: '@Url.Action("Listar", "Material")',
+                            type: 'GET',
+                            cache: false,
+                            data: function() {
+                                return {
+                                    Codigo: $('#Codigo').val(),
+                                    Nome: $('#Nome').val()
+                                };
+                            }
+                        }
+                    },
+                    pageSize: 5
+                },
+                columns:
+                [
+                    {
+                        field: 'Id',
+                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        width: 30,
+                        sortable: false,
+                        template: '<input type="button" class="button_visualize" data-codigofornecedor="${Codigo}"></input>'
+                    },
+                    {
+                        width: 50,
+                        field: "Codigo",
+                        title: "Código"
+                    },
+                    {
+                        field: "Descricao",
+                        width: 100
+                    },
+                    {
+                        field: "Centro",
+                        width: 70
+                    },
+                    {
+                        field: "Tipo",
+                        width: 70
+                    },
+                    {
+                        field: "Centro",
+                        width: 100
+                    },
+                    {
+                        width: 50,
+                        field: "UnidadeMedida",
+                        title: "Unidade Medida"
+                    }
+
+        ]
+            });
+
+            $('#btnLimpar').click(function() {
+                $('#divFiltros input[type!=button]').val('');
+            });   
+
+        });
+    </script>
+    
+}

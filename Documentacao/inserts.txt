@@ -1,0 +1,20 @@
+-- inserts
+insert into usuario 
+values 
+('admfusion', 'adm. fusion', 'nMt6vfHriwbmCFAim+R8qw==','rafael.lima@fusionconsultoria.com.br', 1)
+insert into UsuarioPerfil values ('admfusion',9)
+
+insert into UsuarioPerfil values ('admfusion',9)
+
+insert into pro_listapreco values ('PN','Preço Normal')
+insert into pro_listapreco values ('PP','Preço promocional')
+
+select * from pro_incoterms 
+insert into pro_incoterms values ('CIF','Entregue no cliente','INCO1')
+insert into pro_incoterms values ('CIP','Entr. no cliente Transp Progas','INCO1')
+insert into pro_incoterms values ('FOB','Cliente retira','INCO1')
+insert into pro_incoterms values ('RPR','Redespacho Curitiba','INCO1')
+insert into pro_incoterms values ('RSP','Redespacho São Paulo','INCO1')
+
+insert into pro_tipopedido values ('YVAS','Venda Assis. Técnica')
+insert into pro_tipopedido values ('YNOR','Venda Normal')

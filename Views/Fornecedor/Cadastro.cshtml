@@ -1,0 +1,77 @@
+﻿@using Progas.Portal.UI.Helpers
+@using Progas.Portal.ViewModel
+@model FornecedorCadastroVm
+
+@{
+    ViewBag.Title = "Fornecedor - Consulta";
+}
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+
+<fieldset>
+    <legend>Dados do Fornecedor</legend>
+    @Html.LinhaComDuasColunas(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Codigo),
+    new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Nome))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Cnpj),
+        new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Email))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Municipio),
+        new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Uf))
+    @Html.LinhaComUmaColuna(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Transportadora))
+</fieldset>
+<fieldset>
+    <legend>Produtos do Fornecedor</legend>
+    <div id="gridProdutosDoFornecedor" class="divGrid"></div>
+</fieldset>
+@section scripts
+{
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+<script>
+    $(function() {
+        $("#gridProdutosDoFornecedor").customKendoGrid({
+            dataSource: {
+                schema: {
+                    data: 'Registros',
+                    model: {
+                        fields: {
+                            Codigo: {type: "string"},
+                            Descricao: { type: "string" },
+                            Tipo: { type: "string" }
+                        }
+                    },
+                    total: 'QuantidadeDeRegistros',
+                    type: 'json'
+                },
+                serverFiltering: true,
+                serverPaging: true,
+                transport: {
+                    read: {
+                        url: '@Url.Action("ProdutosDoFornecedor", "Fornecedor")' + '?codigoFornecedor=@Model.Codigo',
+                            type: 'GET',
+                            cache: false
+                        }
+                    },
+                    pageSize: 10
+                },
+                 columns:
+                 [
+                     {
+                         width: 150,
+                         field: "Codigo",
+                         title: "Código"
+                     },
+                     {
+                        field: "Descricao",
+                        width: 300,
+                        title: "Descrição"
+                    },
+                     {
+                         field: "Tipo",
+                         width: 300
+                     }
+                 ]
+             });
+
+    });
+</script>
+}

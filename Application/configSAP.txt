@@ -1,0 +1,7 @@
+AppServerHost=10.10.0.93
+SAPRouter=/H/201.35.69.162/S/3299/H/
+Client=400
+SystemID=DEV
+Username=fusion
+Password=noisuf
+SystemNumber=00

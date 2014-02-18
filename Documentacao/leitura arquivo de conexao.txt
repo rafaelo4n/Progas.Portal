@@ -1,0 +1,48 @@
+// Realiza a leitura do arquivo com os dados de acesso do SAP
+        /*
+        public RfcConfigParameters cgetUserParameters()
+        {
+            string filename            = Environment.CurrentDirectory + System.IO.Path.DirectorySeparatorChar + "configSAP.txt";
+            string[] lines             = File.ReadAllLines(filename);
+            RfcConfigParameters config = new RfcConfigParameters();
+            if (lines != null)
+            {
+                foreach (string s in lines)
+                {
+                    string[] parameters = s.Split('=', ' ');
+                    if (parameters.Length > 1)
+                    {
+                        if (parameters[0] == "AppServerHost")
+                        {
+                            config.Add(RfcConfigParameters.AppServerHost, parameters[1]); 
+                        }
+                        else if (parameters[0] == "SAPRouter")
+                        {
+                            config.Add(RfcConfigParameters.SAPRouter, parameters[1]); 
+                        }
+                        else if (parameters[0] == "Client")
+                        {
+                            config.Add(RfcConfigParameters.Client, parameters[1]); 
+                        }
+                        else if (parameters[0] == "SystemID")
+                        {
+                            config.Add(RfcConfigParameters.SystemID, parameters[1]); 
+                        }
+                        else if (parameters[0] == "Username")
+                        {
+                            config.Add(RfcConfigParameters.User, parameters[1]); 
+                        }
+                        else if (parameters[0] == "Password")
+                        {
+                            config.Add(RfcConfigParameters.Password, parameters[1]); 
+                        }
+                        else if (parameters[0] == "SystemNumber")
+                        {
+                            config.Add(RfcConfigParameters.SystemNumber, parameters[1]); 
+                        }
+                    }
+                }
+            }
+            return config;            
+        }
+        */

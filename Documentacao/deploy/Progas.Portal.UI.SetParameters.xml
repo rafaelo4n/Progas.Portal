@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="portalprogas" />
+  <setParameter name="Progas-Web.config Connection String" value="Server=SV-WEBVENDAS\WEBREPRE;Initial Catalog=ProgasPortal; Integrated Security=True" />
+</parameters>

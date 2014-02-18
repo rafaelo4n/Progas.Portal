@@ -1,0 +1,120 @@
+﻿@model Progas.Portal.ViewModel.TipoPedidoCadastroVm
+@{
+    Layout = null;
+}
+<style type="text/css">
+    .colunaFiltroPequena {
+        width: 33%;
+        display: inline-block;
+        float: left;
+    }
+</style>
+<div id="divFiltros" class="divFiltros">
+    <fieldset>
+        <legend>Filtros</legend>
+        <div class="colunaFiltroPequena">
+            @Html.Label("Código")
+            @Html.TextBox("CodigoFiltro","", new{@class="campopequeno"})
+        </div>
+        <div class="colunaFiltroPequena">
+            @Html.Label("Local 1")
+            @Html.TextBox("Local1","", new{@class="campopequeno"})
+        </div>
+        <div class="colunaFiltroPequena">
+            @Html.Label("Local 2")
+            @Html.TextBox("Local2","", new{@class="campopequeno"})
+        </div>
+        <div class="divBotao">
+            <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+            <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+        </div>
+    </fieldset>
+</div>
+<div id="gridTipoPedido" class="divGrid"></div>
+
+<script>
+    @if (Model != null && !string.IsNullOrEmpty(Model.Codigo) && !string.IsNullOrEmpty(Model.Descricao))
+    {
+        @: var TipoPedidoSelecionado = { Codigo: '@Model.Codigo', Descricao: '@Model.Descricao' };
+    }
+    else
+    {
+        @: var TipoPedidoSelecionado = null;
+    }
+    $(document).ready(function () {
+        $("#gridTipoPedido").customKendoGrid({
+            dataSource: {
+                schema: {
+                    data: 'Registros',
+                    model: {
+                        fields: {
+                            Descricao: {type: "string"},
+                            Codigo: { type: "string" }
+                        }
+                    },
+                    total: 'QuantidadeDeRegistros'
+                },
+                serverFiltering: true,
+                serverPaging: true,
+                transport: {
+                    read: {
+                        url: '@Url.Action("Listar", "TipoPedido")',
+                        type: 'GET',
+                        cache: false,
+                        data: function() {
+                            return {
+                                Codigo: $('#CodigoFiltro').val(),
+                                Local1: $('#Local1').val(),
+                                Local2: $('#Local2').val()
+                            };
+                        }
+                    }
+                },
+                pageSize: 10
+            },
+            dataBound: function (e) {
+                if (TipoPedidoSelecionado != null) {
+                    $('input[name=radioPedidoVenda][data-codigoTipoPedido="' + TipoPedidoSelecionado.Codigo + '"]').attr('checked', true);
+                }
+            },
+
+            columns:
+            [
+                {
+                    field: 'Codigo',
+                    title: ' ', /*coloco um espaço para deixar o header sem título*/
+                    width: 30,
+                    sortable: false,
+                    template: '<input type="radio" name="radioPedidoVenda" data-codigoTipoPedido="${Codigo}"></input>'
+                },
+                {
+                    width: 170,
+                    field: "Codigo",
+                    title: "Código"
+                },
+                {
+                    field: "Descricao",
+                    width: 300,
+                    title: "Descrição"
+                }
+            ]
+        });
+
+        $('#btnLimpar').click(function() {
+            $('#divFiltros input[type!=button]').val('');
+        });
+
+        $('#gridTipoPedido').find('input[name=radioPedidoVenda]').die("change");
+        $('#gridTipoPedido').find('input[name=radioPedidoVenda]').live("change", function () {
+            if (!$(this).is(':checked')) {
+                return;
+            }
+            var grid = $('#gridTipoPedido').data("kendoGrid");
+            var dataItem = grid.dataItem(grid.select());
+            TipoPedidoSelecionado = { Codigo: dataItem.Codigo, Descricao: dataItem.Descricao };
+
+        });
+
+    });
+</script>
+

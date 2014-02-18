@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A2DA2E00-3386-4EC4-8D95-D98C5052F636}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Progas.Portal.Application</RootNamespace>
+    <AssemblyName>Progas.Portal.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\intranet\Progas.Portal\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\Builders\ClienteCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\FornecedorCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\IBuilderMulti.cs" />
+    <Compile Include="Queries\Builders\CondicaoPagamentoCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\IncotermCasdastroBuilder.cs" />
+    <Compile Include="Queries\Builders\ListaPrecoCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\MaterialCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\PedidoVendaCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\PedidoVendaLinhaCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\TipoPedidoCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\UnidadeDeMedidaCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\PerfilBuilder.cs" />
+    <Compile Include="Queries\Builders\UsuarioConsultaBuilder.cs" />
+    <Compile Include="Queries\Builders\IBuilder.cs" />
+    <Compile Include="Queries\Contracts\IConsultaCliente.cs" />
+    <Compile Include="Queries\Contracts\IConsultaIncoterm.cs" />
+    <Compile Include="Queries\Contracts\IConsultaListaPreco.cs" />
+    <Compile Include="Queries\Contracts\IConsultaMaterial.cs" />
+    <Compile Include="Queries\Contracts\IConsultaPedidoVenda.cs" />
+    <Compile Include="Queries\Contracts\IConsultaPedidoVendaLinha.cs" />
+    <Compile Include="Queries\Contracts\IConsultaTipoPedido.cs" />
+    <Compile Include="Queries\Contracts\IConsultaTransRedespacho.cs" />
+    <Compile Include="Queries\Contracts\IConsultaTransRedespachoCif.cs" />
+    <Compile Include="Queries\Contracts\IConsultaUnidadeDeMedida.cs" />
+    <Compile Include="Queries\Contracts\IConsultaFornecedor.cs" />
+    <Compile Include="Queries\Contracts\IConsultaPerfil.cs" />
+    <Compile Include="Queries\Contracts\IConsultaCondicaoPagamento.cs" />
+    <Compile Include="Queries\Contracts\IConsultaUsuario.cs" />
+    <Compile Include="Queries\Implementations\ConsultaCliente.cs" />
+    <Compile Include="Queries\Implementations\ConsultaCondicaoPagamento.cs" />
+    <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
+    <Compile Include="Queries\Implementations\ConsultaIncoterm.cs" />
+    <Compile Include="Queries\Implementations\ConsultaListaPreco.cs" />
+    <Compile Include="Queries\Implementations\ConsultaMaterial.cs" />
+    <Compile Include="Queries\Implementations\ConsultaPedidoVenda.cs" />
+    <Compile Include="Queries\Implementations\ConsultaPedidoVendaLinha.cs" />
+    <Compile Include="Queries\Implementations\ConsultaPerfil.cs" />
+    <Compile Include="Queries\Implementations\ConsultaTipoPedido.cs" />
+    <Compile Include="Queries\Implementations\ConsultaTransRedespacho.cs" />
+    <Compile Include="Queries\Implementations\consultaTransRedespachoCif.cs" />
+    <Compile Include="Queries\Implementations\ConsultaUsuario.cs" />
+    <Compile Include="Queries\Implementations\ConsultaUnidadeDeMedida.cs" />
+    <Compile Include="Services\Contracts\ICadastroCondicaoPagamento.cs" />
+    <Compile Include="Services\Contracts\ICadastroPedidoVenda.cs" />
+    <Compile Include="Services\Contracts\ICadastroUsuario.cs" />
+    <Compile Include="Services\Contracts\IGerenciadorUsuario.cs" />
+    <Compile Include="Services\Implementations\CadastroPedidoVenda.cs" />
+    <Compile Include="Services\Implementations\GerenciadorUsuario.cs" />
+    <Compile Include="Services\Implementations\CadastroCondicaoPagamento.cs" />
+    <Compile Include="Services\Implementations\CadastroUsuario.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Progas.Portal.Common\Progas.Portal.Common.csproj">
+      <Project>{52496ac5-d00f-4ae4-84b9-06ad65dadb47}</Project>
+      <Name>Progas.Portal.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Progas.Portal.Domain\Progas.Portal.Domain.csproj">
+      <Project>{2b790b52-c827-486c-b871-1392cfad1c48}</Project>
+      <Name>Progas.Portal.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Progas.Portal.Infra\Progas.Portal.Infra.csproj">
+      <Project>{77402211-516b-4cf9-a328-420b5a8854a7}</Project>
+      <Name>Progas.Portal.Infra</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Progas.Portal.ViewModel\Progas.Portal.ViewModel.csproj">
+      <Project>{01c438cd-9055-4299-9f5c-a4086ee1cc00}</Project>
+      <Name>Progas.Portal.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="bin\Debug\Progas.Portal.Application.dll.config" />
+    <None Include="bin\x64\Debug\Progas.Portal.Application.dll.config" />
+    <None Include="packages.config" />
+    <None Include="Services\Implementations\app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\de\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Debug\es\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Debug\fa\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Debug\FluentNHibernate.dll" />
+    <Content Include="bin\Debug\FluentNHibernate.xml" />
+    <Content Include="bin\Debug\fr\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Debug\hr\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Debug\Iesi.Collections.dll" />
+    <Content Include="bin\Debug\Iesi.Collections.xml" />
+    <Content Include="bin\Debug\it\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Debug\libicudecnumber.dll" />
+    <Content Include="bin\Debug\lv\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Debug\Mappings\Cliente.hbm.xml" />
+    <Content Include="bin\Debug\Mappings\ClienteVendas.hbm.xml" />
+    <Content Include="bin\Debug\Mappings\CondicaoPagamento.hbm.xml" />
+    <Content Include="bin\Debug\Mappings\Fornecedor.hbm.xml" />
+    <Content Include="bin\Debug\Mappings\Material.hbm.xml" />
+    <Content Include="bin\Debug\Mappings\UnidadeMedida.hbm.xml" />
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Content Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\NHibernate.Caches.SysCache2.dll" />
+    <Content Include="bin\Debug\NHibernate.dll" />
+    <Content Include="bin\Debug\NHibernate.Validator.dll" />
+    <Content Include="bin\Debug\NHibernate.Validator.xml" />
+    <Content Include="bin\Debug\NHibernate.xml" />
+    <Content Include="bin\Debug\nl\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Debug\pl\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Debug\Portal.DadosSap.exe" />
+    <Content Include="bin\Debug\Portal.DadosSap.pdb" />
+    <Content Include="bin\Debug\Progas.Portal.Application.dll" />
+    <Content Include="bin\Debug\Progas.Portal.Application.pdb" />
+    <Content Include="bin\Debug\Progas.Portal.Common.dll" />
+    <Content Include="bin\Debug\Progas.Portal.Common.pdb" />
+    <Content Include="bin\Debug\Progas.Portal.Domain.dll" />
+    <Content Include="bin\Debug\Progas.Portal.Domain.pdb" />
+    <Content Include="bin\Debug\Progas.Portal.Infra.dll" />
+    <Content Include="bin\Debug\Progas.Portal.Infra.pdb" />
+    <Content Include="bin\Debug\Progas.Portal.ViewModel.dll" />
+    <Content Include="bin\Debug\Progas.Portal.ViewModel.pdb" />
+    <Content Include="bin\Debug\pt-BR\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Debug\sapnco.dll" />
+    <Content Include="bin\Debug\sapnco_utils.dll" />
+    <Content Include="bin\Debug\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\Debug\System.Net.Http.Formatting.xml" />
+    <Content Include="bin\Debug\System.Web.Http.dll" />
+    <Content Include="bin\Debug\System.Web.Http.xml" />
+    <Content Include="bin\Release\libicudecnumber.dll" />
+    <Content Include="bin\x64\Debug\de\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\x64\Debug\es\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\x64\Debug\fa\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\x64\Debug\FluentNHibernate.dll" />
+    <Content Include="bin\x64\Debug\FluentNHibernate.xml" />
+    <Content Include="bin\x64\Debug\fr\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\x64\Debug\hr\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\x64\Debug\Iesi.Collections.dll" />
+    <Content Include="bin\x64\Debug\Iesi.Collections.xml" />
+    <Content Include="bin\x64\Debug\it\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\x64\Debug\lv\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\x64\Debug\Mappings\Cliente.hbm.xml" />
+    <Content Include="bin\x64\Debug\Mappings\ClienteVendas.hbm.xml" />
+    <Content Include="bin\x64\Debug\Mappings\CondicaoPagamento.hbm.xml" />
+    <Content Include="bin\x64\Debug\Mappings\Fornecedor.hbm.xml" />
+    <Content Include="bin\x64\Debug\Mappings\Material.hbm.xml" />
+    <Content Include="bin\x64\Debug\Mappings\UnidadeMedida.hbm.xml" />
+    <Content Include="bin\x64\Debug\Newtonsoft.Json.dll" />
+    <Content Include="bin\x64\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\x64\Debug\NHibernate.Caches.SysCache2.dll" />
+    <Content Include="bin\x64\Debug\NHibernate.dll" />
+    <Content Include="bin\x64\Debug\NHibernate.Validator.dll" />
+    <Content Include="bin\x64\Debug\NHibernate.Validator.xml" />
+    <Content Include="bin\x64\Debug\NHibernate.xml" />
+    <Content Include="bin\x64\Debug\nl\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\x64\Debug\pl\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\x64\Debug\Portal.DadosSap.exe" />
+    <Content Include="bin\x64\Debug\Portal.DadosSap.pdb" />
+    <Content Include="bin\x64\Debug\Progas.Portal.Application.dll" />
+    <Content Include="bin\x64\Debug\Progas.Portal.Application.pdb" />
+    <Content Include="bin\x64\Debug\Progas.Portal.Common.dll" />
+    <Content Include="bin\x64\Debug\Progas.Portal.Common.pdb" />
+    <Content Include="bin\x64\Debug\Progas.Portal.Domain.dll" />
+    <Content Include="bin\x64\Debug\Progas.Portal.Domain.pdb" />
+    <Content Include="bin\x64\Debug\Progas.Portal.Infra.dll" />
+    <Content Include="bin\x64\Debug\Progas.Portal.Infra.pdb" />
+    <Content Include="bin\x64\Debug\Progas.Portal.ViewModel.dll" />
+    <Content Include="bin\x64\Debug\Progas.Portal.ViewModel.pdb" />
+    <Content Include="bin\x64\Debug\pt-BR\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\x64\Debug\sapnco.dll" />
+    <Content Include="bin\x64\Debug\sapnco_utils.dll" />
+    <Content Include="bin\x64\Debug\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\x64\Debug\System.Net.Http.Formatting.xml" />
+    <Content Include="bin\x64\Debug\System.Web.Http.dll" />
+    <Content Include="bin\x64\Debug\System.Web.Http.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\x86\Debug\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,1 @@
+sc create programName binPath= "C:\Users\rafael\Desktop\Progas.Portal\Portal.DadosSap\bin\Debug\Portal.DadosSap.exe" DisplayName= "InterfacePortalProgas" start= auto

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="portalprogas" />
+  <setParameter name="Progas-Web.config Connection String" value="Server=FUSION000\FUSSQL;Database=ProgasPortal;Integrated Security=true" />
+  <setParameter name="LocalSqlServer-Web.config Connection String" value="Server=FUSION000\FUSSQL;Database=ProgasPortal;Integrated Security=true" />
+</parameters>

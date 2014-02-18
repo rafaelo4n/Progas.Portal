@@ -1,0 +1,623 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ADF235AC-A253-430D-B311-56D46157E3CF}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Progas.Portal.UI</RootNamespace>
+    <AssemblyName>Progas.Portal.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap, Version=2.6.4.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\ControllerRegistry.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CadastrosController.cs" />
+    <Compile Include="Controllers\MaterialController.cs" />
+    <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />
+    <Compile Include="Controllers\PedidoVendaController.cs" />
+    <Compile Include="Controllers\ModelBinders\DateTimeModelBinder.cs" />
+    <Compile Include="Controllers\PedidoVendaSalvarController.cs" />
+    <Compile Include="Controllers\SelecionarFornecedorController.cs" />
+    <Compile Include="Controllers\SelecionarRepresentanteController.cs" />
+    <Compile Include="Controllers\SelecionarTransRedespachoCifController.cs" />
+    <Compile Include="Controllers\SelecionarTransRedespachoController.cs" />
+    <Compile Include="Controllers\TipoPedidoController.cs" />
+    <Compile Include="Controllers\GerenciadorUsuarioController.cs" />
+    <Compile Include="Controllers\PerfilController.cs" />
+    <Compile Include="Controllers\UsuarioApiController.cs" />
+    <Compile Include="Controllers\CondicaoPagamentoApiController.cs" />
+    <Compile Include="Controllers\CriptografiaController.cs" />
+    <Compile Include="Controllers\FornecedorController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="DependencyResolution\IoC.cs" />
+    <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
+    <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
+    <Compile Include="Filters\ApiAuthorizationFilter.cs" />
+    <Compile Include="Filters\LoginInfo.cs" />
+    <Compile Include="Filters\SecurityFilter.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\IocConfig.cs" />
+    <Compile Include="Helpers\Coluna.cs" />
+    <Compile Include="Helpers\CustomHelpers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Debug\libicudecnumber.dll" />
+    <Content Include="bin\de\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\es\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\fa\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\FluentNHibernate.dll" />
+    <Content Include="bin\FluentNHibernate.xml" />
+    <Content Include="bin\fr\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\hr\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Iesi.Collections.dll" />
+    <Content Include="bin\it\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\lv\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Mappings\Cliente.hbm.xml" />
+    <Content Include="bin\Mappings\ClienteVendas.hbm.xml" />
+    <Content Include="bin\Mappings\CondicaoPagamento.hbm.xml" />
+    <Content Include="bin\Mappings\Fornecedor.hbm.xml" />
+    <Content Include="bin\Mappings\Material.hbm.xml" />
+    <Content Include="bin\Mappings\UnidadeMedida.hbm.xml" />
+    <Content Include="bin\Microsoft.Practices.ServiceLocation.dll" />
+    <Content Include="bin\Microsoft.Practices.ServiceLocation.pdb" />
+    <Content Include="bin\Microsoft.Practices.ServiceLocation.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\NHibernate.Caches.SysCache2.dll" />
+    <Content Include="bin\NHibernate.dll" />
+    <Content Include="bin\NHibernate.Validator.dll" />
+    <Content Include="bin\NHibernate.Validator.Specific.dll" />
+    <Content Include="bin\NHibernate.Validator.xml" />
+    <Content Include="bin\NHibernate.xml" />
+    <Content Include="bin\nl\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\pl\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Progas.Portal.Application.dll" />
+    <Content Include="bin\Progas.Portal.Application.pdb" />
+    <Content Include="bin\Progas.Portal.Common.dll" />
+    <Content Include="bin\Progas.Portal.Common.pdb" />
+    <Content Include="bin\Progas.Portal.Domain.dll" />
+    <Content Include="bin\Progas.Portal.Domain.pdb" />
+    <Content Include="bin\Progas.Portal.Infra.dll" />
+    <Content Include="bin\Progas.Portal.Infra.pdb" />
+    <Content Include="bin\Progas.Portal.IoC.dll" />
+    <Content Include="bin\Progas.Portal.IoC.pdb" />
+    <Content Include="bin\Progas.Portal.UI.dll" />
+    <Content Include="bin\Progas.Portal.UI.dll.CodeAnalysisLog.xml" />
+    <Content Include="bin\Progas.Portal.UI.pdb" />
+    <Content Include="bin\Progas.Portal.ViewModel.dll" />
+    <Content Include="bin\Progas.Portal.ViewModel.pdb" />
+    <Content Include="bin\pt-BR\NHibernate.Validator.resources.dll" />
+    <Content Include="bin\Release\libicudecnumber.dll" />
+    <Content Include="bin\sapnco.dll" />
+    <Content Include="bin\sapnco.DLLEFADFAF.dll" />
+    <Content Include="bin\StructureMap.dll" />
+    <Content Include="bin\StructureMap.pdb" />
+    <Content Include="bin\StructureMap.xml" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.xml" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.xml" />
+    <Content Include="bin\System.Web.Http.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\WebActivator.dll" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="bin\WebMatrix.Data.dll" />
+    <Content Include="bin\WebMatrix.Data.xml" />
+    <Content Include="bin\WebMatrix.WebData.dll" />
+    <Content Include="bin\WebMatrix.WebData.xml" />
+    <Content Include="Content\CheckHeader.css" />
+    <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\progas.JPG" />
+    <Content Include="Content\jquery.loadmask.css" />
+    <Content Include="Content\kendo\2012.3.1114\Default\editor.png" />
+    <Content Include="Content\kendo\2012.3.1114\Default\imagebrowser.png" />
+    <Content Include="Content\kendo\2012.3.1114\Default\loading-image.gif" />
+    <Content Include="Content\kendo\2012.3.1114\Default\loading.gif" />
+    <Content Include="Content\kendo\2012.3.1114\Default\slider-h.gif" />
+    <Content Include="Content\kendo\2012.3.1114\Default\slider-v.gif" />
+    <Content Include="Content\kendo\2012.3.1114\Default\sprite.png" />
+    <Content Include="Content\kendo\2012.3.1114\kendo.black.min.css" />
+    <Content Include="Content\kendo\2012.3.1114\kendo.blueopal.min.css" />
+    <Content Include="Content\kendo\2012.3.1114\kendo.bootstrap.min.css" />
+    <Content Include="Content\kendo\2012.3.1114\kendo.common.min.css" />
+    <Content Include="Content\kendo\2012.3.1114\kendo.default.min.css" />
+    <Content Include="Content\kendo\2012.3.1114\kendo.highcontrast.min.css" />
+    <Content Include="Content\kendo\2012.3.1114\kendo.metro.min.css" />
+    <Content Include="Content\kendo\2012.3.1114\kendo.metroblack.min.css" />
+    <Content Include="Content\kendo\2012.3.1114\kendo.moonlight.min.css" />
+    <Content Include="Content\kendo\2012.3.1114\kendo.rtl.min.css" />
+    <Content Include="Content\kendo\2012.3.1114\kendo.silver.min.css" />
+    <Content Include="Content\kendo\2012.3.1114\kendo.uniform.min.css" />
+    <Content Include="Content\kendo\2012.3.1114\textures\brushed-metal.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots1.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots10.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots11.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots12.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots13.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots2.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots3.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots4.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots5.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots6.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots7.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots8.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\dots9.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\glass-lighter.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\glass.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\highlight.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\leather1.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\leather2.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\noise.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\stripe1.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\stripe2.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\stripe3.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\stripe4.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\stripe5.png" />
+    <Content Include="Content\kendo\2012.3.1114\textures\stripe6.png" />
+    <Content Include="Content\Relatorio.css" />
+    <Content Include="Content\themes\base\images\animated-overlay.gif" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.menu.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.spinner.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\jquery.ui.tooltip.css" />
+    <Content Include="Content\themes\base\minified\images\animated-overlay.gif" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.menu.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.spinner.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\banner_progas.png" />
+    <Content Include="Images\icons\add_16.png" />
+    <Content Include="Images\icons\DeleteRed_16.png" />
+    <Content Include="Images\icons\editar_16.png" />
+    <Content Include="Images\icons\enviar_email_16.png" />
+    <Content Include="Images\icons\information_16.png" />
+    <Content Include="Images\icons\mag_16.png" />
+    <Content Include="Images\icons\schedule_16.png" />
+    <Content Include="Images\banner.JPG" />
+    <Content Include="Scripts\AgendamentoDeCarga\Cadastro.js" />
+    <Content Include="Scripts\AgendamentoDeCarga\GridNotasFiscais.js" />
+    <Content Include="Scripts\AgendamentoDeCarga\GridAgendamentosDoDia.js" />
+    <Content Include="Scripts\Cadastro\gridFornecedor.js" />
+    <None Include="Properties\PublishProfiles\Progas - Portal.pubxml" />
+    <None Include="Scripts\jquery-1.9.0.intellisense.js" />
+    <Content Include="Scripts\globalize.culture.pt-BR.js" />
+    <Content Include="Scripts\globalize.js" />
+    <Content Include="Scripts\jquery-1.9.0.js" />
+    <Content Include="Scripts\jquery-1.9.0.min.js" />
+    <Content Include="Scripts\jquery-1.9.0.min.map" />
+    <Content Include="Scripts\jquery-migrate-1.1.0.js" />
+    <Content Include="Scripts\jquery-migrate-1.1.0.min.js" />
+    <Content Include="Scripts\jquery-ui-1.10.0.js" />
+    <Content Include="Scripts\jquery-ui-1.10.0.min.js" />
+    <Content Include="Scripts\jquery-ui-extension.js" />
+    <Content Include="Scripts\jquery-ui-i18n.js" />
+    <Content Include="Scripts\jquery-ui-i18n.min.js" />
+    <Content Include="Scripts\jquery.loadmask.js" />
+    <Content Include="Scripts\jquery.maskedinput.js" />
+    <Content Include="Scripts\jquery.meio.mask.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\jquery.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.autocomplete.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.binder.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.calendar.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.columnmenu.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.combobox.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.core.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.data.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.data.odata.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.data.xml.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.datepicker.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.datetimepicker.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.draganddrop.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.dropdownlist.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.editable.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.editor.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.filtermenu.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.fx.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.grid.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.groupable.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.imagebrowser.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.list.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.listview.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.menu.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.mobile.scroller.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.numerictextbox.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.pager.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.panelbar.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.popup.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.reorderable.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.resizable.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.selectable.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.slider.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.sortable.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.splitter.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.tabstrip.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.timepicker.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.treeview.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.upload.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.userevents.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.validator.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.web.min.js" />
+    <Content Include="Scripts\kendo\2012.3.1114\kendo.window.min.js" />
+    <Content Include="Scripts\knockout-2.1.0.debug.js" />
+    <Content Include="Scripts\knockout-2.1.0.js" />
+    <Content Include="Scripts\methods_pt.js" />
+    <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\scriptsGerais.js" />
+    <Content Include="Scripts\Shared\SelecionarRepresentante.js" />
+    <Content Include="Scripts\Shared\SelecionarTransRedespachoCif.js" />
+    <Content Include="Scripts\Shared\SelecionarTransRedespacho.js" />
+    <Content Include="Scripts\Shared\SelecionarFornecedor.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Images\accent.png" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\heroAccent.png" />
+    <Content Include="Images\orderedList0.png" />
+    <Content Include="Images\orderedList1.png" />
+    <Content Include="Images\orderedList2.png" />
+    <Content Include="Images\orderedList3.png" />
+    <Content Include="Images\orderedList4.png" />
+    <Content Include="Images\orderedList5.png" />
+    <Content Include="Images\orderedList6.png" />
+    <Content Include="Images\orderedList7.png" />
+    <Content Include="Images\orderedList8.png" />
+    <Content Include="Images\orderedList9.png" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\AlterarSenha.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Scripts\jquery.validate_extension.js" />
+    <Content Include="Views\Fornecedor\Index.cshtml" />
+    <Content Include="Views\Fornecedor\Cadastro.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Usuario\Cadastro.cshtml" />
+    <Content Include="Views\Account\EsqueciMinhaSenha.cshtml" />
+    <Content Include="Views\Shared\_SelecionarFornecedor.cshtml" />
+    <Content Include="Views\Shared\_CriarPedidoVenda.cshtml" />
+    <Content Include="Views\Shared\_SelecionarTipoPedido.cshtml" />
+    <Content Include="Views\Shared\_SelecionarTransRedespacho.cshtml" />
+    <Content Include="Views\Material\_Material.cshtml" />
+    <Content Include="Views\Material\Cadastro.cshtml" />
+    <Content Include="Views\Material\Index.cshtml" />
+    <Content Include="Views\Cadastros\_Material.cshtml" />
+    <Content Include="Views\PedidoVenda\_ConsultarPedidoVenda.cshtml" />
+    <Content Include="Views\Cadastros\_UnidadeMedida.cshtml" />
+    <Content Include="Views\Cadastros\_CondicaoPagamento.cshtml" />
+    <Content Include="Views\Cadastros\_Cliente.cshtml" />
+    <Content Include="Views\Cadastros\_Fornecedor.cshtml" />
+    <Content Include="Views\PedidoVenda\ConsultarLinhasPedido.cshtml" />
+    <Content Include="Views\Usuario\CadastrarUsuario.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Factory\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Progas.Portal.Application\Progas.Portal.Application.csproj">
+      <Project>{a2da2e00-3386-4ec4-8d95-d98c5052f636}</Project>
+      <Name>Progas.Portal.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Progas.Portal.Common\Progas.Portal.Common.csproj">
+      <Project>{52496AC5-D00F-4AE4-84B9-06AD65DADB47}</Project>
+      <Name>Progas.Portal.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Progas.Portal.Infra\Progas.Portal.Infra.csproj">
+      <Project>{77402211-516B-4CF9-A328-420B5A8854A7}</Project>
+      <Name>Progas.Portal.Infra</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Progas.Portal.IoC\Progas.Portal.IoC.csproj">
+      <Project>{88d87599-d462-4902-8d0b-6348ab8cc620}</Project>
+      <Name>Progas.Portal.IoC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Progas.Portal.ViewModel\Progas.Portal.ViewModel.csproj">
+      <Project>{01c438cd-9055-4299-9f5c-a4086ee1cc00}</Project>
+      <Name>Progas.Portal.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>6900</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:3906/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

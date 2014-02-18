@@ -1,0 +1,190 @@
+﻿@using Progas.Portal.Common 
+@using Progas.Portal.UI.Helpers
+@using Progas.Portal.ViewModel
+@model PedidoVendaCadastroVm
+
+@{
+    ViewBag.TituloDaPagina = "Consultar Pedido de Vendas";
+}
+
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
+
+    <div id="divFornecedores">
+        <div id="divFiltros">
+            <fieldset>
+                <legend>Filtros</legend>
+                <div class="linha">
+                    @{ var id_cliente = new ColunaComDropDown<PedidoVendaCadastroVm, string>
+                                                 (x => x.id_cliente, ((List<ClienteCadastroVm>)ViewBag.Clientes)
+										              .Select(x => new SelectListItem()
+										              {
+                                                          Text = x.nome,
+                                                          Value = Convert.ToString(x.id_cliente),
+                                                          Selected = Model != null && x.id_cliente == Model.id_cliente
+										              }
+                                                              ), "id_cliente"
+													              ); 
+		             }
+                    <div class="coluna">                 
+                        @Html.LinhaComUmaColuna(id_cliente)
+                    </div>            
+                    <div class="coluna">
+                        @Html.LinhaComUmaColuna(new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.datacp, "campoDatePicker maskdata campomedio"))
+                    </div>        
+                    <div class="coluna">                
+                        @Html.LabelFor(x => x.id_pedido)
+                        @Html.TextBoxFor(x => x.id_pedido,"campomedio") 
+                    </div>
+                    <div class="coluna">
+                         @Html.LinhaComUmaColuna(new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.datap, "campoDatePicker maskdata campomedio"))
+                    </div>
+                </div>
+                <div class="linha">
+                    @{ var Material = new ColunaComDropDown<PedidoVendaCadastroVm, string>
+                                                 (x => x.id_material, ((List<MaterialCadastroVm>)ViewBag.Materiais)
+										              .Select(x => new SelectListItem()
+										              {
+                                                          Text = x.Descricao,
+                                                          Value = Convert.ToString(x.Id_material),
+                                                          Selected = Model != null && x.Id_material == Model.id_material
+										              }
+                                                              ), "Material"
+													              ); 
+				     }
+                    <div class="coluna">                                        
+                        @Html.LinhaComUmaColuna(Material)
+                    </div>
+                </div>
+                <div class="divBotao">
+                    <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+                    <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+                </div>
+            </fieldset>
+        </div>
+        <div id="gridFornecedores" class="divGrid"></div>
+    </div>
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script>
+        $(document).ready(function () {
+            $("#gridFornecedores").customKendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'Registros',
+                        model: {
+                           fields: {
+                                        id_cotacao:  { type: "string" },
+                                        id_cliente:  { type: "string" },
+                                        datacp:      { type: "string" },
+                                        id_pedido:   { type: "string" },
+                                        datap:       { type: "string" },
+                                        id_material: { type: "string" },
+                                        valfin:      { type: "string" }
+                                   }
+                              },
+                          total: 'QuantidadeDeRegistros'
+                    },
+                    serverFiltering: true,
+                    serverPaging: true,
+                    transport: {
+                        read: {
+                            url: '@Url.Action("ListarPedidoVenda", "PedidoVenda")',
+                            type: 'GET',
+                            cache: false,
+                            data: function () {
+                                return {
+                                    // Envia para o controler os valores dos parametros
+                                    id_cliente: $('#id_cliente').val(),
+                                    datacp:     $('#datacp').val(),
+                                    id_pedido:  $('#id_pedido').val(),
+                                    datap:      $('#datap').val(),
+                                    Material:   $ ('#Material').val()
+                                };
+                            }
+                        }
+                    },
+                    pageSize: 5
+                },
+                columns:
+                [                    
+                    {
+                        field: 'Id',
+                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        width: 30,
+                        sortable: false,
+                        template: '<input type="button" class="button_visualize" data-cotacao="${id_cotacao}"></input>'
+                    },
+                    {
+                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        width: 30,
+                        sortable: false,
+                        template: '<input type="button" class="button_edit" data-cotacao="${id_cotacao}"></input>'
+                    },
+                    {
+                        field: "id_cotacao",
+                        width: 50,
+                        title: "Cotação"
+                    },
+                    {
+                        field: "id_cliente",
+                        width: 200,
+                        title: "Cliente"
+                    },            
+                    {
+                        width: 90,
+                        field: "datacp",
+                        title: "Data de Criação"
+                    },
+                    {
+                        width: 80,
+                        field: "id_pedido",
+                        title: "N° Pedido"
+                    },            
+                    {
+                        width: 70,
+                        field: "datap",
+                        title: "Data do Pedido"
+                    },
+                    {
+                        width: 100,
+                        field: "valfin",
+                        title: "Valor Final"
+                    }
+                ]
+            });
+
+            $('#btnLimpar').click(function () {
+                gridFornecedores = [];
+                $('#divFiltros input[type!=button]').val('');
+                $("#id_cliente").prop('selectedIndex', 0);
+                $("#Material").prop('selectedIndex', 0); 
+            });
+
+
+            $('.button_visualize').die("click");
+            $('.button_visualize').live("click", function (e) {
+                e.preventDefault();
+                location.href = '@Url.Action("ConsultarLinhasPedido", "PedidoVenda")' + '/?cotacao=' + $(this).attr('data-cotacao');
+            });
+
+
+            // Validar o Status do Pedido antes de atualizar
+            $('.button_edit').die("click");
+            $('.button_edit').live("click", function (e) {
+                e.preventDefault();
+                
+                
+                location.href = '@Url.Action("Index", "PedidoVenda")' + '/?cotacao_editar=' + $(this).attr('data-cotacao');
+                
+            });
+
+        });
+    </script>
+    
+}
+

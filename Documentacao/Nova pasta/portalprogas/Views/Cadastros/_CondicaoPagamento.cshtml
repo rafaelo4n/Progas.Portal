@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.TituloDaPagina = "Condição de Pagamento";
+}
+
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <div id="divFornecedores">
+        <div id="divFiltros">
+            <fieldset>
+                <legend>Filtros</legend>
+                <div class="colunaFiltro">
+                    @Html.Label("Codigo")
+                    @Html.TextBox("Codigo","", new{@class="campogrande"})
+                </div>
+                <div class="colunaFiltro">
+                    @Html.Label("Descricao")
+                    @Html.TextBox("Descricao","", new{@class="campogrande"})
+                </div>
+                <div class="divBotao">
+                    <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+                    <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+                </div>
+            </fieldset>
+        </div>
+        <div id="gridFornecedores" class="divGrid"></div>
+    </div>
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script>
+        $(document).ready(function() {
+            $("#gridFornecedores").customKendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'Registros',
+                        model: {
+                            fields: {
+                                Codigo: {type: "string"},
+                                Descricao: {type: "string"}
+                            }
+                        },
+                        total: 'QuantidadeDeRegistros'
+                    },
+                    serverFiltering: true,
+                    serverPaging: true,
+                    transport: {
+                        read: {
+                            url: '@Url.Action("ListarCondicaoPagamento", "Cadastros")',
+                            type: 'GET',
+                            cache: false,
+                            data: function() {
+                                return {
+                                    Codigo: $('#Codigo').val(),
+                                    Descricao: $('#Descricao').val()
+                                };
+                            }
+                        }
+                    },
+                    pageSize: 5
+                },
+                columns:
+                [
+                    {
+                        width: 50,
+                        field: "Codigo",
+                        title: "Código"
+                    },
+                    {
+                        field: "Descricao",
+                        width: 100
+                    }
+        ]
+            });
+
+            $('#btnLimpar').click(function () {
+                $('#divFiltros input[type!=button]').val('');
+            });
+
+            $('.button_visualize').die("click");
+            $('.button_visualize').live("click", function (e) {
+                e.preventDefault();
+                location.href = '@Url.Action("ListarPedidos", "PedidoVenda")' + '/?codigoFornecedor=' + $(this).attr('data-codigoFornecedor');
+            });
+
+        });
+    </script>
+    
+}
+

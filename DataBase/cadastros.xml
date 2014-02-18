@@ -1,0 +1,155 @@
+<ProdutoCadastroVm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+<CodigoSap>SAP0003</CodigoSap>
+<Descricao>PRODUTO 0003</Descricao>
+</ProdutoCadastroVm>
+
+<mt_cadMaterial_portal xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<item>
+		<maktx>PRODUTO 0003</maktx>
+		<matnr>SAP0003</matnr>
+		<mtart>3</mtart>
+	</item>
+	<item>
+		<maktx>PRODUTO 0006</maktx>
+		<matnr>SAP0006</matnr>
+		<mtart>6</mtart>
+	</item>
+</mt_cadMaterial_portal>
+
+<RequisicaoDeCompraVm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<Centro>C001</Centro>
+	<Criador>comprador</Criador>
+	<DataDeLiberacao>23/02/2013</DataDeLiberacao>
+	<DataDeRemessa>22/02/2013</DataDeRemessa>
+	<DataDeSolicitacao>21/02/2013</DataDeSolicitacao>
+	<Descricao>Requisição de Teste Criada Pelo Mauro</Descricao>
+	<FornecedorPretendido>fpret</FornecedorPretendido>
+	<Material>PROD0001</Material>
+	<NumeroItem>00002</NumeroItem>
+	<NumeroRequisicao>REQ0002</NumeroRequisicao>
+	<Quantidade>100.258</Quantidade>
+	<Requisitante>fornecedor</Requisitante>
+	<UnidadeMedida>UND</UnidadeMedida>
+</RequisicaoDeCompraVm>
+
+<ListaFornecedores xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<FornecedorCadastroVm>
+		<Cnpj>997335445478578</Cnpj>
+		<Codigo>FORNEC005</Codigo>
+		<Email>fornecedor0005@empresa.com.br</Email>
+		<Municipio>Torres</Municipio>
+		<Nome>FORNECEDOR 0005</Nome>
+		<Transportadora>x</Transportadora>
+		<Uf>RS</Uf>
+	</FornecedorCadastroVm>
+	<FornecedorCadastroVm>
+		<Cnpj>9973354454700018</Cnpj>
+		<Codigo>FORNEC0006</Codigo>
+		<Email>fornecedor0006@empresa.com.br</Email>
+		<Municipio>São Paulo</Municipio>
+		<Nome>FORNECEDOR 0006</Nome>
+		<Transportadora></Transportadora>
+		<Uf>RS</Uf>
+	</FornecedorCadastroVm>
+</ListaFornecedores>
+
+
+<ListaCondicaoPagamento xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<CondicaoDePagamentoCadastroVm>
+		<Codigo>C005</Codigo>
+		<Descricao>CONDIÇÃO 0005</Descricao>
+	</CondicaoDePagamentoCadastroVm>
+	<CondicaoDePagamentoCadastroVm>
+		<Codigo>C006</Codigo>
+		<Descricao>CONDIÇÃO 0006</Descricao>
+	</CondicaoDePagamentoCadastroVm>
+</ListaCondicaoPagamento>
+
+http://localhost:3905/api/IvaApi/PostMultiplo
+<ListaIva xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<IvaCadastroVm>
+		<Codigo>05</Codigo>
+		<Descricao>IVA 05</Descricao>
+	</IvaCadastroVm>
+	<IvaCadastroVm>
+		<Codigo>06</Codigo>
+		<Descricao>IVA 06</Descricao>
+	</IvaCadastroVm>
+</ListaIva>
+
+http://localhost:3905/api/ProdutoFornecedorApi/AtualizaFornecedoresDoProduto
+<ListaProdutoFornecedor xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<ProdutoFornecedorCadastroVm>
+		<CodigoFornecedor>FORNEC0001</CodigoFornecedor>
+		<CodigoProduto>PROD0001</CodigoProduto>
+	</ProdutoFornecedorCadastroVm>
+	<ProdutoFornecedorCadastroVm>
+		<CodigoFornecedor>FORNEC0002</CodigoFornecedor>
+		<CodigoProduto>PROD0001</CodigoProduto>
+	</ProdutoFornecedorCadastroVm>
+</ListaProdutoFornecedor>
+
+http://localhost:3905/api/UsuarioApi/PostMultiplo
+<ListaUsuario xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<UsuarioCadastroVm>
+		<Email>user005@empresa.com.br</Email>
+		<Login>USER005</Login>
+		<Nome>USUARIO 005</Nome>
+	</UsuarioCadastroVm>
+	<UsuarioCadastroVm>
+		<Email>user006@empresa.com.br</Email>
+		<Login>USER006</Login>
+		<Nome>USUARIO 006</Nome>
+	</UsuarioCadastroVm>
+</ListaUsuario>
+
+http://localhost:3905/api/IncotermApi/PostMultiplo
+<ListaIncoterm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<IncotermCadastroVm>
+		<Codigo>005</Codigo>
+		<Descricao>Incoterm 005</Descricao>
+	</IncotermCadastroVm>
+	<IncotermCadastroVm>
+		<Codigo>006</Codigo>
+		<Descricao>Incoterm 006</Descricao>
+	</IncotermCadastroVm>
+</ListaIncoterm>
+
+http://localhost:3905/api/UnidadeMedidaApi/PostMultiplo
+<ListaUnidadesDeMedida xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<UnidadeDeMedidaCadastroVm>
+		<CodigoExterno>E01</CodigoExterno>
+		<CodigoInterno>I01</CodigoInterno>
+		<Descricao>Unidade 01</Descricao>
+	</UnidadeDeMedidaCadastroVm>
+	<UnidadeDeMedidaCadastroVm>
+		<CodigoExterno>E02</CodigoExterno>
+		<CodigoInterno>I02</CodigoInterno>
+		<Descricao>Unidade 02</Descricao>
+	</UnidadeDeMedidaCadastroVm>
+</ListaUnidadesDeMedida>
+
+http://localhost:3905/api/ItinerarioApi/PostMultiplo
+<ListaItinerarios xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<ItinerarioCadastroVm>
+		<Codigo>ITI001</Codigo>
+		<Descricao>Itinerário 001</Descricao>
+	</ItinerarioCadastroVm>
+	<ItinerarioCadastroVm>
+		<Codigo>ITI002</Codigo>
+		<Descricao>Itinerário 002</Descricao>
+	</ItinerarioCadastroVm>
+</ListaItinerarios>
+
+<ListaProcessoDeCotacaoDeFreteFechamento xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<ProcessoDeCotacaoDeFreteFechamentoVm>
+	</ProcessoDeCotacaoDeFreteFechamentoVm>
+</ListaProcessoDeCotacaoDeFreteFechamento>
+
+http://sap-pip.bsbios.com:52000/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_envioStatus_portal&qos=be
+<ApiResponseMessage xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<Retorno>
+		<Codigo>200</Codigo>
+		<Texto>Teste</Texto>
+	</Retorno>
+</ApiResponseMessage>

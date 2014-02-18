@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NSAPConnector_x86</id>
+    <version>1.0.2</version>
+    <title>NSAPConnector_x86</title>
+    <authors>Ion Sapoval</authors>
+    <owners>Ion Sapoval</owners>
+    <licenseUrl>https://github.com/ion-sapoval/NSAPConnector/blob/master/LICENSE.TXT</licenseUrl>
+    <projectUrl>https://github.com/ion-sapoval/NSAPConnector</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Wrapper library for the SAP .Net Connector 3.0. Adapts existing api to a more friendly form for the .Net developers.</description>
+    <summary>Wrapper library for the SAP .Net Connector 3.0. Adapts existing api to a more friendly form for the .Net developers.</summary>
+    <copyright>Copyright (c) 2013 Ion Sapoval</copyright>
+    <tags>NSAPConnector SAP NCO NCO3</tags>
+  </metadata>
+</package>

@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.TituloDaPagina = "Cliente";
+}
+
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <div id="divFornecedores">
+        <div id="divFiltros">
+            <fieldset>
+                <legend>Filtros</legend>
+                <div class="colunaFiltro">
+                    @Html.Label("Codigo")
+                    @Html.TextBox("Codigo","", new{@class="campogrande"})
+                </div>
+                <div class="colunaFiltro">
+                    @Html.Label("Nome")
+                    @Html.TextBox("Nome","", new{@class="campogrande"})
+                </div>
+                <div class="divBotao">
+                    <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+                    <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+                </div>
+            </fieldset>
+        </div>
+        <div id="gridFornecedores" class="divGrid"></div>
+    </div>
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script>
+        $(document).ready(function() {
+            $("#gridFornecedores").customKendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'Registros',
+                        model: {
+                            fields: {
+                                id_cliente: { type: "string" },
+                                nome: { type: "string" },
+                                Cnpj: { type: "string" },
+                                nr_ie_for: { type: "string" },
+                                Cpf: { type: "string" },
+                                endereco: { type: "string" },
+                                numero: { type: "string" },
+                                complemento: { type: "string" },
+                                municipio: { type: "string" },
+                                uf: { type: "string" },
+                                pais: { type: "string" },
+                                tel_res: { type: "string" },
+                                tel_cel: { type: "string" },
+                                email: { type: "string" }
+                            }
+                        },
+                        total: 'QuantidadeDeRegistros'
+                    },
+                    serverFiltering: true,
+                    serverPaging: true,
+                    transport: {
+                        read: {
+                            url: '@Url.Action("ListarCliente", "Cadastros")',
+                            type: 'GET',
+                            cache: false,
+                            data: function() {
+                                return {
+                                    Codigo: $('#Codigo').val(),
+                                    Nome: $('#Nome').val()
+                                };
+                            }
+                        }
+                    },
+                    pageSize: 5
+                },
+                columns:
+                [
+                    
+                    {
+                        field: "id_cliente",
+                        width: 80,
+                        title: "Codigo"
+                    },
+                    {
+                        field: "nome",
+                        width: 240,
+                        title: "Nome"
+                    },
+                    {
+                        field: "Cnpj",
+                        width: 100,
+                        title: "CNPJ"
+
+                    },
+                    {
+                        field: "nr_ie_for",
+                        width: 80,
+                        title: "Insc.Estadual"
+                    },
+                    {
+                        field: "Cpf",
+                        width: 90,
+                        title: "CPF"
+                    },
+                    {
+                        field: "endereco",
+                        width: 150,
+                        title: "Endereço"
+                    },
+                    {
+                        field: "numero",
+                        width: 55,
+                        title: "Numero"
+                    },
+                    {
+                        field: "complemento",
+                        width: 90,
+                        title: "Complemento"
+                    },
+                    {
+                        field: "municipio",
+                        width: 100,
+                        title: "Cidade"
+                    },
+                    {
+                        field: "uf",
+                        width: 30,
+                        title: "UF"
+                    }, {
+                        field: "pais",
+                        width: 40,
+                        title: "País"
+                    }, {
+                        field: "tel_res",
+                        width: 80,
+                        title: "Tel.Res"
+                    }, {
+                        field: "tel_cel",
+                        width: 80,
+                        title: "Tel.Cel"
+                    },
+                    {
+                        field: "email",
+                        width: 200,
+                        title: "Email"
+                    }
+
+        ]
+            });
+
+            $('#btnLimpar').click(function () {
+                $('#divFiltros input[type!=button]').val('');
+            });
+
+        });
+    </script>
+    
+}
+

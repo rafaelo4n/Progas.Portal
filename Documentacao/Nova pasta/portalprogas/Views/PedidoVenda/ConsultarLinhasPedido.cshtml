@@ -1,0 +1,131 @@
+﻿@using Progas.Portal.UI.Helpers
+@using Progas.Portal.ViewModel
+@model PedidoVendaCadastroVm
+
+@{
+    ViewBag.Title = "Pedido de Venda - Consulta";
+}
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+
+<fieldset>
+    <legend>Cabeçalho do Pedido</legend>
+    @Html.LinhaComDuasColunas(new ColunaComLabel<PedidoVendaCadastroVm, string>(x => x.id_cotacao),
+    new ColunaComLabel<PedidoVendaCadastroVm, string>(x => x.id_pedido))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<PedidoVendaCadastroVm, string>(x => x.id_cliente),
+        new ColunaComLabel<PedidoVendaCadastroVm, string>(x => x.condpgto))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<PedidoVendaCadastroVm, string>(x => x.datacp),
+        new ColunaComLabel<PedidoVendaCadastroVm, string>(x => x.datap))
+    @Html.LinhaComUmaColuna(new ColunaComLabel<PedidoVendaCadastroVm, string>(x => x.listpre))
+</fieldset>
+<fieldset>
+    <legend>Linhas do Pedido</legend>
+    <div id="gridLinhas" class="divGrid"></div>
+</fieldset>
+@section scripts
+{
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+<script>
+    $(function() {
+        $("#gridLinhas").customKendoGrid({
+            dataSource: {
+                schema: {
+                    data: 'Registros',
+                    model: {
+                        fields: {
+                            id_material:              { type: "string" },
+                            Quant:                    { type: "string" },
+                            CodigoUnidadeMedida:      { type: "string" },
+                            listpre:                  { type: "string" },
+                            //Valtab:                 { type: "number" },
+                            //Valpol:                 { type: "number" },
+                            descma:                   { type: "number" }//,
+                            //Valfin:                 { type: "number" },
+                            //Ordem:                  { type: "string" },
+                            ///Motrec                  { type: "string" }
+                        }
+                    },
+                    total: 'QuantidadeDeRegistros',
+                    type: 'json'
+                },
+                serverFiltering: true,
+                serverPaging: true,
+                transport: {
+                    read: {
+                        // action responsalvel por carregar as linhas do pedido no grid
+                        url: '@Url.Action("ListarLinhasPedido", "PedidoVenda")' + '?cotacao=@Model.id_cotacao',
+                            type: 'GET',
+                            cache: false
+                        }
+                    },
+                    pageSize: 10
+                },
+                 columns:
+                 [
+                      {
+                          field: "id_material",
+                          width: 40,
+                          title: "Material"
+                      },
+
+                    {
+                        width: 30,
+                        field: "Quant",
+                        title: "Qt"
+                    },
+
+                    {
+                        width: 30,
+                        field: "CodigoUnidadeMedida",
+                        title: "UM"
+                    },
+
+                    {
+                        field: "listpre",
+                        width: 30,
+                        title: "Lista"
+                    },
+
+                    /*{
+                        field: "Valtab",
+                        width: 30,
+                        title: "Val Tabela"
+                    },
+
+                    {
+                        field: "Valpol",
+                        width: 30,
+                        title: "Val Politica"
+                    },*/
+
+                    {
+                        field: "descma",
+                        width: 30,
+                        title: "Desc Manual"
+                    }/*,
+
+                    {
+                        field: "Valfin",
+                        width: 30,
+                        title: "Val Fim"
+                    },
+
+                    {
+                        field: "Ordem",
+                        width: 30,
+                        title: "Ordem"
+                    },
+
+                    {
+                        field: ":Motrec",
+                        width: 30,
+                        title: "Mot.Rec"
+                    }*/
+                 ]
+             });
+
+    });
+</script>
+}
+    

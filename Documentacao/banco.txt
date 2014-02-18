@@ -1,0 +1,291 @@
+USE [ProgasPortal]
+GO
+/****** Object:  Table [dbo].[pro_vcab]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[pro_vcab](
+	[id_cotacao] [nvarchar](10) NOT NULL,
+	[numero_pedido] [int] IDENTITY(1,1) NOT NULL,
+	[TipoPedido] [nvarchar](4) NULL,
+	[id_centro] [nvarchar](4) NULL,
+	[id_cliente] [nvarchar](18) NULL,
+	[datacp] [datetime] NULL,
+	[id_pedido] [nvarchar](35) NULL,
+	[datap] [date] NULL,
+	[condpgto] [nvarchar](4) NULL,
+	[inco1] [nvarchar](3) NULL,
+	[inco2] [nvarchar](28) NULL,
+	[trans] [nvarchar](10) NULL,
+	[transred] [nvarchar](10) NULL,
+	[transredcif] [nvarchar](10) NULL,
+	[obs] [nvarchar](60) NULL,
+	[motrec] [nvarchar](2) NULL,
+	[status] [nvarchar](20) NULL,
+	[vlrtot] [numeric](13, 2) NULL,
+	[Id_repre] [nchar](15) NULL,
+ CONSTRAINT [pk_id_cotacao_cab] PRIMARY KEY CLUSTERED 
+(
+	[id_cotacao] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[pro_unidademedida]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[pro_unidademedida](
+	[pro_id_unidademedida] [int] IDENTITY(1,1) NOT NULL,
+	[id_unidademedida] [nchar](10) NULL,
+	[descricao] [nvarchar](30) NULL,
+	[dimensao] [nvarchar](6) NULL,
+	[aprestecnica] [nvarchar](6) NULL,
+	[hora_criacao] [nchar](8) NULL,
+	[pacote] [nchar](30) NULL,
+	[data_criacao] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[pro_id_unidademedida] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[pro_tipopedido]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[pro_tipopedido](
+	[codigo] [varchar](4) NULL,
+	[descricao] [varchar](30) NULL
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[pro_material]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[pro_material](
+	[pro_id_material] [int] IDENTITY(1,1) NOT NULL,
+	[id_material] [nvarchar](10) NULL,
+	[id_cliente] [nvarchar](18) NULL,
+	[id_centro] [nvarchar](4) NULL,
+	[descricao] [nvarchar](40) NULL,
+	[tip_mat] [nvarchar](4) NULL,
+	[uni_med] [nvarchar](3) NULL,
+	[peso_bru] [nvarchar](13) NULL,
+	[peso_liq] [nvarchar](13) NULL,
+	[volume] [nvarchar](13) NULL,
+	[status_mat] [nvarchar](2) NULL,
+	[data_criacao] [date] NULL,
+	[pacote] [nvarchar](30) NULL,
+	[hora_criacao] [nvarchar](8) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[pro_id_material] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[pro_listapreco]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[pro_listapreco](
+	[codigo] [varchar](2) NULL,
+	[descricao] [varchar](20) NULL
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[pro_incoterms]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[pro_incoterms](
+	[codigoIncoterm] [nchar](10) NULL,
+	[descricao] [varchar](30) NULL,
+	[tipo] [nchar](10) NULL
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[pro_fornecedor]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[pro_fornecedor](
+	[pro_id_fornecedor] [int] IDENTITY(1,1) NOT NULL,
+	[codigo] [nvarchar](10) NULL,
+	[nome] [nvarchar](35) NULL,
+	[cpf] [nvarchar](11) NULL,
+	[cnpj] [nvarchar](16) NULL,
+	[nr_ie_for] [nvarchar](18) NULL,
+	[cep] [nvarchar](10) NULL,
+	[endereco] [nvarchar](60) NULL,
+	[numero] [nvarchar](10) NULL,
+	[complemento] [nvarchar](10) NULL,
+	[municipio] [nvarchar](40) NULL,
+	[bairro] [nvarchar](40) NULL,
+	[uf] [nvarchar](3) NULL,
+	[pais] [nvarchar](3) NULL,
+	[tel_res] [nvarchar](16) NULL,
+	[tel_cel] [nvarchar](18) NULL,
+	[fax] [nvarchar](31) NULL,
+	[email] [nvarchar](130) NULL,
+	[data_criacao] [date] NULL,
+	[pacote] [nchar](30) NULL,
+	[hora_criacao] [nchar](8) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[pro_id_fornecedor] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[pro_condpgto]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[pro_condpgto](
+	[pro_id_condpgto] [int] IDENTITY(1,1) NOT NULL,
+	[Codigo] [varchar](4) NULL,
+	[Descricao] [varchar](30) NULL,
+	[pacote] [nchar](30) NULL,
+	[data_criacao] [date] NULL,
+	[hora_criacao] [nchar](8) NULL
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[pro_cliente_vendas]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[pro_cliente_vendas](
+	[pro_id_cliente_vendas] [int] IDENTITY(1,1) NOT NULL,
+	[id_cliente] [nvarchar](10) NULL,
+	[org_vendas] [nvarchar](4) NULL,
+	[can_dist] [nvarchar](2) NULL,
+	[set_ativ] [nvarchar](2) NULL,
+	[grupo_cli] [nvarchar](2) NULL,
+	[id_fornecedor] [nvarchar](18) NULL,
+	[pacote] [nchar](30) NULL,
+	[data_criacao] [date] NULL,
+	[hora_criacao] [nchar](8) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[pro_id_cliente_vendas] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[pro_cliente]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[pro_cliente](
+	[pro_id_cliente] [int] IDENTITY(1,1) NOT NULL,
+	[id_cliente] [nvarchar](10) NULL,
+	[nome] [nvarchar](35) NULL,
+	[cpf] [nvarchar](11) NULL,
+	[cnpj] [nvarchar](16) NULL,
+	[nr_ie_cli] [nvarchar](18) NULL,
+	[cep] [nvarchar](10) NULL,
+	[endereco] [nvarchar](60) NULL,
+	[numero] [nvarchar](10) NULL,
+	[complemento] [nvarchar](10) NULL,
+	[municipio] [nvarchar](40) NULL,
+	[bairro] [nvarchar](40) NULL,
+	[uf] [nvarchar](3) NULL,
+	[pais] [nvarchar](3) NULL,
+	[tel_res] [nvarchar](16) NULL,
+	[tel_cel] [nvarchar](18) NULL,
+	[fax] [nvarchar](31) NULL,
+	[email] [nvarchar](130) NULL,
+	[pacote] [nchar](30) NULL,
+	[hora_criacao] [nchar](8) NULL,
+	[data_criacao] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[pro_id_cliente] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UsuarioPerfil]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[UsuarioPerfil](
+	[Login] [varchar](12) NULL,
+	[Perfil] [int] NULL
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[usuario]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[usuario](
+	[login] [varchar](12) NULL,
+	[nome] [varchar](80) NULL,
+	[senha] [varchar](24) NULL,
+	[email] [varchar](240) NULL,
+	[status] [int] NULL
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[pro_vitem]    Script Date: 12/11/2013 14:09:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[pro_vitem](
+	[id_cotacao] [nvarchar](10) NOT NULL,
+	[id_item] [int] IDENTITY(1,1) NOT NULL,	
+	[id_pedido] [nchar](35) NULL,
+	[id_material] [nvarchar](35) NULL,
+	[quant] [decimal](15, 3) NULL,
+	[unimed] [nvarchar](4) NULL,
+	[listpre] [nvarchar](3) NULL,
+	[valtab] [numeric](13, 2) NULL,
+	[valpol] [numeric](13, 2) NULL,
+	[descma] [numeric](13, 2) NULL,
+	[valfin] [numeric](13, 2) NULL,
+	[motrec] [nvarchar](2) NULL,
+ CONSTRAINT [pk_id_cotacao_linha] PRIMARY KEY CLUSTERED 
+(
+	[id_cotacao] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  ForeignKey [FK_id_cotacao]    Script Date: 12/11/2013 14:09:41 ******/
+ALTER TABLE [dbo].[pro_vitem]  WITH CHECK ADD  CONSTRAINT [FK_id_cotacao] FOREIGN KEY([id_cotacao])
+REFERENCES [dbo].[pro_vcab] ([id_cotacao])
+GO
+ALTER TABLE [dbo].[pro_vitem] CHECK CONSTRAINT [FK_id_cotacao]
+GO
+
+

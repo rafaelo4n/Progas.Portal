@@ -1,0 +1,9 @@
+﻿<parameters>
+  <parameter name="IIS Web Application Name" defaultValue="portalprogas" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\rafael\\Desktop\\Progas\.Portal\\BsBios\.Portal\.UI\\obj\\Debug\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\rafael\\Desktop\\Progas\.Portal\\BsBios\.Portal\.UI\\obj\\Debug\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="Progas-Web.config Connection String" defaultValue="Server=SV-WEBVENDAS\WEBREPRE;Initial Catalog=ProgasPortal; Integrated Security=True">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\rafael\\Desktop\\Progas\.Portal\\BsBios\.Portal\.UI\\obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='Progas']/@connectionString" />
+  </parameter>
+</parameters>

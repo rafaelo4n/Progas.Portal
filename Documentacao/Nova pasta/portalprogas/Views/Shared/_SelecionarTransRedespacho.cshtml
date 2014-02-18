@@ -1,0 +1,185 @@
+﻿@model Progas.Portal.ViewModel.TransRedespachoCadastroVm
+
+@{
+    Layout = null;
+}
+<div class="divFiltros">
+    <fieldset>
+        <legend>Filtros</legend>
+        <form >
+            <div class="colunaFiltro">
+                @Html.Label("Código")
+                @Html.TextBox("CodigoFiltro","", new{@class="campomedio"})
+            </div>
+            <div class="colunaFiltro">
+                @Html.Label("Nome")
+                @Html.TextBox("NomeFiltro","", new{@class="campomedio"})
+            </div>
+            <div class="divBotao">
+                <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
+                <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+            </div>
+        </form>
+
+    </fieldset>
+</div>
+<div id="gridFornecedores" class="divGrid"></div>
+
+<script>
+    //var fornecedorSelecionado = null;
+    @if (Model != null && !string.IsNullOrEmpty(Model.Codigo) && !string.IsNullOrEmpty(Model.Nome))
+    {
+        @: SelecionarFornecedor.FornecedorSelecionado = { Codigo: '@Model.Codigo', Nome:'@Model.Nome' };
+    }
+    $(document).ready(function() {
+        $("#gridFornecedores").customKendoGrid({
+            dataSource: {
+                schema: {
+                    data: 'Registros',
+                    model: {
+                        fields: {
+                            Codigo: { type: "string" },
+                            Nome: { type: "string" },
+                            Cnpj: { type: "string" },
+                            nr_ie_for: { type: "string" },
+                            Cpf: { type: "string" },
+                            endereco: { type: "string" },
+                            numero: { type: "string" },
+                            complemento: { type: "string" },
+                            municipio: { type: "string" },
+                            uf: { type: "string" },
+                            pais: { type: "string" },
+                            tel_res: { type: "string" },
+                            tel_cel: { type: "string" },
+                            email: { type: "string" }
+                        }
+                    },
+                    total: 'QuantidadeDeRegistros'
+                },
+                serverFiltering: true,
+                serverPaging: true,
+                transport: {
+                    read: {
+                        url: '@Url.Action("Listar", "Fornecedor")',
+                        type: 'GET',
+                        cache: false,
+                        data: function() {
+                            return {
+                                Codigo: $('#CodigoFiltro').val(),
+                                Nome: $('#NomeFiltro').val()
+                            };
+                        }
+                    }
+                },
+                pageSize: 10
+            },
+            dataBound: function (e) {
+                if (SelecionarFornecedor.FornecedorSelecionado != null) {
+                    $('input[name=radioFornecedor][data-codigofornecedor=' + SelecionarFornecedor.FornecedorSelecionado.Codigo + ']').attr('checked', true);
+                }
+            },
+            columns:
+            [
+                {
+                    field: 'Codigo',
+                    title: ' ', /*coloco um espaço para deixar o header sem título*/
+                    width: 30,
+                    sortable: false,
+                    template: '<input type="radio" name="radioFornecedor" data-codigofornecedor="${Codigo}"></input>'
+                },
+                {
+                    field: "Codigo",
+                    width: 80,
+                    title: "Codigo"
+                },
+                {
+                    field: "Nome",
+                    width: 240,
+                    title: "Nome"
+                },
+                {
+                    field: "Cnpj",
+                    width: 100,
+                    title: "CNPJ"
+
+                },
+                {
+                    field: "nr_ie_for",
+                    width: 80,
+                    title: "Insc.Estadual"
+                },
+                {
+                    field: "Cpf",
+                    width: 90,
+                    title: "CPF"
+                },
+                {
+                    field: "endereco",
+                    width: 150,
+                    title: "Endereço"
+                },
+                {
+                    field: "numero",
+                    width: 55,
+                    title: "Numero"
+                },
+                {
+                    field: "complemento",
+                    width: 90,
+                    title: "Complemento"
+                },
+                {
+                    field: "municipio",
+                    width: 100,
+                    title: "Cidade"
+                },
+                {
+                    field: "uf",
+                    width: 30,
+                    title: "UF"
+                }, {
+                    field: "pais",
+                    width: 40,
+                    title: "País"
+                }, {
+                    field: "tel_res",
+                    width: 80,
+                    title: "Tel.Res"
+                }, {
+                    field: "tel_cel",
+                    width: 80,
+                    title: "Tel.Cel"
+                },
+                {
+                    field: "email",
+                    width: 200,
+                    title: "Email"
+                }
+            ]
+        });
+
+        $('form').submit(function(e) {
+            e.preventDefault();
+        });
+        //$('#btnPesquisar').click(function() {
+        //    $("#gridFornecedores").data("kendoGrid").dataSource.page(1);
+        //});
+
+        $('#btnLimpar').click(function (e) {
+            e.preventDefault();
+            $('.divFiltros input[type!=button][type!=submit]').val('');
+        });
+
+        $('#gridFornecedores').find('input[name=radioFornecedor]').die("change");
+        $('#gridFornecedores').find('input[name=radioFornecedor]').live("change", function () {
+            if (!$(this).is(':checked')) {
+                return;
+            }
+            var grid = $('#gridFornecedores').data("kendoGrid");
+            var dataItem = grid.dataItem(grid.select());
+            SelecionarFornecedor.FornecedorSelecionado = { Codigo: dataItem.Codigo, Nome: dataItem.Nome};
+
+        });
+    });
+</script>
+

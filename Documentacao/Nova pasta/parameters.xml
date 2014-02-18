@@ -1,0 +1,12 @@
+﻿<parameters>
+  <parameter name="IIS Web Application Name" defaultValue="portalprogas" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\rafael\\Desktop\\Progas\.Portal\\BsBios\.Portal\.UI\\obj\\Debug\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\rafael\\Desktop\\Progas\.Portal\\BsBios\.Portal\.UI\\obj\\Debug\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="Progas-Web.config Connection String" defaultValue="Server=FUSION000\FUSSQL;Database=ProgasPortal;Integrated Security=true">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\rafael\\Desktop\\Progas\.Portal\\BsBios\.Portal\.UI\\obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='Progas']/@connectionString" />
+  </parameter>
+  <parameter name="LocalSqlServer-Web.config Connection String" description="LocalSqlServer Connection String used in web.config by the application to access the database." defaultValue="Server=FUSION000\FUSSQL;Database=ProgasPortal;Integrated Security=true" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\rafael\\Desktop\\Progas\.Portal\\BsBios\.Portal\.UI\\obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='LocalSqlServer']/@connectionString" />
+  </parameter>
+</parameters>

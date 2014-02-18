@@ -1,0 +1,21 @@
+﻿@using Progas.Portal.Infra.Model
+@model IEnumerable<Menu>
+@{
+    Layout = null;   
+}
+<nav id="menus" style="display: block">
+    <ul id="menu">
+
+        @foreach (Menu menu in Model)
+        {
+            <li>@menu.Descricao
+                <ul>
+                    @foreach(MenuItem menuItem in menu.Itens)
+                    {
+                        <li>@Html.ActionLink(menuItem.Descricao,menuItem.Action, menuItem.Controller) </li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</nav>

@@ -1,0 +1,126 @@
+using SAP.Middleware.Connector;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Progas.Portal.CalculoPedido
+{
+    public class CalcularPedido
+    {
+        //public static void calcula()
+        public static void Main(string[] args)
+        {
+            ReadTable rTable = new ReadTable();
+            // parametros: tabela, colunas
+            string result = rTable.Read_Table().ToString();//("J_1BNFDOC", "BUKRS").ToString();
+        }
+    }
+
+    public class ReadTable
+    {
+        public StringBuilder Read_Table(/*string strTableName, string strColumns*/)
+        {
+            /*
+             * Configuração da conexão
+             */
+
+            string strTableName = "J_1BNFDOC";
+            string strColumns   = "BUKRS";
+
+
+            SAPConnect con = new SAPConnect();
+            RfcDestinationManager.RegisterDestinationConfiguration(con);
+            RfcDestination dest = RfcDestinationManager.GetDestination("DDD");
+            RfcRepository repo = dest.Repository;
+
+
+
+            /* Instanciar a FUNÇÃO quer iremos executar, neste caso RFC_READ_TABLE é a Função e ela recebe como Parametros,
+             * QUERY_TABLE, NO_DATA, ROWSKIPS, ROWCOUNT, OPTIONS, FIELDS
+             * e retorna o objeto DATA
+             * Lembrando que Options, Fields e Data equivale ao ArrayList
+             */
+
+            // Módulo de funcao
+            IRfcFunction fReadTable = repo.CreateFunction("RFC_GET_STRUCTURE_DEFINITION");
+
+            // parametros Importacao / valor parametro
+            fReadTable.SetValue("TABNAME", strTableName);
+            fReadTable.SetValue("UCLEN", "");
+
+            //Caso o usuario nao passou nenhum campo que ele queira retornar, realizamos a chamada no SAP para retornar todas as colunas da tabela
+            //Caso contrario, efetuamos a passagem dos filtros
+            IRfcTable tFields;
+            if (strColumns.Trim() == "")
+            {
+                fReadTable.Invoke(dest);
+            }
+            else
+            {
+                tFields = fReadTable.GetTable("FIELDS");
+                foreach (string strColumn in strColumns.Split(','))
+                {
+                    if (strColumn.Trim() != "")
+                    {
+                        tFields.Append();
+                        tFields.SetValue("FIELDNAME", strColumn);
+                    }
+                }
+            }
+            //Realizamos a chamada no SAP e tratamos o retorno.
+            fReadTable.Invoke(dest);
+            tFields = fReadTable.GetTable("FIELDS");
+            StringBuilder sb = new StringBuilder();
+
+
+
+
+            foreach (IRfcStructure p_columns in tFields)
+            {
+                string fieldname = p_columns.GetValue("FIELDNAME").ToString();
+                int startposition = Convert.ToInt32(p_columns.GetValue("POSITION"));
+                sb.AppendLine(fieldname + ":" + startposition);
+            }
+            return sb;
+        }
+    }
+
+    public class SAPConnect : IDestinationConfiguration
+    {
+        public bool ChangeEventsSupported()
+        {
+            return true;
+        }
+
+        public event RfcDestinationManager.ConfigurationChangeHandler ConfigurationChanged;
+
+        public RfcConfigParameters GetParameters(string destinationName)
+        {
+            SAP.Middleware.Connector.RfcConfigParameters conf = new SAP.Middleware.Connector.RfcConfigParameters();
+            if (destinationName == "DDD")
+            {
+                conf.Add(RfcConfigParameters.AppServerHost, "sap01");// "172.16.83.113"
+                conf.Add(RfcConfigParameters.SAPRouter, "/H/201.35.69.162/S/3299/H/");//"/H/200.198.107.10/H/"
+                conf.Add(RfcConfigParameters.SystemNumber, "00");//"10"
+                conf.Add(RfcConfigParameters.SystemID, "DEV");//"D00"
+                conf.Add(RfcConfigParameters.User, "FS_LEOVANI");// "fus_ruy"
+                conf.Add(RfcConfigParameters.Password, "fusion123");//"fusion123"
+                conf.Add(RfcConfigParameters.Client, "110");// "110"
+                //conf.Add(RfcConfigParameters.Language, "EN"); 
+                conf.Add(RfcConfigParameters.PoolSize, "5");//"5"
+                conf.Add(RfcConfigParameters.MaxPoolSize, "10");//"10"
+                conf.Add(RfcConfigParameters.IdleTimeout, "600");//"600"
+                //conf.Add(RfcConfigParameters.GatewayHost, "sap01");
+                //conf.Add(RfcConfigParameters.GatewayService, "sapgw00");
+
+            }
+
+            return conf;
+
+        }
+
+    }
+
+}
