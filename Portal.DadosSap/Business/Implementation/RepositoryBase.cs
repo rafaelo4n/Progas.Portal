@@ -214,7 +214,7 @@ namespace Portal.DadosSap.Business.Implementation
                 using (ISession session = SessionFactory.OpenSession())
                 {
                     //lista = new List<T>(session.CreateCriteria(typeof(T)).AddOrder(Order.Asc("Codigo")).List<T>());
-                    lista = session.CreateCriteria(typeof(T)).Add(Restrictions.Like(campo, busca)).List<T>();
+                    lista = session.CreateCriteria(typeof(T)).Add(Restrictions.Like(campo.Trim(), busca.Trim())).List<T>();
 
                 }
 
@@ -246,8 +246,24 @@ namespace Portal.DadosSap.Business.Implementation
                 throw new Exception(ex.Message);
             }
         }
-       
-        
 
+        // Pesquisa de Inco1 + Inco2
+        public IList<T> PesquisaIncotermLinha(String CampoCodigoIncotermCab, String campoIncotermLinha, String valorCodigoIncotermCab, String valorIncotermLinha)
+        {
+            IList<T> lista;
+
+            try
+            {
+                using (ISession session = SessionFactory.OpenSession())
+                {
+                    lista = session.CreateCriteria(typeof(T)).Add(Restrictions.Like(CampoCodigoIncotermCab, campoIncotermLinha)).Add(Restrictions.Like(valorCodigoIncotermCab, valorIncotermLinha)).List<T>();
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
      }
 }

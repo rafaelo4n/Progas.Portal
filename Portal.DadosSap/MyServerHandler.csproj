@@ -141,6 +141,8 @@
     <Compile Include="Business\Implementation\ClienteVendasRepository.cs" />
     <Compile Include="Business\Implementation\CondicaoPagamentoRepository.cs" />
     <Compile Include="Business\Implementation\FornecedorRepository.cs" />
+    <Compile Include="Business\Implementation\IncotermsCabRepository.cs" />
+    <Compile Include="Business\Implementation\IncotermsLinhaRepository.cs" />
     <Compile Include="Business\Implementation\MaterialRepository.cs" />
     <Compile Include="Business\Implementation\RepositoryBase.cs" />
     <Compile Include="Business\Implementation\UnidadeMedidaRepository.cs" />
@@ -148,6 +150,8 @@
     <Compile Include="Business\Repository\IClienteVendasRepository.cs" />
     <Compile Include="Business\Repository\ICondicaoPagamentoRepository.cs" />
     <Compile Include="Business\Repository\IFornecedorRepository.cs" />
+    <Compile Include="Business\Repository\IIncotermsCabRepository.cs" />
+    <Compile Include="Business\Repository\IIncotermsLinhaRepository.cs" />
     <Compile Include="Business\Repository\IMaterialRepository.cs" />
     <Compile Include="Business\Repository\IRepositoryBase.cs" />
     <Compile Include="Business\Repository\IUnidadeMedidaRepository.cs" />
@@ -156,6 +160,8 @@
     <Compile Include="Entity\ClienteVendas.cs" />
     <Compile Include="Entity\CondicaoPagamento.cs" />
     <Compile Include="Entity\Fornecedor.cs" />
+    <Compile Include="Entity\IncotermsCab.cs" />
+    <Compile Include="Entity\IncotermsLinhas.cs" />
     <Compile Include="Entity\Material.cs" />
     <Compile Include="Entity\UnidadeMedida.cs" />
     <Compile Include="Interfaces.cs" />
@@ -181,6 +187,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="hibernate.cfg.xml" />
+    <EmbeddedResource Include="Mappings\IncotermsCab.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\IncotermsLinhas.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Mappings\ClienteVendas.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

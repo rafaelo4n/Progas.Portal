@@ -23,5 +23,7 @@ namespace Portal.DadosSap.Business.Repository
         IList<T> ObterTodosComCampo(String Campo,String busca);
 
         IList<T> PesquisaClienteVendas(String CampoCliente, String buscaCliente, String CampoOrg, String buscaOrg);
+
+        IList<T> PesquisaIncotermLinha(String CampoCodigoIncotermCab, String campoIncotermLinha, String valorCodigoIncotermCab, String valorIncotermLinha);
     }
 }
