@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SAP.Middleware.Connector;
-using NHibernate.Cfg;
-using NHibernate.Tool.hbm2ddl;
 using Portal.DadosSap.Entity;
 using Portal.DadosSap.Business.Implementation;
-using System.ServiceModel;
 
 namespace Portal.DadosSap
 {

@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Cfg;
-using NHibernate.Engine.Query.Sql;
 using Portal.DadosSap.Business.Repository;
-using Portal.DadosSap.Entity;
 using NHibernate.Criterion;
 
 namespace Portal.DadosSap.Business.Implementation
