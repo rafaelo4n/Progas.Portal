@@ -8,7 +8,7 @@ namespace Progas.Portal.Infra.Mappings
         public PedidoVendaMap()
         {
             Table("pro_vcab");
-            Id(x => x.Id_cotacao);//.GeneratedBy.Native("pro_id_pedido_venda");
+            Id(x => x.Id_cotacao).Column("id_cotacao");//.GeneratedBy.Native("pro_id_pedido_venda");
             Map(x => x.TipoPedido);
             Map(x => x.Id_centro);
             Map(x => x.Id_cliente);

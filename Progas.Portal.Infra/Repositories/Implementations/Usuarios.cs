@@ -20,7 +20,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
 
         public Usuario BuscaPorCodigoRepresentante(string codigoRepresentante)
         {
-            return Query.SingleOrDefault(u => u.CodigoFornecedor.ToLower() == codigoRepresentante.ToLower());
+            return Query.SingleOrDefault(u => u.Fornecedor.Codigo.ToLower() == codigoRepresentante.ToLower());
         }
 
         public IUsuarios NomeContendo(string filtroNome)

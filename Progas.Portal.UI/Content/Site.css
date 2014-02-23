@@ -360,6 +360,12 @@ aside {
             padding: 2px 0 2px 20px;
         }
 
+label {
+    display: block;
+    /*font-size: 1em;*/
+    font-weight: 600;
+}
+
 .label {
     font-weight: 700;
 }
@@ -437,13 +443,6 @@ fieldset ol {
     fieldset ol li {
         padding-bottom: 5px;
     }
-
-
-labelEsquerda {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-}
 
 label.checkbox {
     display: inline;
@@ -632,34 +631,55 @@ input[type="checkbox"].input-validation-error {
 .linha {
     clear: both;
 }
-.coluna {
-    /*width: 380px;*/
-    width: 49%; /*width: 49px;*/
+
+.coluna, .coluna3, .coluna4, .coluna5 {
     display: inline-block;
     float: left;
 }
+
+.coluna {
+    width: 49%;
+}
+
+.coluna3 {
+    width: 32%;
+}
+
+
+.coluna4 {
+    width: 24.5%;
+}
+
+.coluna5 {
+    width: 19.5%;
+}
+
+
 
 .colunaFiltro {
     width: 49%;
     display: inline-block;
     float: left;
 }
+
 .campopequeno {
-    width: 40px;/*150px;*/
+    width: 38%;
 }
 .campomedio {
-    width: 90px;/*250px;*/
-}
-
+    width: 63%;
+} 
 .campogrande, select {
-    width: 150px;/*350px;*/
+    width: 89%;
 }
 .campoextragrande {
-    width: 700px;
+    width: 91%;
 }
 .campopequenogrid {
-    width: 70px;
+    width: 90%;
 }
+
+
+
 
 .campoobs {
     width: 278px;

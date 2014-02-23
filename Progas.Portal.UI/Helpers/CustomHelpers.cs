@@ -29,17 +29,6 @@ namespace Progas.Portal.UI.Helpers
                 "</div>";
         }
 
-
-        private static string GeraColunaComUmaLinha<TModel, TValue>(Coluna<TModel, TValue> coluna)
-        {
-            coluna.LabelClass = "labelNaLinha";
-            return
-                "<div>" +
-                    @coluna.GeraLabel() +
-                    @coluna.GeraInput() +
-                "</div>";
-        }
-
         public static IHtmlString LinhaComDuasColunas<TModel1, TValue1, TValue2>(this HtmlHelper<TModel1> html, 
             Coluna<TModel1, TValue1> coluna1, Coluna<TModel1, TValue2> coluna2)
         {

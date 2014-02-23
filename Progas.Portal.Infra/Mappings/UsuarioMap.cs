@@ -10,10 +10,10 @@ namespace Progas.Portal.Infra.Mappings
         {
             Table("Usuario");
             Id(x => x.Login);
+            References(x => x.Fornecedor).Column("CodigoFornecedor");
             Map(u => u.Nome);
             Map(u => u.Senha);
             Map(u => u.Email);
-            Map(u => u.CodigoFornecedor);
             Map(u => u.Status).CustomType<Enumeradores.StatusUsuario>();
 
             HasMany(x => x.Perfis)

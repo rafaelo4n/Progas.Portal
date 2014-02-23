@@ -6,7 +6,6 @@ using Progas.Portal.Application.Queries.Contracts;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.ViewModel;
-using System.IO;
 //using SAP.Middleware.Connector;
 
 namespace Progas.Portal.Application.Services.Implementations
@@ -233,7 +232,7 @@ namespace Progas.Portal.Application.Services.Implementations
                     if (v_cont2 == 1)
                     {
 
-                        PedidoVenda pedidoVenda = _pedidosVenda.CotacaoPedidoContendo(dados.NumeroPedido, Convert.ToString(usuarioConectado.CodigoFornecedor));
+                        PedidoVenda pedidoVenda = _pedidosVenda.CotacaoPedidoContendo(dados.NumeroPedido, Convert.ToString(usuarioConectado.CodigoDoFornecedor));
                         datacp = Convert.ToDateTime(pedidoVenda.Datacp);
 
                         // Deleta a linha antiga antes de inserir a nova
@@ -285,7 +284,7 @@ namespace Progas.Portal.Application.Services.Implementations
                                                                dados.trans,
                                                                dados.transred,
                                                                dados.transredcif,
-                                                               Convert.ToString(usuarioConectado.CodigoFornecedor),
+                                                               Convert.ToString(usuarioConectado.CodigoDoFornecedor),
                                                                dados.Observacao
                                                               );
                         _pedidosVenda.Save(cabecalhoPedido);

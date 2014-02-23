@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Progas.Portal.Common;
 using Progas.Portal.Common.Exceptions;
 
@@ -10,18 +11,23 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Login { get; protected set; }
         public virtual string Senha { get; protected set; }
         public virtual string Email { get; protected set; }
-        public virtual string CodigoFornecedor { get; protected set; }
+        public virtual Fornecedor Fornecedor { get; protected set; }
         public virtual Enumeradores.StatusUsuario Status { get; protected set; }
         public virtual IList< Enumeradores.Perfil> Perfis { get; set; }
 
-        public Usuario(string nome, string login, string email, string codigoFornecedor)
+        public Usuario(string nome, string login, string email, Fornecedor fornecedor)
             : this()
         {
             Nome = nome;
             Login = login;
             Email = email;
-            CodigoFornecedor = codigoFornecedor;
+            Fornecedor = fornecedor;
             Status = Enumeradores.StatusUsuario.Ativo;
+        }
+
+        public virtual string CodigoDoFornecedor
+        {
+            get { return Fornecedor != null ? Fornecedor.Codigo : ""; }
         }
 
         protected Usuario()
@@ -30,11 +36,11 @@ namespace Progas.Portal.Domain.Entities
         }
 
 
-        public virtual void Alterar(string nome, string email, string codigoFornecedor)
+        public virtual void Alterar(string nome, string email, Fornecedor fornecedor)
         {
             Nome = nome;
             Email = email;
-            CodigoFornecedor = codigoFornecedor;
+            Fornecedor = fornecedor;
         }
 
         public virtual void CriarSenha(string senhaCriptografada)
@@ -42,15 +48,14 @@ namespace Progas.Portal.Domain.Entities
             Senha = senhaCriptografada;
         }
 
-        public virtual void AdicionarPerfil(Enumeradores.Perfil perfil)
+        private void AdicionarPerfil(Enumeradores.Perfil perfil)
         {
             Perfis.Add(perfil);
             
         }
-        public virtual void RemoverPerfil(Enumeradores.Perfil perfil)
+        private void RemoverPerfil(Enumeradores.Perfil perfil)
         {
             Perfis.Remove(perfil);
-
         }
 
         public virtual void Bloquear()
@@ -70,6 +75,26 @@ namespace Progas.Portal.Domain.Entities
                 throw new SenhaIncorretaException("A senha atual informada está incorreta");
             }
             Senha = senhaNovaCriptografada;
+        }
+
+        public virtual void AlterarPerfis(IList<Enumeradores.Perfil> perfis )
+        {
+            if (perfis == null)
+            {
+                perfis = new List<Enumeradores.Perfil>();
+            }
+            IList<Enumeradores.Perfil> perfisRemovidos = Perfis.Except(perfis).ToList();
+            IList<Enumeradores.Perfil> perfisParaAdicionar = perfis.Except(Perfis).ToList();
+            foreach (var perfilRemovido in perfisRemovidos)
+            {
+                RemoverPerfil(perfilRemovido);
+            }
+
+            foreach (var perfilParaAdicionar in perfisParaAdicionar)
+            {
+                AdicionarPerfil(perfilParaAdicionar);
+            }
+            
         }
     }
 }

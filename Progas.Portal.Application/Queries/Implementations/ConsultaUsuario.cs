@@ -54,18 +54,10 @@ namespace Progas.Portal.Application.Queries.Implementations
         public string ConfirmaLogin(string login)
         {
 
-            var confirmaLogin = _usuarios.BuscaPorLogin(login);
+            var usuario = _usuarios.BuscaPorLogin(login);
 
-            if (confirmaLogin == null)
-            {
-                string dados = "nao encontrou";
-                return dados;
-            }
+            return usuario != null ? login : null;
 
-            else
-            {
-                return confirmaLogin.ToString();
-            }
         }
     }
 }

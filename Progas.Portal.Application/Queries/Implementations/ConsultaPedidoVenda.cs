@@ -41,7 +41,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                 .DataCriacaoContendo(filtro.datacp)
                 .PedidoCodigoContendo(filtro.id_pedido)
                 .DataPedidoContendo(filtro.datap)
-                .CotacaoRepresentante(usuarioConectado.CodigoFornecedor.ToString());
+                .CotacaoRepresentante(usuarioConectado.CodigoDoFornecedor);
                 //.NomeContendo(filtro.Nome);
             var kendoGridVmn = new KendoGridVm()
             {
@@ -80,7 +80,7 @@ namespace Progas.Portal.Application.Queries.Implementations
         {
             var usuarioConectado = _usuarios.UsuarioConectado();
 
-            return _builderPedidoVenda.BuildSingle(_pedidosVenda.CotacaoPedidoContendo(id_cotacao, usuarioConectado.CodigoFornecedor.ToString()));
+            return _builderPedidoVenda.BuildSingle(_pedidosVenda.CotacaoPedidoContendo(id_cotacao, usuarioConectado.CodigoDoFornecedor));
         }
 
         // Pesquisa do Botão Copiar( Linhas )
