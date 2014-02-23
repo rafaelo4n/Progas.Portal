@@ -1,14 +1,74 @@
 ﻿Globalize.culture('pt-BR');
 
 Mensagem = {
-    ExibirMensagemDeErro: function (mensagem) {
-        alert(mensagem);
+
+    gerarCaixaDeMensagem: function (mensagem, titulo, classeParaAdicionar, classeParaRemover, funcaoConfirmacao, exibirBotaoCancelar) {
+
+        var mensagemModal = $('.mensagemModal');
+
+        if (mensagemModal.length == 0) {
+
+            $('body').append(
+                '<div class="mensagemModal" title=Progas - ' + titulo + '" class="janelaModal">' +
+                        '<span class="ui-icon ' + classeParaAdicionar + '" style="float: left; margin: 0 7px 50px 0;"></span>' +
+                        '<span id="conteudoDoMessageBox">' + mensagem + '</span>' +
+                '</div>');
+        } else {
+            $(mensagemModal).find('#conteudoDoMessageBox').text(mensagem);
+            $(mensagemModal).find('.ui-icon')
+                .removeClass(classeParaRemover)
+                .addClass(classeParaAdicionar);
+        }
+
+        var botoes = {
+            OK: function () {
+                Mensagem.confirmado = true;
+                $(this).dialog("close");
+                if (funcaoConfirmacao) {
+                    funcaoConfirmacao();
+                }
+            }
+        };
+
+        if (exibirBotaoCancelar) {
+            botoes.Cancelar = function () {
+                $(this).dialog("close");
+            };
+        }
+
+        $(".mensagemModal").dialog({
+            modal: true,
+            buttons: botoes
+        });
     },
 
-    ExibirMensagemDeSucesso: function (mensagem) {
-        alert(mensagem);
+    ExibirMensagemDeErro: function (mensagem, funcaoConfirmacao) {
+        this.gerarCaixaDeMensagem(mensagem, 'Erro', 'ui-icon-alert', 'ui-icon-check', funcaoConfirmacao);
+    },
+
+    ExibirMensagemDeSucesso: function (mensagem, funcaoConfirmacao) {
+        this.gerarCaixaDeMensagem(mensagem, 'Sucesso', 'ui-icon-check', 'ui-icon-alert',funcaoConfirmacao,false);
+    },
+    ExibirMensagemDeConfirmacao: function (mensagem, funcaoConfirmacao) {
+        this.gerarCaixaDeMensagem(mensagem, 'Confirmação', 'ui-icon-check', 'ui-icon-alert', funcaoConfirmacao, true);
+    },
+    ExibirJanelaComHtml: function (html) {
+        var janela = $('#divJanelaComHtml');
+        if (janela.length == 0) {
+            $('body').append('<div id="divJanelaComHtml"></div>');
+
+            $('#divJanelaComHtml').customDialog({
+                title: 'Mensagem',
+                width: 1024
+
+            });
+        }
+        $('#divJanelaComHtml').html(html);
+        $('#divJanelaComHtml').dialog('open');
     }
+
 };
+
 
 String.prototype.boolean = function () {
     return this.match(/^(true|True)$/i) !== null;

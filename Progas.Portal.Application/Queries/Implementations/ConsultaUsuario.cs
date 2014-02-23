@@ -25,7 +25,8 @@ namespace Progas.Portal.Application.Queries.Implementations
         {
             _usuarios
                 .LoginContendo(usuarioFiltroVm.Login)
-                .NomeContendo(usuarioFiltroVm.Nome);
+                .NomeContendo(usuarioFiltroVm.Nome)
+                .OrdenarPorNome();
             
             var kendoGridVmn = new KendoGridVm()
             {

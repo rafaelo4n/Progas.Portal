@@ -10,7 +10,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
     {
         public Usuarios(IUnitOfWorkNh unitOfWorkNh) : base(unitOfWorkNh)
         {
-            Query = Query.OrderBy(x => x.Nome);
+            //Query = Query.OrderBy(x => x.Nome);
         }
 
         public Usuario BuscaPorLogin(string login)
@@ -57,6 +57,12 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         public IUsuarios SemSenha()
         {
             Query = Query.Where(x => x.Senha == null);
+            return this;
+        }
+
+        public IUsuarios OrdenarPorNome()
+        {
+            Query = Query.OrderBy(x => x.Nome.ToLower());
             return this;
         }
     }

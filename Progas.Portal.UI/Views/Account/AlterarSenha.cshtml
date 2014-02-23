@@ -12,11 +12,8 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/themes/base/css")
         @Scripts.Render("~/bundles/modernizr")
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/bundles/scriptsgerais")
-
     </head>
     <body>
         @Html.Partial("_Header")
@@ -55,33 +52,42 @@
                 </div>
             }
         </div>
-    </body>
-    <script type="text/javascript">
-        $(function() {
-            $('#btnVoltar').click(function() {
-                history.back(1);
-            });
-            $('#btnConfirmar').click(function () {
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/globalize")
+        @Scripts.Render("~/bundles/scriptsgerais")
+        <script type="text/javascript">
+            $(function() {
+                $('#btnVoltar').click(function() {
+                    history.back(1);
+                });
+                $('#btnConfirmar').click(function () {
 
-                $('.error').empty();
-                var form = $('form');
-                if (!$(form).validate().form()) {
-                    return;
-                }
+                    $('.error').empty();
+                    var form = $('form');
+                    if (!$(form).validate().form()) {
+                        return;
+                    }
 
-                var formData = $(form).serialize();
-                $.post('@Url.Action("AlterarSenha","GerenciadorUsuario" )', formData,
-                    function (data) {
-                        if (data.Sucesso) {
-                            location.href = '@Url.Action("Index","Account")';
+                    var formData = $(form).serialize();
+                    $.post('@Url.Action("AlterarSenha","GerenciadorUsuario" )', formData,
+                        function (data) {
+                            if (data.Sucesso) {
+                                Mensagem.ExibirMensagemDeSucesso('Senha alterada com sucesso.', function() {
+                                    location.href = '@Url.Action("Index","Account")';
+                            });
+                            
                         } else {
                             $('.error').html(data.Mensagem);
                         }
                     });
 
 
-            });
-        })
-    </script>
+                });
+            })
+        </script>
+
+    </body>
 </html>
 

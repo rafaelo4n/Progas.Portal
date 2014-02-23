@@ -387,7 +387,7 @@ aside {
     }
 
     #loginForm input {
-        width: 225px;
+        width: 94%;
     }
 
     #FornecedorUsuario {
@@ -634,10 +634,11 @@ input[type="checkbox"].input-validation-error {
 }
 .coluna {
     /*width: 380px;*/
-    width: 25%; /*width: 49px;*/
+    width: 49%; /*width: 49px;*/
     display: inline-block;
     float: left;
 }
+
 .colunaFiltro {
     width: 49%;
     display: inline-block;

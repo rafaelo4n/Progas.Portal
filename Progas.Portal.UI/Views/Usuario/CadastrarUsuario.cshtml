@@ -3,12 +3,12 @@
 
 <title>"Cadastro de Usuários"</title>
 
-<link href="@Url.Content("/portalProgas/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("/portalProgas/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-<link href="@Url.Content("/portalProgas/Content/jquery.loadmask.css")" rel="stylesheet" />
-   
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
 
-    @using (Html.BeginForm())
+
+@using (Html.BeginForm())
     {        
                                             
         <div id="loginForm">
@@ -16,7 +16,7 @@
             {
                 @Html.AntiForgeryToken()
                 <div class="elementosCentralizados">
-                    <div style="width: 265px" class="elementosCentralizados">
+                    <div style="width:40%" class="elementosCentralizados">
                         @Html.LabelFor(m => m.Login)
                         @Html.TextBoxFor(m => m.Login)
                         @Html.ValidationMessageFor(m => m.Login)
@@ -24,20 +24,18 @@
                         @Html.LabelFor(m => m.Nome)
                         @Html.TextBoxFor(m => m.Nome)
                         @Html.ValidationMessageFor(m => m.Nome)
-
+                        
                         @Html.LabelFor(m => m.Email)
                         @Html.TextBoxFor(m => m.Email)
                         @Html.ValidationMessageFor(m => m.Email)
                         
-                        
                         @Html.Hidden("Codigo")
                         @Html.LabelFor(m => m.CodigoFornecedor)
-                        @Html.TextBoxFor(m => m.CodigoFornecedor, new { @readonly = true, @class = "campomedio campoDesabilitado" })
-                        <input type="button" id="btnSelecionarRepresentante" class="button_visualize"/>  
+                        @Html.TextBoxFor(m => m.CodigoFornecedor, new { @readonly = true, @class = "campomedio campoDesabilitado", style = "width:88%;" })
+                        <input type="button" id="btnSelecionarRepresentante" class="button_visualize" style="width: 16px!important"/>  
                         @Html.ValidationMessageFor(x => x.CodigoFornecedor)                                     
                         @Html.ValidationSummary(true)
                         <div class="error"></div>
-                        
                     </div>
                     <span class="error">
                         @if (ViewData["erro"] != null)
