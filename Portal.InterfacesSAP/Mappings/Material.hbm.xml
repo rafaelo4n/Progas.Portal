@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Portal.DadosSap"
+                   namespace="Portal.DadosSap.Entity" >
+
+  <class name="Material" table="pro_material">
+
+    <id name="pro_id_material" access="property" column="pro_id_material" type="Int32">
+      <generator class="identity">
+        <param name="identity">pro_id_material</param>
+      </generator>
+    </id>
+
+    <property name="Id_material" not-null="false" access="property" type="String">
+      <column name="Id_material" length="10" />
+    </property>
+
+    <property name="Id_centro" not-null="false" access="property" type="String">
+      <column name="Id_centro" length="4" />
+    </property>
+
+    <property name="Descricao" not-null="false" access="property" type="String">
+      <column name="Descricao" length="40" />
+    </property>
+
+    <property name="Tip_mat" not-null="false" access="property" type="String">
+      <column name="Tip_mat" length="4" />
+    </property>
+
+    <property name="Uni_med" not-null="false" access="property" type="String">
+      <column name="Uni_med" length="3" />
+    </property>
+
+    <property name="Peso_bru" not-null="false" access="property" type="String">
+      <column name="Peso_bru" length="13" />
+    </property>
+
+    <property name="Peso_liq" not-null="false" access="property" type="String">
+      <column name="Peso_liq" length="13" />
+    </property>
+
+    <property name="Volume" not-null="false" access="property" type="String">
+      <column name="Volume" length="13" />
+    </property>
+
+    <property name="Status_mat" not-null="false" access="property" type="String">
+      <column name="Status_mat" length="2" />
+    </property>
+
+    <property name="Data_criacao" not-null="false" access="property" type="DateTime">
+      <column name="Data_criacao"/>
+    </property>
+
+    <property name="Pacote" not-null="false" access="property" type="String">
+      <column name="Pacote" length="30" />
+    </property>
+
+    <property name="Hora_criacao" not-null="false" access="property" type="String">
+      <column name="Hora_criacao" length="8"/>
+    </property>
+
+  </class>
+
+</hibernate-mapping>

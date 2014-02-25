@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Portal.DadosSap"
+                   namespace="Portal.DadosSap.Entity" >
+
+  <class name="Cliente" table="pro_cliente">
+
+    <id name="pro_id_cliente" access="property" column="pro_id_cliente" type="Int32">
+      <generator class="identity">
+        <param name="identity">pro_id_cliente</param>
+      </generator>
+    </id>
+
+    <property name="Id_cliente" not-null="false" access="property" type="String">
+      <column name="Id_cliente" length="10" />
+    </property>
+
+    <property name="Nome" not-null="false" access="property" type="String">
+      <column name="Nome" length="35" />
+    </property>
+
+    <property name="Cpf" not-null="false" access="property" type="String">
+      <column name="Cpf" length="11" />
+    </property>
+
+    <property name="Cnpj" not-null="false" access="property" type="String">
+      <column name="Cnpj" length="16" />
+    </property>
+
+    <property name="Nr_ie_cli" not-null="false" access="property" type="String">
+      <column name="Nr_ie_cli" length="18" />
+    </property>
+
+    <property name="Cep" not-null="false" access="property" type="String">
+      <column name="Cep" length="10" />
+    </property>
+
+    <property name="Endereco" not-null="false" access="property" type="String">
+      <column name="Endereco" length="60" />
+    </property>
+
+    <property name="Numero" not-null="false" access="property" type="String">
+      <column name="Numero" length="10" />
+    </property>
+
+    <property name="Complemento" not-null="false" access="property" type="String">
+      <column name="Complemento" length="10" />
+    </property>
+
+    <property name="Municipio" not-null="false" access="property" type="String">
+      <column name="Municipio" length="40" />
+    </property>
+
+    <property name="Bairro" not-null="false" access="property" type="String">
+      <column name="Bairro" length="40" />
+    </property>
+
+    <property name="Uf" not-null="false" access="property" type="String">
+      <column name="Uf" length="3" />
+    </property>
+
+    <property name="Pais" not-null="false" access="property" type="String">
+      <column name="Pais" length="3" />
+    </property>
+
+    <property name="Tel_res" not-null="false" access="property" type="String">
+      <column name="Tel_res" length="16" />
+    </property>
+
+    <property name="Tel_cel" not-null="false" access="property" type="String">
+      <column name="Tel_cel" length="18" />
+    </property>
+
+    <property name="Fax" not-null="false" access="property" type="String">
+      <column name="Fax" length="31" />
+    </property>
+
+    <property name="Email" not-null="false" access="property" type="String">
+      <column name="Email" length="130" />
+    </property>
+
+    <property name="Data_criacao" not-null="false" access="property" type="DateTime">
+      <column name="Data_criacao"/>
+    </property>
+
+    <property name="Pacote" not-null="false" access="property" type="String">
+      <column name="Pacote" length="30" />
+    </property>
+
+    <property name="Hora_criacao" not-null="false" access="property" type="String">
+      <column name="Hora_criacao" length="8"/>
+    </property>
+
+  </class>
+
+</hibernate-mapping>

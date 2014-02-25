@@ -27,10 +27,9 @@ namespace Progas.Portal.UI.Controllers
                     if (pedido == null)
                     {
                         pedido = new List<PedidoVendaSalvarVm>();
-
                     }
                     _cadastroPedidoVenda.Salvar(pedido);
-                    return Json(new { Sucesso = true });
+                    return Json(new { Sucesso = true, pedido });
                 }
                 catch (Exception ex)
                 {

@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -36,7 +36,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -78,8 +78,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\intranet\Progas.Portal\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="sapnco, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\assembly\GAC_64\sapnco\v4.0_3.0.0.42__50436dca5c7f7d23\sapnco.dll</HintPath>
+    </Reference>
+    <Reference Include="sapnco_utils, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\assembly\GAC_64\sapnco_utils\v4.0_3.0.0.42__50436dca5c7f7d23\sapnco_utils.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -164,14 +172,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="bin\Debug\Progas.Portal.Application.dll.config" />
     <None Include="bin\x64\Debug\Progas.Portal.Application.dll.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
-    <None Include="Services\Implementations\app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Services\Implementations\app.config">
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -202,9 +212,6 @@
     <Content Include="bin\Debug\NHibernate.xml" />
     <Content Include="bin\Debug\nl\NHibernate.Validator.resources.dll" />
     <Content Include="bin\Debug\pl\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\Portal.DadosSap.exe" />
-    <Content Include="bin\Debug\Portal.DadosSap.pdb" />
-    <Content Include="bin\Debug\Progas.Portal.Application.dll" />
     <Content Include="bin\Debug\Progas.Portal.Application.pdb" />
     <Content Include="bin\Debug\Progas.Portal.Common.dll" />
     <Content Include="bin\Debug\Progas.Portal.Common.pdb" />
@@ -215,13 +222,10 @@
     <Content Include="bin\Debug\Progas.Portal.ViewModel.dll" />
     <Content Include="bin\Debug\Progas.Portal.ViewModel.pdb" />
     <Content Include="bin\Debug\pt-BR\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\sapnco.dll" />
-    <Content Include="bin\Debug\sapnco_utils.dll" />
     <Content Include="bin\Debug\System.Net.Http.Formatting.dll" />
     <Content Include="bin\Debug\System.Net.Http.Formatting.xml" />
     <Content Include="bin\Debug\System.Web.Http.dll" />
     <Content Include="bin\Debug\System.Web.Http.xml" />
-    <Content Include="bin\Release\libicudecnumber.dll" />
     <Content Include="bin\x64\Debug\de\NHibernate.Validator.resources.dll" />
     <Content Include="bin\x64\Debug\es\NHibernate.Validator.resources.dll" />
     <Content Include="bin\x64\Debug\fa\NHibernate.Validator.resources.dll" />
@@ -250,7 +254,9 @@
     <Content Include="bin\x64\Debug\pl\NHibernate.Validator.resources.dll" />
     <Content Include="bin\x64\Debug\Portal.DadosSap.exe" />
     <Content Include="bin\x64\Debug\Portal.DadosSap.pdb" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Application.dll" />
+    <Content Include="bin\x64\Debug\Progas.Portal.Application.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="bin\x64\Debug\Progas.Portal.Application.pdb" />
     <Content Include="bin\x64\Debug\Progas.Portal.Common.dll" />
     <Content Include="bin\x64\Debug\Progas.Portal.Common.pdb" />
@@ -261,8 +267,6 @@
     <Content Include="bin\x64\Debug\Progas.Portal.ViewModel.dll" />
     <Content Include="bin\x64\Debug\Progas.Portal.ViewModel.pdb" />
     <Content Include="bin\x64\Debug\pt-BR\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\sapnco.dll" />
-    <Content Include="bin\x64\Debug\sapnco_utils.dll" />
     <Content Include="bin\x64\Debug\System.Net.Http.Formatting.dll" />
     <Content Include="bin\x64\Debug\System.Net.Http.Formatting.xml" />
     <Content Include="bin\x64\Debug\System.Web.Http.dll" />
@@ -270,6 +274,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\x86\Debug\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

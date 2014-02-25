@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Props" Condition="Exists('..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -30,7 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -211,8 +212,9 @@
     <Content Include="bin\NHibernate.xml" />
     <Content Include="bin\nl\NHibernate.Validator.resources.dll" />
     <Content Include="bin\pl\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Progas.Portal.Application.dll" />
-    <Content Include="bin\Progas.Portal.Application.pdb" />
+    <Content Include="bin\Progas.Portal.Application.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="bin\Progas.Portal.Common.dll" />
     <Content Include="bin\Progas.Portal.Common.pdb" />
     <Content Include="bin\Progas.Portal.Domain.dll" />
@@ -228,8 +230,6 @@
     <Content Include="bin\Progas.Portal.ViewModel.pdb" />
     <Content Include="bin\pt-BR\NHibernate.Validator.resources.dll" />
     <Content Include="bin\Release\libicudecnumber.dll" />
-    <Content Include="bin\sapnco.dll" />
-    <Content Include="bin\sapnco.DLLEFADFAF.dll" />
     <Content Include="bin\StructureMap.dll" />
     <Content Include="bin\StructureMap.pdb" />
     <Content Include="bin\StructureMap.xml" />
@@ -525,11 +525,11 @@
       <Name>Progas.Portal.Application</Name>
     </ProjectReference>
     <ProjectReference Include="..\Progas.Portal.Common\Progas.Portal.Common.csproj">
-      <Project>{52496AC5-D00F-4AE4-84B9-06AD65DADB47}</Project>
+      <Project>{52496ac5-d00f-4ae4-84b9-06ad65dadb47}</Project>
       <Name>Progas.Portal.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Progas.Portal.Infra\Progas.Portal.Infra.csproj">
-      <Project>{77402211-516B-4CF9-A328-420B5A8854A7}</Project>
+      <Project>{77402211-516b-4cf9-a328-420b5a8854a7}</Project>
       <Name>Progas.Portal.Infra</Name>
     </ProjectReference>
     <ProjectReference Include="..\Progas.Portal.IoC\Progas.Portal.IoC.csproj">
@@ -575,7 +575,7 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <Prefer32Bit>false</Prefer32Bit>
@@ -605,6 +605,8 @@
           <DevelopmentServerPort>6900</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:3906/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:3906/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -614,6 +616,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Targets" Condition="Exists('..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
