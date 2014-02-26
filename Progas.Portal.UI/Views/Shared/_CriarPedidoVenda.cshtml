@@ -112,34 +112,30 @@
                           @Html.ValidationMessageFor(x => x.transredcif)                                                              
                           @Html.ValidationSummary(true)
                           <div class="error"></div>     
-                      </div> 
-                  
+                      </div>                   
                   </div>
-                  <div class="linha">
-                  
+                  <div class="linha">                  
                           @{ var inco1 = new ColunaComDropDown<PedidoVendaCadastroVm, string> 
-                                 (x => x.inco1,((List<IncotermCadastroVm>)ViewBag.Incoterms)
+                                 (x => x.inco1,((List<IncotermsCabCadastroVm>)ViewBag.Incoterms)
                                       .Select(x => new SelectListItem()
                                       {
                                           Text = x.Descricao,
-                                          Value = Convert.ToString(x.CodigoIncoterm),
-                                          Selected = Model != null && x.CodigoIncoterm == Model.inco1
+                                          Value = Convert.ToString(x.CodigoIncotermCab),
+                                          Selected = Model != null && x.CodigoIncotermCab == Model.inco1
                                       }
                                               ), "Inco1"
                                                   ); 
                            } 
                       <div class="coluna">                         
                            @Html.LinhaComUmaColuna(inco1)
-                      </div>            
-                    
-                     
-                          @{ var inco2 = new ColunaComDropDown<PedidoVendaCadastroVm, string> 
-                                 (x => x.inco2,((List<IncotermCadastroVm>)ViewBag.Incoterms)
+                      </div>                                                     
+                          @{ var inco2 = new ColunaComDropDown<PedidoVendaCadastroVm, string>
+                                 (x => x.inco2, ((List<IncotermLinhasCadastroVm>)ViewBag.IncotermsLinhas)
                                       .Select(x => new SelectListItem()
                                       {
-                                          Text = x.Descricao,
-                                          Value = Convert.ToString(x.CodigoIncoterm),
-                                          Selected = Model != null && x.CodigoIncoterm == Model.inco2
+                                          Text = x.IncotermLinha,
+                                          Value = Convert.ToString(x.CodigoIncotermCab),
+                                          Selected = Model != null && x.CodigoIncotermCab == Model.inco2
                                       }
                                               ), "Inco2"
                                                   ); 
@@ -147,7 +143,6 @@
                       <div class="coluna"> 
                           @Html.LinhaComUmaColuna(inco2)
                       </div>
-
                       @{ var id_cliente = new ColunaComDropDown<PedidoVendaCadastroVm, string>
                                          (x => x.id_cliente, ((List<ClienteCadastroVm>)ViewBag.Clientes)
 										      .Select(x => new SelectListItem()
@@ -162,7 +157,6 @@
                       <div class="coluna">   
                           @Html.LinhaComUmaColuna(id_cliente)
                       </div>
-
                       @{ var id_centro = new ColunaComDropDown<PedidoVendaCadastroVm, string>
                                          (x => x.id_centro, ((List<MaterialCadastroVm>)ViewBag.Centro)
 										      .Select(x => new SelectListItem()
@@ -271,9 +265,7 @@
                 <div @*class="divGrid"*@>
                     <div id="gridLinhasAdicionadas" style="width: 785px" class="divGrid" ></div>    
                 </div>
-        </fieldset>
-        
-
+        </fieldset>        
     }
         <!-- Div da janela de Tipo de Pedido-->  
         <div id="divSelecionarTipoPedido" class="janelaModal"></div>
@@ -298,9 +290,7 @@
         var status  = 0;
         var simular = "S"
         var gravar  = "G";
-        
-        
-
+                
         $(function () {
             aplicaMascaraData();
             aplicaMascaraQuantidade();
@@ -310,7 +300,6 @@
 
             // botao de edicao nas linhas do grid
             $('#btnCancelarEdicao').hide();
-
             // Botao de editar Pedido
             $('#btnGravarEdicao').hide();
             $('#btnSimularEdicao').hide();
@@ -376,7 +365,6 @@
                     linhasAdicionadas[indiceEdicao] = fornecedor;
                     encerrarEdicao();
                 }
-
                 atualizaGrid();
             });
 
@@ -510,11 +498,9 @@
                 //$('#um').val(quota.UnidadeMedida);
                 $('#listapreco').val(quota.listapreco);
                 $('#descma').val(quota.Desconto);
-
                 $('#btnAdicionarFornecedor').val('Atualizar');
                 $('#btnCancelarEdicao').show();
             });                                           
-
 
             //
             // Funcao do Botao de Simular o Pedido
@@ -551,7 +537,6 @@
                     });
                 });
 
-
                 //
                 // Chamada do Controller reponsalvel por salvar o pedido.                
                 $.ajax({
@@ -566,18 +551,17 @@
                             Mensagem.ExibirMensagemDeSucesso("A Simulação do pedido foi salva com sucesso.");
                             quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
                             return;
-                        } else {
+                        }
+                        else
+                        {
                             Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Inserir os itens');
                         }
-
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
                     }
                 });
-
             });
-
 
             //
             // Funcao do Botao de salvar o Pedido
@@ -587,7 +571,6 @@
                     Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de salvar.');
                     return;
                 }        
-
                 // Grava no array os dados que serão salvos
                 var pedidoParaSalvar = new Array();
                 $.each(linhasAdicionadas, function (indice, quota) {
@@ -614,7 +597,6 @@
                     });                   
                 });
 
-
                 //
                 // Chamada do Controller reponsalvel por salvar o pedido.                
                 $.ajax({
@@ -629,10 +611,11 @@
                             Mensagem.ExibirMensagemDeSucesso("O pedido foi gravado com sucesso.");
                             quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
                             return;
-                        } else {
+                        }
+                        else
+                        {
                             Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Inserir os itens' );
                         }
-
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
@@ -640,7 +623,6 @@
                 });
 
             });
-
             function habilitarCampoData() {
                 $('#Data')
                     .attr('readonly', false)
@@ -677,15 +659,12 @@
             // Fim da funcao de Limpas os dados da Tela
             //
 
-
             //
             // Funcao do Botao que copia os dados de uma cotacao para tela.
             // 
             $('#btnCopiar').click(function () {
                 // Grava o o numero da cotacao
-                var id_cotacao = $('#id_cotacao').val();
-                
-
+                var id_cotacao = $('#id_cotacao').val();                
                 // Verifica se foi digitado o numero da Cotacao
                 if (id_cotacao == 0) {
                     Mensagem.ExibirMensagemDeErro('Deve ser digito o numero da Cotação para a pesquisa.');
@@ -744,8 +723,6 @@
                         $('#Inco2').val(data.inco2);
                         $('#obs').val(data.obs);
 
-
-                        
                         //
                         // alterar mais tarde pelo id_cotacao (Caso encontra dados no cabecalho, carregas as linhas do pedido do representante                                              
                         var cotacao = $('#CodigoTipoPedido').val();
@@ -767,11 +744,8 @@
                                         $('#Quant').val(value.Quant);
                                         $('#listapreco').val(value.listpre);
                                         $('#descma').val(value.descma);
-
                                         $('#btnAdicionarFornecedor').click();
-
                                     });
-
                                 },
                                 error: function (jqXHR, textStatus, errorThrown) {
                                     Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Linhas da Contacao: ' + textStatus + errorThrown);
@@ -797,15 +771,12 @@
             // Editar Pedido
             //
             if ('@ViewBag.Pedido' != 0) {
-
                 // Desabita Botao de Salvar e Simular Pedido
                 $('#btnGravar').hide();
                 $('#btnSimular').hide();
-
                 // Habilita Botao de Salvar e Simular  Edicao
                 $('#btnGravarEdicao').show();
                 $('#btnSimularEdicao').show();
-
                 // Executa funcao de copiar dados da cotacao que sera atualizada para Tela
                 var cotacao = '@ViewBag.Pedido';
                 $('#id_cotacao').val(cotacao);
@@ -824,11 +795,8 @@
 
                     // Grava no array os dados que serão salvos
                     var pedidoParaSalvar = new Array();
-
-                    /*var numeroPedido = $('#id_pedido').val().trim();*/
-                    var pedido = $('#id_pedido').val()
-
-                    var numeroPedido = rtrim(pedido);
+                    var pedido           = $('#id_pedido').val()
+                    var numeroPedido     = rtrim(pedido);
                     
                     $.each(linhasAdicionadas, function (indice, quota) {
                         pedidoParaSalvar.push({
@@ -856,7 +824,6 @@
                         });
                     });
 
-
                     //
                     // Chamada do Controller reponsalvel por salvar o pedido.                
                     $.ajax({
@@ -867,20 +834,20 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
                     success: function (data) {
-                        if (data.Sucesso) {
-                            Mensagem.ExibirMensagemDeSucesso("A edição do pedido foi gravada com sucesso.");
-                            quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
-                            return;
-                        } else {
-                            Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Atualizar os itens');
+                            if (data.Sucesso) {
+                                Mensagem.ExibirMensagemDeSucesso("A edição do pedido foi gravada com sucesso.");
+                                quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
+                                return;
+                            }
+                            else
+                            {
+                                Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Atualizar os itens');
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
                         }
-
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
-                    }
-                });
-
+                    });
                 });
 
                 //
@@ -894,11 +861,8 @@
 
                     // Grava no array os dados que serão salvos
                     var pedidoParaSalvar = new Array();
-
-                    /*var numeroPedido = $('#id_pedido').val().trim();*/
-                    var pedido = $('#id_pedido').val()
-
-                    var numeroPedido = rtrim(pedido);
+                    var pedido           = $('#id_pedido').val()
+                    var numeroPedido     = rtrim(pedido);
 
                     $.each(linhasAdicionadas, function (indice, quota) {
                         pedidoParaSalvar.push({
@@ -926,7 +890,6 @@
                         });
                     });
 
-
                     //
                     // Chamada do Controller reponsalvel por salvar o pedido.                
                     $.ajax({
@@ -950,14 +913,11 @@
                             Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
                         }
                     });
-
-                });
-                
+                });                
             }
             //
             // Fim Editar Pedido
             //         
-
         });
     </script>
 

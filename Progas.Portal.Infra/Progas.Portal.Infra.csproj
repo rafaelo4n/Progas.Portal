@@ -137,7 +137,9 @@
     <Compile Include="Mappings\ClienteVendasMap.cs" />
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />
     <Compile Include="Mappings\FornecedorMap.cs" />
+    <Compile Include="Mappings\IncotermLinhasMap.cs" />
     <Compile Include="Mappings\IncotermMap.cs" />
+    <Compile Include="Mappings\IncotermsCabMap.cs" />
     <Compile Include="Mappings\ListaPrecoMap.cs" />
     <Compile Include="Mappings\MaterialMap.cs" />
     <Compile Include="Mappings\PedidoVendaLinhaMap.cs" />
@@ -158,6 +160,8 @@
     </Compile>
     <Compile Include="Repositories\Contracts\IClientes.cs" />
     <Compile Include="Repositories\Contracts\IClienteVendas.cs" />
+    <Compile Include="Repositories\Contracts\IIncotermsCabs.cs" />
+    <Compile Include="Repositories\Contracts\IIncotermsLinhascs.cs" />
     <Compile Include="Repositories\Contracts\IPedidosVendaLinha.cs" />
     <Compile Include="Repositories\Contracts\IIncoterms.cs" />
     <Compile Include="Repositories\Contracts\IListasPreco.cs" />
@@ -173,6 +177,8 @@
     <Compile Include="Repositories\Implementations\Clientes.cs" />
     <Compile Include="Repositories\Implementations\ClienteVendas.cs" />
     <Compile Include="Repositories\Implementations\Incoterms.cs" />
+    <Compile Include="Repositories\Implementations\IncotermsCabs.cs" />
+    <Compile Include="Repositories\Implementations\IncotermsLinhas.cs" />
     <Compile Include="Repositories\Implementations\ListasPreco.cs" />
     <Compile Include="Repositories\Implementations\Materiais.cs" />
     <Compile Include="Repositories\Implementations\CompleteRepositoryNh.cs" />

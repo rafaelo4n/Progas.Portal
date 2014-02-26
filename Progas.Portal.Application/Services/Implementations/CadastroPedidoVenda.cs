@@ -257,7 +257,6 @@ namespace Progas.Portal.Application.Services.Implementations
             {                
                 if (repositorydestination == destinationName)
                 {
-
                     RfcConfigParameters parms = new RfcConfigParameters();
                     parms.Add(RfcConfigParameters.AppServerHost, appserverhost);
                     parms.Add(RfcConfigParameters.SAPRouter,     saprouter);

@@ -90,6 +90,8 @@
     <Compile Include="Entities\Fornecedor.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
     <Compile Include="Entities\Incoterm.cs" />
+    <Compile Include="Entities\IncotermCab.cs" />
+    <Compile Include="Entities\IncotermLinhas.cs" />
     <Compile Include="Entities\LinhaPedido.cs" />
     <Compile Include="Entities\ListaPreco.cs" />
     <Compile Include="Entities\Material.cs" />

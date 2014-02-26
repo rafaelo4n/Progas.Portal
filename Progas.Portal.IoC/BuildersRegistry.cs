@@ -44,6 +44,14 @@ namespace Progas.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<IncotermCadastroBuilder>();
 
+            For<IBuilder<IncotermCab, IncotermsCabCadastroVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<IncotermsCabCadastroBuilder>();
+
+            For<IBuilder<IncotermLinhas, IncotermLinhasCadastroVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<IncotermsLinhasCadastroBuilder>();
+
             For<IBuilder<Fornecedor, FornecedorCadastroVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<FornecedorCadastroBuilder>();

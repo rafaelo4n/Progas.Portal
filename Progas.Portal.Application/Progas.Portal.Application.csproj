@@ -107,6 +107,8 @@
     <Compile Include="Queries\Builders\IBuilderMulti.cs" />
     <Compile Include="Queries\Builders\CondicaoPagamentoCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\IncotermCasdastroBuilder.cs" />
+    <Compile Include="Queries\Builders\IncotermsCabCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\IncotermsLinhasCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\ListaPrecoCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\MaterialCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\PedidoVendaCadastroBuilder.cs" />
@@ -118,6 +120,8 @@
     <Compile Include="Queries\Builders\IBuilder.cs" />
     <Compile Include="Queries\Contracts\IConsultaCliente.cs" />
     <Compile Include="Queries\Contracts\IConsultaIncoterm.cs" />
+    <Compile Include="Queries\Contracts\IConsultaIncotermCab.cs" />
+    <Compile Include="Queries\Contracts\IConsultaIncotermLinhas.cs" />
     <Compile Include="Queries\Contracts\IConsultaListaPreco.cs" />
     <Compile Include="Queries\Contracts\IConsultaMaterial.cs" />
     <Compile Include="Queries\Contracts\IConsultaPedidoVenda.cs" />
@@ -134,6 +138,8 @@
     <Compile Include="Queries\Implementations\ConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaIncoterm.cs" />
+    <Compile Include="Queries\Implementations\ConsultaIncotermCab.cs" />
+    <Compile Include="Queries\Implementations\ConsultaIncotermLinhas.cs" />
     <Compile Include="Queries\Implementations\ConsultaListaPreco.cs" />
     <Compile Include="Queries\Implementations\ConsultaMaterial.cs" />
     <Compile Include="Queries\Implementations\ConsultaPedidoVenda.cs" />

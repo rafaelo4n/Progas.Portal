@@ -88,6 +88,8 @@
     <Compile Include="CotacaoFiltroVm.cs" />
     <Compile Include="FornecedorFiltroVm.cs" />
     <Compile Include="IncotermCadastroVm.cs" />
+    <Compile Include="IncotermLinhasCadastroVm.cs" />
+    <Compile Include="IncotermsCabCadastroVm.cs" />
     <Compile Include="ListaPrecoCadastroVm.cs" />
     <Compile Include="MaterialCadastroVm.cs" />
     <Compile Include="MaterialDeCargaVm.cs" />
