@@ -138,6 +138,12 @@ $.fn.customKendoGrid = function (configuracao) {
     configuracao.dataSource.pageSize = 10;
 
     this.kendoGrid(configuracao);
+
+    this.data("kendoGrid").obterRegistroSelecionado = function () {
+        var linhaSelecionada = this.select();
+        return this.dataItem(linhaSelecionada);
+    };
+
 };
 
 $.fn.customDialog = function (configuracao) {
@@ -154,6 +160,50 @@ $.fn.customDialog = function (configuracao) {
     }
 
     this.dialog(configuracao);
+};
+
+$.fn.customLoad = function (url, callBack) {
+
+    var divParaCarregar = this;
+
+    var larguraDaViewPort = $(window).width();
+
+    if (larguraDaViewPort > 800) {
+        $(divParaCarregar).dialog("option", "width", 800);
+    } else {
+        $(divParaCarregar).dialog("option", "width", '99%');
+    }
+
+    this.load(url, function (responseText, textStatus, xmlHttpRequest) {
+        var contentType = xmlHttpRequest.getResponseHeader('Content-Type');
+        if (contentType.indexOf("json") > -1) {
+            if (sessaoEstaExpirada(xmlHttpRequest)) {
+                return;
+            }
+        }
+        if (callBack) {
+            callBack();
+        }
+
+        divParaCarregar.dialog("open");
+    });
+
+};
+
+$.fn.serializeObject = function () {
+    var inputs = $(this).find(":input");
+    var object = {};
+    $.each(inputs, function (index, input) {
+        var valorDoInput;
+        if ($(input).attr('type') == 'checkbox') {
+            valorDoInput = $(input).is(':checked');
+        } else {
+            valorDoInput = $(input).val();
+        }
+        object[input.name] = valorDoInput;
+    });
+
+    return object;
 };
 
 
@@ -358,12 +408,41 @@ $(function () {
 });
 
 $(document).ajaxComplete(function (event, request, ajaxOptions) {
-    if (ajaxOptions.dataType != "json") {
-        return;
-    }
-    var resposta = JSON.parse(request.responseText);
-    if (resposta.SessaoExpirada) {
-        Mensagem.ExibirMensagemDeErro(resposta.Mensagem);
-        location.href = resposta.ReturnUrl;
+    if (responseIsJsonDataType(ajaxOptions)) {
+        sessaoEstaExpirada(request, ajaxOptions);
     }
 });
+
+function trataFalhaEmRequisicoesAjax(jqXHR) {
+    if (jqXHR.getResponseHeader('Content-Type').indexOf('html') > -1) {
+        Mensagem.ExibirJanelaComHtml(jqXHR.responseText);
+    } else {
+        Mensagem.ExibirMensagemDeErro(jqXHR.responseText);
+    }
+}
+
+$.ajaxSetup({
+    cache: false
+});
+
+function responseIsJsonDataType(ajaxOptions) {
+    return (ajaxOptions.dataType == "json")
+        || (ajaxOptions.dataTypes && ajaxOptions.dataTypes.indexOf("json") > -1);
+}
+
+function sessaoEstaExpirada(request) {
+
+    var sessaoExpirada = false;
+
+    var resposta = $.parseJSON(request.responseText);
+    if (resposta.SessaoExpirada) {
+        sessaoExpirada = true;
+        Mensagem.ExibirMensagemDeErro(resposta.Mensagem, function () {
+            location.href = resposta.ReturnUrl;
+        });
+
+    }
+
+    return sessaoExpirada;
+
+}

@@ -184,6 +184,13 @@ namespace Progas.Portal.UI.Helpers
             _formatacao = formatacao;
         }
 
+        public ColunaComLabel(Expression<Func<TModel, TValue>> expressao, object labelAtributes)
+            : base(expressao,null,labelAtributes,false)
+        {
+        }
+
+
+
 
         public override MvcHtmlString GeraInput()
         {

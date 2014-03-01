@@ -49,5 +49,34 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             }
             return this;
         }
+
+        public IClientes ComCnpj(string cnpj)
+        {
+            if (!string.IsNullOrEmpty(cnpj))
+            {
+                Query = Query.Where(x => x.Cnpj == cnpj);
+            }
+            return this;
+
+        }
+
+        public IClientes MunicipioContendo(string municipio)
+        {
+            if (!string.IsNullOrEmpty(municipio))
+            {
+                Query = Query.Where(x => x.Municipio.ToLower().Contains(municipio.ToLower()));
+
+            }
+            return this;
+        }
+
+        public IClientes ComCpf(string cpf)
+        {
+            if (!string.IsNullOrEmpty(cpf))
+            {
+                Query = Query.Where(x => x.Cpf == cpf);
+            }
+            return this;
+        }
     }
 }

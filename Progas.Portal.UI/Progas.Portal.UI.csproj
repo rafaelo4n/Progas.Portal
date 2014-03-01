@@ -151,6 +151,8 @@
     <Compile Include="Controllers\PedidoVendaController.cs" />
     <Compile Include="Controllers\ModelBinders\DateTimeModelBinder.cs" />
     <Compile Include="Controllers\PedidoVendaSalvarController.cs" />
+    <Compile Include="Controllers\SelecaoDeProdutoController.cs" />
+    <Compile Include="Controllers\SelecionarClienteController.cs" />
     <Compile Include="Controllers\SelecionarFornecedorController.cs" />
     <Compile Include="Controllers\SelecionarRepresentanteController.cs" />
     <Compile Include="Controllers\SelecionarTransRedespachoCifController.cs" />
@@ -258,7 +260,7 @@
     <Content Include="bin\WebMatrix.Data.xml" />
     <Content Include="bin\WebMatrix.WebData.dll" />
     <Content Include="bin\WebMatrix.WebData.xml" />
-    <Content Include="Content\CheckHeader.css" />
+    <Content Include="Content\Botoes.css" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\progas.JPG" />
     <Content Include="Content\jquery.loadmask.css" />
@@ -307,6 +309,7 @@
     <Content Include="Content\kendo\2012.3.1114\textures\stripe4.png" />
     <Content Include="Content\kendo\2012.3.1114\textures\stripe5.png" />
     <Content Include="Content\kendo\2012.3.1114\textures\stripe6.png" />
+    <Content Include="Content\Modal.css" />
     <Content Include="Content\Relatorio.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -457,6 +460,8 @@
     <Content Include="Scripts\methods_pt.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\scriptsGerais.js" />
+    <Content Include="Scripts\Shared\SelecionarCliente.js" />
+    <Content Include="Scripts\Shared\SelecionarProduto.js" />
     <Content Include="Scripts\Shared\SelecionarRepresentante.js" />
     <Content Include="Scripts\Shared\SelecionarTransRedespachoCif.js" />
     <Content Include="Scripts\Shared\SelecionarTransRedespacho.js" />
@@ -511,6 +516,8 @@
     <Content Include="Views\Cadastros\_Fornecedor.cshtml" />
     <Content Include="Views\PedidoVenda\ConsultarLinhasPedido.cshtml" />
     <Content Include="Views\Usuario\CadastrarUsuario.cshtml" />
+    <Content Include="Views\Shared\_SelecionarCliente.cshtml" />
+    <Content Include="Views\Shared\_SelecionarProduto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

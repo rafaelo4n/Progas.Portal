@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="AlterarSenhaVm.cs" />
     <Compile Include="ClienteCadastroVm.cs" />
+    <Compile Include="ClienteDoPedidoDeVendaVm.cs" />
     <Compile Include="ClienteFiltroVm.cs" />
     <Compile Include="CondicaoPagamentoFiltroVm.cs" />
     <Compile Include="CotacaoFiltroVm.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="TipoPedidoCadastroVm.cs" />
     <Compile Include="TipoPedidoFiltroVm.cs" />
     <Compile Include="TipoPedidoVm.cs" />
+    <Compile Include="TransportadoraDoPedidoDeVenda.cs" />
     <Compile Include="TransRedespachoCadastroVm.cs" />
     <Compile Include="TransRedespachoCifCadastroVm.cs" />
     <Compile Include="TransRedespachoCifFiltro.cs" />

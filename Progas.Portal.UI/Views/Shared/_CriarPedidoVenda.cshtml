@@ -1,5 +1,4 @@
-﻿@using Progas.Portal.Common
-@using Progas.Portal.UI.Helpers
+﻿@using Progas.Portal.UI.Helpers
 @using Progas.Portal.ViewModel
 @model PedidoVendaCadastroVm
 
@@ -16,267 +15,207 @@
         <!-- Realiza a pequisa de cotações para carregar seus dados -->           
         <fieldset>
             <legend>Pesquisa Cotação</legend> 
-                <div id="Copiar" class="divBotaoCopiar">
-                    <div class="coluna">
-                        @Html.LabelFor(x => x.id_cotacao)
-                        @Html.TextBoxFor(x => x.id_cotacao)
-                        @Html.ValidationMessageFor(x => x.id_cotacao)
-                    </div>
-                    <div class="coluna">
-                        @Html.LabelFor(x => x.status)
-                        @Html.TextBoxFor(x => x.status,new{@readonly=true,@class="campoDesabilitado campomedio"})
-                        @Html.ValidationMessageFor(x => x.status)
-                    </div>
-                    <div class="coluna">
-                        <input type="button" id="btnCopiar" value="Copiar" class="blue" />
-                        <input type="button" id="btnNovo"   value="Novo"   class="blue" />
-                    </div>
-                </div>                                 
+            <div id="Copiar" class="divBotaoCopiar linha">
+                <div class="coluna3">
+                    @Html.LabelFor(x => x.id_cotacao)
+                    @Html.TextBoxFor(x => x.id_cotacao,"campopequeno")
+                    <input type="button" id="btnCopiar" value="Copiar" class="blue" />
+                    <input type="button" id="btnNovo"   value="Novo"   class="blue" />
+                    @Html.ValidationMessageFor(x => x.id_cotacao)
+                </div>
+                <div class="coluna3">
+                    @Html.LabelFor(x => x.status)
+                    @Html.TextBoxFor(x => x.status,new{@readonly=true,@class="campoDesabilitado campomedio"})
+                </div>
+                <div class="coluna3">
+                    @Html.LabelFor(x => x.vlrtot)
+                    @Html.TextBoxFor(x => x.vlrtot,new{@readonly=true,@class="campoDesabilitado campomedio"})
+                </div>
+            </div>                                 
         </fieldset>
         <!-- Dados do Header-->   
         <fieldset>
-           <legend>Dados de Cabeçalho</legend>
-            <div id="Cabecalho">               
-                  <!-- Linhas do forms -->                         
-                  <div class="linha">
-                       @{ var CodigoTipoPedido = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                                         (x => x.CodigoTipoPedido, ((List<TipoPedidoCadastroVm>)ViewBag.TipoPedidos)
-										      .Select(x => new SelectListItem()
-										      {
-											      Text = x.Descricao,
-                                                  Value = Convert.ToString(x.Codigo),
-                                                  Selected = Model != null && x.Codigo == Model.CodigoTipoPedido
-										      }
-                                                      ), "CodigoTipoPedido"
-													      ); 
-					   }  
-                      <div class="coluna"> 
-                         @Html.LinhaComUmaColuna(CodigoTipoPedido)                    
-                     </div>
-                  
-                     <!-- CondicaoDePagamentoCadastroVm     =  View que sera utilizada para carregar os valores da Query -->
-                     <!-- PedidoVendaCadastroVm  - condpgto =  Campo que recebe o valor do select -->   
-                      @{ var condpgto = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                                         (x => x.condpgto, ((List<CondicaoDePagamentoCadastroVm>)ViewBag.CondicoesDePagamento)
-										      .Select(x => new SelectListItem()
-										      {
-											      Text = x.Descricao,
-                                                  Value = Convert.ToString(x.Codigo),
-                                                  Selected = Model != null && x.Codigo == Model.condpgto
-										      }
-                                                      ), "condpgto"
-													      ); 
-				      }                                      
-                     <div class="coluna">   
-                         @Html.LinhaComUmaColuna(condpgto)   
-                     </div>   
-                                  
-                      <div class="coluna" >
-                          @Html.LabelFor(x => x.datap)
-                          @Html.TextBoxFor(x => x.datap,new{@class="campoDatePicker maskdata"})
-                          @Html.ValidationMessageFor(x => x.datap)
-                      </div>    
-                      <div class="coluna">
-                            @Html.LabelFor(x => x.id_pedido)
-                            @Html.TextBoxFor(x => x.id_pedido,"campomedio") 
-                            @Html.ValidationMessageFor(x => x.id_pedido)
-                       </div>                                                                                                                     
-                  </div>                                                       
-                  <div class="linha">
-                      <!-- Campo de Fornecedor transportadora--> 
-                      <div class="coluna" >                
-                          @Html.Hidden("CodigoFornecedor")
-                          @Html.LabelFor(x => x.trans)
-                          @Html.TextBoxFor(x => x.trans, new {  @readonly = true, @class = "campomedio campoDesabilitado" })
-                          <input type="button" id="btnSelecionarFornecedor" class="button_visualize" />        
-                          @Html.ValidationMessageFor(x => x.trans)                                     
-                          @Html.ValidationSummary(true)                         
-                          <div class="error"></div>   
-                      </div> 
-                      <!-- Campo de Transportadora Redespacho--> 
-                      <div class="coluna" >                                                            
-                          @Html.Hidden("Codigotransred")
-                          @Html.LabelFor(x => x.transred)
-                          @Html.TextBoxFor(x => x.transred, new { @readonly = true, @class = "campomedio campoDesabilitado" })
-                          <input type="button" id="btnSelecionarTransred" class="button_visualize" />        
-                          @Html.ValidationMessageFor(x => x.transred)                                                              
-                          @Html.ValidationSummary(true)
-                          <div class="error"></div>     
-                      </div>
-                      <!-- Campo de Transportadora Redespacho Cif--> 
-                      <div class="coluna" >                
-                          @Html.Hidden("Codigotransredcif")
-                          @Html.LabelFor(x => x.transredcif)
-                          @Html.TextBoxFor(x => x.transredcif, new { @readonly = true, @class = "campomedio campoDesabilitado" })
-                          <input type="button" id="btnSelecionarTransredCif" class="button_visualize" />        
-                          @Html.ValidationMessageFor(x => x.transredcif)                                                              
-                          @Html.ValidationSummary(true)
-                          <div class="error"></div>     
-                      </div> 
-                  
-                  </div>
-                  <div class="linha">
-                  
-                          @{ var inco1 = new ColunaComDropDown<PedidoVendaCadastroVm, string> 
-                                 (x => x.inco1,((List<IncotermCadastroVm>)ViewBag.Incoterms)
-                                      .Select(x => new SelectListItem()
-                                      {
-                                          Text = x.Descricao,
-                                          Value = Convert.ToString(x.CodigoIncoterm),
-                                          Selected = Model != null && x.CodigoIncoterm == Model.inco1
-                                      }
-                                              ), "Inco1"
-                                                  ); 
-                           } 
-                      <div class="coluna">                         
-                           @Html.LinhaComUmaColuna(inco1)
-                      </div>            
-                    
-                     
-                          @{ var inco2 = new ColunaComDropDown<PedidoVendaCadastroVm, string> 
-                                 (x => x.inco2,((List<IncotermCadastroVm>)ViewBag.Incoterms)
-                                      .Select(x => new SelectListItem()
-                                      {
-                                          Text = x.Descricao,
-                                          Value = Convert.ToString(x.CodigoIncoterm),
-                                          Selected = Model != null && x.CodigoIncoterm == Model.inco2
-                                      }
-                                              ), "Inco2"
-                                                  ); 
+            <legend>Dados de Cabeçalho</legend>
+            <div id="Cabecalho">
+                
+                @{ var codigoTipoPedido = new ColunaComDropDown<PedidoVendaCadastroVm, string>
+                       (x => x.CodigoTipoPedido, ((List<TipoPedidoCadastroVm>)ViewBag.TipoPedidos)
+                           .Select(x => new SelectListItem()
+                           {
+                               Text = x.Descricao,
+                               Value = Convert.ToString(x.Codigo),
+                               Selected = Model != null && x.Codigo == Model.CodigoTipoPedido
                            }
-                      <div class="coluna"> 
-                          @Html.LinhaComUmaColuna(inco2)
-                      </div>
+                           ), "CodigoTipoPedido"
+                       );
 
-                      @{ var id_cliente = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                                         (x => x.id_cliente, ((List<ClienteCadastroVm>)ViewBag.Clientes)
-										      .Select(x => new SelectListItem()
-										      {
-                                                  Text = x.nome,
-                                                  Value = Convert.ToString(x.id_cliente),                                                  
-                                                  Selected = Model != null && x.id_cliente == Model.id_cliente
-										      }
-                                                      ), "id_cliente"
-													      ); 
-				      }
-                      <div class="coluna">   
-                          @Html.LinhaComUmaColuna(id_cliente)
-                      </div>
+                    var buscaDeCliente = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>
+                        (x => x.id_cliente, new { @class = "campomedio campoDesabilitado" }, "btnBuscarCliente", "button_visualize");                  
+                           
+                } 
+                
+                @Html.LinhaComCincoColunas(codigoTipoPedido, buscaDeCliente, 
+                new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Cliente.Nome,"campogrande campoDesabilitado"),
+                new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Cliente.Cnpj, "campogrande campoDesabilitado"),
+                new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Cliente.Telefone, "campogrande campoDesabilitado"))
 
-                      @{ var id_centro = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                                         (x => x.id_centro, ((List<MaterialCadastroVm>)ViewBag.Centro)
-										      .Select(x => new SelectListItem()
-										      {
-                                                  Text = x.Centro,
-                                                  Value = Convert.ToString(x.Centro),
-                                                  Selected = Model != null && x.Centro == Model.id_centro
-										      }
-                                                      ), "id_centro"
-													      ); 
-				      }
-                      <div class="coluna">   
-                          @Html.LinhaComUmaColuna(id_centro)
-                      </div>                                                                                                                
-                  </div> 
-                </div> 
-                  <div class="linha">
-                      <div class="coluna">
-                          @Html.LabelFor(x => x.obs)
-                          @Html.TextBoxFor(x => x.obs,"campomedio") 
-                          @Html.ValidationMessageFor(x => x.obs)   
-                      </div>
-                      <div class="coluna">
-                            @Html.LabelFor(x => x.motrec)
-                            @Html.TextBoxFor(x => x.motrec,new{@readonly=true,@class="campoDesabilitado campomedio"})
-                            @Html.ValidationMessageFor(x => x.motrec)   
-                       </div>
-                   </div>
-                              
-                  <div class="divBotaoGravar">
-                     <input type="button" id="btnSimular"             value="Simular"          class="blue"/>
-                     <input type="button" id="btnSimularEdicao"       value="Simular Edição"   class="blue"/>
-                     <input type="button" id="btnGravar"              value="Gravar"           class="blue"/>
-                     <input type="button" id="btnGravarEdicao"        value="Gravar Edição"    class="blue"/>
-                     <input type="button" id="btnAdicionarFornecedor" value="Adicionar"        class="blue" />
-                     <input type="button" id="btnCancelarEdicao"      value="Cancelar" @*style="visibility: hidden"*@ class="blue" />
-                  </div>                                 
+                
+                @{
+                    var areasDeVendas = new List<string> {"1000-10-10", "1000-10-20"};
+                    var comboDeAreaDeVendas = new ColunaComDropDown<PedidoVendaCadastroVm, string>
+                        (x => x.CodigoTipoPedido, areasDeVendas
+                            .Select(x => new SelectListItem()
+                            {
+                                Text = x,
+                                Value = x,
+                                Selected = Model != null && x == Model.AreaDeVenda
+                            }
+                            ), "AreaDeVenda"
+                        );
+                           
+                    var condpgto = new ColunaComDropDown<PedidoVendaCadastroVm, string>
+                        (x => x.condpgto, ((List<CondicaoDePagamentoCadastroVm>)ViewBag.CondicoesDePagamento)
+                            .Select(x => new SelectListItem()
+                            {
+                                Text = string.Format("{0} - {1}",x.Codigo,x.Descricao) ,
+                                Value = Convert.ToString(x.Codigo),
+                                Selected = Model != null && x.Codigo == Model.condpgto
+                            }
+                            ), "condpgto"
+                        );                            
+                }
+                
+                @Html.LinhaComCincoColunas(comboDeAreaDeVendas,
+                    new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.id_centro,"campomedio campoDesabilitado"),
+                    condpgto,
+                    new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.datap, "campomedio campoDatePicker maskdata"),
+                    new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.id_pedido,"campomedio")
+                    )
+                
+                @{
+                    var inco1 = new ColunaComDropDown<PedidoVendaCadastroVm, string> 
+                        (x => x.inco1,((List<IncotermCadastroVm>)ViewBag.Incoterms)
+                            .Select(x => new SelectListItem()
+                            {
+                                Text = x.Descricao,
+                                Value = Convert.ToString(x.CodigoIncoterm),
+                                Selected = Model != null && x.CodigoIncoterm == Model.inco1
+                            }
+                            ), "Inco1"
+                        );
+
+                    var inco2 = new ColunaComDropDown<PedidoVendaCadastroVm, string>
+                        (x => x.inco2, ((List<IncotermCadastroVm>)ViewBag.Incoterms)
+                            .Select(x => new SelectListItem()
+                            {
+                                Text = x.Descricao,
+                                Value = Convert.ToString(x.CodigoIncoterm),
+                                Selected = Model != null && x.CodigoIncoterm == Model.inco2
+                            }
+                            ), "Inco2"
+                        );
+
+                    var buscaDeTransportadora = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.Transportadora.Codigo,
+                        new { @readonly = true, @class = "campomedio campoDesabilitado" }, "btnSelecionarTransportadora", "button_visualize");
+
+                    var campoComNomeDaTransportadora = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Transportadora.Nome,"campogrande campoDesabilitado");
+                       
+                }
+                
+                @Html.LinhaComQuatroColunas(inco1, inco2, buscaDeTransportadora, campoComNomeDaTransportadora)
+                
+                @{
+                    var buscaDeTransportadoraDeRedespacho = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespacho.Codigo,
+                        new { @readonly = true, @class = "campomedio campoDesabilitado" }, "btnSelecionarTransportadoraDeRedespacho", "button_visualize");
+
+                    var campoComNomeDaTransportadoraDeRedespacho = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespacho.Nome, "campogrande campoDesabilitado");
+
+                    var buscaDeTransportadoraDeRedespachoCif = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespachoCif.Codigo,
+                        new { @readonly = true, @class = "campomedio campoDesabilitado" }, "btnSelecionarTransportadoraDeRedespachoCif", "button_visualize");
+                    
+                    var campoComNomeDaTransportadoraDeRedespachoCif = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespachoCif.Nome, "campogrande campoDesabilitado");
+                    
+                }
+                
+                @Html.LinhaComQuatroColunas(buscaDeTransportadoraDeRedespacho, campoComNomeDaTransportadoraDeRedespacho,buscaDeTransportadoraDeRedespachoCif, campoComNomeDaTransportadoraDeRedespachoCif)
+                
+                @{
+                    var motivosDeRecusa = new List<SelectListItem>
+                    {
+                        new SelectListItem
+                        {
+                            Value = "00",
+                            Text = "Substituição de Produto"
+                        },
+                        new SelectListItem
+                        {
+                            Value = "01",
+                            Text = "Desistência do Cliente"
+                        }
+                    };
+                    var comboDeMotivoDeRecusa = new ColunaComDropDown<PedidoVendaCadastroVm, string>(x => x.motrec, motivosDeRecusa, "CodigoDoMotivoDeRecusa", "");
+                }
+                
+                @Html.LinhaComDuasColunas(new ColunaComTextArea<PedidoVendaCadastroVm, string>(x => x.obs),comboDeMotivoDeRecusa)
+
+            </div> 
               
         </fieldset>
         <!-- Dados das Linhas--> 
         <fieldset>
             <legend>Dados de Itens</legend>                
-              <div id="Linha">           
-                    <div class="linha">
-                        @{ var Id_material = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                                         (x => x.id_material, ((List<MaterialCadastroVm>)ViewBag.Materiais).OrderBy(l => l.Descricao)
-										      .Select(x => new SelectListItem()
-										      {
-                                                  Text = x.UnidadeMedida + " - " +x.Descricao,
-                                                  Value = Convert.ToString(x.Id_material),
-                                                  Selected = Model != null && x.Id_material == Model.id_material
-										      }
-                                                      ), "Id_material"
-													      ); 
-				         }
+            <div id="Linha">           
+                
+                    @{ 
 
-                        <div class="coluna">   
-                             @Html.LinhaComUmaColuna(Id_material)
-                        </div>
-                        <div class="coluna">
-                            @Html.LabelFor(x => x.Quant)
-                            @Html.TextBoxFor(x => x.Quant, new{@class="maskquantidade"})
-                            @Html.ValidationMessageFor(x => x.Quant)
-                         </div>
+                        var buscaDeMaterial = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.id_material, new {@class = "campoDesabilitado campopequeno"}, "btnBuscaMaterial", "button_visualize");
+                        var campoDoNomeDoMaterial = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.NomeDoMaterial, new {@class = "campoDesabilitado campogrande"});
+                        var campoDaUnidadeDeMedidaDoMaterial = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.CodigoUnidadeMedida, new { @class = "campoDesabilitado campomedio" });
+                    }
+                
+                @Html.LinhaComTresColunas(buscaDeMaterial, campoDoNomeDoMaterial, campoDaUnidadeDeMedidaDoMaterial)  
 
-                         <!--{ var um = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                                         (x => x.CodigoUnidadeMedida, ((List<UnidadeDeMedidaCadastroVm>)ViewBag.UnidadesDeMedida)
-										      .Select(x => new SelectListItem()
-										      {
-                                                  Text = x.Descricao,
-                                                  Value = Convert.ToString(x.Id_unidademedida),
-                                                  Selected = Model != null && x.Id_unidademedida == Model.CodigoUnidadeMedida
-										      }
-                                                      ), "um"
-													      ); 
-				         }
-                         <div class="coluna">   
-                               Html.LinhaComUmaColuna(um)
-                         </div>-->  
-                    
-                         @{ var listapreco = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                                             (x => x.listpre, ((List<ListaPrecoCadastroVm>)ViewBag.ListaPreco)
-										          .Select(x => new SelectListItem()
-										          {
-                                                      Text = x.Descricao,
-                                                      Value = Convert.ToString(x.Codigo),
-                                                      Selected = Model != null && x.Codigo == Model.listpre
-										          }
-                                                          ), "listapreco"
-													          ); 
-				         }
-                                       
-                         <div class="coluna">   
-                             @Html.LinhaComUmaColuna(listapreco)
-                         </div>  
-                        <div class="coluna">
-                            @Html.LabelFor(x => x.descma)
-                            @Html.TextBoxFor(x => x.descma, new{@class="maskmoeda"})
-                            @Html.ValidationMessageFor(x => x.descma)
-                        </div>                                        
-                    </div>
-                  </div>          
+                    @{ var listapreco = new ColunaComDropDown<PedidoVendaCadastroVm, string>
+                           (x => x.listpre, ((List<ListaPrecoCadastroVm>)ViewBag.ListaPreco)
+                               .Select(x => new SelectListItem()
+                               {
+                                   Text = x.Descricao,
+                                   Value = Convert.ToString(x.Codigo),
+                                   Selected = Model != null && x.Codigo == Model.listpre
+                               }
+                               ), "listapreco"
+                           ); 
+                    }
+                
+                
+                @Html.LinhaComTresColunas(new ColunaComTextBox<PedidoVendaCadastroVm, decimal>(x => x.Quant,"maskquantidade campopequeno"),listapreco,
+                new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.descma, "maskquantidade campopequeno")
+                )
+
+                <div class="divBotao">
+                    <input type="button" id="btnAdicionarFornecedor" value="Adicionar" class="blue" />
+                </div>
+
+            </div>          
         </fieldset>                
         <fieldset>
             <legend>Grid de Linhas</legend> 
-                <div @*class="divGrid"*@>
-                    <div id="gridLinhasAdicionadas" style="width: 785px" class="divGrid" ></div>    
-                </div>
+            <div @*class="divGrid"*@>
+                <div id="gridLinhasAdicionadas" style="width: 785px" class="divGrid" ></div>    
+            </div>
         </fieldset>
         
+        <div class="divBotao">
+            <input type="button" id="btnSimular"             value="Simular"          class="blue"/>
+            <input type="button" id="btnSimularEdicao"       value="Simular Edição"   class="blue"/>
+            <input type="button" id="btnGravar"              value="Gravar"           class="blue"/>
+            <input type="button" id="btnGravarEdicao"        value="Gravar Edição"    class="blue"/>
+            <input type="button" id="btnCancelarEdicao"      value="Cancelar" @*style="visibility: hidden"*@ class="blue" />
+        </div>                                 
 
     }
-        <!-- Div da janela de Tipo de Pedido-->  
-        <div id="divSelecionarTipoPedido" class="janelaModal"></div>
+    <!-- Div da janela de Tipo de Pedido-->  
+    <div id="divSelecionarTipoPedido" class="janelaModal"></div>
 </div>
 
 @section scripts
@@ -289,6 +228,8 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarTransRedespacho.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarTransRedespachoCif.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarCliente.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarProduto.js")"></script>
     <script type="text/javascript">
         
         // array das linhas
@@ -296,7 +237,7 @@
         var quantidadeDeFornecedoresIniciais = 0;
         var indiceEdicao = -1;
         var status  = 0;
-        var simular = "S"
+        var simular = "S";
         var gravar  = "G";
         
         
@@ -304,9 +245,28 @@
         $(function () {
             aplicaMascaraData();
             aplicaMascaraQuantidade();
-            SelecionarFornecedor.Configurar();
-            SelecionarTransRedespacho.Configurar();
-            SelecionarTransRedespachoCif.Configurar();            
+
+            var selecionarTransportadora = new SelecionarFornecedor();
+            selecionarTransportadora.configurar("#Transportadora_Codigo", "#Transportadora_Nome", "divSelecionarTransportadora", "#btnSelecionarTransportadora");
+
+            var selecionarTransportadoraDeRedespacho = new SelecionarFornecedor();
+            selecionarTransportadoraDeRedespacho.configurar("#TransportadoraDeRedespacho_Codigo", "#TransportadoraDeRedespacho_Nome", "divSelecionarTransportadoraDeRedespacho", "#btnSelecionarTransportadoraDeRedespacho");
+
+            var selecionarTransportadoraDeRedespachoCif = new SelecionarFornecedor();
+            selecionarTransportadoraDeRedespachoCif.configurar("#TransportadoraDeRedespachoCif_Codigo", "#TransportadoraDeRedespachoCif_Nome", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif");
+
+            var selecionarCliente = new SelecionarCliente();
+            var funcaoParaRetornarCamposDaBuscaDeCliente = function() {
+                var clienteSelecionado = selecionarCliente.clienteSelecionado;
+                $('#id_cliente').val(clienteSelecionado.Codigo);
+                $('#Cliente_Nome').val(clienteSelecionado.Nome);
+                $('#Cliente_Cnpj').val(clienteSelecionado.Cnpj || clienteSelecionado.Cpf);
+                $('Cliente_Telefone').val(clienteSelecionado.Telefone);
+            };
+            selecionarCliente.configurar('#id_cliente', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
+
+            var selecionarProduto = new SelecionarProduto();
+            selecionarProduto.configurar('#id_material', '#NomeDoMaterial', 'divSelecionarProduto', '#btnBuscaMaterial');
 
             // botao de edicao nas linhas do grid
             $('#btnCancelarEdicao').hide();

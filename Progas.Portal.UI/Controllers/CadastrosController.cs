@@ -94,6 +94,13 @@ namespace Progas.Portal.UI.Controllers
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult ListarClienteParaSelecao(PaginacaoVm paginacaoVm, ClienteFiltroVm filtro)
+        {
+            KendoGridVm kendoGridVm = _consultaCliente.ListarParaSelecao(paginacaoVm, filtro);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Consultar Fornecedor

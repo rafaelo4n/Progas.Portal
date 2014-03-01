@@ -50,13 +50,13 @@ namespace Progas.Portal.ViewModel
         [Display(Name = "incoterm2: ")]
         public string inco2 { get; set; }
 
-        [Display(Name = "Trans.: ")]
+        [Display(Name = "Transportadora: ")]
         public string trans { get; set; }
 
-        [Display(Name = "Trans. Redes. :")]
+        [Display(Name = "Transp. Redespacho:")]
         public string transred { get; set; }
 
-        [Display(Name = "Trans. CIF: ")]
+        [Display(Name = "Transp. Redespacho CIF: ")]
         public string transredcif { get; set; }
 
         [Display(Name = "Representante: ")]
@@ -67,7 +67,7 @@ namespace Progas.Portal.ViewModel
 
         // Esta disponivel no Cabeçalho do pedido
         // Caso seja preenchido será replicado para todos os itens do pedido
-        [Display(Name = "Mot. Recusa: ")]
+        [Display(Name = "Motivo de Recusa: ")]
         public string motrec { get; set; }
 
         [Display(Name = "Total Final: ")]
@@ -78,13 +78,13 @@ namespace Progas.Portal.ViewModel
 
         //
         // linhas
-        [Display(Name = "Material:")]
+        [Display(Name = "Código do Material:")]
         public string id_material { get; set; }
 
-        [Display(Name = "Quant.:")]
+        [Display(Name = "Quantidade:")]
         public decimal Quant { get; set; }
 
-        [Display(Name = "UM:")]
+        [Display(Name = "Unidade de Medida:")]
         public string CodigoUnidadeMedida { get; set; }
 
         [Display(Name = "Lista:")]
@@ -105,7 +105,15 @@ namespace Progas.Portal.ViewModel
 
         // Recebara o resultado da rfc
         public string ordem { get; set; }
-        
+
+        public string AreaDeVenda { get; set; }
+
+        public ClienteDoPedidoDeVendaVm Cliente { get; set; }
+        public TransportadoraDoPedidoDeVenda Transportadora { get; set; }
+        public TransportadoraDoPedidoDeVenda TransportadoraDeRedespacho { get; set; }
+        public TransportadoraDoPedidoDeVenda TransportadoraDeRedespachoCif { get; set; }
+        [Display(Name = "Nome do Material:")]
+        public string NomeDoMaterial { get; set; }
     }
 
     [CollectionDataContract]
