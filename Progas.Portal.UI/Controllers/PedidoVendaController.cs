@@ -20,7 +20,9 @@ namespace Progas.Portal.UI.Controllers
         private readonly IConsultaCondicaoPagamento _consultaCondicaoPagamento;
         private readonly IConsultaListaPreco        _consultaListaPreco;
         private readonly IConsultaMaterial          _consultaMaterial;
-        private readonly IConsultaIncoterm          _consultaIncoterm;
+        //private readonly IConsultaIncoterm          _consultaIncoterm;
+        private readonly IConsultaIncotermCab       _consultaIncotermCab;
+        private readonly IConsultaIncotermLinhas    _consultaIncotermLinhas;
         private readonly IConsultaCliente           _consultaCliente;
         private readonly IConsultaFornecedor        _consultaFornecedor;
         private readonly IConsultaPedidoVenda       _consultaPedidoVenda;
@@ -32,7 +34,9 @@ namespace Progas.Portal.UI.Controllers
                                       IConsultaTipoPedido        consultaTipoPedido,
                                       IConsultaListaPreco        consultaListaPreco,
                                       IConsultaMaterial          consultaMaterial,
-                                      IConsultaIncoterm          consultaIncoterm,
+                                      //IConsultaIncoterm          consultaIncoterm,                                     
+                                      IConsultaIncotermCab       consultaIncotermCab,
+                                      IConsultaIncotermLinhas    consultaIncotermLinhas,
                                       IConsultaCliente           consultaCliente,
                                       IConsultaFornecedor        consultaFornecedor,
                                       IConsultaPedidoVenda       consultaPedidoVenda
@@ -43,7 +47,9 @@ namespace Progas.Portal.UI.Controllers
                 _consultaTipoPedido        = consultaTipoPedido;
                 _consultaListaPreco        = consultaListaPreco;
                 _consultaMaterial          = consultaMaterial;
-                _consultaIncoterm          = consultaIncoterm;
+                //_consultaIncoterm          = consultaIncoterm;
+                _consultaIncotermCab       = consultaIncotermCab;
+                _consultaIncotermLinhas    = consultaIncotermLinhas;
                 _consultaCliente           = consultaCliente;
                 _consultaFornecedor        = consultaFornecedor;
                 _consultaPedidoVenda       = consultaPedidoVenda;
@@ -77,7 +83,8 @@ namespace Progas.Portal.UI.Controllers
             ViewBag.ListaPreco           = _consultaListaPreco.ListarTodas();
             ViewBag.Centro               = _consultaMaterial.ListarCentro();
             ViewBag.Materiais            = _consultaMaterial.ListarTodas();
-            ViewBag.Incoterms            = _consultaIncoterm.ListarTodas();
+            ViewBag.Incoterms            = _consultaIncotermCab.ListarTodas(); //_consultaIncoterm.ListarTodas();
+            ViewBag.IncotermsLinhas      = _consultaIncotermLinhas.ListarTodas(); //_consultaIncoterm.ListarTodas();
             ViewBag.Clientes             = _consultaCliente.Listar();
             return View("_CriarPedidoVenda");
            

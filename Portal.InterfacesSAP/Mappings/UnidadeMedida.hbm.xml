@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Portal.DadosSap"
+                   namespace="Portal.DadosSap.Entity" >
+
+  <class name="UnidadeMedida" table="pro_unidademedida">
+
+    <id name="pro_id_unidademedida" access="property" column="pro_id_unidademedida" type="Int32">
+      <generator class="identity">
+        <param name="identity">pro_id_unidademedida</param>
+      </generator>
+    </id>
+
+    <property name="Id_unidademedida" not-null="false" access="property" type="String">
+      <column name="Id_unidademedida" length="10" />
+    </property>
+
+    <property name="Descricao" not-null="false" access="property" type="String">
+      <column name="Descricao" length="30" />
+    </property>
+
+    <property name="Dimensao" not-null="false" access="property" type="String">
+      <column name="Dimensao" length="6" />
+    </property>
+
+    <property name="Aprestecnica" not-null="false" access="property" type="String">
+      <column name="Aprestecnica" length="6" />
+    </property>
+
+    <property name="data_criacao" not-null="false" access="property" type="DateTime">
+      <column name="data_criacao"/>
+    </property>
+
+    <property name="pacote" not-null="false" access="property" type="String">
+      <column name="pacote" length="30" />
+    </property>
+
+    <property name="hora_criacao" not-null="false" access="property" type="String">
+      <column name="hora_criacao" length="8"/>
+    </property>
+
+  </class>
+
+</hibernate-mapping>

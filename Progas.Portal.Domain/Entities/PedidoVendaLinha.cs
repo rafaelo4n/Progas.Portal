@@ -28,32 +28,30 @@ namespace Progas.Portal.Domain.Entities
         {
         }
 
-        public PedidoVendaLinha( string id_cotacao,
-                                 string id_item, 
+        public PedidoVendaLinha( string  id_cotacao,
+                                 string  id_item, 
                                  string  id_pedido,
                                  string  id_material, 
                                  decimal quant,
                                  string  unimed, 
                                  string  listpre, 
-                                 //decimal valtab, 
-                                 //decimal valpol,
-                                 decimal descma//, 
-                                 //decimal valfin, 
-                                 //string motrec
+                                 decimal valtab, 
+                                 decimal valpol,
+                                 decimal descma, 
+                                 string  motrec
                                 ):this()
         {
-            Id_cotacao = id_cotacao;
+            Id_cotacao  = id_cotacao;
             Id_item     = id_item;
             Id_pedido   = id_pedido;
             Id_material = id_material;
             Quant       = quant;
             Unimed      = unimed;
             Listpre     = listpre;
-            //Valtab = valtab;
-            //Valpol = valpol;
+            Valtab      = valtab;
+            Valpol      = valpol;
             Descma      = descma;
-            //Valfin = valfin;
-            //Motrec = motrec;
+            Motrec      = motrec;
         }
 
         /*public override bool Equals(object obj)

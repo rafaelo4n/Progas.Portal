@@ -42,6 +42,14 @@ namespace Progas.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<Incoterms>();
 
+            For<IIncotermsCabs>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<IncotermsCabs>();
+
+            For<IIcontermslinhas>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<IncotermsLinhas>();
+
             For<IPedidosVendaLinha>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<PedidosVendaLinha>();

@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -90,6 +90,8 @@
     <Compile Include="Entities\Fornecedor.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
     <Compile Include="Entities\Incoterm.cs" />
+    <Compile Include="Entities\IncotermCab.cs" />
+    <Compile Include="Entities\IncotermLinhas.cs" />
     <Compile Include="Entities\LinhaPedido.cs" />
     <Compile Include="Entities\ListaPreco.cs" />
     <Compile Include="Entities\Material.cs" />
