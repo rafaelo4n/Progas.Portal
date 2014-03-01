@@ -93,24 +93,24 @@
                     )
                 
                 @{
-                    var inco1 = new ColunaComDropDown<PedidoVendaCadastroVm, string> 
-                        (x => x.inco1,((List<IncotermCadastroVm>)ViewBag.Incoterms)
+                var inco1 = new ColunaComDropDown<PedidoVendaCadastroVm, string>
+                    (x => x.inco1, ((List<IncotermsCabCadastroVm>)ViewBag.Incoterms)
                             .Select(x => new SelectListItem()
                             {
                                 Text = x.Descricao,
-                                Value = Convert.ToString(x.CodigoIncoterm),
-                                Selected = Model != null && x.CodigoIncoterm == Model.inco1
+                                Value = Convert.ToString(x.CodigoIncotermCab),
+                                Selected = Model != null && x.CodigoIncotermCab == Model.inco1
                             }
                             ), "Inco1"
                         );
 
                     var inco2 = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                        (x => x.inco2, ((List<IncotermCadastroVm>)ViewBag.Incoterms)
+                        (x => x.inco2, ((List<IncotermsCabCadastroVm>)ViewBag.Incoterms)
                             .Select(x => new SelectListItem()
                             {
                                 Text = x.Descricao,
-                                Value = Convert.ToString(x.CodigoIncoterm),
-                                Selected = Model != null && x.CodigoIncoterm == Model.inco2
+                                Value = Convert.ToString(x.CodigoIncotermCab),
+                                Selected = Model != null && x.CodigoIncotermCab == Model.inco2
                             }
                             ), "Inco2"
                         );

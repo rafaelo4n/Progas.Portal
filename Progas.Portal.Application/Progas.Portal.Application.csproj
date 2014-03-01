@@ -74,17 +74,17 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+    <Reference Include="NSAPConnector, Version=1.0.2.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\intranet\Progas.Portal\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NSAPConnector_x86.1.0.2\lib\NSAPConnector.dll</HintPath>
     </Reference>
     <Reference Include="sapnco, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\assembly\GAC_64\sapnco\v4.0_3.0.0.42__50436dca5c7f7d23\sapnco.dll</HintPath>
+      <HintPath>..\packages\NSAPConnector_x86.1.0.2\lib\sapnco.dll</HintPath>
     </Reference>
     <Reference Include="sapnco_utils, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\assembly\GAC_64\sapnco_utils\v4.0_3.0.0.42__50436dca5c7f7d23\sapnco_utils.dll</HintPath>
+      <HintPath>..\packages\NSAPConnector_x86.1.0.2\lib\sapnco_utils.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -178,8 +178,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\Progas.Portal.Application.dll.config" />
-    <None Include="bin\x64\Debug\Progas.Portal.Application.dll.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -190,97 +188,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="bin\Debug\de\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\es\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\fa\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\FluentNHibernate.dll" />
-    <Content Include="bin\Debug\FluentNHibernate.xml" />
-    <Content Include="bin\Debug\fr\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\hr\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\Iesi.Collections.dll" />
-    <Content Include="bin\Debug\Iesi.Collections.xml" />
-    <Content Include="bin\Debug\it\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\libicudecnumber.dll" />
-    <Content Include="bin\Debug\lv\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\Mappings\Cliente.hbm.xml" />
-    <Content Include="bin\Debug\Mappings\ClienteVendas.hbm.xml" />
-    <Content Include="bin\Debug\Mappings\CondicaoPagamento.hbm.xml" />
-    <Content Include="bin\Debug\Mappings\Fornecedor.hbm.xml" />
-    <Content Include="bin\Debug\Mappings\Material.hbm.xml" />
-    <Content Include="bin\Debug\Mappings\UnidadeMedida.hbm.xml" />
-    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
-    <Content Include="bin\Debug\Newtonsoft.Json.xml" />
-    <Content Include="bin\Debug\NHibernate.Caches.SysCache2.dll" />
-    <Content Include="bin\Debug\NHibernate.dll" />
-    <Content Include="bin\Debug\NHibernate.Validator.dll" />
-    <Content Include="bin\Debug\NHibernate.Validator.xml" />
-    <Content Include="bin\Debug\NHibernate.xml" />
-    <Content Include="bin\Debug\nl\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\pl\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\Progas.Portal.Application.pdb" />
-    <Content Include="bin\Debug\Progas.Portal.Common.dll" />
-    <Content Include="bin\Debug\Progas.Portal.Common.pdb" />
-    <Content Include="bin\Debug\Progas.Portal.Domain.dll" />
-    <Content Include="bin\Debug\Progas.Portal.Domain.pdb" />
-    <Content Include="bin\Debug\Progas.Portal.Infra.dll" />
-    <Content Include="bin\Debug\Progas.Portal.Infra.pdb" />
-    <Content Include="bin\Debug\Progas.Portal.ViewModel.dll" />
-    <Content Include="bin\Debug\Progas.Portal.ViewModel.pdb" />
-    <Content Include="bin\Debug\pt-BR\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\System.Net.Http.Formatting.dll" />
-    <Content Include="bin\Debug\System.Net.Http.Formatting.xml" />
-    <Content Include="bin\Debug\System.Web.Http.dll" />
-    <Content Include="bin\Debug\System.Web.Http.xml" />
-    <Content Include="bin\x64\Debug\de\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\es\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\fa\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\FluentNHibernate.dll" />
-    <Content Include="bin\x64\Debug\FluentNHibernate.xml" />
-    <Content Include="bin\x64\Debug\fr\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\hr\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\Iesi.Collections.dll" />
-    <Content Include="bin\x64\Debug\Iesi.Collections.xml" />
-    <Content Include="bin\x64\Debug\it\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\lv\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\Mappings\Cliente.hbm.xml" />
-    <Content Include="bin\x64\Debug\Mappings\ClienteVendas.hbm.xml" />
-    <Content Include="bin\x64\Debug\Mappings\CondicaoPagamento.hbm.xml" />
-    <Content Include="bin\x64\Debug\Mappings\Fornecedor.hbm.xml" />
-    <Content Include="bin\x64\Debug\Mappings\Material.hbm.xml" />
-    <Content Include="bin\x64\Debug\Mappings\UnidadeMedida.hbm.xml" />
-    <Content Include="bin\x64\Debug\Newtonsoft.Json.dll" />
-    <Content Include="bin\x64\Debug\Newtonsoft.Json.xml" />
-    <Content Include="bin\x64\Debug\NHibernate.Caches.SysCache2.dll" />
-    <Content Include="bin\x64\Debug\NHibernate.dll" />
-    <Content Include="bin\x64\Debug\NHibernate.Validator.dll" />
-    <Content Include="bin\x64\Debug\NHibernate.Validator.xml" />
-    <Content Include="bin\x64\Debug\NHibernate.xml" />
-    <Content Include="bin\x64\Debug\nl\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\pl\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\Portal.DadosSap.exe" />
-    <Content Include="bin\x64\Debug\Portal.DadosSap.pdb" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Application.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="bin\x64\Debug\Progas.Portal.Application.pdb" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Common.dll" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Common.pdb" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Domain.dll" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Domain.pdb" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Infra.dll" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Infra.pdb" />
-    <Content Include="bin\x64\Debug\Progas.Portal.ViewModel.dll" />
-    <Content Include="bin\x64\Debug\Progas.Portal.ViewModel.pdb" />
-    <Content Include="bin\x64\Debug\pt-BR\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\System.Net.Http.Formatting.dll" />
-    <Content Include="bin\x64\Debug\System.Net.Http.Formatting.xml" />
-    <Content Include="bin\x64\Debug\System.Web.Http.dll" />
-    <Content Include="bin\x64\Debug\System.Web.Http.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\x86\Debug\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>

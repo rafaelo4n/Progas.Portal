@@ -76,7 +76,7 @@ namespace Progas.Portal.Application.Services.Implementations
                     i_cabecalho.SetValue("TRANS",       dados.trans);
                     i_cabecalho.SetValue("TRANSRED",    dados.transred);
                     i_cabecalho.SetValue("TRANSREDCIF", dados.transredcif);
-                    i_cabecalho.SetValue("REPRE",       Convert.ToString(usuarioConectado.CodigoFornecedor));
+                    i_cabecalho.SetValue("REPRE", Convert.ToString(usuarioConectado.CodigoDoFornecedor));
                     i_cabecalho.SetValue("OBSERVACAO",  dados.Observacao);                   
                 }                
                 // LINHAS (Estrutura tipo tabela)
@@ -124,7 +124,7 @@ namespace Progas.Portal.Application.Services.Implementations
                                                                            dados.trans,
                                                                            dados.transred,
                                                                            dados.transredcif,
-                                                                           Convert.ToString(usuarioConectado.CodigoFornecedor),
+                                                                           Convert.ToString(usuarioConectado.CodigoDoFornecedor),
                                                                            dados.Observacao);
                                     _pedidosVenda.Save(cabecalhoPedido);
                                 }
@@ -170,7 +170,7 @@ namespace Progas.Portal.Application.Services.Implementations
                     v_cont2 = v_cont2 + 1;
                     if (v_cont2 == 1)
                     {
-                        PedidoVenda pedidoVenda = _pedidosVenda.CotacaoPedidoContendo(dados.NumeroPedido, Convert.ToString(usuarioConectado.CodigoFornecedor));
+                        PedidoVenda pedidoVenda = _pedidosVenda.CotacaoPedidoContendo(dados.NumeroPedido, Convert.ToString(usuarioConectado.CodigoDoFornecedor));
                         datacp = Convert.ToDateTime(pedidoVenda.Datacp);
                         // Deleta a linha antiga antes de inserir a nova
                         if (pedidoVenda != null)
