@@ -239,8 +239,6 @@
         var status  = 0;
         var simular = "S";
         var gravar  = "G";
-        
-        
 
         $(function () {
             aplicaMascaraData();
@@ -266,7 +264,14 @@
             selecionarCliente.configurar('#id_cliente', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
 
             var selecionarProduto = new SelecionarProduto();
-            selecionarProduto.configurar('#id_material', '#NomeDoMaterial', 'divSelecionarProduto', '#btnBuscaMaterial');
+
+            var funcaoParaPreencherOsDadosDeRetornoDoProduto = function() {
+                $('#id_material').val(selecionarProduto.produtoSelecionado.Id_material);
+                $('#NomeDoMaterial').val(selecionarProduto.produtoSelecionado.Descricao);
+                $('#CodigoUnidadeMedida').val(selecionarProduto.produtoSelecionado.UnidadeMedida);
+            };
+
+            selecionarProduto.configurar('#id_material', 'divSelecionarProduto', '#btnBuscaMaterial', funcaoParaPreencherOsDadosDeRetornoDoProduto);
 
             // botao de edicao nas linhas do grid
             $('#btnCancelarEdicao').hide();
@@ -309,22 +314,20 @@
                 var form = $('form');
                 if (!$(form).validate().form()) {
                     return;
-                }                
+                }
+
+                var codigoDaListaDePrecoSelecionada = $('#listapreco :selected').val();
 
                 // grava a linha no array de fornecedor
                 // Array que sera enviado para o controller que salva os pedidos
                 var fornecedor = {
-                    CodigoMaterial:         $('#Id_material :selected').val(),
-                    DescricaoMaterial:      $('#Id_material :selected').text(),
-                    Quantidade:             $('#Quant').val(),
-                    listpre:                $('#listapreco :selected').val(),
-                    Descricaolistpre:       $('#listapreco :selected').text(),
-                    //Valtab:                $('#valtab').val(), // valor do SAP
-                    //Valpol:                $('#valpol').val(), // valor do SAP
-                    Desconto:               $('#descma').val()//,
-                    //Valfin:                 $('#valfin').val(), // valor do SAP
-                    //Ordem:                  $('#ordem :selected').val(), // valor do SAP
-                    //Motrec:                 $('#motrec :selected').val()// valor do SAP
+                    CodigoMaterial: $('#id_material').val(),
+                    DescricaoMaterial: $('#NomeDoMaterial').val(),
+                    UnidadeDeMedida: $('#CodigoUnidadeMedida').val(),
+                    Quantidade: $('#Quant').val(),
+                    listpre: codigoDaListaDePrecoSelecionada ? codigoDaListaDePrecoSelecionada : null,
+                    Descricaolistpre: codigoDaListaDePrecoSelecionada ? $('#listapreco :selected').text() : null,
+                    Desconto: $('#descma').val()
                 };
 
                 // grava na variavel linhasAdicionadas os dados que seram manipulados antes de serem salvos
@@ -352,16 +355,9 @@
                                 CodigoMaterial:         { type: "string" },
                                 DescricaoMaterial:      { type: "string" },
                                 Quantidade:             { type: "number" },
-                                //CodigoUnidadeMedida:    { type: "string" },
-                                //DescricaoUnidadeMedida: { type: "string" },
                                 listpre:                { type: "string" },
                                 Descricaolistpre:       { type: "string" },
-                                //Valtab:                 { type: "number" },
-                                //Valpol:                 { type: "number" },
-                                Desconto:               { type: "number" }//,
-                                //Valfin:                 { type: "number" },
-                                //Ordem:                  { type: "string" },
-                                ///Motrec                  { type: "string" }
+                                Desconto:               { type: "number" },
                             }
                         }
                     }
@@ -392,57 +388,23 @@
                     {
                         width: 30,
                         field: "Quantidade",
-                        title: "Qt"
+                        title: "Quantidade"
                     },
-                    
-                    //{
-                    //    width: 30, 
-                    //    field: "DescricaoUnidadeMedida",
-                    //    title: "UM"
-                    //},
-
+                   
                     {
                         field: "Descricaolistpre",
                         width: 30,
                         title: "Lista"
                     },
 
-                    /*{
-                        field: "Valtab",
-                        width: 30,
-                        title: "Val Tabela"
-                    },
-
-                    {
-                        field: "Valpol",
-                        width: 30,
-                        title: "Val Politica"
-                    },*/
-
                     {
                         field: "Desconto",
                         width: 30,
-                        title: "Desc Manual"
-                    }/*,
-
-                    {
-                        field: "Valfin",
-                        width: 30,
-                        title: "Val Fim"
-                    },
-
-                    {
-                        field: "Ordem",
-                        width: 30,
-                        title: "Ordem"
-                    },
-
-                    {
-                        field: ":Motrec",
-                        width: 30,
-                        title: "Mot.Rec"
-                    }*/
-
+                        title: "Desconto Manual",
+                        template: function (dataItem) {
+                            return dataItem.Desconto ? dataItem.Desconto : "";
+                        }
+                    }
                 ]
             });
 
@@ -462,14 +424,14 @@
             // funcao de adicionar linha ao grid
             $('#gridLinhasAdicionadas').find('.button_edit').live('click', function () {
                 indiceEdicao = $(this).parents('tr:first')[0].rowIndex;
-                var quota = linhasAdicionadas[indiceEdicao];
+                var item = linhasAdicionadas[indiceEdicao];
 
                 // Campo da view( #Material) - Campo do select(val(quota.CodigoMaterial))
-                $('#Id_material').val(quota.CodigoMaterial);
-                $('#Quant').val(quota.Quantidade);
-                //$('#um').val(quota.UnidadeMedida);
-                $('#listapreco').val(quota.listapreco);
-                $('#descma').val(quota.Desconto);
+                $('#Id_material').val(item.CodigoMaterial);
+                $('#Quant').val(item.Quantidade);
+                $('#CodigoUnidadeMedida').val(item.UnidadeDeMedida);
+                $('#listapreco').val(item.listapreco);
+                $('#descma').val(item.Desconto ? item.Desconto : '');
 
                 $('#btnAdicionarFornecedor').val('Atualizar');
                 $('#btnCancelarEdicao').show();

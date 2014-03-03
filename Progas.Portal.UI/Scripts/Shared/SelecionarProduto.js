@@ -14,7 +14,8 @@
                         fields: {
                             Descricao: { type: "string" },
                             Id_material: { type: "string" },
-                            Tipo: { type: "string" }
+                            Tipo: { type: "string" },
+                            CodigoDaUnidadeDeMedida: { type: "string" }
                         }
                     },
                     total: 'QuantidadeDeRegistros'
@@ -71,16 +72,15 @@
             if (!$(this).is(':checked')) {
                 return;
             }
-            var grid = $('#gridProdutos').data("kendoGrid");
-            var dataItem = grid.dataItem(grid.select());
-            me.produtoSelecionado = { Codigo: dataItem.Id_material, Descricao: dataItem.Descricao };
+            var registroSelecionado = $('#gridProdutos').data("kendoGrid").obterRegistroSelecionado();;
+            me.produtoSelecionado = registroSelecionado;
 
         });
 
 
     };
 
-    function configurarJanelaModal(idDoCampoDoCodigoDoProduto, idDoCampoDoNomeDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto) {
+    function configurarJanelaModal(idDoCampoDoCodigoDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto, funcaoParaPreencherOsDadosDeRetorno) {
 
         $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
         $('#' + idDaDivDaJanelaDeDialogo).customDialog({
@@ -91,8 +91,9 @@
                         Mensagem.ExibirMensagemDeErro("É necessário selecionar um Produto.");
                         return;
                     }
-                    $(idDoCampoDoCodigoDoProduto).val(me.produtoSelecionado.Codigo);
-                    $(idDoCampoDoNomeDoProduto).val(unescape(me.produtoSelecionado.Descricao));
+
+                    funcaoParaPreencherOsDadosDeRetorno();
+
                     me.produtoSelecionado = null;
                     $(this).dialog("close");
                 },
@@ -104,22 +105,20 @@
         $(idDoBotaoDeSelecaoDoProduto).click(function () {
 
             var codigoDoProduto = $(idDoCampoDoCodigoDoProduto).val();
-            var descricaoDoProduto = escape($(idDoCampoDoNomeDoProduto).val());
 
             if (codigoDoProduto) {
                 me.produtoSelecionado = {
-                    Codigo: codigoDoProduto,
-                    Descricao: descricaoDoProduto
+                    Codigo: codigoDoProduto
                 };
             }
 
-            $('#' + idDaDivDaJanelaDeDialogo).customLoad(UrlPadrao.SelecionarProduto
-                + '/?Codigo=' + codigoDoProduto + '&Nome=' + escape(descricaoDoProduto), configurarGridDeSelecao);
+            $('#' + idDaDivDaJanelaDeDialogo).customLoad(UrlPadrao.SelecionarProduto, configurarGridDeSelecao);
+
         });
 
     };
 
-    this.configurar = function (idDoCampoDoCodigoDoProduto, idDoCampoDoNomeDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto) {
-        configurarJanelaModal(idDoCampoDoCodigoDoProduto, idDoCampoDoNomeDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto);
+    this.configurar = function (idDoCampoDoCodigoDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto, funcaoParaPreencherOsDadosDeRetorno) {
+        configurarJanelaModal(idDoCampoDoCodigoDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto, funcaoParaPreencherOsDadosDeRetorno);
     };
 }
