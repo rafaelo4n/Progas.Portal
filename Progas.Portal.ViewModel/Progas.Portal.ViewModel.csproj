@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlterarSenhaVm.cs" />
+    <Compile Include="AreaDeVendaVm.cs" />
     <Compile Include="ClienteCadastroVm.cs" />
     <Compile Include="ClienteDoPedidoDeVendaVm.cs" />
     <Compile Include="ClienteFiltroVm.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="MaterialDeCargaVm.cs" />
     <Compile Include="FornecedorDoProdutoFiltro.cs" />
     <Compile Include="MaterialFiltroVm.cs" />
+    <Compile Include="MotivoDeRecusaVm.cs" />
     <Compile Include="PedidoVendaCadastroVm.cs" />
     <Compile Include="PedidoVendaFiltroVm.cs" />
     <Compile Include="PedidoVendaLinhaCadastroVm.cs" />

@@ -137,6 +137,10 @@ $.fn.customKendoGrid = function (configuracao) {
     configuracao.dataSource.serverPaging = true;
     configuracao.dataSource.pageSize = 10;
 
+    if (configuracao.scrollable === undefined) {
+        configuracao.scrollable = true;
+    }
+
     this.kendoGrid(configuracao);
 
     this.data("kendoGrid").obterRegistroSelecionado = function () {

@@ -27,7 +27,9 @@ namespace Progas.Portal.Application.Queries.Implementations
         {
             _materiais
                 .CodigoContendo(filtro.Codigo)
-                .NomeContendo(filtro.Descricao);
+                .NomeContendo(filtro.Descricao)
+                .DoTipo(filtro.Tipo)
+                .DoCentro(filtro.Centro);
             var kendoGridVmn = new KendoGridVm()
             {
                 QuantidadeDeRegistros = _materiais.Count(),

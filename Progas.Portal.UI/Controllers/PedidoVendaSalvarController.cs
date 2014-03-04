@@ -4,8 +4,6 @@ using System.Web.Mvc;
 using Progas.Portal.Application.Services.Contracts;
 using Progas.Portal.UI.Filters;
 using Progas.Portal.ViewModel;
-using Progas.Portal.Infra.Repositories.Implementations;
-
 
 namespace Progas.Portal.UI.Controllers
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Progas.Portal.Domain.Entities;
+﻿using Progas.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace Progas.Portal.Infra.Mappings
@@ -13,7 +8,8 @@ namespace Progas.Portal.Infra.Mappings
         public ClienteVendasMap()
         {
             Table("pro_cliente_vendas");
-            Id(x => x.Id_cliente);
+            Id(x => x.Id, "pro_id_cliente_vendas");
+            Map(x => x.Id_cliente);
             Map(x => x.Org_vendas);
             Map(x => x.Can_dist);
             Map(x => x.Set_ativ);

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NHibernate.Exceptions;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 
@@ -50,5 +51,22 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IMateriais DoTipo(string tipo)
+        {
+            if (!string.IsNullOrEmpty(tipo))
+            {
+                Query = Query.Where(x => x.Tip_mat == tipo);
+            }
+            return this;
+        }
+
+        public IMateriais DoCentro(string centro)
+        {
+            if (!string.IsNullOrEmpty(centro))
+            {
+                Query = Query.Where(x => x.Id_centro == centro);
+            }
+            return this;
+        }
     }
 }

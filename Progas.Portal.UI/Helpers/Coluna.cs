@@ -106,6 +106,12 @@ namespace Progas.Portal.UI.Helpers
         {
         }
 
+        public ColunaComTextBox(Expression<Func<TModel, TValue>> expressao, object inputAttributes, string  textoDaLabel)
+            : base(expressao,textoDaLabel, inputAttributes, null, true)
+        {
+        }
+
+
         public override MvcHtmlString GeraInput()
         {
             return System.Web.Mvc.Html.InputExtensions.TextBoxFor(HtmlHelper, Expressao, InputAttributes);
@@ -117,12 +123,20 @@ namespace Progas.Portal.UI.Helpers
         private readonly string _idDoBotao;
         private readonly string _classeDoBotao;
 
-        public ColunaComBotaoDeBusca(Expression<Func<TModel, TValue>> expressao, object atributos, string idDoBotao, string classeDoBotao)
-            : base(expressao, atributos, null, true)
+        public ColunaComBotaoDeBusca(Expression<Func<TModel, TValue>> expressao, object inputAttributes, string idDoBotao, string classeDoBotao)
+            : base(expressao, inputAttributes, null, true)
         {
             _idDoBotao = idDoBotao;
             _classeDoBotao = classeDoBotao;
         }
+
+        public ColunaComBotaoDeBusca(Expression<Func<TModel, TValue>> expressao, object inputAttributes, string textoDaLabel, string idDoBotao, string classeDoBotao)
+            : base(expressao,textoDaLabel, inputAttributes,null, true)
+        {
+            _idDoBotao = idDoBotao;
+            _classeDoBotao = classeDoBotao;
+        }
+
 
         public override MvcHtmlString GeraInput()
         {

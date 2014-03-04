@@ -14,5 +14,7 @@ namespace Progas.Portal.Infra.Repositories.Contracts
         IMateriais FiltraPorListaDeCodigos(string[] codigos);
         IMateriais CodigoContendo(string filtroCodigo);
         IMateriais NomeContendo(string filtroNome);
+        IMateriais DoTipo(string tipo);
+        IMateriais DoCentro(string centro);
     }
 }

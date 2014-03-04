@@ -20,7 +20,7 @@
                     @Html.LabelFor(x => x.id_cotacao)
                     @Html.TextBoxFor(x => x.id_cotacao,"campopequeno")
                     <input type="button" id="btnCopiar" value="Copiar" class="blue" />
-                    <input type="button" id="btnNovo"   value="Novo"   class="blue" />
+                    <input type="reset" id="btnNovo"   value="Novo"   class="blue" />
                     @Html.ValidationMessageFor(x => x.id_cotacao)
                 </div>
                 <div class="coluna3">
@@ -61,17 +61,8 @@
 
                 
                 @{
-                    var areasDeVendas = new List<string> {"1000-10-10", "1000-10-20"};
                     var comboDeAreaDeVendas = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                        (x => x.CodigoTipoPedido, areasDeVendas
-                            .Select(x => new SelectListItem()
-                            {
-                                Text = x,
-                                Value = x,
-                                Selected = Model != null && x == Model.AreaDeVenda
-                            }
-                            ), "AreaDeVenda"
-                        );
+                        (x => x.AreaDeVenda, new List<SelectListItem>(), "AreaDeVenda");
                            
                     var condpgto = new ColunaComDropDown<PedidoVendaCadastroVm, string>
                         (x => x.condpgto, ((List<CondicaoDePagamentoCadastroVm>)ViewBag.CondicoesDePagamento)
@@ -116,9 +107,11 @@
                         );
 
                     var buscaDeTransportadora = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.Transportadora.Codigo,
-                        new { @readonly = true, @class = "campomedio campoDesabilitado" }, "btnSelecionarTransportadora", "button_visualize");
+                        new { @readonly = true, @class = "campomedio campoDesabilitado" },"Código Transportadora:", 
+                        "btnSelecionarTransportadora", "button_visualize");
 
-                    var campoComNomeDaTransportadora = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Transportadora.Nome,"campogrande campoDesabilitado");
+                    var campoComNomeDaTransportadora = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Transportadora.Nome, 
+                        new { @class = "campogrande campoDesabilitado" },"Nome Transportadora:");
                        
                 }
                 
@@ -126,34 +119,30 @@
                 
                 @{
                     var buscaDeTransportadoraDeRedespacho = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespacho.Codigo,
-                        new { @readonly = true, @class = "campomedio campoDesabilitado" }, "btnSelecionarTransportadoraDeRedespacho", "button_visualize");
+                        new { @readonly = true, @class = "campomedio campoDesabilitado" },"Código Transp Redespacho:", "btnSelecionarTransportadoraDeRedespacho", "button_visualize");
 
-                    var campoComNomeDaTransportadoraDeRedespacho = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespacho.Nome, "campogrande campoDesabilitado");
+                    var campoComNomeDaTransportadoraDeRedespacho = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespacho.Nome, 
+                        new{@class="campogrande campoDesabilitado"} , "Nome Transp Redespacho:");
 
                     var buscaDeTransportadoraDeRedespachoCif = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespachoCif.Codigo,
-                        new { @readonly = true, @class = "campomedio campoDesabilitado" }, "btnSelecionarTransportadoraDeRedespachoCif", "button_visualize");
+                        new { @readonly = true, @class = "campomedio campoDesabilitado" }, "Cód Transp Redespacho Cif:", "btnSelecionarTransportadoraDeRedespachoCif", "button_visualize");
                     
-                    var campoComNomeDaTransportadoraDeRedespachoCif = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespachoCif.Nome, "campogrande campoDesabilitado");
+                    var campoComNomeDaTransportadoraDeRedespachoCif = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespachoCif.Nome,
+                        new{@class="campogrande campoDesabilitado"} , "Nome Transp Redespacho Cif:");
                     
                 }
                 
                 @Html.LinhaComQuatroColunas(buscaDeTransportadoraDeRedespacho, campoComNomeDaTransportadoraDeRedespacho,buscaDeTransportadoraDeRedespachoCif, campoComNomeDaTransportadoraDeRedespachoCif)
                 
                 @{
-                    var motivosDeRecusa = new List<SelectListItem>
-                    {
+                    var motivosDeRecusa = ((List<MotivoDeRecusaVm>) ViewBag.MotivosDeRecusa).Select( x =>
                         new SelectListItem
                         {
-                            Value = "00",
-                            Text = "Substituição de Produto"
-                        },
-                        new SelectListItem
-                        {
-                            Value = "01",
-                            Text = "Desistência do Cliente"
-                        }
-                    };
-                    var comboDeMotivoDeRecusa = new ColunaComDropDown<PedidoVendaCadastroVm, string>(x => x.motrec, motivosDeRecusa, "CodigoDoMotivoDeRecusa", "");
+                            Value = x.Codigo,
+                            Text = x.Descricao ,
+                            Selected = (Model != null && Model.motrec == x.Codigo)
+                        });
+                    var comboDeMotivoDeRecusa = new ColunaComDropDown<PedidoVendaCadastroVm, string>(x => x.motrec, motivosDeRecusa, "CodigoDoMotivoDeRecusa");
                 }
                 
                 @Html.LinhaComDuasColunas(new ColunaComTextArea<PedidoVendaCadastroVm, string>(x => x.obs),comboDeMotivoDeRecusa)
@@ -176,16 +165,16 @@
                 @Html.LinhaComTresColunas(buscaDeMaterial, campoDoNomeDoMaterial, campoDaUnidadeDeMedidaDoMaterial)  
 
                     @{ var listapreco = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                           (x => x.listpre, ((List<ListaPrecoCadastroVm>)ViewBag.ListaPreco)
+                           (x => x.CodigoDaListaDePreco, ((List<ListaPrecoCadastroVm>)ViewBag.ListaPreco)
                                .Select(x => new SelectListItem()
                                {
                                    Text = x.Descricao,
                                    Value = Convert.ToString(x.Codigo),
-                                   Selected = Model != null && x.Codigo == Model.listpre
+                                   Selected = Model != null && x.Codigo == Model.CodigoDaListaDePreco
                                }
-                               ), "listapreco"
-                           ); 
-                    }
+                               ), "CodigoDaListaDePreco"
+                           );
+}
                 
                 
                 @Html.LinhaComTresColunas(new ColunaComTextBox<PedidoVendaCadastroVm, decimal>(x => x.Quant,"maskquantidade campopequeno"),listapreco,
@@ -231,16 +220,49 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarCliente.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarProduto.js")"></script>
     <script type="text/javascript">
-        
+
         // array das linhas
-        var linhasAdicionadas = new Array();        
+        var linhasAdicionadas = new Array();
         var quantidadeDeFornecedoresIniciais = 0;
         var indiceEdicao = -1;
-        var status  = 0;
+        var status = 0;
         var simular = "S";
-        var gravar  = "G";
+        var gravar = "G";
+        var numeroDeItensInseridos = 0;
 
-        $(function () {
+        function carregarAreasDeVenda(idDoCliente) {
+
+            var comboDeAreaDeVenda = $('#AreaDeVenda');
+            comboDeAreaDeVenda  
+                .val('')
+                .change();
+
+            $.ajax({
+                url: '@Url.Action("ListarPorCliente", "AreaDeVenda")' + '/?idDoCliente='  + idDoCliente ,
+                type: 'GET',
+                cache: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.Sucesso) {
+                        
+                        comboDeAreaDeVenda.children(':not(:first)').remove();
+                        $.each(data.areasDeVenda, function(indice, areaDeVenda) {
+                            comboDeAreaDeVenda.append('<option value="' + areaDeVenda.Id + '">' + areaDeVenda.Descricao + '</option>');
+                        });
+                    } else {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Áreas de Venda do cliente. Detalhe: ' + data.Mensagem);
+                    }
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Áreas de Venda do cliente. Detalhe: ' + errorThrown);
+                }
+            });
+
+        }
+
+        $(function() {
             aplicaMascaraData();
             aplicaMascaraQuantidade();
 
@@ -256,10 +278,16 @@
             var selecionarCliente = new SelecionarCliente();
             var funcaoParaRetornarCamposDaBuscaDeCliente = function() {
                 var clienteSelecionado = selecionarCliente.clienteSelecionado;
+                var idDoCliente = $('#id_cliente').val();
+                if (idDoCliente != clienteSelecionado.Codigo) {
+                    carregarAreasDeVenda(clienteSelecionado.Codigo);
+                }
                 $('#id_cliente').val(clienteSelecionado.Codigo);
                 $('#Cliente_Nome').val(clienteSelecionado.Nome);
                 $('#Cliente_Cnpj').val(clienteSelecionado.Cnpj || clienteSelecionado.Cpf);
-                $('Cliente_Telefone').val(clienteSelecionado.Telefone);
+                $('#Cliente_Telefone').val(clienteSelecionado.Telefone);
+
+
             };
             selecionarCliente.configurar('#id_cliente', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
 
@@ -271,7 +299,17 @@
                 $('#CodigoUnidadeMedida').val(selecionarProduto.produtoSelecionado.UnidadeMedida);
             };
 
-            selecionarProduto.configurar('#id_material', 'divSelecionarProduto', '#btnBuscaMaterial', funcaoParaPreencherOsDadosDeRetornoDoProduto);
+            selecionarProduto.configurar('#id_material', 'divSelecionarProduto', '#btnBuscaMaterial','#id_centro', funcaoParaPreencherOsDadosDeRetornoDoProduto);
+
+            $('#AreaDeVenda').change(function() {
+                var areaDeVendaSelecionada = $(this).val();
+                if (areaDeVendaSelecionada) {
+                    var valoresDaAreaDeVenda = $(this).find(':selected').text().split('-');
+                    $('#id_centro').val(valoresDaAreaDeVenda[0]);
+                } else {
+                    $('#id_centro').val('');
+                }
+            });
 
             // botao de edicao nas linhas do grid
             $('#btnCancelarEdicao').hide();
@@ -282,7 +320,7 @@
 
             function existeLinhaPedido(linha) {
                 var linhaEncontrada = false;
-                $.each(linhasAdicionadas, function (indice, fornecedor) {
+                $.each(linhasAdicionadas, function(indice, fornecedor) {
                     if (linhaEncontrada) {
                         return;
                     }
@@ -305,29 +343,33 @@
                 $('#btnCancelarEdicao').hide();
             }
 
-            $('#btnCancelarEdicao').click(function () {
+            $('#btnCancelarEdicao').click(function() {
                 encerrarEdicao();
             });
 
             // Adiciona linha ao grid
-            $('#btnAdicionarFornecedor').click(function () {
+            $('#btnAdicionarFornecedor').click(function() {
                 var form = $('form');
                 if (!$(form).validate().form()) {
                     return;
                 }
 
-                var codigoDaListaDePrecoSelecionada = $('#listapreco :selected').val();
+                numeroDeItensInseridos++;
+                var codigoDoMotivoDeRecusa = $('#CodigoDoMotivoDeRecusa :selected').val();
 
                 // grava a linha no array de fornecedor
                 // Array que sera enviado para o controller que salva os pedidos
                 var fornecedor = {
+                    NumeroDoItem : numeroDeItensInseridos * 10,
                     CodigoMaterial: $('#id_material').val(),
                     DescricaoMaterial: $('#NomeDoMaterial').val(),
                     UnidadeDeMedida: $('#CodigoUnidadeMedida').val(),
                     Quantidade: $('#Quant').val(),
-                    listpre: codigoDaListaDePrecoSelecionada ? codigoDaListaDePrecoSelecionada : null,
-                    Descricaolistpre: codigoDaListaDePrecoSelecionada ? $('#listapreco :selected').text() : null,
-                    Desconto: $('#descma').val()
+                    listpre: $('#CodigoDaListaDePreco :selected').val(),
+                    Descricaolistpre: $('#CodigoDaListaDePreco :selected').text(),
+                    Desconto: $('#descma').val(),
+                    CodigoDoMotivoDeRecusa: codigoDoMotivoDeRecusa ? codigoDoMotivoDeRecusa : null,
+                    DescricaoDoMotivoDeRecusa: codigoDoMotivoDeRecusa ? $('#CodigoDoMotivoDeRecusa :selected').text() : null
                 };
 
                 // grava na variavel linhasAdicionadas os dados que seram manipulados antes de serem salvos
@@ -345,74 +387,113 @@
 
             // exibe os valores no grid 
             // quota. campo
-            $('#gridLinhasAdicionadas').kendoGrid({
+            $('#gridLinhasAdicionadas').customKendoGrid({
                 dataSource: {
                     schema: {
-                        data: function () { return linhasAdicionadas; },
+                        data: function() { return linhasAdicionadas; },
                         model: {
                             id: 'Codigo',
-                            fields: {                                
-                                CodigoMaterial:         { type: "string" },
-                                DescricaoMaterial:      { type: "string" },
-                                Quantidade:             { type: "number" },
-                                listpre:                { type: "string" },
-                                Descricaolistpre:       { type: "string" },
-                                Desconto:               { type: "number" },
+                            fields: {
+                                NumeroDoItem: { type: "number" },
+                                Status: { type: "string" },
+                                CodigoMaterial: { type: "string" },
+                                DescricaoMaterial: { type: "string" },
+                                Quantidade: { type: "number" },
+                                listpre: { type: "string" },
+                                Descricaolistpre: { type: "string" },
+                                Desconto: { type: "number" },
+                                ValorTabela: { type: "number" },
+                                ValorPolitica: { type: "number" },
+                                DescricaoDoMotivoDeRecusa: { type: "string" }
                             }
                         }
                     }
                 },
                 sortable: false,
-                selectable: 'row',
                 columns:
                 [
                     {
-                        title: ' ', /*coloco um espaço para deixar o header sem título*/
-                        width: 8,
-                        sortable: false,
-                        template: '<input type="button" class="button_edit" data-codigofornecedor="${""}"></input>'
+                        title: ' ', 
+                        width: 20,
+                        template: '<input type="button" class="button_edit"></input>'
                     },
-
                     {
-                        title: ' ', /*coloco um espaço para deixar o header sem título*/
-                        width: 8,
-                        sortable: false,
-                        template: '<input type="button" class="button_remove" data-codigofornecedor="${""}"></input>'
-                    },                   
-                    {
-                        field: "DescricaoMaterial",
-                        width: 60,             
-                        title: "Material"
+                        title: ' ',
+                        width: 20,
+                        template: '<input type="button" class="button_remove"></input>'
                     },
-
                     {
                         width: 30,
+                        field:"NumeroDoItem",
+                        title: "Item"
+                    },
+
+                    {
+                        width: 45,
+                        title: "Status"
+                    },
+                    {
+                        field: "CodigoMaterial",
+                        width: 45,
+                        title: "Código"
+                    },
+                    {
+                        field: "DescricaoMaterial",
+                        width: 150,
+                        title: "Material"
+                    },
+                    {
+                        width: 45,
                         field: "Quantidade",
                         title: "Quantidade"
                     },
-                   
                     {
                         field: "Descricaolistpre",
-                        width: 30,
+                        width: 50,
                         title: "Lista"
                     },
-
                     {
                         field: "Desconto",
-                        width: 30,
+                        width: 45,
                         title: "Desconto Manual",
-                        template: function (dataItem) {
+                        template: function(dataItem) {
                             return dataItem.Desconto ? dataItem.Desconto : "";
                         }
+                    },
+                    {
+                        field: "ValorTabela",
+                        width: 45,
+                        title: "Tabela"
+                    },
+                    {
+                        field: "ValorPolitica",
+                        width: 45,
+                        title: "Política"
+                    },
+                    {
+                        width: 45,
+                        title: "Condições",
+                        template: '<input type="button" class="button_information"></input>'
+                    },
+                    {
+                        field: "DescricaoDoMotivoDeRecusa",
+                        width: 75,
+                        title: "Motivo de Recusa"
                     }
+
+
                 ]
             });
+
+            function salvarPedido(acao, mensagemDeSucesso) {
+
+            }
 
             // botao de remover a linha do grid
             $('#gridLinhasAdicionadas').find('.button_remove').die('click');
 
             // funcao do botao de remover a linha do grid
-            $('#gridLinhasAdicionadas').find('.button_remove').live('click', function () {
+            $('#gridLinhasAdicionadas').find('.button_remove').live('click', function() {
                 var indice = $(this).parents('tr:first')[0].rowIndex;
                 linhasAdicionadas.splice(indice, 1);
                 atualizaGrid();
@@ -422,7 +503,7 @@
             $('#gridLinhasAdicionadas').find('.button_edit').die('click');
 
             // funcao de adicionar linha ao grid
-            $('#gridLinhasAdicionadas').find('.button_edit').live('click', function () {
+            $('#gridLinhasAdicionadas').find('.button_edit').live('click', function() {
                 indiceEdicao = $(this).parents('tr:first')[0].rowIndex;
                 var item = linhasAdicionadas[indiceEdicao];
 
@@ -430,18 +511,26 @@
                 $('#Id_material').val(item.CodigoMaterial);
                 $('#Quant').val(item.Quantidade);
                 $('#CodigoUnidadeMedida').val(item.UnidadeDeMedida);
-                $('#listapreco').val(item.listapreco);
+                $('#CodigoDaListaDePreco').val(item.listpre);
                 $('#descma').val(item.Desconto ? item.Desconto : '');
 
                 $('#btnAdicionarFornecedor').val('Atualizar');
                 $('#btnCancelarEdicao').show();
-            });                                           
+            });
+
+            $('#gridLinhasAdicionadas').find('.button_information').die('click');
+
+            $('#gridLinhasAdicionadas').find('.button_information').live('click', function () {
+
+                Mensagem.ExibirMensagemDeErro('A tela para visualizar as condições de preço ainda não foi construída.');
+
+            });
 
 
             //
             // Funcao do Botao de Simular o Pedido
             //
-            $('#btnSimular').click(function () {
+            $('#btnSimular').click(function() {
                 if (quantidadeDeFornecedoresIniciais == 0 && linhasAdicionadas.length == 0) {
                     Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de salvar.');
                     return;
@@ -449,7 +538,7 @@
 
                 // Grava no array os dados que serão salvos
                 var pedidoParaSalvar = new Array();
-                $.each(linhasAdicionadas, function (indice, quota) {
+                $.each(linhasAdicionadas, function(indice, quota) {
                     pedidoParaSalvar.push({
                         tipo: simular,
                         CodigoTipoPedido: $('#CodigoTipoPedido').val(),
@@ -483,7 +572,7 @@
                     data: JSON.stringify({ Pedido: pedidoParaSalvar }),
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    success: function (data) {
+                    success: function(data) {
                         if (data.Sucesso) {
                             Mensagem.ExibirMensagemDeSucesso("A Simulação do pedido foi salva com sucesso.");
                             quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
@@ -493,7 +582,7 @@
                         }
 
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
+                    error: function(jqXHR, textStatus, errorThrown) {
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
                     }
                 });
@@ -504,36 +593,36 @@
             //
             // Funcao do Botao de salvar o Pedido
             //
-            $('#btnGravar').click(function () {
+            $('#btnGravar').click(function() {
                 if (quantidadeDeFornecedoresIniciais == 0 && linhasAdicionadas.length == 0) {
                     Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de salvar.');
                     return;
-                }        
+                }
 
                 // Grava no array os dados que serão salvos
                 var pedidoParaSalvar = new Array();
-                $.each(linhasAdicionadas, function (indice, quota) {
+                $.each(linhasAdicionadas, function(indice, quota) {
                     pedidoParaSalvar.push({
-                        tipo:             gravar,
+                        tipo: gravar,
                         CodigoTipoPedido: $('#CodigoTipoPedido').val(),
-                        CodigoCondpgto:   $('#condpgto').val(),
-                        datap:            $('#datap').val(),
-                        NumeroPedido:     $('#id_pedido').val(),
-                        Trans:            $('#CodigoFornecedor').val(),
-                        Transred:         $('#Codigotransred').val(),
-                        Transredcif:      $('#Codigotransredcif').val(),
-                        Cliente:          $('#id_cliente').val(),
-                        Centro:           $('#id_centro').val(),
-                        Inco1:            $('#Inco1').val(),
-                        Inco2:            $('#Inco2').val(),
-                        Observacao:       $('#obs').val(),
+                        CodigoCondpgto: $('#condpgto').val(),
+                        datap: $('#datap').val(),
+                        NumeroPedido: $('#id_pedido').val(),
+                        Trans: $('#CodigoFornecedor').val(),
+                        Transred: $('#Codigotransred').val(),
+                        Transredcif: $('#Codigotransredcif').val(),
+                        Cliente: $('#id_cliente').val(),
+                        Centro: $('#id_centro').val(),
+                        Inco1: $('#Inco1').val(),
+                        Inco2: $('#Inco2').val(),
+                        Observacao: $('#obs').val(),
                         // linhas
-                        CodigoMaterial:   quota.CodigoMaterial,
-                        Quantidade:       quota.Quantidade,
+                        CodigoMaterial: quota.CodigoMaterial,
+                        Quantidade: quota.Quantidade,
                         //UnidadeMedida:    quota.CodigoUnidadeMedida,
-                        listapreco:       quota.listpre,
-                        Desconto:         quota.Desconto                        
-                    });                   
+                        listapreco: quota.listpre,
+                        Desconto: quota.Desconto
+                    });
                 });
 
 
@@ -543,20 +632,20 @@
                     url: '@Url.Action("Salvar", "PedidoVendaSalvar")',
                     type: 'POST',
                     cache: false,
-                    data: JSON.stringify({ Pedido: pedidoParaSalvar}),
+                    data: JSON.stringify({ Pedido: pedidoParaSalvar }),
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    success: function (data) {
+                    success: function(data) {
                         if (data.Sucesso) {
                             Mensagem.ExibirMensagemDeSucesso("O pedido foi gravado com sucesso.");
                             quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
                             return;
                         } else {
-                            Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Inserir os itens' );
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Inserir os itens');
                         }
 
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
+                    error: function(jqXHR, textStatus, errorThrown) {
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
                     }
                 });
@@ -572,41 +661,19 @@
                 $("#Data").datepicker();
             }
 
-            //
-            // Funcao do Botao que limpa os dados campos e do Grid
-            //
-            $('#btnNovo').click(function () {
+            $('#btnNovo').click(function() {
                 habilitarCampoData();
-                linhasAdicionadas = [];                
-                $('#Copiar').find('input[type!=button]').val('');
-                $('#Cabecalho').find('input[type!=button]').val('');
-                $("#CodigoTipoPedido").prop('selectedIndex', 0);
-                $("#condpgto").prop('selectedIndex', 0);
-                $("#Inco1").prop('selectedIndex', 0);
-                $("#Inco2").prop('selectedIndex', 0);
-                $("#id_cliente").prop('selectedIndex', 0);
-                $("#condpgto").prop('selectedIndex', 0);
-                $("#id_centro").prop('selectedIndex', 0);                
-                $('#Linha').find('input[type!=button]').val('');
-                $("#Id_material").prop('selectedIndex', 0);
-                $("#obs").prop('selectedIndex', 0);
-                $("#listapreco").prop('selectedIndex', 0);
-                //$('#obs').find('input[type!=button]').val('');
-                atualizaGrid();
-                $('form').find('input[type!=button]').val();
+                linhasAdicionadas = [];
+                numeroDeItensInseridos = 0;
             });
-            //
-            // Fim da funcao de Limpas os dados da Tela
-            //
-
 
             //
             // Funcao do Botao que copia os dados de uma cotacao para tela.
             // 
-            $('#btnCopiar').click(function () {
+            $('#btnCopiar').click(function() {
                 // Grava o o numero da cotacao
                 var id_cotacao = $('#id_cotacao').val();
-                
+
 
                 // Verifica se foi digitado o numero da Cotacao
                 if (id_cotacao == 0) {
@@ -625,15 +692,14 @@
                     data: JSON.stringify({ cotacao: id_cotacao }),
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    success: function (data) {                        
+                    success: function(data) {
 
                         //$('#divSelecionarFornecedor').val(data.trans);
-                        var status_gravado   = "Gravado";
+                        var status_gravado = "Gravado";
                         var status_simulacao = "Simulação";
-                        
+
                         // Valida o Status
-                        if (data.Tipo == "G")
-                        {
+                        if (data.Tipo == "G") {
                             //Mensagem.ExibirMensagemDeErro("Gravado");
                             $('#status').val(status_gravado);
                         }
@@ -644,14 +710,17 @@
                         }
 
                         // Executa a função que carrega os fornecedores.
-                        if (data.trans != 0)
-                        { SelecionarFornecedor.retornaFornecedor(data.trans, "trans"); }
+                        if (data.trans != 0) {
+                            SelecionarFornecedor.retornaFornecedor(data.trans, "trans");
+                        }
 
-                        if (data.transred != 0)
-                        { SelecionarFornecedor.retornaFornecedor(data.transred, "transred"); }
+                        if (data.transred != 0) {
+                            SelecionarFornecedor.retornaFornecedor(data.transred, "transred");
+                        }
 
-                        if (data.transredcif != 0)
-                        { SelecionarFornecedor.retornaFornecedor(data.transredcif, "transredcif"); }
+                        if (data.transredcif != 0) {
+                            SelecionarFornecedor.retornaFornecedor(data.transredcif, "transredcif");
+                        }
 
                         $('#CodigoTipoPedido').val(data.CodigoTipoPedido);
                         $('#condpgto').val(data.condpgto);
@@ -667,8 +736,7 @@
                         $('#obs').val(data.obs);
 
 
-                        
-                        //
+//
                         // alterar mais tarde pelo id_cotacao (Caso encontra dados no cabecalho, carregas as linhas do pedido do representante                                              
                         var cotacao = $('#CodigoTipoPedido').val();
                         if (cotacao != "") {
@@ -681,13 +749,13 @@
                                 data: JSON.stringify({ dados: id_cotacao }),
                                 contentType: "application/json",
                                 //dataType: 'json',
-                                success: function (data) {
-                                    $.each(data, function (index, value) {
+                                success: function(data) {
+                                    $.each(data, function(index, value) {
                                         //alert(value.id_material, value.id_cotacao);
 
                                         $('#Id_material').val(value.id_material);
                                         $('#Quant').val(value.Quant);
-                                        $('#listapreco').val(value.listpre);
+                                        $('#CodigoDaListaDePreco').val(value.listpre);
                                         $('#descma').val(value.descma);
 
                                         $('#btnAdicionarFornecedor').click();
@@ -695,21 +763,19 @@
                                     });
 
                                 },
-                                error: function (jqXHR, textStatus, errorThrown) {
+                                error: function(jqXHR, textStatus, errorThrown) {
                                     Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Linhas da Contacao: ' + textStatus + errorThrown);
                                 }
                             });
-                        }
-                        else
-                        {
+                        } else {
                             Mensagem.ExibirMensagemDeErro("A Cotacao consultada não foi encontrada.");
                         }
 
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os dados da Contacao: ' + textStatus + errorThrown);
-                        }
-                    });                                
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os dados da Contacao: ' + textStatus + errorThrown);
+                    }
+                });
             });
             //
             // Fim funcao Copiar
@@ -738,7 +804,11 @@
                 //
                 // Funcao do Botao de salvar o Pedido
                 //
-                $('#btnGravarEdicao').click(function () {
+                $('#btnGravarEdicao').click(function() {
+                    if (!$('form').validate().form()) {
+                        return;
+                    }
+
                     if (quantidadeDeFornecedoresIniciais == 0 && linhasAdicionadas.length == 0) {
                         Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de Gravar a Edição.');
                         return;
@@ -748,89 +818,19 @@
                     var pedidoParaSalvar = new Array();
 
                     /*var numeroPedido = $('#id_pedido').val().trim();*/
-                    var pedido = $('#id_pedido').val()
-
-                    var numeroPedido = rtrim(pedido);
-                    
-                    $.each(linhasAdicionadas, function (indice, quota) {
-                        pedidoParaSalvar.push({
-                            // cabecalho
-                            tipo:             gravar,
-                            Id_cotacao:       $('#id_cotacao').val(),
-                            CodigoTipoPedido: $('#CodigoTipoPedido').val(),
-                            CodigoCondpgto:   $('#condpgto').val(),
-                            datap:            $('#datap').val(),
-                            NumeroPedido:     numeroPedido,//$('#id_pedido').val(),
-                            Trans:            $('#CodigoFornecedor').val(),
-                            Transred:         $('#Codigotransred').val(),
-                            Transredcif:      $('#Codigotransredcif').val(),
-                            Cliente:          $('#id_cliente').val(),
-                            Centro:           $('#id_centro').val(),
-                            Inco1:            $('#Inco1').val(),
-                            Inco2:            $('#Inco2').val(),
-                            Observacao:       $('#obs').val(),
-                            // linhas
-                            CodigoMaterial:   quota.CodigoMaterial,
-                            Quantidade:       quota.Quantidade,
-                            //UnidadeMedida:    quota.CodigoUnidadeMedida,
-                            listapreco:       quota.listpre,
-                            Desconto:         quota.Desconto
-                        });
-                    });
-
-
-                    //
-                    // Chamada do Controller reponsalvel por salvar o pedido.                
-                    $.ajax({
-                        url: '@Url.Action("Atualizar", "PedidoVendaSalvar")',
-                    type: 'POST',
-                    cache: false,
-                    data: JSON.stringify({ Pedido: pedidoParaSalvar }),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.Sucesso) {
-                            Mensagem.ExibirMensagemDeSucesso("A edição do pedido foi gravada com sucesso.");
-                            quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
-                            return;
-                        } else {
-                            Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Atualizar os itens');
-                        }
-
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
-                    }
-                });
-
-                });
-
-                //
-                // Funcao do Botao de salvar o Pedido
-                //
-                $('#btnSimularEdicao').click(function () {
-                    if (quantidadeDeFornecedoresIniciais == 0 && linhasAdicionadas.length == 0) {
-                        Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de Simular a Edição.');
-                        return;
-                    }
-
-                    // Grava no array os dados que serão salvos
-                    var pedidoParaSalvar = new Array();
-
-                    /*var numeroPedido = $('#id_pedido').val().trim();*/
-                    var pedido = $('#id_pedido').val()
+                    var pedido = $('#id_pedido').val();
 
                     var numeroPedido = rtrim(pedido);
 
-                    $.each(linhasAdicionadas, function (indice, quota) {
+                    $.each(linhasAdicionadas, function(indice, quota) {
                         pedidoParaSalvar.push({
                             // cabecalho
-                            tipo: simular,
+                            tipo: gravar,
                             Id_cotacao: $('#id_cotacao').val(),
                             CodigoTipoPedido: $('#CodigoTipoPedido').val(),
                             CodigoCondpgto: $('#condpgto').val(),
                             datap: $('#datap').val(),
-                            NumeroPedido: numeroPedido,//$('#id_pedido').val(),
+                            NumeroPedido: numeroPedido, //$('#id_pedido').val(),
                             Trans: $('#CodigoFornecedor').val(),
                             Transred: $('#Codigotransred').val(),
                             Transredcif: $('#Codigotransredcif').val(),
@@ -858,7 +858,77 @@
                         data: JSON.stringify({ Pedido: pedidoParaSalvar }),
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
-                        success: function (data) {
+                        success: function(data) {
+                            if (data.Sucesso) {
+                                Mensagem.ExibirMensagemDeSucesso("A edição do pedido foi gravada com sucesso.");
+                                quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
+                                return;
+                            } else {
+                                Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Atualizar os itens');
+                            }
+
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
+                        }
+                    });
+
+                });
+
+                //
+                // Funcao do Botao de salvar o Pedido
+                //
+                $('#btnSimularEdicao').click(function() {
+                    if (quantidadeDeFornecedoresIniciais == 0 && linhasAdicionadas.length == 0) {
+                        Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de Simular a Edição.');
+                        return;
+                    }
+
+                    // Grava no array os dados que serão salvos
+                    var pedidoParaSalvar = new Array();
+
+                    /*var numeroPedido = $('#id_pedido').val().trim();*/
+                    var pedido = $('#id_pedido').val();
+
+                    var numeroPedido = rtrim(pedido);
+
+                    $.each(linhasAdicionadas, function(indice, quota) {
+                        pedidoParaSalvar.push({
+                            // cabecalho
+                            tipo: simular,
+                            Id_cotacao: $('#id_cotacao').val(),
+                            CodigoTipoPedido: $('#CodigoTipoPedido').val(),
+                            CodigoCondpgto: $('#condpgto').val(),
+                            datap: $('#datap').val(),
+                            NumeroPedido: numeroPedido, //$('#id_pedido').val(),
+                            Trans: $('#CodigoFornecedor').val(),
+                            Transred: $('#Codigotransred').val(),
+                            Transredcif: $('#Codigotransredcif').val(),
+                            Cliente: $('#id_cliente').val(),
+                            Centro: $('#id_centro').val(),
+                            Inco1: $('#Inco1').val(),
+                            Inco2: $('#Inco2').val(),
+                            Observacao: $('#obs').val(),
+                            // linhas
+                            CodigoMaterial: quota.CodigoMaterial,
+                            Quantidade: quota.Quantidade,
+                            //UnidadeMedida:    quota.CodigoUnidadeMedida,
+                            listapreco: quota.listpre,
+                            Desconto: quota.Desconto
+                        });
+                    });
+
+
+                    //
+                    // Chamada do Controller reponsalvel por salvar o pedido.                
+                    $.ajax({
+                        url: '@Url.Action("Atualizar", "PedidoVendaSalvar")',
+                        type: 'POST',
+                        cache: false,
+                        data: JSON.stringify({ Pedido: pedidoParaSalvar }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        success: function(data) {
                             if (data.Sucesso) {
                                 Mensagem.ExibirMensagemDeSucesso("A Simulacão do pedido foi gravada com sucesso.");
                                 quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
@@ -868,13 +938,13 @@
                             }
 
                         },
-                        error: function (jqXHR, textStatus, errorThrown) {
+                        error: function(jqXHR, textStatus, errorThrown) {
                             Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
                         }
                     });
 
                 });
-                
+
             }
             //
             // Fim Editar Pedido

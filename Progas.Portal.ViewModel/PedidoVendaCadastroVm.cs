@@ -79,16 +79,19 @@ namespace Progas.Portal.ViewModel
         //
         // linhas
         [Display(Name = "Código do Material:")]
+        [Required(ErrorMessage = "Material é obrigatório")]
         public string id_material { get; set; }
 
         [Display(Name = "Quantidade:")]
+        [Required(ErrorMessage = "Quantidade é obrigatório")]
         public decimal Quant { get; set; }
 
         [Display(Name = "Unidade de Medida:")]
         public string CodigoUnidadeMedida { get; set; }
 
+        [Required(ErrorMessage = "Lista é obrigatório")]
         [Display(Name = "Lista:")]
-        public string listpre { get; set; }
+        public string CodigoDaListaDePreco { get; set; }
 
         // Recebara o resultado da rfc
         public string valtab { get; set; }
@@ -106,6 +109,7 @@ namespace Progas.Portal.ViewModel
         // Recebara o resultado da rfc
         public string ordem { get; set; }
 
+        [Display(Name = "Área de Venda:")]
         public string AreaDeVenda { get; set; }
 
         public ClienteDoPedidoDeVendaVm Cliente { get; set; }

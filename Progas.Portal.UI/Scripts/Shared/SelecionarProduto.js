@@ -1,6 +1,7 @@
 ﻿function SelecionarProduto() {
 
     this.produtoSelecionado = null;
+    var centro = null;
 
     var me = this;
 
@@ -31,13 +32,14 @@
                             return {
                                 Codigo: $('#CodigoFiltro').val(),
                                 Descricao: $('#DescricaoFiltro').val(),
-                                Tipo: $('#TipoFiltro').val()
+                                Tipo: $('#TipoFiltro').val(),
+                                Centro: centro
                             };
                         }
                     }
                 }
             },
-            dataBound: function (e) {
+            dataBound: function () {
                 if (me.produtoSelecionado != null) {
                     $('input[name=radioProduto][data-codigoproduto=' + me.produtoSelecionado.Codigo + ']').attr('checked', true);
                 }
@@ -80,7 +82,8 @@
 
     };
 
-    function configurarJanelaModal(idDoCampoDoCodigoDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto, funcaoParaPreencherOsDadosDeRetorno) {
+    function configurarJanelaModal(idDoCampoDoCodigoDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto,
+        idDoCampoDoCentro, funcaoParaPreencherOsDadosDeRetorno) {
 
         $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
         $('#' + idDaDivDaJanelaDeDialogo).customDialog({
@@ -104,6 +107,13 @@
         });
         $(idDoBotaoDeSelecaoDoProduto).click(function () {
 
+            centro = $(idDoCampoDoCentro).val();
+
+            if (!centro) {
+                Mensagem.ExibirMensagemDeErro('Antes de selecionar o Material é necessário selecionar uma Área de Venda para identificarmos o Centro.');
+                return;
+            }
+
             var codigoDoProduto = $(idDoCampoDoCodigoDoProduto).val();
 
             if (codigoDoProduto) {
@@ -118,7 +128,9 @@
 
     };
 
-    this.configurar = function (idDoCampoDoCodigoDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto, funcaoParaPreencherOsDadosDeRetorno) {
-        configurarJanelaModal(idDoCampoDoCodigoDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto, funcaoParaPreencherOsDadosDeRetorno);
+    this.configurar = function (idDoCampoDoCodigoDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto,
+        idDoCampoDoCentro, funcaoParaPreencherOsDadosDeRetorno) {
+        configurarJanelaModal(idDoCampoDoCodigoDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto,
+            idDoCampoDoCentro, funcaoParaPreencherOsDadosDeRetorno);
     };
 }
