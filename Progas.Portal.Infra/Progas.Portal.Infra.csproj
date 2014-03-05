@@ -136,6 +136,7 @@
     <Compile Include="Mappings\ClienteMap.cs" />
     <Compile Include="Mappings\ClienteVendasMap.cs" />
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />
+    <Compile Include="Mappings\CondicaoDePrecoMap.cs" />
     <Compile Include="Mappings\FornecedorMap.cs" />
     <Compile Include="Mappings\IncotermLinhasMap.cs" />
     <Compile Include="Mappings\IncotermMap.cs" />

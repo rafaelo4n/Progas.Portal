@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Progas.Portal.Application.Queries.Builders;
 using Progas.Portal.Application.Queries.Contracts;
 using Progas.Portal.Domain.Entities;
@@ -22,6 +23,18 @@ namespace Progas.Portal.Application.Queries.Implementations
         public IList<IncotermLinhasCadastroVm> ListarTodas()
         {
             return _builder.BuildList(_incotermsLinhas.List());
+        }
+
+        public IList<IncotermLinhasCadastroVm> ListarPorCabecalho(string codigoDoCabecalho)
+        {
+            return _incotermsLinhas
+                .DoCabecalho(codigoDoCabecalho)
+                .GetQuery()
+                .Select(x => new IncotermLinhasCadastroVm
+                {
+                    Id = x.pro_id_incotermLinha,
+                    IncotermLinha = x.IncotermLinha
+                }).ToList();
         }
     }
 }

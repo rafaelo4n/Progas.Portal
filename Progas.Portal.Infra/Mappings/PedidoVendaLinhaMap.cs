@@ -21,6 +21,10 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Descma);
             Map(x => x.Valfin);
             Map(x => x.Motrec);
+            HasMany(x => x.CondicoesDePreco)
+                .KeyColumn("pro_id_item")
+                .Inverse()
+                .Cascade.AllDeleteOrphan();
         }
     }
 }

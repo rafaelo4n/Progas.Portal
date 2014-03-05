@@ -26,7 +26,9 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Motrec);
             Map(x => x.Status);
             Map(x => x.Vlrtot);
-            Map(x => x.Tipo);  
+            Map(x => x.Tipo);
+
+            References(x => x.AreaDeVenda, "pro_id_cliente_vendas");
         }
     }
 }

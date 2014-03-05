@@ -113,7 +113,7 @@ namespace Progas.Portal.UI.Controllers
             ViewBag.Centro = _consultaMaterial.ListarCentro();
             ViewBag.Materiais = _consultaMaterial.ListarTodas();
             ViewBag.Incoterms = _consultaIncotermCab.ListarTodas(); //_consultaIncoterm.ListarTodas();
-            ViewBag.IncotermsLinhas = _consultaIncotermLinhas.ListarTodas(); //_consultaIncoterm.ListarTodas();
+            //ViewBag.IncotermsLinhas = _consultaIncotermLinhas.ListarTodas(); //_consultaIncoterm.ListarTodas();
             ViewBag.Clientes = _consultaCliente.Listar();
             ViewBag.MotivosDeRecusa = _motivosDeRecusa;
             return View("_CriarPedidoVenda");

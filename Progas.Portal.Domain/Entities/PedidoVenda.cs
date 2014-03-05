@@ -28,6 +28,7 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Motrec { get; set; }
         public virtual string Status { get; set; }
         public virtual decimal Vlrtot { get; set; }
+        public virtual ClienteVenda AreaDeVenda{ get; set; }
         
 
         protected PedidoVenda()

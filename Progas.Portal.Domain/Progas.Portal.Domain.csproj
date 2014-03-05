@@ -86,6 +86,7 @@
     <Compile Include="Entities\Cliente.cs" />
     <Compile Include="Entities\ClienteVenda.cs" />
     <Compile Include="Entities\CondicaoDePagamento.cs" />
+    <Compile Include="Entities\CondicaoDePreco.cs" />
     <Compile Include="Entities\CondicaoPagamento.cs" />
     <Compile Include="Entities\Fornecedor.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />

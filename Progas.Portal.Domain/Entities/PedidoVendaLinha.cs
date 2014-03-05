@@ -23,9 +23,11 @@ namespace Progas.Portal.Domain.Entities
         public virtual decimal Descma { get; set; }
         public virtual decimal Valfin { get; set; }
         public virtual string  Motrec { get; set; }
+        public virtual IList<CondicaoDePreco> CondicoesDePreco  { get; protected set; }
 
         protected PedidoVendaLinha()
         {
+            CondicoesDePreco = new List<CondicaoDePreco>();
         }
 
         public PedidoVendaLinha( string  id_cotacao,

@@ -1,4 +1,5 @@
-﻿@using Progas.Portal.UI.Helpers
+﻿@using FluentNHibernate.Testing.Values
+@using Progas.Portal.UI.Helpers
 @using Progas.Portal.ViewModel
 @model PedidoVendaCadastroVm
 
@@ -96,14 +97,7 @@
                         );
 
                     var inco2 = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                        (x => x.inco2, ((List<IncotermsCabCadastroVm>)ViewBag.Incoterms)
-                            .Select(x => new SelectListItem()
-                            {
-                                Text = x.Descricao,
-                                Value = Convert.ToString(x.CodigoIncotermCab),
-                                Selected = Model != null && x.CodigoIncotermCab == Model.inco2
-                            }
-                            ), "Inco2"
+                        (x => x.inco2, new List<SelectListItem>(), "Inco2"
                         );
 
                     var buscaDeTransportadora = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.Transportadora.Codigo,
@@ -308,6 +302,36 @@
                     $('#id_centro').val(valoresDaAreaDeVenda[0]);
                 } else {
                     $('#id_centro').val('');
+                }
+            });
+
+            $('#Inco1').change(function () {
+                var incoterm1 = $(this).val();
+                if (incoterm1) {
+                    $.ajax({
+                        url: '@Url.Action("ListarIncotermsDoCabecalho", "Incoterm")' + '/?codigoDoCabecalho=' + incoterm1,
+                        type: 'GET',
+                        cache: false,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.Sucesso) {
+                                var comboDeIncoterm2 = $('#Inco2');
+
+                                comboDeIncoterm2.children(':not(:first)').remove();
+                                $.each(data.incoterms, function (indice, incoterm) {
+                                    comboDeIncoterm2.append('<option value="' + incoterm.Id + '">' + incoterm.IncotermLinha + '</option>');
+                                });
+                            } else {
+                                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o incoterm 2. Detalhe: ' + data.Mensagem);
+                            }
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o incoterm 2. Detalhe: ' + errorThrown);
+                        }
+                    });
+
                 }
             });
 

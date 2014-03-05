@@ -9,5 +9,11 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         public IncotermsLinhas(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
         }
+
+        public IIcontermslinhas DoCabecalho(string codigoDoCabecalho)
+        {
+            Query = Query.Where(x => x.CodigoIncotermCab == codigoDoCabecalho);
+            return this;
+        }
     }
 }

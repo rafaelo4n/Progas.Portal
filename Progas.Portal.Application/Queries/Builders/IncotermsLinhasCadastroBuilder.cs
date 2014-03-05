@@ -12,18 +12,14 @@ namespace Progas.Portal.Application.Queries.Builders
         {
             return new IncotermLinhasCadastroVm()
             {
-                CodigoIncotermCab = incotermLinhas.CodigoIncotermCab,
-                IncotermLinha     = incotermLinhas.IncotermLinha
+                Id = incotermLinhas.pro_id_incotermLinha,
+                IncotermLinha = incotermLinhas.IncotermLinha
             };
         }
 
         public IList<IncotermLinhasCadastroVm> BuildList(IList<IncotermLinhas> incotermLinhas)
         {
-            return incotermLinhas.Select(incoterm => new IncotermLinhasCadastroVm()
-            {
-                CodigoIncotermCab = incoterm.CodigoIncotermCab,
-                IncotermLinha     = incoterm.IncotermLinha
-            }).ToList();
+            return incotermLinhas.Select(BuildSingle).ToList();
         }
     }
 }
