@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progas.Portal.Domain.Entities
 {
@@ -29,10 +26,12 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Status { get; set; }
         public virtual decimal Vlrtot { get; set; }
         public virtual ClienteVenda AreaDeVenda{ get; set; }
-        
+        public virtual List<PedidoVendaLinha> Itens { get; protected set; }
+
 
         protected PedidoVenda()
         {
+            Itens = new List<PedidoVendaLinha>();
         } 
 
         public PedidoVenda( string tipo,
@@ -40,6 +39,7 @@ namespace Progas.Portal.Domain.Entities
                             string tipoPedido, 
                             string id_centro, 
                             string id_cliente,
+                            ClienteVenda areaDeVenda,
                             DateTime datacp,
                             string id_pedido,
                             DateTime datap,
@@ -59,6 +59,7 @@ namespace Progas.Portal.Domain.Entities
             TipoPedido  = tipoPedido;
             Id_centro   = id_centro;
             Id_cliente  = id_cliente;
+            AreaDeVenda = areaDeVenda;
             Datacp      = datacp;
             Id_pedido   = id_pedido;
             Datap       = datap;
@@ -70,9 +71,11 @@ namespace Progas.Portal.Domain.Entities
             Transredcif = transredcif;  
             Id_repre    = id_repre;
             Obs         = obs;
-            //Motrec = motrec;
-            //Status = status;
-            //Vlrtot = vlrtot;
+        }
+
+        public void AdicionarItem(PedidoVendaLinha item)
+        {
+            Itens.Add(item);
         }
              
     }

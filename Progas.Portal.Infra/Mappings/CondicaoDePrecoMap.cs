@@ -8,7 +8,7 @@ namespace Progas.Portal.Infra.Mappings
         public CondicaoDePrecoMap()
         {
             Table("pro_item_condicaopreco");
-            Id(x => x.Id);
+            Id(x => x.Id).GeneratedBy.Identity();
             Map(x => x.Nivel);
             Map(x => x.Tipo);
             Map(x => x.Base);

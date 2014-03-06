@@ -26,5 +26,10 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => x.Id_cliente == idDoCliente);
             return this;
         }
+
+        public ClienteVenda ObterPorId(int idDaAreaDeVenda)
+        {
+            return Query.Single(x => x.Id == idDaAreaDeVenda);
+        }
     }
 }

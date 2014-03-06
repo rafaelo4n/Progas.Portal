@@ -632,10 +632,11 @@
                         CodigoCondpgto: $('#condpgto').val(),
                         datap: $('#datap').val(),
                         NumeroPedido: $('#id_pedido').val(),
-                        Trans: $('#CodigoFornecedor').val(),
-                        Transred: $('#Codigotransred').val(),
-                        Transredcif: $('#Codigotransredcif').val(),
+                        Trans: $('#Transportadora_Codigo').val(),
+                        Transred: $('#TransportadoraDeRedespacho_Codigo').val(),
+                        Transredcif: $('#TransportadoraDeRedespachoCif_Codigo').val(),
                         Cliente: $('#id_cliente').val(),
+                        IdDaAreaDeVenda: $('#AreaDeVenda').val(),
                         Centro: $('#id_centro').val(),
                         Inco1: $('#Inco1').val(),
                         Inco2: $('#Inco2').val(),
@@ -643,7 +644,6 @@
                         // linhas
                         CodigoMaterial: quota.CodigoMaterial,
                         Quantidade: quota.Quantidade,
-                        //UnidadeMedida:    quota.CodigoUnidadeMedida,
                         listapreco: quota.listpre,
                         Desconto: quota.Desconto
                     });

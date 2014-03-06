@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Progas.Portal.Common;
-using Progas.Portal.Common.Exceptions;
-using Progas.Portal.ViewModel;
+﻿using System.Collections.Generic;
 
 namespace Progas.Portal.Domain.Entities
 {
@@ -14,9 +9,8 @@ namespace Progas.Portal.Domain.Entities
         public virtual string  Id_cotacao { get; set; }
         public virtual string  Id_item { get; set; }
         public virtual string  Id_pedido { get; set; }
-        public virtual string  Id_material { get; set; }
+        public virtual Material  Material { get; set; }
         public virtual decimal Quant { get; set; }
-        public virtual string  Unimed { get; set; }
         public virtual string  Listpre { get; set; }
         public virtual decimal Valtab { get; set; }
         public virtual decimal Valpol { get; set; }
@@ -30,30 +24,33 @@ namespace Progas.Portal.Domain.Entities
             CondicoesDePreco = new List<CondicaoDePreco>();
         }
 
-        public PedidoVendaLinha( string  id_cotacao,
-                                 string  id_item, 
-                                 string  id_pedido,
-                                 string  id_material, 
-                                 decimal quant,
-                                 string  unimed, 
-                                 string  listpre, 
-                                 decimal valtab, 
-                                 decimal valpol,
-                                 decimal descma, 
-                                 string  motrec
-                                ):this()
+        public PedidoVendaLinha(string id_cotacao,
+            string id_item,
+            string id_pedido,
+            Material material,
+            decimal quant,
+            string listpre,
+            decimal valtab,
+            decimal valpol,
+            decimal descma,
+            string motrec
+            ) : this()
         {
-            Id_cotacao  = id_cotacao;
-            Id_item     = id_item;
-            Id_pedido   = id_pedido;
-            Id_material = id_material;
-            Quant       = quant;
-            Unimed      = unimed;
-            Listpre     = listpre;
-            Valtab      = valtab;
-            Valpol      = valpol;
-            Descma      = descma;
-            Motrec      = motrec;
+            Id_cotacao = id_cotacao;
+            Id_item = id_item;
+            Id_pedido = id_pedido;
+            Material = material;
+            Quant = quant;
+            Listpre = listpre;
+            Valtab = valtab;
+            Valpol = valpol;
+            Descma = descma;
+            Motrec = motrec;
+        }
+
+        public virtual void AdicionarCondicao(CondicaoDePreco condicaoDePreco)
+        {
+            CondicoesDePreco.Add(condicaoDePreco);
         }
 
         /*public override bool Equals(object obj)

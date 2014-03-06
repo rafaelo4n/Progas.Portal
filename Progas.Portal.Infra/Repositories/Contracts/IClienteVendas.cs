@@ -12,5 +12,6 @@ namespace Progas.Portal.Infra.Repositories.Contracts
     {
         ClienteVenda ConsultaAtivDistribuicao(string cliente, string centro);
         IClienteVendas DoCliente(string idDoCliente);
+        ClienteVenda ObterPorId(int idDaAreaDeVenda);
     }
 }

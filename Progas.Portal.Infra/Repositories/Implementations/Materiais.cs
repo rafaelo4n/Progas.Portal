@@ -27,7 +27,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
 
         public IMateriais FiltraPorListaDeCodigos(string[] codigos)
         {
-            Query = Query.Where(x => codigos.Contains(x.Id_centro));
+            Query = Query.Where(x => codigos.Contains(x.Id_material));
             return this;
         }
 
