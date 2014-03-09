@@ -6,7 +6,7 @@ namespace Progas.Portal.Domain.Entities
     {
         // pro_vitem
         public virtual int pro_id_item { get; set; }
-        public virtual string  Id_cotacao { get; set; }
+        //public virtual string  Id_cotacao { get; set; }
         public virtual string  Id_item { get; set; }
         public virtual string  Id_pedido { get; set; }
         public virtual Material  Material { get; set; }
@@ -24,7 +24,7 @@ namespace Progas.Portal.Domain.Entities
             CondicoesDePreco = new List<CondicaoDePreco>();
         }
 
-        public PedidoVendaLinha(string id_cotacao,
+        public PedidoVendaLinha(//string id_cotacao,
             string id_item,
             string id_pedido,
             Material material,
@@ -36,7 +36,7 @@ namespace Progas.Portal.Domain.Entities
             string motrec
             ) : this()
         {
-            Id_cotacao = id_cotacao;
+            //Id_cotacao = id_cotacao;
             Id_item = id_item;
             Id_pedido = id_pedido;
             Material = material;

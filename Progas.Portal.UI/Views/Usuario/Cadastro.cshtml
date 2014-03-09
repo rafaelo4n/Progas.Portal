@@ -80,8 +80,11 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarRepresentante.js")"></script>
     <script>
 
-        SelecionarRepresentante.Configurar();
+        //SelecionarRepresentante.Configurar();
 
+        var selecionarTransportadora = new SelecionarFornecedor();
+        selecionarTransportadora.configurar("#CodigoFornecedor", "#NomeDoRepresentante", "divSelecionarRepresentante", "#btnSelecionarRepresentante");
+        
         var perfisDoUsuario = new Array();
         var perfisNaoAtribuidos = new Array();
         var urlParaSalvar = '@Model.UrlParaSalvar';

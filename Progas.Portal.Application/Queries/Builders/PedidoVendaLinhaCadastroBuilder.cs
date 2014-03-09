@@ -10,7 +10,7 @@ namespace Progas.Portal.Application.Queries.Builders
         {
             return new PedidoVendaLinhaCadastroVm()
             {
-                id_cotacao = model.Id_cotacao,
+                //id_cotacao = model.Id_cotacao,
                 id_item = model.Id_item,
                 id_material = model.Material.Id_material,
                 listpre = model.Listpre,

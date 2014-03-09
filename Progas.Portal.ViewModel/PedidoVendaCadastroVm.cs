@@ -19,35 +19,40 @@ namespace Progas.Portal.ViewModel
 
         //[Required(ErrorMessage = "Tipo do pedido é obrigatório")]
         [Display(Name = "Tipo do Pedido: ")]
+        [Required(ErrorMessage = "Tipo do Pedido é obrigatório")]
         public string CodigoTipoPedido { get; set; }
 
         [Display(Name = "Centro: ")]
         public string id_centro { get; set; }
 
         [Display(Name = "Cliente: ")]
+        [Required(ErrorMessage = "Cliente é obrigatório")]
         public string id_cliente { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Data de Criação: ")]
         public string datacp { get; set; }
 
-        //[Required(ErrorMessage = "O numero do Pedido é obrigatório")]
         [Display(Name = "N° Pedido: ")]
+        [Required(ErrorMessage = "Nº Pedido é obrigatório")]
+
         public string id_pedido { get; set; }
 
         [DataType(DataType.Date)]
-        //[Required(ErrorMessage = "Data do Pedido é Obrigatória")]
         [Display(Name = "Data do Pedido: ")]
+        [Required(ErrorMessage = "Data do Pedido é obrigatório")]
         public string datap { get; set; }
 
-        //[Required(ErrorMessage = "Condição de Pagamento é Obrigatória")]
-        [Display(Name = "Cond. Pag.")]
+        [Required(ErrorMessage = "Condição de Pagamento é obrigatória")]
+        [Display(Name = "Condição de Pagamento")]
         public string condpgto { get; set; }
 
         [Display(Name = "incoterm1: ")]
+        [Required(ErrorMessage = "incoterm1 é obrigatória")]
         public string inco1 { get; set; }
 
         [Display(Name = "incoterm2: ")]
+        [Required(ErrorMessage = "incoterm2 é obrigatória")]
         public string inco2 { get; set; }
 
         [Display(Name = "Transportadora: ")]

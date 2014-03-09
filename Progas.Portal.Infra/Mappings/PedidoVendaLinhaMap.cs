@@ -9,7 +9,7 @@ namespace Progas.Portal.Infra.Mappings
         {
             Table("pro_vitem");
             Id(x => x.pro_id_item);
-            Map(x => x.Id_cotacao);
+            //Map(x => x.Id_cotacao);
             Map(x => x.Id_item);
             Map(x => x.Id_pedido);
             
@@ -25,7 +25,9 @@ namespace Progas.Portal.Infra.Mappings
 
             HasMany(x => x.CondicoesDePreco)
                 .KeyColumn("pro_id_item")
-                .Inverse()
+                .Not.Inverse()
+                .Not.KeyNullable()
+                .Not.KeyUpdate()
                 .Cascade.AllDeleteOrphan();
         }
     }

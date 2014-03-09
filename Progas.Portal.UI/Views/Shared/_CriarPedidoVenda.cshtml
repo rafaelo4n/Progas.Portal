@@ -1,5 +1,4 @@
-﻿@using FluentNHibernate.Testing.Values
-@using Progas.Portal.UI.Helpers
+﻿@using Progas.Portal.UI.Helpers
 @using Progas.Portal.ViewModel
 @model PedidoVendaCadastroVm
 
@@ -89,7 +88,7 @@
                     (x => x.inco1, ((List<IncotermsCabCadastroVm>)ViewBag.Incoterms)
                             .Select(x => new SelectListItem()
                             {
-                                Text = x.Descricao,
+                                Text = string.Format("{0} - {1}",x.CodigoIncotermCab, x.Descricao),
                                 Value = Convert.ToString(x.CodigoIncotermCab),
                                 Selected = Model != null && x.CodigoIncotermCab == Model.inco1
                             }
@@ -128,18 +127,8 @@
                 
                 @Html.LinhaComQuatroColunas(buscaDeTransportadoraDeRedespacho, campoComNomeDaTransportadoraDeRedespacho,buscaDeTransportadoraDeRedespachoCif, campoComNomeDaTransportadoraDeRedespachoCif)
                 
-                @{
-                    var motivosDeRecusa = ((List<MotivoDeRecusaVm>) ViewBag.MotivosDeRecusa).Select( x =>
-                        new SelectListItem
-                        {
-                            Value = x.Codigo,
-                            Text = x.Descricao ,
-                            Selected = (Model != null && Model.motrec == x.Codigo)
-                        });
-                    var comboDeMotivoDeRecusa = new ColunaComDropDown<PedidoVendaCadastroVm, string>(x => x.motrec, motivosDeRecusa, "CodigoDoMotivoDeRecusa");
-                }
                 
-                @Html.LinhaComDuasColunas(new ColunaComTextArea<PedidoVendaCadastroVm, string>(x => x.obs),comboDeMotivoDeRecusa)
+                @Html.LinhaComUmaColuna(new ColunaComTextArea<PedidoVendaCadastroVm, string>(x => x.obs))
 
             </div> 
               
@@ -169,11 +158,24 @@
                                ), "CodigoDaListaDePreco"
                            );
 }
+
+                @{
+                       var motivosDeRecusa = ((List<MotivoDeRecusaVm>)ViewBag.MotivosDeRecusa).Select(x =>
+                           new SelectListItem
+                           {
+                               Value = x.Codigo,
+                               Text = x.Descricao,
+                               Selected = (Model != null && Model.motrec == x.Codigo)
+                           });
+                       var comboDeMotivoDeRecusa = new ColunaComDropDown<PedidoVendaCadastroVm, string>(x => x.motrec, motivosDeRecusa, "CodigoDoMotivoDeRecusa");
+                }
+
+
                 
                 
-                @Html.LinhaComTresColunas(new ColunaComTextBox<PedidoVendaCadastroVm, decimal>(x => x.Quant,"maskquantidade campopequeno"),listapreco,
-                new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.descma, "maskquantidade campopequeno")
-                )
+                @Html.LinhaComQuatroColunas(new ColunaComTextBox<PedidoVendaCadastroVm, decimal>(x => x.Quant,"maskquantidade campopequeno"),listapreco,
+             new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.descma, "maskquantidade campopequeno")
+             , comboDeMotivoDeRecusa)
 
                 <div class="divBotao">
                     <input type="button" id="btnAdicionarFornecedor" value="Adicionar" class="blue" />
@@ -569,18 +571,18 @@
                         CodigoCondpgto: $('#condpgto').val(),
                         datap: $('#datap').val(),
                         NumeroPedido: $('#id_pedido').val(),
-                        Trans: $('#CodigoFornecedor').val(),
-                        Transred: $('#Codigotransred').val(),
-                        Transredcif: $('#Codigotransredcif').val(),
+                        Trans: $('#Transportadora_Codigo').val(),
+                        Transred: $('#TransportadoraDeRedespacho_Codigo').val(),
+                        Transredcif: $('#TransportadoraDeRedespachoCif_Codigo').val(),
                         Cliente: $('#id_cliente').val(),
+                        IdDaAreaDeVenda: $('#AreaDeVenda').val(),
                         Centro: $('#id_centro').val(),
                         Inco1: $('#Inco1').val(),
-                        Inco2: $('#Inco2').val(),
+                        Inco2: $('#Inco2 :selected').text(),
                         Observacao: $('#obs').val(),
                         // linhas
                         CodigoMaterial: quota.CodigoMaterial,
                         Quantidade: quota.Quantidade,
-                        //UnidadeMedida:    quota.CodigoUnidadeMedida,
                         listapreco: quota.listpre,
                         Desconto: quota.Desconto
                     });
@@ -639,7 +641,7 @@
                         IdDaAreaDeVenda: $('#AreaDeVenda').val(),
                         Centro: $('#id_centro').val(),
                         Inco1: $('#Inco1').val(),
-                        Inco2: $('#Inco2').val(),
+                        Inco2: $('#Inco2 :selected').text(),
                         Observacao: $('#obs').val(),
                         // linhas
                         CodigoMaterial: quota.CodigoMaterial,

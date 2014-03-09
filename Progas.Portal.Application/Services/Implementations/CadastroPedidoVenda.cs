@@ -96,12 +96,15 @@ namespace Progas.Portal.Application.Services.Implementations
                     linha_envio_item.SetValue("MEINS", material.Uni_med);
                     linha_envio_item.SetValue("PLTYP", dados.listapreco);
                     envio_item.Insert(linha_envio_item);
-
+                    
                     // CONDICAO (Estrutura tipo tabela) 
-                    linha_envio_cond.SetValue("POSNR", contadorDeItens);
-                    linha_envio_cond.SetValue("KWERT", dados.Desconto);
-                    linha_envio_cond.SetValue("KSCHL", dados.CodigoCondpgto);
-                    envio_condicao.Insert(linha_envio_cond);
+                    if (dados.Desconto > 0)
+                    {
+                        linha_envio_cond.SetValue("POSNR", contadorDeItens);
+                        linha_envio_cond.SetValue("KWERT", dados.Desconto);
+                        linha_envio_cond.SetValue("KSCHL", "ZDEM");
+                        envio_condicao.Insert(linha_envio_cond);
+                    }
                     // Apos inserir o ultimo item na estrutura do SAP, realiza a chamada da Função e salva para o tipo Gravação e retornar as linhas.
                     contadorDeItens++;
                 }
@@ -135,7 +138,8 @@ namespace Progas.Portal.Application.Services.Implementations
                     cabecalhoDoPedido.transred,
                     cabecalhoDoPedido.transredcif,
                     Convert.ToString(usuarioConectado.CodigoDoFornecedor),
-                    cabecalhoDoPedido.Observacao);
+                    cabecalhoDoPedido.Observacao,
+                    fReadTable.GetString("E_STATUS"));
 
 
                 for (int i = 0; i < retornoItens.Count; i++)
@@ -145,7 +149,7 @@ namespace Progas.Portal.Application.Services.Implementations
 
                     Material material = materiaisDosItens.Single(x => x.Id_material == item.CodigoMaterial);
 
-                    var linhasPedido = new PedidoVendaLinha(retornoItem.GetString("COTACAO"),
+                    var linhasPedido = new PedidoVendaLinha(//retornoItem.GetString("COTACAO"),
                         retornoItem.GetString("POSNR"),
                         cabecalhoDoPedido.NumeroPedido,
                         material, 

@@ -13,7 +13,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
 
         public IPedidosVendaLinha CotacaoPedidoContendo(string filtroCotacao)
         {
-            Query = Query.Where(x => x.Id_cotacao == filtroCotacao);
+            //Query = Query.Where(x => x.Id_cotacao == filtroCotacao);
             return this;
         }
 

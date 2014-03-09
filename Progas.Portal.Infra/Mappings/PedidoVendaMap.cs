@@ -29,6 +29,14 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Tipo);
 
             References(x => x.AreaDeVenda, "pro_id_cliente_vendas");
+
+            HasMany(x => x.Itens)
+                .KeyColumn("Id_cotacao")
+                .Not.Inverse()
+                .Not.KeyNullable()
+                .Not.KeyUpdate()
+                .Cascade.AllDeleteOrphan();
+
         }
     }
 }
