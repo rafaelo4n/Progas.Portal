@@ -10,16 +10,16 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Id_cotacao { get; set; }
         public virtual string TipoPedido { get; set; }
         public virtual string Id_centro { get; set; }
-        public virtual string Id_cliente { get; set; }
+        public virtual Cliente Cliente { get; set; }
         public virtual DateTime Datacp { get; set; }
         public virtual string Id_pedido { get; set; }
         public virtual DateTime Datap { get; set; }
         public virtual string Condpgto { get; set; }
         public virtual string Inco1 { get; set; }
         public virtual string Inco2 { get; set; }
-        public virtual string Trans { get; set; }
-        public virtual string Transred { get; set; }
-        public virtual string Transredcif { get; set; }
+        public virtual Fornecedor Transportadora { get; set; }
+        public virtual Fornecedor TransportadoraDeRedespacho { get; set; }
+        public virtual Fornecedor TransportadoraDeRedespachoCif { get; set; }
         public virtual string Id_repre { get; set; }
         public virtual string Obs { get; set; }
         public virtual string Motrec { get; set; }
@@ -38,7 +38,7 @@ namespace Progas.Portal.Domain.Entities
             string id_cotacao,
             string tipoPedido,
             string id_centro,
-            string id_cliente,
+            Cliente cliente,
             ClienteVenda areaDeVenda,
             DateTime datacp,
             string id_pedido,
@@ -46,9 +46,9 @@ namespace Progas.Portal.Domain.Entities
             string condpgto,
             string inco1,
             string inco2,
-            string trans,
-            string transred,
-            string transredcif,
+            Fornecedor transportadora,
+            Fornecedor transportadoraDeRedespacho,
+            Fornecedor transportadoraDeRedespachoCif,
             string id_repre,
             string obs,
             string status
@@ -59,7 +59,7 @@ namespace Progas.Portal.Domain.Entities
             Id_cotacao = id_cotacao;
             TipoPedido = tipoPedido;
             Id_centro = id_centro;
-            Id_cliente = id_cliente;
+            Cliente = cliente;
             AreaDeVenda = areaDeVenda;
             Datacp = datacp;
             Id_pedido = id_pedido;
@@ -67,9 +67,9 @@ namespace Progas.Portal.Domain.Entities
             Condpgto = condpgto;
             Inco1 = inco1;
             Inco2 = inco2;
-            Trans = trans;
-            Transred = transred;
-            Transredcif = transredcif;
+            Transportadora = transportadora;
+            TransportadoraDeRedespacho = transportadoraDeRedespacho;
+            TransportadoraDeRedespachoCif = transportadoraDeRedespachoCif;
             Id_repre = id_repre;
             Obs = obs;
             Status = status;

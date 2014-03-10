@@ -11,6 +11,7 @@
 
     public class ClienteParaSelecaoVm: ClienteFiltroVm
     {
+        public int Id { get; set; }
         public string Telefone { get; set; }
     }
 

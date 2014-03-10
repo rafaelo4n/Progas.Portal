@@ -163,7 +163,6 @@
     <Compile Include="Repositories\Contracts\IClienteVendas.cs" />
     <Compile Include="Repositories\Contracts\IIncotermsCabs.cs" />
     <Compile Include="Repositories\Contracts\IIncotermsLinhascs.cs" />
-    <Compile Include="Repositories\Contracts\IPedidosVendaLinha.cs" />
     <Compile Include="Repositories\Contracts\IIncoterms.cs" />
     <Compile Include="Repositories\Contracts\IListasPreco.cs" />
     <Compile Include="Repositories\Contracts\IMateriais.cs" />
@@ -186,7 +185,6 @@
     <Compile Include="Repositories\Contracts\ICompleteRepository.cs" />
     <Compile Include="Repositories\Contracts\IReadOnlyRepository.cs" />
     <Compile Include="Repositories\Implementations\CondicoesDePagamento.cs" />
-    <Compile Include="Repositories\Implementations\PedidosVendaLinha.cs" />
     <Compile Include="Repositories\Implementations\PedidosVenda.cs" />
     <Compile Include="Repositories\Implementations\TipoPedidos.cs" />
     <Compile Include="Repositories\Implementations\UnidadesDeMedida.cs" />

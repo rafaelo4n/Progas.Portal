@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using Progas.Portal.Application.Services.Contracts;
 using Progas.Portal.UI.Filters;
@@ -18,14 +17,10 @@ namespace Progas.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Salvar(IList<PedidoVendaSalvarVm> pedido)
+        public JsonResult Salvar(PedidoVendaSalvarVm pedido)
         {
              try
                 {
-                    if (pedido == null)
-                    {
-                        pedido = new List<PedidoVendaSalvarVm>();
-                    }
                     _cadastroPedidoVenda.Salvar(pedido);
                     return Json(new { Sucesso = true, pedido });
                 }
@@ -33,25 +28,6 @@ namespace Progas.Portal.UI.Controllers
                 {
                     return Json(new { Sucesso = false, Mensagem = ex.Message + "Erro ao Salvar o Pedido de Venda." });
                 }            
-        }
-
-        [HttpPost]
-        public JsonResult Atualizar(IList<PedidoVendaSalvarVm> pedido)
-        {
-            try
-            {
-                if (pedido == null)
-                {
-                    pedido = new List<PedidoVendaSalvarVm>();
-
-                }
-                _cadastroPedidoVenda.Atualizar(pedido);
-                return Json(new { Sucesso = true });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Sucesso = false, Mensagem = ex.Message + "Erro ao Atualizar o Pedido de Vendas." });
-            }
         }
 
     }

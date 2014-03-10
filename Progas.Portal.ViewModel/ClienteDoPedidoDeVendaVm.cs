@@ -4,6 +4,11 @@ namespace Progas.Portal.ViewModel
 {
     public class ClienteDoPedidoDeVendaVm
     {
+
+        public int Id { get; set; }
+        [Display(Name = "Cliente: ")]
+        [Required(ErrorMessage = "Cliente é obrigatório")]
+        public string Codigo { get; set; }
         [Display(Name = "Nome:")]
         public string Nome { get; set; }
         [Display(Name = "CNPJ/CPF:")]

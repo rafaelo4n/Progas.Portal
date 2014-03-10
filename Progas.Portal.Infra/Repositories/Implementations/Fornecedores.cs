@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 
@@ -52,6 +53,11 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => x.Nome.ToLower().Contains(descricao.ToLower()));
             return this;
         }
-       
+
+        public IFornecedores BuscaListaPorIds(IList<int> ids)
+        {
+            Query = Query.Where(x => ids.Contains(x.Id));
+            return this;
+        }
     }
 }

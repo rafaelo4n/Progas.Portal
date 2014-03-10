@@ -17,7 +17,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         {
             if (!string.IsNullOrEmpty(filtroCodigo))
             {
-                Query = Query.Where(x => x.Id_cliente.ToLower().Contains(filtroCodigo.ToLower()));
+                Query = Query.Where(x => x.Cliente.Id_cliente.ToLower().Contains(filtroCodigo.ToLower()));
             }
 
             return this;
@@ -70,5 +70,10 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IPedidosVenda FiltraPorId(string idDoPedido)
+        {
+            Query = Query.Where(x => x.Id_cotacao == idDoPedido);
+            return this;
+        }
     }
 }

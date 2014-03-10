@@ -11,6 +11,7 @@
                     data: 'Registros',
                     model: {
                         fields: {
+                            Id: {type: "number"},
                             Codigo: { type: "string" },
                             Nome: { type: "string" },
                             Cnpj: { type: "string" },
@@ -35,19 +36,18 @@
                 },
                 pageSize: 10
             },
-            dataBound: function (e) {
-                if (me.clienteSelecionado != null) {
-                    $('input[name=radioCliente][data-codigocliente=' + me.clienteSelecionado.Codigo + ']').attr('checked', true);
+            dataBound: function () {
+                if (me.clienteSelecionado) {
+                    $('input[name=radioCliente][data-idcliente=' + me.clienteSelecionado.Id + ']').attr('checked', true);
                 }
             },
             columns:
             [
                 {
-                    field: 'Codigo',
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
                     width: 30,
                     sortable: false,
-                    template: '<input type="radio" name="radioCliente" data-codigocliente="${Codigo}"></input>'
+                    template: '<input type="radio" name="radioCliente" data-idcliente="${Id}"></input>'
                 },
                 {
                     field: "Codigo",
@@ -91,10 +91,10 @@
 
     };
 
-    function configurarJanelaModal(idDoCampoDoCodigoDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno) {
+    function configurarJanelaModal(idDoCampoDoIdDoCliente, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoCliente, funcaoParaPreencherOsDadosDeRetorno) {
         $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
         $('#' + idDaDivDaJanelaDeDialogo).customDialog({
-            title: 'Selecionar Fornecedor',
+            title: 'Selecionar Cliente',
             buttons: {
                 "Confirmar": function () {
                     if (me.clienteSelecionado == null) {
@@ -114,13 +114,13 @@
         });
 
         //evento que acontece quando clica no botão da tela principal para abrir a modal
-        $(idDoBotaoDeSelecaoDoFornecedor).click(function () {
+        $(idDoBotaoDeSelecaoDoCliente).click(function () {
 
-            var codigoDoFornecedor = $(idDoCampoDoCodigoDoFornecedor).val();
+            var idDoCliente = $(idDoCampoDoIdDoCliente).val();
 
-            if (codigoDoFornecedor) {
+            if (idDoCliente) {
                 me.clienteSelecionado = {
-                    Codigo: codigoDoFornecedor
+                    Id: idDoCliente
                 };
             }
 
@@ -129,7 +129,7 @@
 
     };
 
-    this.configurar = function (idDoCampoDoCodigoDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno) {
-        configurarJanelaModal(idDoCampoDoCodigoDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor,funcaoParaPreencherOsDadosDeRetorno);
+    this.configurar = function (idDoCampoDoIdDoCliente, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoCliente, funcaoParaPreencherOsDadosDeRetorno) {
+        configurarJanelaModal(idDoCampoDoIdDoCliente, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoCliente,funcaoParaPreencherOsDadosDeRetorno);
     };
 }

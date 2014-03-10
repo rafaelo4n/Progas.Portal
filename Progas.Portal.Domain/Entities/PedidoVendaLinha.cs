@@ -2,7 +2,7 @@
 
 namespace Progas.Portal.Domain.Entities
 {
-    public class PedidoVendaLinha : IAggregateRoot
+    public class PedidoVendaLinha
     {
         // pro_vitem
         public virtual int pro_id_item { get; set; }
@@ -53,22 +53,5 @@ namespace Progas.Portal.Domain.Entities
             CondicoesDePreco.Add(condicaoDePreco);
         }
 
-        /*public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((PedidoVendaLinha)obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hashCode = (Id_cotacao != null ? Id_cotacao.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (Id_item != null ? Id_item.GetHashCode() : 0);
-                return hashCode;
-            }
-        }*/
     }
 }

@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Progas.Portal.ViewModel
 {
-    [DataContract]
     public class PedidoVendaCadastroVm : ListagemVm
     {   
         // Cabecalho
@@ -25,10 +22,6 @@ namespace Progas.Portal.ViewModel
         [Display(Name = "Centro: ")]
         public string id_centro { get; set; }
 
-        [Display(Name = "Cliente: ")]
-        [Required(ErrorMessage = "Cliente é obrigatório")]
-        public string id_cliente { get; set; }
-
         [DataType(DataType.Date)]
         [Display(Name = "Data de Criação: ")]
         public string datacp { get; set; }
@@ -47,22 +40,13 @@ namespace Progas.Portal.ViewModel
         [Display(Name = "Condição de Pagamento")]
         public string condpgto { get; set; }
 
-        [Display(Name = "incoterm1: ")]
-        [Required(ErrorMessage = "incoterm1 é obrigatória")]
+        [Display(Name = "Incoterm 1: ")]
+        [Required(ErrorMessage = "Incoterm 1 é obrigatória")]
         public string inco1 { get; set; }
 
-        [Display(Name = "incoterm2: ")]
-        [Required(ErrorMessage = "incoterm2 é obrigatória")]
+        [Display(Name = "Incoterm 2: ")]
+        [Required(ErrorMessage = "Incoterm 2 é obrigatória")]
         public string inco2 { get; set; }
-
-        [Display(Name = "Transportadora: ")]
-        public string trans { get; set; }
-
-        [Display(Name = "Transp. Redespacho:")]
-        public string transred { get; set; }
-
-        [Display(Name = "Transp. Redespacho CIF: ")]
-        public string transredcif { get; set; }
 
         [Display(Name = "Representante: ")]
         public string id_repre { get; set; }
@@ -76,16 +60,10 @@ namespace Progas.Portal.ViewModel
         public string motrec { get; set; }
 
         [Display(Name = "Total Final: ")]
-        public string vlrtot { get; set; }
+        public decimal vlrtot { get; set; }
 
         [Display(Name = "Tipo de Envio: G ou S")]
         public string Tipo { get; set; }
-
-        //
-        // linhas
-        [Display(Name = "Código do Material:")]
-        [Required(ErrorMessage = "Material é obrigatório")]
-        public string id_material { get; set; }
 
         [Display(Name = "Quantidade:")]
         [Required(ErrorMessage = "Quantidade é obrigatório")]
@@ -98,33 +76,31 @@ namespace Progas.Portal.ViewModel
         [Display(Name = "Lista:")]
         public string CodigoDaListaDePreco { get; set; }
 
-        // Recebara o resultado da rfc
-        public string valtab { get; set; }
-
-        // Recebara o resultado da rfc
-        public string valpol { get; set; }
-
         // Desconto Manual
         [Display(Name = "Desconto:")]
-        public string descma { get; set; }
+        public string Desconto { get; set; }
 
-        // Recebara o resultado da rfc
-        public string valfin { get; set; }
-
-        // Recebara o resultado da rfc
-        public string ordem { get; set; }
+        public string ValorTotalFinal { get; set; }
 
         [Display(Name = "Área de Venda:")]
-        public string AreaDeVenda { get; set; }
+        public int IdDaAreaDeVenda { get; set; }
 
         public ClienteDoPedidoDeVendaVm Cliente { get; set; }
         public TransportadoraDoPedidoDeVenda Transportadora { get; set; }
         public TransportadoraDoPedidoDeVenda TransportadoraDeRedespacho { get; set; }
         public TransportadoraDoPedidoDeVenda TransportadoraDeRedespachoCif { get; set; }
+
+        //itens
+        public string ordem { get; set; }
+
+        [Display(Name = "Código do Material:")]
+        [Required(ErrorMessage = "Material é obrigatório")]
+        public string id_material { get; set; }
+
+
         [Display(Name = "Nome do Material:")]
         public string NomeDoMaterial { get; set; }
+
     }
 
-    [CollectionDataContract]
-    public class ListaPedido : List<PedidoVendaCadastroVm> { }
 }

@@ -6,26 +6,21 @@ using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.ViewModel;
 
-//using StructureMap;
-
 namespace Progas.Portal.Application.Queries.Implementations
 {
     public class ConsultaPedidoVenda : IConsultaPedidoVenda
     {
         private readonly IPedidosVenda      _pedidosVenda;
-        private readonly IPedidosVendaLinha _pedidosVendaLinha; 
         private readonly IBuilder<PedidoVenda, PedidoVendaCadastroVm> _builderPedidoVenda;
         private readonly IBuilder<PedidoVendaLinha, PedidoVendaLinhaCadastroVm> _builderPedidoVendaLinha;
         private readonly IUsuarios _usuarios;
 
         public ConsultaPedidoVenda( IPedidosVenda pedidosVenda,
-                                    IPedidosVendaLinha pedidosVendaLinha,
                                     IBuilder<PedidoVenda, PedidoVendaCadastroVm> builderPedidoVenda,
                                     IBuilder<PedidoVendaLinha, PedidoVendaLinhaCadastroVm> builderPedidoVendaLinha,
                                     IUsuarios usuarios)
         {
             _pedidosVenda             = pedidosVenda;
-            _pedidosVendaLinha        = pedidosVendaLinha;
             _builderPedidoVenda       = builderPedidoVenda;
             _builderPedidoVendaLinha  = builderPedidoVendaLinha;
             _usuarios                 = usuarios;
@@ -57,22 +52,24 @@ namespace Progas.Portal.Application.Queries.Implementations
         // Pesquisa da tela de Listar Pedidos ( Linhas) 
         public KendoGridVm ListarLinhasPedido(PaginacaoVm paginacaoVm, string cotacao)
         {            
-            _pedidosVendaLinha.CotacaoPedidoContendo(cotacao); 
+            //_pedidosVendaLinha.CotacaoPedidoContendo(cotacao); 
 
-            var kendoGridVm = new KendoGridVm
-            {
-                QuantidadeDeRegistros = _pedidosVendaLinha.Count(),
-                Registros = 
-                            _builderPedidoVendaLinha.BuildList
-                            (
-                                _pedidosVendaLinha                                    
-                                    .Skip(paginacaoVm.Skip)
-                                   .Take(paginacaoVm.Take)                                   
-                                   .List()
-                            )
-                            .Cast<ListagemVm>().ToList()
-            };
-            return kendoGridVm;
+            //var kendoGridVm = new KendoGridVm
+            //{
+            //    QuantidadeDeRegistros = _pedidosVendaLinha.Count(),
+            //    Registros = 
+            //                _builderPedidoVendaLinha.BuildList
+            //                (
+            //                    _pedidosVendaLinha                                    
+            //                        .Skip(paginacaoVm.Skip)
+            //                       .Take(paginacaoVm.Take)                                   
+            //                       .List()
+            //                )
+            //                .Cast<ListagemVm>().ToList()
+            //};
+            //return kendoGridVm;
+
+            return new KendoGridVm();
         }
 
         // Pesquisa do Botão Copiar( Cabecalho )
@@ -89,8 +86,72 @@ namespace Progas.Portal.Application.Queries.Implementations
             //_pedidosVendaLinha.CotacaoPedidoContendo(cotacao);
            //return _builderPedidoVendaLinha.BuildList(_pedidosVendaLinha.List());
             //return _builderPedidoVendaLinha.BuildList(_pedidosVendaLinha.CotacaoPedidoContendo(cotacao).List());        
-            var dados = _builderPedidoVendaLinha.BuildList(_pedidosVendaLinha.CotacaoPedidoContendo(cotacao).List());
-            return dados.ToList();
+            //var dados = _builderPedidoVendaLinha.BuildList(_pedidosVendaLinha.CotacaoPedidoContendo(cotacao).List());
+            //return dados.ToList();
+
+            return new List<PedidoVendaLinhaCadastroVm>();
+
+        }
+
+        public PedidoVendaCadastroVm Consultar(string idDoPedido)
+        {
+            IQueryable<PedidoVenda> queryable = _pedidosVenda
+                .FiltraPorId(idDoPedido)
+                .GetQuery();
+
+            PedidoVendaCadastroVm pedidoVendaCadastroVm = queryable.Select(pedido => new PedidoVendaCadastroVm
+            {
+                id_cotacao = pedido.Id_cotacao,
+                IdDaAreaDeVenda = pedido.AreaDeVenda.Id,
+                Cliente = new ClienteDoPedidoDeVendaVm
+                {
+                  Id  = pedido.Cliente.Id ,
+                  Codigo = pedido.Cliente.Id_cliente,
+                  Nome = pedido.Cliente.Nome,
+                  Cnpj =  pedido.Cliente.Cnpj ?? pedido.Cliente.Cpf,
+                  Telefone = pedido.Cliente.Tel_res
+                },
+                CodigoTipoPedido = pedido.TipoPedido ,
+                Transportadora = pedido.Transportadora != null 
+                ? new TransportadoraDoPedidoDeVenda
+                {
+                    Id = pedido.Transportadora.Id,
+                    Codigo = pedido.Transportadora.Codigo,
+                    Nome = pedido.Transportadora.Nome
+                }
+                : null,
+
+                TransportadoraDeRedespacho = pedido.TransportadoraDeRedespacho != null
+                ?new TransportadoraDoPedidoDeVenda
+                {
+                    Id = pedido.TransportadoraDeRedespacho.Id,
+                    Codigo = pedido.TransportadoraDeRedespacho.Codigo,
+                    Nome =  pedido.TransportadoraDeRedespacho.Nome
+                }
+                : null,
+
+                TransportadoraDeRedespachoCif = pedido.TransportadoraDeRedespachoCif != null 
+                ?  new TransportadoraDoPedidoDeVenda
+                {
+                    Id = pedido.TransportadoraDeRedespachoCif.Id,
+                    Codigo = pedido.TransportadoraDeRedespachoCif.Codigo,
+                    Nome = pedido.TransportadoraDeRedespachoCif.Nome
+                }
+                : null,
+                condpgto = pedido.Condpgto,
+                datacp = pedido.Datacp.ToShortDateString(),
+                datap = pedido.Datap.ToShortDateString(),
+                id_centro = pedido.Id_centro ,
+                id_pedido = pedido.Id_pedido ,
+                id_repre =pedido.Id_repre ,
+                inco1 = pedido.Inco1,
+                inco2 = pedido.Inco2 ,
+                vlrtot = pedido.Vlrtot,
+                obs = pedido.Obs
+
+            }).Single();
+
+            return pedidoVendaCadastroVm;
 
         }
     }

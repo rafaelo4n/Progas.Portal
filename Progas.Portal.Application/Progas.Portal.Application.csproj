@@ -145,7 +145,6 @@
     <Compile Include="Queries\Implementations\ConsultaListaPreco.cs" />
     <Compile Include="Queries\Implementations\ConsultaMaterial.cs" />
     <Compile Include="Queries\Implementations\ConsultaPedidoVenda.cs" />
-    <Compile Include="Queries\Implementations\ConsultaPedidoVendaLinha.cs" />
     <Compile Include="Queries\Implementations\ConsultaPerfil.cs" />
     <Compile Include="Queries\Implementations\ConsultaTipoPedido.cs" />
     <Compile Include="Queries\Implementations\ConsultaTransRedespacho.cs" />

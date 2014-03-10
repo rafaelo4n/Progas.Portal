@@ -101,6 +101,7 @@
     <Compile Include="PedidoVendaCadastroVm.cs" />
     <Compile Include="PedidoVendaFiltroVm.cs" />
     <Compile Include="PedidoVendaLinhaCadastroVm.cs" />
+    <Compile Include="PedidoVendaSalvarItemVm.cs" />
     <Compile Include="PedidoVendaSalvarVm.cs" />
     <Compile Include="PedidoVendaLinhaVm.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

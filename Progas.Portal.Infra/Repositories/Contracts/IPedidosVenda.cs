@@ -16,5 +16,6 @@ namespace Progas.Portal.Infra.Repositories.Contracts
         PedidoVenda   CotacaoPedidoContendo  (string filtroCotacao, string representante);
         IPedidosVenda CotacaoRepresentante(string id_representante);    
         //IPedidosVenda MaterialCodigoContendo (string filtroMaterial);  
+        IPedidosVenda FiltraPorId(string idDoPedido);
     }
 }

@@ -19,5 +19,7 @@ namespace Progas.Portal.Application.Queries.Contracts
         KendoGridVm ListarLinhasPedido(PaginacaoVm paginacaoVm, string cotacao);
 
         IList<PedidoVendaLinhaCadastroVm> ListarLinhasCotacao(string cotacao);
+
+        PedidoVendaCadastroVm Consultar(string idDoPedido);
     }
 }

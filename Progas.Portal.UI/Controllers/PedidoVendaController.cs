@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Progas.Portal.Application.Queries.Contracts;
-using Progas.Portal.Common;
-using Progas.Portal.Infra.Model;
 using Progas.Portal.UI.Filters;
 using Progas.Portal.ViewModel;
-using StructureMap;
 
 namespace Progas.Portal.UI.Controllers
 {
@@ -15,16 +12,12 @@ namespace Progas.Portal.UI.Controllers
     {
         #region Repositorios
 
-        private readonly IConsultaUnidadeDeMedida   _consultaUnidadeDeMedida;
         private readonly IConsultaTipoPedido        _consultaTipoPedido;
         private readonly IConsultaCondicaoPagamento _consultaCondicaoPagamento;
         private readonly IConsultaListaPreco        _consultaListaPreco;
         private readonly IConsultaMaterial          _consultaMaterial;
-        //private readonly IConsultaIncoterm          _consultaIncoterm;
         private readonly IConsultaIncotermCab       _consultaIncotermCab;
-        private readonly IConsultaIncotermLinhas    _consultaIncotermLinhas;
         private readonly IConsultaCliente           _consultaCliente;
-        private readonly IConsultaFornecedor        _consultaFornecedor;
         private readonly IConsultaPedidoVenda       _consultaPedidoVenda;
 
         private List<MotivoDeRecusaVm> _motivosDeRecusa;
@@ -56,29 +49,23 @@ namespace Progas.Portal.UI.Controllers
 
         
         // implementa os valores dos repositorios que serao usados nas views (Lista de valrores dos campos)
-        public PedidoVendaController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida,
+        public PedidoVendaController(
             IConsultaCondicaoPagamento consultaCondicaoPagamento,
             IConsultaTipoPedido consultaTipoPedido,
             IConsultaListaPreco consultaListaPreco,
             IConsultaMaterial consultaMaterial,
-            //IConsultaIncoterm          consultaIncoterm,                                     
             IConsultaIncotermCab consultaIncotermCab,
-            IConsultaIncotermLinhas consultaIncotermLinhas,
             IConsultaCliente consultaCliente,
-            IConsultaFornecedor consultaFornecedor,
             IConsultaPedidoVenda consultaPedidoVenda
             )
         {
-            _consultaUnidadeDeMedida = consultaUnidadeDeMedida;
             _consultaCondicaoPagamento = consultaCondicaoPagamento;
             _consultaTipoPedido = consultaTipoPedido;
             _consultaListaPreco = consultaListaPreco;
             _consultaMaterial = consultaMaterial;
             //_consultaIncoterm          = consultaIncoterm;
             _consultaIncotermCab = consultaIncotermCab;
-            _consultaIncotermLinhas = consultaIncotermLinhas;
             _consultaCliente = consultaCliente;
-            _consultaFornecedor = consultaFornecedor;
             _consultaPedidoVenda = consultaPedidoVenda;
             PreencherMotivosDeRecusa();
 
@@ -88,33 +75,15 @@ namespace Progas.Portal.UI.Controllers
 
         #region Criar e Editar Pedido de Venda
         // View de Criacao e Edicao de Pedido de Venda, muda o titulo da pagina e as funções estão localizadas no Html
-        public ActionResult Index(string cotacao_editar)
+        public ActionResult Index(string idDaCotacao)
         {
-            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Vendedor))
-            {
-                if (cotacao_editar == null)
-                {
-                    ViewBag.TituloDaPagina = "Pedido de Venda";
-                }
-                else
-                {
-                    ViewBag.TituloDaPagina = "Editar Pedido de Venda";
-                    ViewBag.Pedido = cotacao_editar;
-                }
+            ViewBag.TituloDaPagina = string.IsNullOrEmpty(idDaCotacao) ? "Pedido de Venda" : "Editar Pedido de Venda";
 
-                ViewData["ActionEdicao"] = Url.Action("CriarPedidoVenda", "PedidoVenda");
-            }
-
-            ViewBag.UnidadesDeMedida = _consultaUnidadeDeMedida.ListarTodos();
             ViewBag.CondicoesDePagamento = _consultaCondicaoPagamento.ListarTodas();
             ViewBag.TipoPedidos = _consultaTipoPedido.ListarTodas();
             ViewBag.ListaPreco = _consultaListaPreco.ListarTodas();
             ViewBag.Centro = _consultaMaterial.ListarCentro();
-            ViewBag.Materiais = _consultaMaterial.ListarTodas();
             ViewBag.Incoterms = _consultaIncotermCab.ListarTodas(); //_consultaIncoterm.ListarTodas();
-            //ViewBag.IncotermsLinhas = _consultaIncotermLinhas.ListarTodas(); //_consultaIncoterm.ListarTodas();
-            ViewBag.Clientes = _consultaCliente.Listar();
             ViewBag.MotivosDeRecusa = _motivosDeRecusa;
             return View("_CriarPedidoVenda");
 

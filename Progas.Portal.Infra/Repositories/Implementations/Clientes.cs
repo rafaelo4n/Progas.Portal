@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Policy;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Model;
 using Progas.Portal.Infra.Repositories.Contracts;
@@ -76,6 +77,12 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             {
                 Query = Query.Where(x => x.Cpf == cpf);
             }
+            return this;
+        }
+
+        public IClientes BuscaPeloId(int idDoCliente)
+        {
+            Query = Query.Where(x => x.Id == idDoCliente);
             return this;
         }
     }

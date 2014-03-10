@@ -11,6 +11,7 @@
                     data: 'Registros',
                     model: {
                         fields: {
+                            Id: {type:"number"},
                             Codigo: { type: "string" },
                             Nome: { type: "string" },
                             Cnpj: { type: "string" },
@@ -48,17 +49,16 @@
             },
             dataBound: function (e) {
                 if (me.fornecedorSelecionado != null) {
-                    $('input[name=radioFornecedor][data-codigofornecedor=' + me.fornecedorSelecionado.Codigo + ']').attr('checked', true);
+                    $('input[name=radioFornecedor][data-idfornecedor=' + me.fornecedorSelecionado.Id + ']').attr('checked', true);
                 }
             },
             columns:
             [
                 {
-                    field: 'Codigo',
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
                     width: 30,
                     sortable: false,
-                    template: '<input type="radio" name="radioFornecedor" data-codigofornecedor="${Codigo}"></input>'
+                    template: '<input type="radio" name="radioFornecedor" data-idfornecedor="${Id}"></input>'
                 },
                 {
                     field: "Codigo",
@@ -137,16 +137,16 @@
             if (!$(this).is(':checked')) {
                 return;
             }
-            var grid = $('#gridFornecedores').data("kendoGrid");
-            var dataItem = grid.dataItem(grid.select());
-            me.fornecedorSelecionado = { Codigo: dataItem.Codigo, Nome: dataItem.Nome };
+
+            var registroSelecionado = $('#gridFornecedores').data("kendoGrid").obterRegistroSelecionado();
+            me.fornecedorSelecionado = registroSelecionado;
 
         });
 
 
     };
 
-    function configurarJanelaModal(idDoCampoDoCodigoDoFornecedor, idDoCampoDoNomeDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor) {
+    this.configurarJanelaModal = function (idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno) {
         $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
         $('#' + idDaDivDaJanelaDeDialogo).customDialog({
             title: 'Selecionar Fornecedor',
@@ -156,10 +156,8 @@
                         Mensagem.ExibirMensagemDeErro("É necessário selecionar um Fornecedor.");
                         return;
                     }
-                    $(idDoCampoDoCodigoDoFornecedor).val(me.fornecedorSelecionado.Codigo);
-                    if (idDoCampoDoNomeDoFornecedor) {
-                        $(idDoCampoDoNomeDoFornecedor).val(unescape(me.fornecedorSelecionado.Nome));
-                    }
+
+                    funcaoParaPreencherOsDadosDeRetorno();
 
                     me.fornecedorSelecionado = null;
                     $(this).dialog("close");
@@ -171,27 +169,17 @@
         });
         $(idDoBotaoDeSelecaoDoFornecedor).click(function () {
 
-            var codigoDoFornecedor = $(idDoCampoDoCodigoDoFornecedor).val();
-            var nomeDoFornecedor = '';
+            var idDoFornecedor = $(idDoCampoDoIdDoFornecedor).val();
 
-            if (idDoCampoDoNomeDoFornecedor) {
-                nomeDoFornecedor = escape($(idDoCampoDoNomeDoFornecedor).val());
-            }
-
-            if (codigoDoFornecedor) {
+            if (idDoFornecedor) {
                 me.fornecedorSelecionado = {
-                    Codigo: codigoDoFornecedor,
-                    Nome: nomeDoFornecedor
+                    Id: idDoFornecedor
                 };
             }
 
-            $('#' + idDaDivDaJanelaDeDialogo).customLoad(UrlPadrao.SelecionarFornecedor
-                + '/?Codigo=' + codigoDoFornecedor + '&Nome=' + escape(nomeDoFornecedor), configurarGridDeSelecao);
+            $('#' + idDaDivDaJanelaDeDialogo).customLoad(UrlPadrao.SelecionarFornecedor, configurarGridDeSelecao);
         });
 
     };
 
-    this.configurar = function (idDoCampoDoCodigoDoFornecedor, idDoCampoDoNomeDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor) {
-        configurarJanelaModal(idDoCampoDoCodigoDoFornecedor, idDoCampoDoNomeDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor);
-    };
 }

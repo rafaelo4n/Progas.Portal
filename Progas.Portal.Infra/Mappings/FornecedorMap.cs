@@ -8,7 +8,8 @@ namespace Progas.Portal.Infra.Mappings
         public FornecedorMap()
         {
             Table("pro_fornecedor");
-            Id(x => x.Codigo);
+            Id(x => x.Id,"pro_id_fornecedor");
+            Map(x => x.Codigo);
             Map(x => x.Nome);
             Map(x => x.Cpf);
             Map(x => x.Cnpj);

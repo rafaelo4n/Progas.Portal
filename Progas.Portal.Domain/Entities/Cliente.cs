@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progas.Portal.Domain.Entities
 {
 
     public class Cliente : IAggregateRoot 
     {        
-        public virtual int pro_id_cliente { get; set; }
+        public virtual int Id { get; set; }
         public virtual string Id_cliente { get; set; }
         public virtual string Nome { get; set; }
         public virtual string Cpf { get; set; }

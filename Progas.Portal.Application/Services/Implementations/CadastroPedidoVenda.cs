@@ -12,29 +12,75 @@ namespace Progas.Portal.Application.Services.Implementations
 {
     public class CadastroPedidoVenda : ICadastroPedidoVenda
     {
-        private readonly IUnitOfWork          _unitOfWork;
-        private readonly IPedidosVendaLinha   _pedidosVendaLinha;
-        private readonly IPedidosVenda        _pedidosVenda;
-        private readonly IUsuarios            _usuarios;
-        private readonly IClienteVendas       _clienteVendas;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IPedidosVenda _pedidosVenda;
+        private readonly IUsuarios _usuarios;
+        private readonly IClienteVendas _clienteVendas;
+        private readonly IClientes _clientes ;
         private readonly IMateriais _materiais;
+        private readonly IFornecedores _fornecedores;
 
-        DateTime _datacp;        
-
-        public CadastroPedidoVenda(IUnitOfWork unitOfWork, IPedidosVendaLinha pedidosVendaLinha, IPedidosVenda pedidosVenda, 
-            IUsuarios usuarios, IClienteVendas clienteVendas, IMateriais materiais)
+        public CadastroPedidoVenda(IUnitOfWork unitOfWork, IPedidosVenda pedidosVenda, 
+            IUsuarios usuarios, IClienteVendas clienteVendas, IMateriais materiais, IClientes clientes, IFornecedores fornecedores)
         {
-            _unitOfWork          = unitOfWork;
-            _pedidosVenda        = pedidosVenda;
-            _pedidosVendaLinha   = pedidosVendaLinha;
-            _usuarios            = usuarios;
-            _clienteVendas       = clienteVendas;
+            _unitOfWork = unitOfWork;
+            _pedidosVenda = pedidosVenda;
+            _usuarios = usuarios;
+            _clienteVendas = clienteVendas;
             _materiais = materiais;
+            _clientes = clientes;
+            _fornecedores = fornecedores;
         }               
         // Parametro de Repositorio utilizado na conexao SAP
         public static string RepositorydestinationPar = ConfigurationSettings.AppSettings["RepositoryDestination"];
 
-        public void Salvar(IList<PedidoVendaSalvarVm> pedidoVendaSalvarVm)
+        private class TransportadorasDoPedido
+        {
+            public Fornecedor Transportadora { get; set; }
+            public Fornecedor TransportadoraDeRedespacho { get; set; }
+            public Fornecedor TransportadoraDeRedespachoCif { get; set; }
+            
+        }
+
+        private TransportadorasDoPedido ConsultarTransportadoras(PedidoVendaSalvarVm pedido)
+        {
+            var idsDasTransportadoras = new List<int>();
+
+            if (pedido.CodigoDaTransportadora.HasValue)
+            {
+                idsDasTransportadoras.Add(pedido.CodigoDaTransportadora.Value);
+            }
+
+            if (pedido.CodigoDaTransportadoraDeRedespacho.HasValue)
+            {
+                idsDasTransportadoras.Add(pedido.CodigoDaTransportadoraDeRedespacho.Value);
+            }
+
+            if (pedido.CodigoDaTransportadoraDeRedespachoCif.HasValue)
+            {
+                idsDasTransportadoras.Add(pedido.CodigoDaTransportadoraDeRedespachoCif.Value);
+            }
+
+            IList<Fornecedor> transportadoras = _fornecedores.BuscaListaPorIds(idsDasTransportadoras).List();
+
+            var retorno = new TransportadorasDoPedido
+            {
+                Transportadora = pedido.CodigoDaTransportadora.HasValue
+                    ? transportadoras.Single(x => x.Id == pedido.CodigoDaTransportadora.Value)
+                    : null,
+                TransportadoraDeRedespacho = pedido.CodigoDaTransportadoraDeRedespacho.HasValue
+                    ? transportadoras.Single(x => x.Id == pedido.CodigoDaTransportadoraDeRedespacho.Value)
+                    : null,
+                TransportadoraDeRedespachoCif = pedido.CodigoDaTransportadoraDeRedespachoCif.HasValue
+                    ? transportadoras.Single(x => x.Id == pedido.CodigoDaTransportadoraDeRedespachoCif.Value)
+                    : null
+            };
+
+            return retorno;
+
+        }
+
+        public void Salvar(PedidoVendaSalvarVm pedido)
         {
 
             SAPConnect con = null;
@@ -57,35 +103,33 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 var usuarioConectado = _usuarios.UsuarioConectado();
 
-                var cabecalhoDoPedido = pedidoVendaSalvarVm.First();
+                //ClienteVenda clienteVendas = _clienteVendas.ConsultaAtivDistribuicao(pedido.Cliente, pedido.Centro);
+                ClienteVenda clienteVendas = _clienteVendas.ObterPorId(pedido.IdDaAreaDeVenda);
 
-                //ClienteVenda clienteVendas = _clienteVendas.ConsultaAtivDistribuicao(cabecalhoDoPedido.Cliente, cabecalhoDoPedido.Centro);
-                ClienteVenda clienteVendas = _clienteVendas.ObterPorId(cabecalhoDoPedido.IdDaAreaDeVenda);
-
-                fReadTable.SetValue("I_TIPO_ENVIO", cabecalhoDoPedido.Tipo);
-                i_cabecalho.SetValue("BSTKD", cabecalhoDoPedido.NumeroPedido);
-                i_cabecalho.SetValue("AUART", cabecalhoDoPedido.CodigoTipoPedido);
-                i_cabecalho.SetValue("WERKS", cabecalhoDoPedido.Centro);
-                i_cabecalho.SetValue("VKORG", cabecalhoDoPedido.Centro);
+                fReadTable.SetValue("I_TIPO_ENVIO", pedido.Tipo);
+                i_cabecalho.SetValue("BSTKD", pedido.NumeroPedido);
+                i_cabecalho.SetValue("AUART", pedido.CodigoTipoPedido);
+                i_cabecalho.SetValue("WERKS", pedido.Centro);
+                i_cabecalho.SetValue("VKORG", pedido.Centro);
                 i_cabecalho.SetValue("VTWEG", Convert.ToString(clienteVendas.Can_dist));
                 i_cabecalho.SetValue("SPART", Convert.ToString(clienteVendas.Set_ativ));
-                i_cabecalho.SetValue("KUNNR", cabecalhoDoPedido.Cliente);
-                i_cabecalho.SetValue("ZTERM", cabecalhoDoPedido.CodigoCondpgto);
-                i_cabecalho.SetValue("INCO1", cabecalhoDoPedido.Inco1);
-                i_cabecalho.SetValue("INCO2", cabecalhoDoPedido.Inco2);
-                i_cabecalho.SetValue("TRANS", cabecalhoDoPedido.trans);
-                i_cabecalho.SetValue("TRANSRED", cabecalhoDoPedido.transred);
-                i_cabecalho.SetValue("TRANSREDCIF", cabecalhoDoPedido.transredcif);
+                i_cabecalho.SetValue("KUNNR", pedido.IdDoCliente);
+                i_cabecalho.SetValue("ZTERM", pedido.CodigoDaCondicaoDePagamento);
+                i_cabecalho.SetValue("INCO1", pedido.Inco1);
+                i_cabecalho.SetValue("INCO2", pedido.Inco2);
+                i_cabecalho.SetValue("TRANS", pedido.CodigoDaTransportadora);
+                i_cabecalho.SetValue("TRANSRED", pedido.CodigoDaTransportadoraDeRedespacho);
+                i_cabecalho.SetValue("TRANSREDCIF", pedido.CodigoDaTransportadoraDeRedespachoCif);
                 i_cabecalho.SetValue("REPRE", Convert.ToString(usuarioConectado.CodigoDoFornecedor));
-                i_cabecalho.SetValue("OBSERVACAO", cabecalhoDoPedido.Observacao);
+                i_cabecalho.SetValue("OBSERVACAO", pedido.Observacao);
 
-                string[] codigoDosMateriais = pedidoVendaSalvarVm.Select(x => x.CodigoMaterial).Distinct().ToArray();
+                string[] codigoDosMateriais = pedido.Itens.Select(x => x.CodigoMaterial).Distinct().ToArray();
 
                 IList<Material> materiaisDosItens = _materiais.FiltraPorListaDeCodigos(codigoDosMateriais).List();
 
                 int contadorDeItens = 1;
 
-                foreach (var dados in pedidoVendaSalvarVm)
+                foreach (var dados in pedido.Itens)
                 {
                     Material material = materiaisDosItens.Single(x => x.Id_material == dados.CodigoMaterial);
 
@@ -94,7 +138,7 @@ namespace Progas.Portal.Application.Services.Implementations
                     linha_envio_item.SetValue("MATNR", dados.CodigoMaterial);
                     linha_envio_item.SetValue("MENGE", dados.Quantidade);
                     linha_envio_item.SetValue("MEINS", material.Uni_med);
-                    linha_envio_item.SetValue("PLTYP", dados.listapreco);
+                    linha_envio_item.SetValue("PLTYP", dados.CodigoDaListaDePreco);
                     envio_item.Insert(linha_envio_item);
                     
                     // CONDICAO (Estrutura tipo tabela) 
@@ -110,51 +154,58 @@ namespace Progas.Portal.Application.Services.Implementations
                 }
 
                 fReadTable.Invoke(dest);
-                IRfcTable retornoItens = fReadTable.GetTable("TE_ITEM");
-                IRfcStructure primeiroItemDoRetorno = retornoItens.FirstOrDefault();
 
-                if (primeiroItemDoRetorno == null)
+                string status = fReadTable.GetString("E_STATUS");
+
+                if (status == "E")
                 {
-                    throw new Exception("Tabela TE_ITEM não retornou itens.");
+                    throw new Exception("Ocorreu um erro ao enviar um Pedido para o SAP.");
                 }
+
+                IRfcTable retornoItens = fReadTable.GetTable("TE_ITEM");
+                //IRfcStructure primeiroItemDoRetorno = retornoItens.FirstOrDefault();
 
                 IRfcTable retornoCondicoes = fReadTable.GetTable("TE_CONDICOES");
 
-                DateTime datap = Convert.ToDateTime(cabecalhoDoPedido.datap);
+                Cliente cliente = _clientes.BuscaPeloId(pedido.IdDoCliente).Single();
 
-                var pedidoVenda = new PedidoVenda(cabecalhoDoPedido.Tipo,
-                    primeiroItemDoRetorno.GetString("COTACAO"),
-                    cabecalhoDoPedido.CodigoTipoPedido,
-                    cabecalhoDoPedido.Centro,
-                    cabecalhoDoPedido.Cliente,
+                TransportadorasDoPedido transportadorasDoPedido = ConsultarTransportadoras(pedido);
+
+
+                var pedidoVenda = new PedidoVenda(pedido.Tipo,
+                    //primeiroItemDoRetorno.GetString("COTACAO"),
+                    fReadTable.GetString("COTACAO"),
+                    pedido.CodigoTipoPedido,
+                    pedido.Centro,
+                    cliente,
                     clienteVendas, 
                     DateTime.Now,
-                    cabecalhoDoPedido.NumeroPedido,
-                    datap,
-                    cabecalhoDoPedido.CodigoCondpgto,
-                    cabecalhoDoPedido.Inco1,
-                    cabecalhoDoPedido.Inco2,
-                    cabecalhoDoPedido.trans,
-                    cabecalhoDoPedido.transred,
-                    cabecalhoDoPedido.transredcif,
+                    pedido.NumeroPedido,
+                    pedido.DataDoPedido,
+                    pedido.CodigoDaCondicaoDePagamento,
+                    pedido.Inco1,
+                    pedido.Inco2,
+                    transportadorasDoPedido.Transportadora,
+                    transportadorasDoPedido.TransportadoraDeRedespacho,
+                    transportadorasDoPedido.TransportadoraDeRedespachoCif,
                     Convert.ToString(usuarioConectado.CodigoDoFornecedor),
-                    cabecalhoDoPedido.Observacao,
-                    fReadTable.GetString("E_STATUS"));
+                    pedido.Observacao,
+                    status);
 
 
                 for (int i = 0; i < retornoItens.Count; i++)
                 {
                     IRfcStructure retornoItem = retornoItens[i];
-                    PedidoVendaSalvarVm item = pedidoVendaSalvarVm[i];
+                    PedidoVendaSalvarItemVm item = pedido.Itens[i];
 
                     Material material = materiaisDosItens.Single(x => x.Id_material == item.CodigoMaterial);
 
                     var linhasPedido = new PedidoVendaLinha(//retornoItem.GetString("COTACAO"),
                         retornoItem.GetString("POSNR"),
-                        cabecalhoDoPedido.NumeroPedido,
+                        pedido.NumeroPedido,
                         material, 
                         item.Quantidade,
-                        item.listapreco,
+                        item.CodigoDaListaDePreco,
                         Convert.ToDecimal(retornoItem.GetString("VLRTAB")), // valtab
                         Convert.ToDecimal(retornoItem.GetString("VLRPOL")), // valpol
                         item.Desconto,
@@ -176,7 +227,7 @@ namespace Progas.Portal.Application.Services.Implementations
                 }
                 // retornar apenas a lista de itens                                
 
-                if (cabecalhoDoPedido.Tipo == "G")
+                if (pedido.Tipo == "G")
                 {
                     using (_unitOfWork)
                     {
@@ -204,90 +255,6 @@ namespace Progas.Portal.Application.Services.Implementations
                 }
             }
 
-        }
-
-        public void Atualizar(IList<PedidoVendaSalvarVm> pedidoVendaSalvarVm)
-        {
-            try
-            {
-                int v_cont = 0;
-                int v_cont2 = 0;                
-                // Deleta as linhas antes de inserir as novas
-                foreach (var dados in pedidoVendaSalvarVm)
-                {
-                    _unitOfWork.BeginTransaction();
-                    var usuarioConectado = _usuarios.UsuarioConectado();
-                    v_cont2 = v_cont2 + 1;
-                    if (v_cont2 == 1)
-                    {
-                        PedidoVenda pedidoVenda = _pedidosVenda.CotacaoPedidoContendo(dados.NumeroPedido, Convert.ToString(usuarioConectado.CodigoDoFornecedor));
-                        _datacp = Convert.ToDateTime(pedidoVenda.Datacp);
-                        // Deleta a linha antiga antes de inserir a nova
-                        if (pedidoVenda != null)
-                        {
-                            _pedidosVenda.Delete(pedidoVenda);
-                        }                        
-                        IList<PedidoVendaLinha> LinhasSalvas        = _pedidosVendaLinha.CotacaoPedidoContendo(dados.NumeroPedido).List();
-                        IList<PedidoVendaLinha> LinhasParaAtualizar = LinhasSalvas.Where(ls => pedidoVendaSalvarVm.All(
-                             lc => lc.NumeroPedido.Trim() == ls.Id_pedido.Trim()
-                                 )).ToList();
-
-                        foreach (var linhas in LinhasParaAtualizar)
-                        {
-                            _pedidosVendaLinha.Delete(linhas);
-                        }
-                        _unitOfWork.Commit();
-                        _unitOfWork.Dispose();
-                    }
-                }
-                    
-                // Salva a Edição do pedido após excluir
-                /*foreach (var dados in pedidoVendaSalvarVm)
-                {
-                    _unitOfWork.BeginTransaction();
-                    var usuarioConectado = _usuarios.UsuarioConectado();
-                    v_cont = v_cont + 1;
-                    if (v_cont == 1)
-                    {
-                        DateTime datap = Convert.ToDateTime(dados.datap);
-                        var cabecalhoPedido = new PedidoVenda( dados.Tipo,
-                                                               dados.NumeroPedido,
-                                                               dados.CodigoTipoPedido,
-                                                               dados.Centro,
-                                                               dados.Cliente,
-                                                               DateTime.Now,
-                                                               dados.NumeroPedido,
-                                                               datap,
-                                                               dados.CodigoCondpgto,
-                                                               dados.Inco1,
-                                                               dados.Inco2,
-                                                               dados.trans,
-                                                               dados.transred,
-                                                               dados.transredcif,
-                                                               Convert.ToString(usuarioConectado.CodigoFornecedor),
-                                                               dados.Observacao
-                                                              );
-                        _pedidosVenda.Save(cabecalhoPedido);
-                    }
-                    string id_item = Convert.ToString(v_cont);
-                    var linhasPedido = new PedidoVendaLinha(dados.NumeroPedido,
-                                                             id_item,
-                                                             dados.NumeroPedido,
-                                                             dados.CodigoMaterial,
-                                                             dados.Quantidade,
-                                                             dados.UnidadeMedida,
-                                                             dados.listapreco,
-                                                             dados.Desconto);
-                    _pedidosVendaLinha.Save(linhasPedido);
-                    _unitOfWork.Commit();
-                    _unitOfWork.Dispose();
-                }*/
-            }
-            catch (Exception)
-            {
-                _unitOfWork.RollBack();
-                throw;
-            }
         }
 
         // Realiza a Conexão no SAP conforme os dados do arquivo Web.config.

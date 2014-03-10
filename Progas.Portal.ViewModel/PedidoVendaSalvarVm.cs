@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progas.Portal.ViewModel
 {
@@ -10,24 +7,22 @@ namespace Progas.Portal.ViewModel
     public class PedidoVendaSalvarVm
     {
         // cabecalho
-        public virtual string Tipo { get; set; } //
-        public virtual string NumeroPedido { get; set; } //
-        public virtual string CodigoCondpgto { get; set; } //
-        public virtual string Centro { get; set; } //
-        public virtual DateTime datap { get; set; }
-        public virtual string CodigoTipoPedido { get; set; } //
-        public virtual string trans { get; set; } //
-        public virtual string transred { get; set; } //
-        public virtual string transredcif { get; set; } //
-        public virtual string Cliente { get; set; } //
+        public string Tipo { get; set; } //
+        public string NumeroPedido { get; set; } //
+        public string CodigoDaCondicaoDePagamento { get; set; } //
+        public string Centro { get; set; } //
+        public DateTime DataDoPedido { get; set; }
+        public string CodigoTipoPedido { get; set; } //
+        public int? CodigoDaTransportadora { get; set; } //
+        public int? CodigoDaTransportadoraDeRedespacho { get; set; } //
+        public int? CodigoDaTransportadoraDeRedespachoCif { get; set; } //
+        public int IdDoCliente { get; set; } //
         public int IdDaAreaDeVenda { get; set; }
-        public virtual string Inco1 { get; set; } //
-        public virtual string Inco2 { get; set; } //
-        public virtual string Observacao { get; set; } //             
-        // linhas
-        public virtual string CodigoMaterial { get; set; }
-        public virtual decimal Quantidade { get; set; }
-        public virtual string listapreco { get; set; }
-        public virtual decimal Desconto { get; set; }
+        public string Inco1 { get; set; } //
+        public string Inco2 { get; set; } //
+        public string Observacao { get; set; } //             
+
+        public IList<PedidoVendaSalvarItemVm> Itens { get; set; }
+
     }
 }

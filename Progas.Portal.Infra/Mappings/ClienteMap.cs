@@ -8,7 +8,8 @@ namespace Progas.Portal.Infra.Mappings
         public ClienteMap()
         {
             Table("pro_cliente");
-            Id(x => x.Id_cliente);
+            Id(x => x.Id, "pro_id_cliente");
+            Map(x => x.Id_cliente);
             Map(x => x.Nome);
             Map(x => x.Cpf);
             Map(x => x.Cnpj);

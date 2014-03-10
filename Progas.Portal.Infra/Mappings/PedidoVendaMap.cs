@@ -11,16 +11,12 @@ namespace Progas.Portal.Infra.Mappings
             Id(x => x.Id_cotacao).Column("id_cotacao");//.GeneratedBy.Native("pro_id_pedido_venda");
             Map(x => x.TipoPedido);
             Map(x => x.Id_centro);
-            Map(x => x.Id_cliente);
             Map(x => x.Datacp);
             Map(x => x.Id_pedido);
             Map(x => x.Datap);
             Map(x => x.Condpgto);
             Map(x => x.Inco1);
             Map(x => x.Inco2);
-            Map(x => x.Trans);
-            Map(x => x.Transred);
-            Map(x => x.Transredcif);
             Map(x => x.Id_repre);
             Map(x => x.Obs);
             Map(x => x.Motrec);
@@ -28,7 +24,11 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Vlrtot);
             Map(x => x.Tipo);
 
+            References(x => x.Cliente, "pro_id_cliente");
             References(x => x.AreaDeVenda, "pro_id_cliente_vendas");
+            References(x => x.Transportadora,"IdDaTransportadora");
+            References(x => x.TransportadoraDeRedespacho, "IdDaTransportadoraDeRedespacho");
+            References(x => x.TransportadoraDeRedespachoCif,"IdDaTransportadoraDeRedespachoCif");
 
             HasMany(x => x.Itens)
                 .KeyColumn("Id_cotacao")

@@ -38,7 +38,7 @@
             <legend>Dados de Cabeçalho</legend>
             <div id="Cabecalho">
                 
-                @{ var codigoTipoPedido = new ColunaComDropDown<PedidoVendaCadastroVm, string>
+                @{ var codigoTipoPedido = new ColunaComDropDown<PedidoVendaCadastroVm, object>
                        (x => x.CodigoTipoPedido, ((List<TipoPedidoCadastroVm>)ViewBag.TipoPedidos)
                            .Select(x => new SelectListItem()
                            {
@@ -49,20 +49,22 @@
                            ), "CodigoTipoPedido"
                        );
 
-                    var buscaDeCliente = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>
-                        (x => x.id_cliente, new { @class = "campomedio campoDesabilitado" }, "btnBuscarCliente", "button_visualize");                  
+                    var buscaDeCliente = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, object>
+                        (x => x.Cliente.Codigo, new { @class = "campomedio campoDesabilitado" }, "btnBuscarCliente", "button_visualize");                  
                            
                 } 
                 
                 @Html.LinhaComCincoColunas(codigoTipoPedido, buscaDeCliente, 
-                new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Cliente.Nome,"campogrande campoDesabilitado"),
-                new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Cliente.Cnpj, "campogrande campoDesabilitado"),
-                new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Cliente.Telefone, "campogrande campoDesabilitado"))
+                new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Nome,"campogrande campoDesabilitado"),
+             new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Cnpj, "campogrande campoDesabilitado"),
+             new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Telefone, "campogrande campoDesabilitado"))
+                
+                @Html.HiddenFor(x => x.Cliente.Id)
 
                 
                 @{
-                    var comboDeAreaDeVendas = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                        (x => x.AreaDeVenda, new List<SelectListItem>(), "AreaDeVenda");
+                    var comboDeAreaDeVendas = new ColunaComDropDown<PedidoVendaCadastroVm, int>
+                        (x => x.IdDaAreaDeVenda, new List<SelectListItem>(), "AreaDeVenda");
                            
                     var condpgto = new ColunaComDropDown<PedidoVendaCadastroVm, string>
                         (x => x.condpgto, ((List<CondicaoDePagamentoCadastroVm>)ViewBag.CondicoesDePagamento)
@@ -110,6 +112,8 @@
                 
                 @Html.LinhaComQuatroColunas(inco1, inco2, buscaDeTransportadora, campoComNomeDaTransportadora)
                 
+                @Html.HiddenFor(x => x.Transportadora.Id)
+                
                 @{
                     var buscaDeTransportadoraDeRedespacho = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespacho.Codigo,
                         new { @readonly = true, @class = "campomedio campoDesabilitado" },"Código Transp Redespacho:", "btnSelecionarTransportadoraDeRedespacho", "button_visualize");
@@ -127,6 +131,8 @@
                 
                 @Html.LinhaComQuatroColunas(buscaDeTransportadoraDeRedespacho, campoComNomeDaTransportadoraDeRedespacho,buscaDeTransportadoraDeRedespachoCif, campoComNomeDaTransportadoraDeRedespachoCif)
                 
+                @Html.HiddenFor(x => x.TransportadoraDeRedespacho.Id)
+                @Html.HiddenFor(x => x.TransportadoraDeRedespachoCif.Id)
                 
                 @Html.LinhaComUmaColuna(new ColunaComTextArea<PedidoVendaCadastroVm, string>(x => x.obs))
 
@@ -146,8 +152,9 @@
                     }
                 
                 @Html.LinhaComTresColunas(buscaDeMaterial, campoDoNomeDoMaterial, campoDaUnidadeDeMedidaDoMaterial)  
+                
 
-                    @{ var listapreco = new ColunaComDropDown<PedidoVendaCadastroVm, string>
+                @{ var listapreco = new ColunaComDropDown<PedidoVendaCadastroVm, string>
                            (x => x.CodigoDaListaDePreco, ((List<ListaPrecoCadastroVm>)ViewBag.ListaPreco)
                                .Select(x => new SelectListItem()
                                {
@@ -174,11 +181,11 @@
                 
                 
                 @Html.LinhaComQuatroColunas(new ColunaComTextBox<PedidoVendaCadastroVm, decimal>(x => x.Quant,"maskquantidade campopequeno"),listapreco,
-             new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.descma, "maskquantidade campopequeno")
+             new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Desconto, "maskquantidade campopequeno")
              , comboDeMotivoDeRecusa)
 
                 <div class="divBotao">
-                    <input type="button" id="btnAdicionarFornecedor" value="Adicionar" class="blue" />
+                    <input type="button" id="btnAdicionarItem" value="Adicionar" class="blue" />
                 </div>
 
             </div>          
@@ -194,13 +201,9 @@
             <input type="button" id="btnSimular"             value="Simular"          class="blue"/>
             <input type="button" id="btnSimularEdicao"       value="Simular Edição"   class="blue"/>
             <input type="button" id="btnGravar"              value="Gravar"           class="blue"/>
-            <input type="button" id="btnGravarEdicao"        value="Gravar Edição"    class="blue"/>
-            <input type="button" id="btnCancelarEdicao"      value="Cancelar" @*style="visibility: hidden"*@ class="blue" />
-        </div>                                 
+        </div>
 
     }
-    <!-- Div da janela de Tipo de Pedido-->  
-    <div id="divSelecionarTipoPedido" class="janelaModal"></div>
 </div>
 
 @section scripts
@@ -211,8 +214,6 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarTransRedespacho.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarTransRedespachoCif.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarCliente.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarProduto.js")"></script>
     <script type="text/javascript">
@@ -263,29 +264,54 @@
             aplicaMascaraQuantidade();
 
             var selecionarTransportadora = new SelecionarFornecedor();
-            selecionarTransportadora.configurar("#Transportadora_Codigo", "#Transportadora_Nome", "divSelecionarTransportadora", "#btnSelecionarTransportadora");
+
+            var funcaoParaRetornarCamposDaBuscaDeTransportadora = function () {
+                var transportadoraSelecionada = selecionarTransportadora.fornecedorSelecionado;
+                $("#Transportadora_Id").val(transportadoraSelecionada.Id);
+                $("#Transportadora_Codigo").val(transportadoraSelecionada.Codigo);
+                $("#Transportadora_Nome").val(transportadoraSelecionada.Nome);
+            };
+
+            selecionarTransportadora.configurarJanelaModal("#Transportadora_Id", "divSelecionarTransportadora", "#btnSelecionarTransportadora", funcaoParaRetornarCamposDaBuscaDeTransportadora);
 
             var selecionarTransportadoraDeRedespacho = new SelecionarFornecedor();
-            selecionarTransportadoraDeRedespacho.configurar("#TransportadoraDeRedespacho_Codigo", "#TransportadoraDeRedespacho_Nome", "divSelecionarTransportadoraDeRedespacho", "#btnSelecionarTransportadoraDeRedespacho");
+
+            var funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho = function () {
+                var transportadoraSelecionada = selecionarTransportadoraDeRedespacho.fornecedorSelecionado;
+                $("#TransportadoraDeRedespacho_Id").val(transportadoraSelecionada.Id);
+                $("#TransportadoraDeRedespacho_Codigo").val(transportadoraSelecionada.Codigo);
+                $("#TransportadoraDeRedespacho_Nome").val(transportadoraSelecionada.Nome);
+            };
+
+            selecionarTransportadoraDeRedespacho.configurarJanelaModal("#TransportadoraDeRedespacho_Id", "divSelecionarTransportadoraDeRedespacho", "#btnSelecionarTransportadoraDeRedespacho", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
 
             var selecionarTransportadoraDeRedespachoCif = new SelecionarFornecedor();
-            selecionarTransportadoraDeRedespachoCif.configurar("#TransportadoraDeRedespachoCif_Codigo", "#TransportadoraDeRedespachoCif_Nome", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif");
+
+            var funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif = function () {
+                var transportadoraSelecionada = selecionarTransportadoraDeRedespachoCif.fornecedorSelecionado;
+                $("#TransportadoraDeRedespachoCif_Id").val(transportadoraSelecionada.Id);
+                $("#TransportadoraDeRedespachoCif_Codigo").val(transportadoraSelecionada.Codigo);
+                $("#TransportadoraDeRedespachoCif_Nome").val(transportadoraSelecionada.Nome);
+            };
+
+            selecionarTransportadoraDeRedespachoCif.configurarJanelaModal("#TransportadoraDeRedespachoCif_Id", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
 
             var selecionarCliente = new SelecionarCliente();
             var funcaoParaRetornarCamposDaBuscaDeCliente = function() {
                 var clienteSelecionado = selecionarCliente.clienteSelecionado;
-                var idDoCliente = $('#id_cliente').val();
-                if (idDoCliente != clienteSelecionado.Codigo) {
+                var codigoDoCliente = $('#Cliente_Codigo').val();
+                if (codigoDoCliente != clienteSelecionado.Codigo) {
                     carregarAreasDeVenda(clienteSelecionado.Codigo);
                 }
-                $('#id_cliente').val(clienteSelecionado.Codigo);
+                $('#Cliente_Id').val(clienteSelecionado.Id);
+                $('#Cliente_Codigo').val(clienteSelecionado.Codigo);
                 $('#Cliente_Nome').val(clienteSelecionado.Nome);
                 $('#Cliente_Cnpj').val(clienteSelecionado.Cnpj || clienteSelecionado.Cpf);
                 $('#Cliente_Telefone').val(clienteSelecionado.Telefone);
 
 
             };
-            selecionarCliente.configurar('#id_cliente', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
+            selecionarCliente.configurar('#Cliente_Id', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
 
             var selecionarProduto = new SelecionarProduto();
 
@@ -337,9 +363,6 @@
                 }
             });
 
-            // botao de edicao nas linhas do grid
-            $('#btnCancelarEdicao').hide();
-
             // Botao de editar Pedido
             $('#btnGravarEdicao').hide();
             $('#btnSimularEdicao').hide();
@@ -365,7 +388,7 @@
             // Finaliza a edicao na linha do grid
             function encerrarEdicao() {
                 indiceEdicao = -1;
-                $('#btnAdicionarFornecedor').val('Adicionar');
+                $('#btnAdicionarItem').val('Adicionar');
                 $('#btnCancelarEdicao').hide();
             }
 
@@ -374,7 +397,7 @@
             });
 
             // Adiciona linha ao grid
-            $('#btnAdicionarFornecedor').click(function() {
+            $('#btnAdicionarItem').click(function() {
                 var form = $('form');
                 if (!$(form).validate().form()) {
                     return;
@@ -430,6 +453,7 @@
                                 Desconto: { type: "number" },
                                 ValorTabela: { type: "number" },
                                 ValorPolitica: { type: "number" },
+                                CodigoDoMotivoDeRecusa: { type: "string" },
                                 DescricaoDoMotivoDeRecusa: { type: "string" }
                             }
                         }
@@ -511,7 +535,68 @@
                 ]
             });
 
-            function salvarPedido(acao, mensagemDeSucesso) {
+            function enviarPedido(acao, mensagemDeSucesso) {
+
+                if (quantidadeDeFornecedoresIniciais == 0 && linhasAdicionadas.length == 0) {
+                    Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de salvar.');
+                    return;
+                }
+
+                var pedido = {
+                    IdDoPedido: $('#id_pedido').val(),
+                    tipo: acao,
+                    CodigoTipoPedido: $('#CodigoTipoPedido').val(),
+                    CodigoDaCondicaoDePagamento: $('#condpgto').val(),
+                    DataDoPedido: $('#datap').val(),
+                    NumeroPedido: $('#id_pedido').val(),
+                    CodigoDaTransportadora: $('#Transportadora_Codigo').val(),
+                    CodigoDaTransportadoraDeRedespacho: $('#TransportadoraDeRedespacho_Codigo').val(),
+                    CodigoDaTransportadoraDeRedespachoCif: $('#TransportadoraDeRedespachoCif_Codigo').val(),
+                    Cliente: $('#id_cliente').val(),
+                    IdDaAreaDeVenda: $('#AreaDeVenda').val(),
+                    Centro: $('#id_centro').val(),
+                    Inco1: $('#Inco1').val(),
+                    Inco2: $('#Inco2 :selected').text(),
+                    Observacao: $('#obs').val()
+                };
+
+                // Grava no array os dados que serão salvos
+                var itens = new Array();
+                $.each(linhasAdicionadas, function (indice, quota) {
+                    itens.push({
+                        CodigoMaterial: quota.CodigoMaterial,
+                        Quantidade: quota.Quantidade,
+                        listapreco: quota.listpre,
+                        Desconto: quota.Desconto,
+                        CodigoDoMotivoDeRecusa: quota.CodigoDoMotivoDeRecusa
+                    });
+                });
+
+                pedido.Itens = itens;
+
+                //
+                // Chamada do Controller reponsalvel por salvar o pedido.                
+                $.ajax({
+                    url: '@Url.Action("Salvar", "PedidoVendaSalvar")',
+                    type: 'POST',
+                    cache: false,
+                    data: JSON.stringify({ Pedido: pedido }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Sucesso) {
+                            Mensagem.ExibirMensagemDeSucesso(mensagemDeSucesso);
+                            quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
+                            return;
+                        } else {
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Inserir os itens');
+                        }
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao enviar o Pedido para o SAP. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
 
             }
 
@@ -540,7 +625,7 @@
                 $('#CodigoDaListaDePreco').val(item.listpre);
                 $('#descma').val(item.Desconto ? item.Desconto : '');
 
-                $('#btnAdicionarFornecedor').val('Atualizar');
+                $('#btnAdicionarItem').val('Atualizar');
                 $('#btnCancelarEdicao').show();
             });
 
@@ -552,130 +637,12 @@
 
             });
 
-
-            //
-            // Funcao do Botao de Simular o Pedido
-            //
             $('#btnSimular').click(function() {
-                if (quantidadeDeFornecedoresIniciais == 0 && linhasAdicionadas.length == 0) {
-                    Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de salvar.');
-                    return;
-                }
-
-                // Grava no array os dados que serão salvos
-                var pedidoParaSalvar = new Array();
-                $.each(linhasAdicionadas, function(indice, quota) {
-                    pedidoParaSalvar.push({
-                        tipo: simular,
-                        CodigoTipoPedido: $('#CodigoTipoPedido').val(),
-                        CodigoCondpgto: $('#condpgto').val(),
-                        datap: $('#datap').val(),
-                        NumeroPedido: $('#id_pedido').val(),
-                        Trans: $('#Transportadora_Codigo').val(),
-                        Transred: $('#TransportadoraDeRedespacho_Codigo').val(),
-                        Transredcif: $('#TransportadoraDeRedespachoCif_Codigo').val(),
-                        Cliente: $('#id_cliente').val(),
-                        IdDaAreaDeVenda: $('#AreaDeVenda').val(),
-                        Centro: $('#id_centro').val(),
-                        Inco1: $('#Inco1').val(),
-                        Inco2: $('#Inco2 :selected').text(),
-                        Observacao: $('#obs').val(),
-                        // linhas
-                        CodigoMaterial: quota.CodigoMaterial,
-                        Quantidade: quota.Quantidade,
-                        listapreco: quota.listpre,
-                        Desconto: quota.Desconto
-                    });
-                });
-
-
-                //
-                // Chamada do Controller reponsalvel por salvar o pedido.                
-                $.ajax({
-                    url: '@Url.Action("Salvar", "PedidoVendaSalvar")',
-                    type: 'POST',
-                    cache: false,
-                    data: JSON.stringify({ Pedido: pedidoParaSalvar }),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.Sucesso) {
-                            Mensagem.ExibirMensagemDeSucesso("A Simulação do pedido foi salva com sucesso.");
-                            quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
-                            return;
-                        } else {
-                            Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Inserir os itens');
-                        }
-
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
-                    }
-                });
-
+                enviarPedido(simular, "O Pedido foi simulado com sucesso.");
             });
 
-
-            //
-            // Funcao do Botao de salvar o Pedido
-            //
             $('#btnGravar').click(function() {
-                if (quantidadeDeFornecedoresIniciais == 0 && linhasAdicionadas.length == 0) {
-                    Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de salvar.');
-                    return;
-                }
-
-                // Grava no array os dados que serão salvos
-                var pedidoParaSalvar = new Array();
-                $.each(linhasAdicionadas, function(indice, quota) {
-                    pedidoParaSalvar.push({
-                        tipo: gravar,
-                        CodigoTipoPedido: $('#CodigoTipoPedido').val(),
-                        CodigoCondpgto: $('#condpgto').val(),
-                        datap: $('#datap').val(),
-                        NumeroPedido: $('#id_pedido').val(),
-                        Trans: $('#Transportadora_Codigo').val(),
-                        Transred: $('#TransportadoraDeRedespacho_Codigo').val(),
-                        Transredcif: $('#TransportadoraDeRedespachoCif_Codigo').val(),
-                        Cliente: $('#id_cliente').val(),
-                        IdDaAreaDeVenda: $('#AreaDeVenda').val(),
-                        Centro: $('#id_centro').val(),
-                        Inco1: $('#Inco1').val(),
-                        Inco2: $('#Inco2 :selected').text(),
-                        Observacao: $('#obs').val(),
-                        // linhas
-                        CodigoMaterial: quota.CodigoMaterial,
-                        Quantidade: quota.Quantidade,
-                        listapreco: quota.listpre,
-                        Desconto: quota.Desconto
-                    });
-                });
-
-
-                //
-                // Chamada do Controller reponsalvel por salvar o pedido.                
-                $.ajax({
-                    url: '@Url.Action("Salvar", "PedidoVendaSalvar")',
-                    type: 'POST',
-                    cache: false,
-                    data: JSON.stringify({ Pedido: pedidoParaSalvar }),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.Sucesso) {
-                            Mensagem.ExibirMensagemDeSucesso("O pedido foi gravado com sucesso.");
-                            quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
-                            return;
-                        } else {
-                            Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Inserir os itens');
-                        }
-
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
-                    }
-                });
-
+                enviarPedido(gravar, "O Pedido foi gravado com sucesso.");
             });
 
             function habilitarCampoData() {
@@ -784,7 +751,7 @@
                                         $('#CodigoDaListaDePreco').val(value.listpre);
                                         $('#descma').val(value.descma);
 
-                                        $('#btnAdicionarFornecedor').click();
+                                        $('#btnAdicionarItem').click();
 
                                     });
 
@@ -803,178 +770,16 @@
                     }
                 });
             });
-            //
-            // Fim funcao Copiar
-            //
 
-            //
-            // Editar Pedido
-            //
-            if ('@ViewBag.Pedido' != 0) {
+            var idDoPedido = '@(Model != null ? Model.id_pedido: "")';
+
+            if (idDoPedido) {
 
                 // Desabita Botao de Salvar e Simular Pedido
-                $('#btnGravar').hide();
-                $('#btnSimular').hide();
-
-                // Habilita Botao de Salvar e Simular  Edicao
-                $('#btnGravarEdicao').show();
-                $('#btnSimularEdicao').show();
-
-                // Executa funcao de copiar dados da cotacao que sera atualizada para Tela
-                var cotacao = '@ViewBag.Pedido';
-                $('#id_cotacao').val(cotacao);
-                $('#btnCopiar').click();
-
-                // Retorna os dados do pedido para Atualizar Pedido
-
-                //
-                // Funcao do Botao de salvar o Pedido
-                //
-                $('#btnGravarEdicao').click(function() {
-                    if (!$('form').validate().form()) {
-                        return;
-                    }
-
-                    if (quantidadeDeFornecedoresIniciais == 0 && linhasAdicionadas.length == 0) {
-                        Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de Gravar a Edição.');
-                        return;
-                    }
-
-                    // Grava no array os dados que serão salvos
-                    var pedidoParaSalvar = new Array();
-
-                    /*var numeroPedido = $('#id_pedido').val().trim();*/
-                    var pedido = $('#id_pedido').val();
-
-                    var numeroPedido = rtrim(pedido);
-
-                    $.each(linhasAdicionadas, function(indice, quota) {
-                        pedidoParaSalvar.push({
-                            // cabecalho
-                            tipo: gravar,
-                            Id_cotacao: $('#id_cotacao').val(),
-                            CodigoTipoPedido: $('#CodigoTipoPedido').val(),
-                            CodigoCondpgto: $('#condpgto').val(),
-                            datap: $('#datap').val(),
-                            NumeroPedido: numeroPedido, //$('#id_pedido').val(),
-                            Trans: $('#CodigoFornecedor').val(),
-                            Transred: $('#Codigotransred').val(),
-                            Transredcif: $('#Codigotransredcif').val(),
-                            Cliente: $('#id_cliente').val(),
-                            Centro: $('#id_centro').val(),
-                            Inco1: $('#Inco1').val(),
-                            Inco2: $('#Inco2').val(),
-                            Observacao: $('#obs').val(),
-                            // linhas
-                            CodigoMaterial: quota.CodigoMaterial,
-                            Quantidade: quota.Quantidade,
-                            //UnidadeMedida:    quota.CodigoUnidadeMedida,
-                            listapreco: quota.listpre,
-                            Desconto: quota.Desconto
-                        });
-                    });
-
-
-                    //
-                    // Chamada do Controller reponsalvel por salvar o pedido.                
-                    $.ajax({
-                        url: '@Url.Action("Atualizar", "PedidoVendaSalvar")',
-                        type: 'POST',
-                        cache: false,
-                        data: JSON.stringify({ Pedido: pedidoParaSalvar }),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: 'json',
-                        success: function(data) {
-                            if (data.Sucesso) {
-                                Mensagem.ExibirMensagemDeSucesso("A edição do pedido foi gravada com sucesso.");
-                                quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
-                                return;
-                            } else {
-                                Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Atualizar os itens');
-                            }
-
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
-                        }
-                    });
-
-                });
-
-                //
-                // Funcao do Botao de salvar o Pedido
-                //
-                $('#btnSimularEdicao').click(function() {
-                    if (quantidadeDeFornecedoresIniciais == 0 && linhasAdicionadas.length == 0) {
-                        Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de Simular a Edição.');
-                        return;
-                    }
-
-                    // Grava no array os dados que serão salvos
-                    var pedidoParaSalvar = new Array();
-
-                    /*var numeroPedido = $('#id_pedido').val().trim();*/
-                    var pedido = $('#id_pedido').val();
-
-                    var numeroPedido = rtrim(pedido);
-
-                    $.each(linhasAdicionadas, function(indice, quota) {
-                        pedidoParaSalvar.push({
-                            // cabecalho
-                            tipo: simular,
-                            Id_cotacao: $('#id_cotacao').val(),
-                            CodigoTipoPedido: $('#CodigoTipoPedido').val(),
-                            CodigoCondpgto: $('#condpgto').val(),
-                            datap: $('#datap').val(),
-                            NumeroPedido: numeroPedido, //$('#id_pedido').val(),
-                            Trans: $('#CodigoFornecedor').val(),
-                            Transred: $('#Codigotransred').val(),
-                            Transredcif: $('#Codigotransredcif').val(),
-                            Cliente: $('#id_cliente').val(),
-                            Centro: $('#id_centro').val(),
-                            Inco1: $('#Inco1').val(),
-                            Inco2: $('#Inco2').val(),
-                            Observacao: $('#obs').val(),
-                            // linhas
-                            CodigoMaterial: quota.CodigoMaterial,
-                            Quantidade: quota.Quantidade,
-                            //UnidadeMedida:    quota.CodigoUnidadeMedida,
-                            listapreco: quota.listpre,
-                            Desconto: quota.Desconto
-                        });
-                    });
-
-
-                    //
-                    // Chamada do Controller reponsalvel por salvar o pedido.                
-                    $.ajax({
-                        url: '@Url.Action("Atualizar", "PedidoVendaSalvar")',
-                        type: 'POST',
-                        cache: false,
-                        data: JSON.stringify({ Pedido: pedidoParaSalvar }),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: 'json',
-                        success: function(data) {
-                            if (data.Sucesso) {
-                                Mensagem.ExibirMensagemDeSucesso("A Simulacão do pedido foi gravada com sucesso.");
-                                quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
-                                return;
-                            } else {
-                                Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Atualizar os itens');
-                            }
-
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as linhas. Detalhe: ' + textStatus + errorThrown);
-                        }
-                    });
-
-                });
+                $('#btnGravar').val('Gravar Edição');
+                $('#btnSimular').val('Simular Edição');
 
             }
-            //
-            // Fim Editar Pedido
-            //         
 
         });
     </script>

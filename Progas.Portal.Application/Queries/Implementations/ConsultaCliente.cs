@@ -58,6 +58,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                 Registros = _clientes.GetQuery()
                     .Select(c => new ClienteParaSelecaoVm
                     {
+                        Id =  c.Id,
                         Codigo = c.Id_cliente,
                         Nome = c.Nome,
                         Cnpj = c.Cnpj,
