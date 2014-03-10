@@ -108,10 +108,6 @@
       <Project>{52496ac5-d00f-4ae4-84b9-06ad65dadb47}</Project>
       <Name>Progas.Portal.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Progas.Portal.ViewModel\Progas.Portal.ViewModel.csproj">
-      <Project>{01C438CD-9055-4299-9F5C-A4086EE1CC00}</Project>
-      <Name>Progas.Portal.ViewModel</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ValueObjects\" />

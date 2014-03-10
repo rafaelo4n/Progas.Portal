@@ -112,28 +112,46 @@ GO
 
 --transportadora de redespacho cif inicio
 
-ALTER TABLE pro_vcab ADD IdDaTransportadora INT
+ALTER TABLE pro_vcab ADD IdDaTransportadoraDeRedespachoCif INT
 
 GO
 
-UPDATE pro_vcab set IdDaTransportadora = 
+UPDATE pro_vcab set IdDaTransportadoraDeRedespachoCif = 
 (
 	select pro_id_fornecedor
 	from pro_fornecedor f
-	where pro_vcab.Trans = f.Codigo
+	where pro_vcab.Transredcif = f.Codigo
 )
 
 GO
 
-ALTER TABLE pro_vcab ADD CONSTRAINT FK_pro_vcab_transportadora FOREIGN KEY (IdDaTransportadora) REFERENCES pro_fornecedor( pro_id_fornecedor)
+ALTER TABLE pro_vcab ADD CONSTRAINT FK_pro_vcab_transportadora_redespacho_cif FOREIGN KEY (IdDaTransportadoraDeRedespachoCif) REFERENCES pro_fornecedor( pro_id_fornecedor)
 
 GO
 
-ALTER TABLE pro_vcab DROP COLUMN Trans
+ALTER TABLE pro_vcab DROP COLUMN Transredcif
 
 GO
 
 --transportadora de redespacho cif fim
+
+--vinculo entre fornecedor e usuário
+ALTER TABLE Usuario ADD IdDoFornecedor INT
+GO
+UPDATE Usuario set IdDoFornecedor = 
+(
+	select pro_id_fornecedor 
+	from pro_fornecedor f
+	where f.Codigo = Usuario.CodigoFornecedor 
+)	
+GO
+ALTER TABLE Usuario ADD CONSTRAINT FK_Usuario_Fornecedor FOREIGN KEY (IdDoFornecedor) REFERENCES pro_fornecedor (pro_id_fornecedor)
+GO
+ALTER TABLE Usuario DROP COLUMN CodigoFornecedor
+
+
+
+
 
 
 
