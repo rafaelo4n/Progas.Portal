@@ -123,19 +123,19 @@ namespace Progas.Portal.Application.Services.Implementations
                 i_cabecalho.SetValue("REPRE", Convert.ToString(usuarioConectado.CodigoDoFornecedor));
                 i_cabecalho.SetValue("OBSERVACAO", pedido.Observacao);
 
-                string[] codigoDosMateriais = pedido.Itens.Select(x => x.CodigoMaterial).Distinct().ToArray();
+                int[] idDosMateriais = pedido.Itens.Select(x => x.IdMaterial).Distinct().ToArray();
 
-                IList<Material> materiaisDosItens = _materiais.FiltraPorListaDeCodigos(codigoDosMateriais).List();
+                IList<Material> materiaisDosItens = _materiais.BuscarLista(idDosMateriais).List();
 
                 int contadorDeItens = 1;
 
                 foreach (var dados in pedido.Itens)
                 {
-                    Material material = materiaisDosItens.Single(x => x.Id_material == dados.CodigoMaterial);
+                    Material material = materiaisDosItens.Single(x => x.pro_id_material == dados.IdMaterial);
 
                     // LINHAS (Estrutura tipo tabela)
                     linha_envio_item.SetValue("POSNR", contadorDeItens);
-                    linha_envio_item.SetValue("MATNR", dados.CodigoMaterial);
+                    linha_envio_item.SetValue("MATNR", dados.IdMaterial);
                     linha_envio_item.SetValue("MENGE", dados.Quantidade);
                     linha_envio_item.SetValue("MEINS", material.Uni_med);
                     linha_envio_item.SetValue("PLTYP", dados.CodigoDaListaDePreco);
@@ -198,7 +198,7 @@ namespace Progas.Portal.Application.Services.Implementations
                     IRfcStructure retornoItem = retornoItens[i];
                     PedidoVendaSalvarItemVm item = pedido.Itens[i];
 
-                    Material material = materiaisDosItens.Single(x => x.Id_material == item.CodigoMaterial);
+                    Material material = materiaisDosItens.Single(x => x.pro_id_material == item.IdMaterial);
 
                     var linhasPedido = new PedidoVendaLinha(//retornoItem.GetString("COTACAO"),
                         retornoItem.GetString("POSNR"),

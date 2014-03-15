@@ -12,17 +12,14 @@ namespace Progas.Portal.Application.Queries.Implementations
     {
         private readonly IPedidosVenda      _pedidosVenda;
         private readonly IBuilder<PedidoVenda, PedidoVendaCadastroVm> _builderPedidoVenda;
-        private readonly IBuilder<PedidoVendaLinha, PedidoVendaLinhaCadastroVm> _builderPedidoVendaLinha;
         private readonly IUsuarios _usuarios;
 
         public ConsultaPedidoVenda( IPedidosVenda pedidosVenda,
                                     IBuilder<PedidoVenda, PedidoVendaCadastroVm> builderPedidoVenda,
-                                    IBuilder<PedidoVendaLinha, PedidoVendaLinhaCadastroVm> builderPedidoVendaLinha,
                                     IUsuarios usuarios)
         {
             _pedidosVenda             = pedidosVenda;
             _builderPedidoVenda       = builderPedidoVenda;
-            _builderPedidoVendaLinha  = builderPedidoVendaLinha;
             _usuarios                 = usuarios;
         }
 
@@ -31,21 +28,41 @@ namespace Progas.Portal.Application.Queries.Implementations
         {
             var usuarioConectado = _usuarios.UsuarioConectado();
 
+            if (filtro.id_cliente.HasValue)
+            {
+                _pedidosVenda.DoCliente(filtro.id_cliente.Value);
+
+            }
+
+            if (filtro.IdDoMaterial.HasValue)
+            {
+                _pedidosVenda.ContendoMaterial(filtro.IdDoMaterial.Value);
+            }
+
             _pedidosVenda
-                .ClienteCodigoContendo(filtro.id_cliente)
                 .DataCriacaoContendo(filtro.datacp)
                 .PedidoCodigoContendo(filtro.id_pedido)
                 .DataPedidoContendo(filtro.datap)
                 .CotacaoRepresentante(usuarioConectado.CodigoDoFornecedor);
-                //.NomeContendo(filtro.Nome);
+
+
             var kendoGridVmn = new KendoGridVm()
             {
                 QuantidadeDeRegistros = _pedidosVenda.Count(),
-                Registros =
-                    _builderPedidoVenda.BuildList(_pedidosVenda.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
-                            .Cast<ListagemVm>()
-                            .ToList()
+                Registros = _pedidosVenda.GetQuery().Select(pedido =>
+                    new PedidoVendaListagemVm
+                    {
+                        IdDaCotacao = pedido.Id_cotacao,
+                        NumeroDoPedido = pedido.Id_pedido,
+                        DataDeCriacao =  pedido.Datacp.ToString("dd/MM/yyyy HH:mm:ss"),
+                        DataDoPedido =  pedido.Datap.ToShortDateString(),
+                        NomeDoCliente =  pedido.Cliente.Nome,
+                        ValorTotal = pedido.Vlrtot
+                    })
+                    .Cast<ListagemVm>()
+                    .ToList()
             };
+            
             return kendoGridVmn;
         }
 

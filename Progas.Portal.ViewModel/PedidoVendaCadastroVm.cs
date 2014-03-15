@@ -93,9 +93,11 @@ namespace Progas.Portal.ViewModel
         //itens
         public string ordem { get; set; }
 
+        public int IdDoMaterial { get; set; }
+
         [Display(Name = "Código do Material:")]
         [Required(ErrorMessage = "Material é obrigatório")]
-        public string id_material { get; set; }
+        public string CodigoDoMaterial { get; set; }
 
 
         [Display(Name = "Nome do Material:")]

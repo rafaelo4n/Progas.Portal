@@ -1,9 +1,7 @@
 ﻿using System.Linq;
-using Progas.Portal.Common;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 using System;
-using FluentNHibernate;
 
 namespace Progas.Portal.Infra.Repositories.Implementations
 {
@@ -73,6 +71,18 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         public IPedidosVenda FiltraPorId(string idDoPedido)
         {
             Query = Query.Where(x => x.Id_cotacao == idDoPedido);
+            return this;
+        }
+
+        public IPedidosVenda ContendoMaterial(int idDoMaterial)
+        {
+            Query = Query.Where(pedido => pedido.Itens.Select(item => item.Material.pro_id_material).Contains(idDoMaterial));
+            return this;
+        }
+
+        public IPedidosVenda DoCliente(int idCliente)
+        {
+            Query = Query.Where(pedido => pedido.Cliente.Id == idCliente);
             return this;
         }
     }

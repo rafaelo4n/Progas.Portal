@@ -1,6 +1,4 @@
-﻿@using Progas.Portal.Common 
-@using Progas.Portal.UI.Helpers
-@using Progas.Portal.ViewModel
+﻿@using Progas.Portal.ViewModel
 @model PedidoVendaCadastroVm
 
 @{
@@ -11,79 +9,105 @@
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
 
-    <div id="divFornecedores">
-        <div id="divFiltros">
-            <fieldset>
-                <legend>Filtros</legend>
-                <div class="linha">
-                    <div class="coluna">
-                        @Html.Hidden("id_cliente")
-                        @Html.TextBox("CodigoDoCliente",new{@class="campopequeno campoDesabilitado"})                        
-                        <input type="button" class="button_visualize"/>
-                    </div>
-                    <div class="coluna">
-                        @Html.TextBox("NomeDoCliente",new{@class="campogrande campoDesabilitado"})                        
-                    </div>
-                </div>
-                <div class="linha">
-                    <div class="coluna">
-                        @Html.LinhaComUmaColuna(new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.datacp, "campoDatePicker maskdata campomedio"))
-                    </div>        
-                    <div class="coluna">                
-                        @Html.LabelFor(x => x.id_pedido)
-                        @Html.TextBoxFor(x => x.id_pedido,"campomedio") 
-                    </div>
-                    <div class="coluna">
-                         @Html.LinhaComUmaColuna(new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.datap, "campoDatePicker maskdata campomedio"))
-                    </div>
-                </div>
-                <div class="linha">
-                    @{ var Material = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                                                 (x => x.id_material, ((List<MaterialCadastroVm>)ViewBag.Materiais)
-										              .Select(x => new SelectListItem()
-										              {
-                                                          Text = x.Descricao,
-                                                          Value = Convert.ToString(x.Id_material),
-                                                          Selected = Model != null && x.Id_material == Model.id_material
-										              }
-                                                              ), "Material"
-													              ); 
-				     }
-                    <div class="coluna">                                        
-                        @Html.LinhaComUmaColuna(Material)
-                    </div>
-                </div>
-                <div class="divBotao">
-                    <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
-                    <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
-                </div>
-            </fieldset>
+<div id="divFiltros">
+    <fieldset>
+        <legend>Filtros</legend>
+        <form>
+        <div class="linha">
+            <div class="coluna">
+                @Html.Hidden("id_cliente")
+                @Html.Label("Código do Cliente:")
+                @Html.TextBox("CodigoDoCliente","",new{@class="campopequeno campoDesabilitado"})                        
+                <input type="button" id="btnBuscarCliente" class="button_visualize"/>
+            </div>
+            <div class="coluna">
+                @Html.Label("Nome do Cliente:")
+                @Html.TextBox("NomeDoCliente","",new{@class="campogrande campoDesabilitado"})                        
+            </div>
         </div>
-        <div id="gridFornecedores" class="divGrid"></div>
-    </div>
+                
+        <div class="linha">
+            <div class="coluna">
+                @Html.Hidden("IdDoMaterial")
+                @Html.Label("Código do Material:")
+                @Html.TextBox("CodigoDoMaterial","",new{@class="campopequeno campoDesabilitado"})                        
+                <input type="button" id="btnBuscarMaterial" class="button_visualize"/>
+            </div>
+            <div class="coluna">
+                @Html.Label("Nome do Material:")
+                @Html.TextBox("NomeDoMaterial","",new{@class="campogrande campoDesabilitado"})                        
+            </div>
+        </div>
+
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("Data de Criação:")
+                @Html.TextBox("datacp", "", new { @class = "campoDatePicker maskdata campopequeno" })
+            </div>        
+            <div class="coluna">
+                @Html.Label("Nº do Pedido:")                
+                @Html.TextBox("id_pedido","", new{@class="campopequeno"})
+            </div>
+        </div>
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("Data do Pedido:")
+                @Html.TextBox("datap", "", new { @class = "campoDatePicker maskdata campopequeno" })
+            </div>
+        </div>
+        <div class="divBotao">
+            <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+            <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
+        </div>
+        </form>
+    </fieldset>
+</div>
+<div id="gridFornecedores" class="divGrid"></div>
 
 @section scripts
 {
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarCliente.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarProduto.js")"></script>
+
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
+
+            var selecionarCliente = new SelecionarCliente();
+            var funcaoParaRetornarCamposDaBuscaDeCliente = function() {
+                var clienteSelecionado = selecionarCliente.clienteSelecionado;
+                $('#id_cliente').val(clienteSelecionado.Id);
+                $('#CodigoDoCliente').val(clienteSelecionado.Codigo);
+                $('#NomeDoCliente').val(clienteSelecionado.Nome);
+            };
+
+            selecionarCliente.configurarJanelaModal('#id_cliente', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
+
+            var funcaoParaPreencherOsDadosDeRetornoDoProduto = function() {
+                $('#IdDoMaterial').val(selecionarProduto.produtoSelecionado.Id);
+                $('#CodigoDoMaterial').val(selecionarProduto.produtoSelecionado.Id_material);
+                $('#NomeDoMaterial').val(selecionarProduto.produtoSelecionado.Descricao);
+            };
+
+            var selecionarProduto = new SelecionarProduto();
+            selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscarMaterial', null, funcaoParaPreencherOsDadosDeRetornoDoProduto);
+
             $("#gridFornecedores").customKendoGrid({
                 dataSource: {
                     schema: {
                         data: 'Registros',
                         model: {
-                           fields: {
-                                        id_cotacao:  { type: "string" },
-                                        id_cliente:  { type: "string" },
-                                        datacp:      { type: "string" },
-                                        id_pedido:   { type: "string" },
-                                        datap:       { type: "string" },
-                                        id_material: { type: "string" },
-                                        valfin:      { type: "string" }
-                                   }
-                              },
-                          total: 'QuantidadeDeRegistros'
+                            fields: {
+                                IdDaCotacao: { type: "string" },
+                                NomeDoCliente: { type: "string" },
+                                DataDeCriacao: { type: "string" },
+                                NumeroDoPedido: { type: "string" },
+                                DataDoPedido: { type: "string" },
+                                ValorTotal: { type: "number" }
+                            }
+                        },
+                        total: 'QuantidadeDeRegistros'
                     },
                     serverFiltering: true,
                     serverPaging: true,
@@ -92,14 +116,14 @@
                             url: '@Url.Action("ListarPedidoVenda", "PedidoVenda")',
                             type: 'GET',
                             cache: false,
-                            data: function () {
+                            data: function() {
                                 return {
                                     // Envia para o controler os valores dos parametros
                                     id_cliente: $('#id_cliente').val(),
-                                    datacp:     $('#datacp').val(),
-                                    id_pedido:  $('#id_pedido').val(),
-                                    datap:      $('#datap').val(),
-                                    Material:   $ ('#Material').val()
+                                    datacp: $('#datacp').val(),
+                                    id_pedido: $('#id_pedido').val(),
+                                    datap: $('#datap').val(),
+                                    IdDoMaterial: $('#IdDoMaterial').val()
                                 };
                             }
                         }
@@ -107,76 +131,66 @@
                     pageSize: 5
                 },
                 columns:
-                [                    
+                [
                     {
-                        field: 'Id',
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                         width: 30,
                         sortable: false,
-                        template: '<input type="button" class="button_visualize" data-cotacao="${id_cotacao}"></input>'
+                        template: '<input type="button" class="button_visualize" data-cotacao="${IdDaCotacao}"></input>'
                     },
                     {
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                         width: 30,
                         sortable: false,
-                        template: '<input type="button" class="button_edit" data-cotacao="${id_cotacao}"></input>'
+                        template: '<input type="button" class="button_edit" data-cotacao="${IdDaCotacao}"></input>'
                     },
                     {
-                        field: "id_cotacao",
-                        width: 50,
+                        field: "IdDaCotacao",
+                        width: 80,
                         title: "Cotação"
                     },
                     {
-                        field: "id_cliente",
+                        field: "NomeDoCliente",
                         width: 200,
                         title: "Cliente"
-                    },            
+                    },
                     {
                         width: 90,
-                        field: "datacp",
+                        field: "DataDoPedido",
                         title: "Data de Criação"
                     },
                     {
                         width: 80,
-                        field: "id_pedido",
+                        field: "NumeroDoPedido",
                         title: "N° Pedido"
-                    },            
+                    },
                     {
-                        width: 70,
-                        field: "datap",
+                        width: 90,
+                        field: "DataDoPedido",
                         title: "Data do Pedido"
                     },
                     {
                         width: 100,
-                        field: "valfin",
+                        field: "ValorTotal",
                         title: "Valor Final"
                     }
                 ]
             });
 
-            $('#btnLimpar').click(function () {
-                gridFornecedores = [];
-                $('#divFiltros input[type!=button]').val('');
-                $("#id_cliente").prop('selectedIndex', 0);
-                $("#Material").prop('selectedIndex', 0); 
-            });
-
-
-            $('.button_visualize').die("click");
-            $('.button_visualize').live("click", function (e) {
+            $("#gridFornecedores").off('click', '.button_visualize');
+            $("#gridFornecedores").on('click', '.button_visualize', function() {
                 e.preventDefault();
                 location.href = '@Url.Action("ConsultarLinhasPedido", "PedidoVenda")' + '/?cotacao=' + $(this).attr('data-cotacao');
             });
 
-
-            // Validar o Status do Pedido antes de atualizar
-            $('.button_edit').die("click");
-            $('.button_edit').live("click", function (e) {
+            $("#gridFornecedores").off('click', '.button_edit');
+            $("#gridFornecedores").on('click', '.button_edit', function() {
                 e.preventDefault();
-                
-                
-                location.href = '@Url.Action("Index", "PedidoVenda")' + '/?cotacao_editar=' + $(this).attr('data-cotacao');
-                
+                location.href = '@Url.Action("ConsultarLinhasPedido", "PedidoVenda")' + '/?cotacao=' + $(this).attr('data-cotacao');
+            });
+
+            $('#btnLimpar').click(function() {
+                $('form').find('input[type=hidden]').val('');
             });
 
         });

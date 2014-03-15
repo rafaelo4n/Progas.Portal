@@ -7,6 +7,7 @@ namespace Progas.Portal.ViewModel
     [DataContract]
     public class MaterialCadastroVm : ListagemVm
     {
+        public int Id { get; set; }
         [DataMember]
         public string Id_material { get; set; }
         [DataMember]

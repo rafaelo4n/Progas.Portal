@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using NHibernate.Exceptions;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 
@@ -10,7 +9,6 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         public Materiais(IUnitOfWorkNh unitOfWork)
             : base(unitOfWork)
         {
-            //Query = Query.OrderBy(x => x.Descricao);
         }
 
         public Material BuscaPeloCodigo(string codigoSap)
@@ -66,6 +64,12 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             {
                 Query = Query.Where(x => x.Id_centro == centro);
             }
+            return this;
+        }
+
+        public IMateriais BuscarLista(int[] idDosMateriais)
+        {
+            Query = Query.Where(x => idDosMateriais.Contains(x.pro_id_material));
             return this;
         }
     }

@@ -6,8 +6,6 @@ using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.ViewModel;
 
-//using StructureMap;
-
 namespace Progas.Portal.Application.Queries.Implementations
 {
     public class ConsultaMaterial : IConsultaMaterial

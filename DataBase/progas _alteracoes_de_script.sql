@@ -149,9 +149,17 @@ ALTER TABLE Usuario ADD CONSTRAINT FK_Usuario_Fornecedor FOREIGN KEY (IdDoFornec
 GO
 ALTER TABLE Usuario DROP COLUMN CodigoFornecedor
 
-
-
-
-
-
-
+--vinculo entre material e itens do pedido (inicio)
+ALTER TABLE pro_vitem ADD pro_id_material INT
+GO
+UPDATE pro_vitem set pro_id_material = 
+(
+	select pro_id_material
+	from pro_material p
+	where p.Id_material = pro_vitem.Id_material 
+)	
+GO
+ALTER TABLE pro_vitem ADD CONSTRAINT FK_Item_Material FOREIGN KEY (pro_id_material) REFERENCES pro_material (pro_id_material)
+GO
+ALTER TABLE pro_vitem DROP COLUMN Id_material
+--vinculo entre material e itens do pedido (inicio)

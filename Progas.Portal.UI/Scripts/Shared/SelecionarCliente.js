@@ -91,7 +91,7 @@
 
     };
 
-    function configurarJanelaModal(idDoCampoDoIdDoCliente, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoCliente, funcaoParaPreencherOsDadosDeRetorno) {
+    this.configurarJanelaModal = function (idDoCampoDoIdDoCliente, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoCliente, funcaoParaPreencherOsDadosDeRetorno) {
         $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
         $('#' + idDaDivDaJanelaDeDialogo).customDialog({
             title: 'Selecionar Cliente',
@@ -129,7 +129,4 @@
 
     };
 
-    this.configurar = function (idDoCampoDoIdDoCliente, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoCliente, funcaoParaPreencherOsDadosDeRetorno) {
-        configurarJanelaModal(idDoCampoDoIdDoCliente, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoCliente,funcaoParaPreencherOsDadosDeRetorno);
-    };
 }

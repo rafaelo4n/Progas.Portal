@@ -113,6 +113,7 @@
     <Compile Include="Queries\Builders\MaterialCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\PedidoVendaCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\PedidoVendaLinhaCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\PedidoVendaListagemVm.cs" />
     <Compile Include="Queries\Builders\TipoPedidoCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\UnidadeDeMedidaCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\PerfilBuilder.cs" />

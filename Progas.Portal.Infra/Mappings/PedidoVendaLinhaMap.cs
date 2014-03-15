@@ -21,7 +21,7 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Valfin);
             Map(x => x.Motrec);
 
-            References(x => x.Material, "Id_material");
+            References(x => x.Material, "pro_id_material");
 
             HasMany(x => x.CondicoesDePreco)
                 .KeyColumn("pro_id_item")

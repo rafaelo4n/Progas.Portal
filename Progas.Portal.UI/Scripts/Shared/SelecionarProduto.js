@@ -13,6 +13,7 @@
                     data: 'Registros',
                     model: {
                         fields: {
+                            Id: {type:"number"},
                             Descricao: { type: "string" },
                             Id_material: { type: "string" },
                             Tipo: { type: "string" },
@@ -41,7 +42,7 @@
             },
             dataBound: function () {
                 if (me.produtoSelecionado != null) {
-                    $('input[name=radioProduto][data-codigoproduto=' + me.produtoSelecionado.Codigo + ']').attr('checked', true);
+                    $('input[name=radioProduto][data-idproduto=' + me.produtoSelecionado.Id + ']').attr('checked', true);
                 }
             },
             columns:
@@ -50,7 +51,7 @@
                     title: ' ', 
                     width: 30,
                     sortable: false,
-                    template: '<input type="radio" name="radioProduto" data-codigoproduto="${Id_material}"></input>'
+                    template: '<input type="radio" name="radioProduto" data-idproduto="${Id}"></input>'
                 },
                 {
                     width: 170,
@@ -82,7 +83,7 @@
 
     };
 
-    function configurarJanelaModal(idDoCampoDoCodigoDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto,
+    this.configurarJanelaModal = function (idDoCampoDoIdDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto,
         idDoCampoDoCentro, funcaoParaPreencherOsDadosDeRetorno) {
 
         $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
@@ -107,18 +108,21 @@
         });
         $(idDoBotaoDeSelecaoDoProduto).click(function () {
 
-            centro = $(idDoCampoDoCentro).val();
+            if (idDoCampoDoCentro) {
+                
+                centro = $(idDoCampoDoCentro).val();
 
-            if (!centro) {
-                Mensagem.ExibirMensagemDeErro('Antes de selecionar o Material é necessário selecionar uma Área de Venda para identificarmos o Centro.');
-                return;
+                if (!centro) {
+                    Mensagem.ExibirMensagemDeErro('Antes de selecionar o Material é necessário selecionar uma Área de Venda para identificarmos o Centro.');
+                    return;
+                }
             }
 
-            var codigoDoProduto = $(idDoCampoDoCodigoDoProduto).val();
+            var idDoProduto = $(idDoCampoDoIdDoProduto).val();
 
-            if (codigoDoProduto) {
+            if (idDoProduto) {
                 me.produtoSelecionado = {
-                    Codigo: codigoDoProduto
+                    Id: idDoProduto
                 };
             }
 
@@ -128,9 +132,4 @@
 
     };
 
-    this.configurar = function (idDoCampoDoCodigoDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto,
-        idDoCampoDoCentro, funcaoParaPreencherOsDadosDeRetorno) {
-        configurarJanelaModal(idDoCampoDoCodigoDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto,
-            idDoCampoDoCentro, funcaoParaPreencherOsDadosDeRetorno);
-    };
 }

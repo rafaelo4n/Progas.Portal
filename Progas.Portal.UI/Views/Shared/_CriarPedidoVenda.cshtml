@@ -146,12 +146,13 @@
                 
                     @{ 
 
-                        var buscaDeMaterial = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.id_material, new {@class = "campoDesabilitado campopequeno"}, "btnBuscaMaterial", "button_visualize");
+                        var buscaDeMaterial = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.CodigoDoMaterial, new {@class = "campoDesabilitado campopequeno"}, "btnBuscaMaterial", "button_visualize");
                         var campoDoNomeDoMaterial = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.NomeDoMaterial, new {@class = "campoDesabilitado campogrande"});
                         var campoDaUnidadeDeMedidaDoMaterial = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.CodigoUnidadeMedida, new { @class = "campoDesabilitado campomedio" });
                     }
                 
                 @Html.LinhaComTresColunas(buscaDeMaterial, campoDoNomeDoMaterial, campoDaUnidadeDeMedidaDoMaterial)  
+                @Html.HiddenFor(x => x.IdDoMaterial)
                 
 
                 @{ var listapreco = new ColunaComDropDown<PedidoVendaCadastroVm, string>
@@ -311,17 +312,19 @@
 
 
             };
-            selecionarCliente.configurar('#Cliente_Id', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
+            selecionarCliente.configurarJanelaModal('#Cliente_Id', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
 
             var selecionarProduto = new SelecionarProduto();
 
-            var funcaoParaPreencherOsDadosDeRetornoDoProduto = function() {
-                $('#id_material').val(selecionarProduto.produtoSelecionado.Id_material);
-                $('#NomeDoMaterial').val(selecionarProduto.produtoSelecionado.Descricao);
-                $('#CodigoUnidadeMedida').val(selecionarProduto.produtoSelecionado.UnidadeMedida);
+            var funcaoParaPreencherOsDadosDeRetornoDoProduto = function () {
+                var produtoSelecionado = selecionarProduto.produtoSelecionado;
+                $('#IdDoMaterial').val(produtoSelecionado.Id);
+                $('#CodigoDoMaterial').val(produtoSelecionado.Id_material);
+                $('#NomeDoMaterial').val(produtoSelecionado.Descricao);
+                $('#CodigoUnidadeMedida').val(produtoSelecionado.UnidadeMedida);
             };
 
-            selecionarProduto.configurar('#id_material', 'divSelecionarProduto', '#btnBuscaMaterial','#id_centro', funcaoParaPreencherOsDadosDeRetornoDoProduto);
+            selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscaMaterial','#id_centro', funcaoParaPreencherOsDadosDeRetornoDoProduto);
 
             $('#AreaDeVenda').change(function() {
                 var areaDeVendaSelecionada = $(this).val();
@@ -409,8 +412,9 @@
                 // grava a linha no array de fornecedor
                 // Array que sera enviado para o controller que salva os pedidos
                 var fornecedor = {
-                    NumeroDoItem : numeroDeItensInseridos * 10,
-                    CodigoMaterial: $('#id_material').val(),
+                    NumeroDoItem: numeroDeItensInseridos * 10,
+                    IdMaterial: $('#IdDoMaterial').val(),
+                    CodigoMaterial: $('#CodigoDoMaterial').val(),
                     DescricaoMaterial: $('#NomeDoMaterial').val(),
                     UnidadeDeMedida: $('#CodigoUnidadeMedida').val(),
                     Quantidade: $('#Quant').val(),
@@ -445,6 +449,7 @@
                             fields: {
                                 NumeroDoItem: { type: "number" },
                                 Status: { type: "string" },
+                                IdMaterial:{type:"number"},
                                 CodigoMaterial: { type: "string" },
                                 DescricaoMaterial: { type: "string" },
                                 Quantidade: { type: "number" },
@@ -562,13 +567,13 @@
 
                 // Grava no array os dados que serão salvos
                 var itens = new Array();
-                $.each(linhasAdicionadas, function (indice, quota) {
+                $.each(linhasAdicionadas, function (indice, item) {
                     itens.push({
-                        CodigoMaterial: quota.CodigoMaterial,
-                        Quantidade: quota.Quantidade,
-                        listapreco: quota.listpre,
-                        Desconto: quota.Desconto,
-                        CodigoDoMotivoDeRecusa: quota.CodigoDoMotivoDeRecusa
+                        IdMaterial: item.IdMaterial,
+                        Quantidade: item.Quantidade,
+                        listapreco: item.listpre,
+                        Desconto: item.Desconto,
+                        CodigoDoMotivoDeRecusa: item.CodigoDoMotivoDeRecusa
                     });
                 });
 
@@ -618,8 +623,8 @@
                 indiceEdicao = $(this).parents('tr:first')[0].rowIndex;
                 var item = linhasAdicionadas[indiceEdicao];
 
-                // Campo da view( #Material) - Campo do select(val(quota.CodigoMaterial))
-                $('#Id_material').val(item.CodigoMaterial);
+                $('#IdDoMaterial').val(item.IdMaterial);
+                $('#CodigoDoMaterial').val(item.CodigoMaterial);
                 $('#Quant').val(item.Quantidade);
                 $('#CodigoUnidadeMedida').val(item.UnidadeDeMedida);
                 $('#CodigoDaListaDePreco').val(item.listpre);
@@ -744,7 +749,6 @@
                                 //dataType: 'json',
                                 success: function(data) {
                                     $.each(data, function(index, value) {
-                                        //alert(value.id_material, value.id_cotacao);
 
                                         $('#Id_material').val(value.id_material);
                                         $('#Quant').val(value.Quant);
