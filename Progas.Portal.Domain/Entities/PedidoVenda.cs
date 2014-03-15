@@ -15,14 +15,13 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Id_pedido { get; set; }
         public virtual DateTime Datap { get; set; }
         public virtual string Condpgto { get; set; }
-        public virtual string Inco1 { get; set; }
-        public virtual string Inco2 { get; set; }
+        public virtual IncotermCab Incoterm1 { get; set; }
+        public virtual IncotermLinhas Incoterm2 { get; set; }
         public virtual Fornecedor Transportadora { get; set; }
         public virtual Fornecedor TransportadoraDeRedespacho { get; set; }
         public virtual Fornecedor TransportadoraDeRedespachoCif { get; set; }
         public virtual string Id_repre { get; set; }
         public virtual string Obs { get; set; }
-        public virtual string Motrec { get; set; }
         public virtual string Status { get; set; }
         public virtual decimal Vlrtot { get; set; }
         public virtual ClienteVenda AreaDeVenda{ get; set; }
@@ -44,8 +43,8 @@ namespace Progas.Portal.Domain.Entities
             string id_pedido,
             DateTime datap,
             string condpgto,
-            string inco1,
-            string inco2,
+            IncotermCab incoterm1,
+            IncotermLinhas incoterm2,
             Fornecedor transportadora,
             Fornecedor transportadoraDeRedespacho,
             Fornecedor transportadoraDeRedespachoCif,
@@ -65,8 +64,8 @@ namespace Progas.Portal.Domain.Entities
             Id_pedido = id_pedido;
             Datap = datap;
             Condpgto = condpgto;
-            Inco1 = inco1;
-            Inco2 = inco2;
+            Incoterm1 = incoterm1;
+            Incoterm2 = incoterm2;
             Transportadora = transportadora;
             TransportadoraDeRedespacho = transportadoraDeRedespacho;
             TransportadoraDeRedespachoCif = transportadoraDeRedespachoCif;

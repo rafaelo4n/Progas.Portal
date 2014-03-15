@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Progas.Portal.Application.Queries.Contracts;
 using Progas.Portal.UI.Filters;
@@ -20,11 +18,11 @@ namespace Progas.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult ListarIncotermsDoCabecalho(string codigoDoCabecalho)
+        public ActionResult ListarIncotermsDoCabecalho(int idDoCabecalho)
         {
             try
             {
-                IList<IncotermLinhasCadastroVm> incoterms = _consultaIncotermLinhas.ListarPorCabecalho(codigoDoCabecalho);
+                IList<IncotermLinhasCadastroVm> incoterms = _consultaIncotermLinhas.ListarPorCabecalho(idDoCabecalho);
 
                 return Json(new { Sucesso = true, incoterms }, JsonRequestBehavior.AllowGet);
 

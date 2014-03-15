@@ -15,11 +15,8 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Id_pedido);
             Map(x => x.Datap);
             Map(x => x.Condpgto);
-            Map(x => x.Inco1);
-            Map(x => x.Inco2);
             Map(x => x.Id_repre);
             Map(x => x.Obs);
-            Map(x => x.Motrec);
             Map(x => x.Status);
             Map(x => x.Vlrtot);
             Map(x => x.Tipo);
@@ -29,6 +26,8 @@ namespace Progas.Portal.Infra.Mappings
             References(x => x.Transportadora,"IdDaTransportadora");
             References(x => x.TransportadoraDeRedespacho, "IdDaTransportadoraDeRedespacho");
             References(x => x.TransportadoraDeRedespachoCif,"IdDaTransportadoraDeRedespachoCif");
+            References(x => x.Incoterm1, "pro_id_incotermCab");
+            References(x => x.Incoterm2, "pro_id_incotermLinha");
 
             HasMany(x => x.Itens)
                 .KeyColumn("Id_cotacao")

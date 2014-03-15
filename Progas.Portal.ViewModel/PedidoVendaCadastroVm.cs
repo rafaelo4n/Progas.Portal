@@ -42,11 +42,11 @@ namespace Progas.Portal.ViewModel
 
         [Display(Name = "Incoterm 1: ")]
         [Required(ErrorMessage = "Incoterm 1 é obrigatória")]
-        public string inco1 { get; set; }
+        public string IdDoIncoterm1 { get; set; }
 
         [Display(Name = "Incoterm 2: ")]
         [Required(ErrorMessage = "Incoterm 2 é obrigatória")]
-        public string inco2 { get; set; }
+        public string IdDoIncoterm2 { get; set; }
 
         [Display(Name = "Representante: ")]
         public string id_repre { get; set; }

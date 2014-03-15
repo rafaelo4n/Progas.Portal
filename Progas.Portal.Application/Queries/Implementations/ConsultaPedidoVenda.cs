@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Progas.Portal.Application.Queries.Builders;
 using Progas.Portal.Application.Queries.Contracts;
@@ -161,8 +162,8 @@ namespace Progas.Portal.Application.Queries.Implementations
                 id_centro = pedido.Id_centro ,
                 id_pedido = pedido.Id_pedido ,
                 id_repre =pedido.Id_repre ,
-                inco1 = pedido.Inco1,
-                inco2 = pedido.Inco2 ,
+                IdDoIncoterm1 = Convert.ToString(pedido.Incoterm1.pro_id_incotermCab),
+                IdDoIncoterm2 = Convert.ToString(pedido.Incoterm2.pro_id_incotermLinha),
                 vlrtot = pedido.Vlrtot,
                 obs = pedido.Obs
 

@@ -74,20 +74,44 @@ namespace Progas.Portal.UI.Controllers
         #endregion
 
         #region Criar e Editar Pedido de Venda
-        // View de Criacao e Edicao de Pedido de Venda, muda o titulo da pagina e as funções estão localizadas no Html
-        public ActionResult Index(string idDaCotacao)
-        {
-            ViewBag.TituloDaPagina = string.IsNullOrEmpty(idDaCotacao) ? "Pedido de Venda" : "Editar Pedido de Venda";
 
+        private void PrepararViewBagParaTelaDeCadastroDePedido()
+        {
             ViewBag.CondicoesDePagamento = _consultaCondicaoPagamento.ListarTodas();
             ViewBag.TipoPedidos = _consultaTipoPedido.ListarTodas();
             ViewBag.ListaPreco = _consultaListaPreco.ListarTodas();
             ViewBag.Centro = _consultaMaterial.ListarCentro();
-            ViewBag.Incoterms = _consultaIncotermCab.ListarTodas(); //_consultaIncoterm.ListarTodas();
+            ViewBag.Incoterms = _consultaIncotermCab.ListarTodas(); 
             ViewBag.MotivosDeRecusa = _motivosDeRecusa;
+            
+        }
+
+        // Criacao de um novo pedido de venda
+        public ActionResult Index()
+        {
+            ViewBag.TituloDaPagina = "Criar Pedido de Venda";
+            PrepararViewBagParaTelaDeCadastroDePedido();
             return View("_CriarPedidoVenda");
 
         }
+
+        public ActionResult EditarPedido(string idDaCotacao)
+        {
+            PrepararViewBagParaTelaDeCadastroDePedido();
+            ViewBag.TituloDaPagina = "Editar Pedido de Venda";
+            PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDaCotacao);
+            return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
+        }
+
+        public ActionResult VisualizarPedido(string idDaCotacao)
+        {
+            PrepararViewBagParaTelaDeCadastroDePedido();
+            ViewBag.TituloDaPagina = "Visualizar Pedido de Venda";
+            PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDaCotacao);
+            return View("_CriarPedidoVenda",pedidoVendaCadastroVm);
+          
+        }
+
 
         #endregion       
 

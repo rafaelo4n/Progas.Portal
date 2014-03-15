@@ -162,7 +162,7 @@
     <Compile Include="Repositories\Contracts\IClientes.cs" />
     <Compile Include="Repositories\Contracts\IClienteVendas.cs" />
     <Compile Include="Repositories\Contracts\IIncotermsCabs.cs" />
-    <Compile Include="Repositories\Contracts\IIncotermsLinhascs.cs" />
+    <Compile Include="Repositories\Contracts\IIncotermsLinhas.cs" />
     <Compile Include="Repositories\Contracts\IIncoterms.cs" />
     <Compile Include="Repositories\Contracts\IListasPreco.cs" />
     <Compile Include="Repositories\Contracts\IMateriais.cs" />

@@ -12,16 +12,16 @@
 <div class="paginaCadastro">
     @using (Html.BeginForm())
     {
+        @Html.HiddenFor(x => x.id_cotacao )
         <!-- Realiza a pequisa de cotações para carregar seus dados -->           
         <fieldset>
             <legend>Pesquisa Cotação</legend> 
             <div id="Copiar" class="divBotaoCopiar linha">
                 <div class="coluna3">
                     @Html.LabelFor(x => x.id_cotacao)
-                    @Html.TextBoxFor(x => x.id_cotacao,"campopequeno")
+                    @Html.TextBox("id_cotacao", "", new { @class = "campopequeno" })
                     <input type="button" id="btnCopiar" value="Copiar" class="blue" />
                     <input type="reset" id="btnNovo"   value="Novo"   class="blue" />
-                    @Html.ValidationMessageFor(x => x.id_cotacao)
                 </div>
                 <div class="coluna3">
                     @Html.LabelFor(x => x.status)
@@ -86,29 +86,31 @@
                     )
                 
                 @{
-                var inco1 = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                    (x => x.inco1, ((List<IncotermsCabCadastroVm>)ViewBag.Incoterms)
+                    var inco1 = new ColunaComDropDown<PedidoVendaCadastroVm, object>
+                        (x => x.IdDoIncoterm1, ((List<IncotermsCabCadastroVm>) ViewBag.Incoterms)
                             .Select(x => new SelectListItem()
                             {
-                                Text = string.Format("{0} - {1}",x.CodigoIncotermCab, x.Descricao),
-                                Value = Convert.ToString(x.CodigoIncotermCab),
-                                Selected = Model != null && x.CodigoIncotermCab == Model.inco1
+                                Text = string.Format("{0} - {1}", x.CodigoIncotermCab, x.Descricao),
+                                Value = Convert.ToString(x.Id),
+                                Selected = Model != null && Convert.ToString( x.Id) == Model.IdDoIncoterm1
                             }
                             ), "Inco1"
                         );
 
-                    var inco2 = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                        (x => x.inco2, new List<SelectListItem>(), "Inco2"
+                    var inco2 = new ColunaComDropDown<PedidoVendaCadastroVm, object>
+                        (x => x.IdDoIncoterm2, new List<SelectListItem>(), "Inco2"
                         );
 
-                    var buscaDeTransportadora = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.Transportadora.Codigo,
+                    var buscaDeTransportadora = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, object>(x => x.Transportadora.Codigo,
                         new { @readonly = true, @class = "campomedio campoDesabilitado" },"Código Transportadora:", 
                         "btnSelecionarTransportadora", "button_visualize");
 
-                    var campoComNomeDaTransportadora = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Transportadora.Nome, 
+                    var campoComNomeDaTransportadora = new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Transportadora.Nome, 
                         new { @class = "campogrande campoDesabilitado" },"Nome Transportadora:");
                        
                 }
+                
+                @*@Html.LinhaComUmaColuna(inco1)*@
                 
                 @Html.LinhaComQuatroColunas(inco1, inco2, buscaDeTransportadora, campoComNomeDaTransportadora)
                 
@@ -200,7 +202,6 @@
         
         <div class="divBotao">
             <input type="button" id="btnSimular"             value="Simular"          class="blue"/>
-            <input type="button" id="btnSimularEdicao"       value="Simular Edição"   class="blue"/>
             <input type="button" id="btnGravar"              value="Gravar"           class="blue"/>
         </div>
 
@@ -228,8 +229,8 @@
         var gravar = "G";
         var numeroDeItensInseridos = 0;
 
-        function carregarAreasDeVenda(idDoCliente) {
-
+        function carregarAreasDeVenda(idDoCliente, callBack) {
+            ///<param name="callBack">funcao para executar alguma ação após carregar as áreas de venda. Por exemplo, setar um valor</param>
             var comboDeAreaDeVenda = $('#AreaDeVenda');
             comboDeAreaDeVenda  
                 .val('')
@@ -248,6 +249,11 @@
                         $.each(data.areasDeVenda, function(indice, areaDeVenda) {
                             comboDeAreaDeVenda.append('<option value="' + areaDeVenda.Id + '">' + areaDeVenda.Descricao + '</option>');
                         });
+
+                        if (callBack) {
+                            callBack();
+                        }
+
                     } else {
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Áreas de Venda do cliente. Detalhe: ' + data.Mensagem);
                     }
@@ -255,6 +261,38 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Áreas de Venda do cliente. Detalhe: ' + errorThrown);
+                }
+            });
+
+        }
+
+        function carregarIncoterm2(incoterm1, callBack) {
+            $.ajax({
+                url: '@Url.Action("ListarIncotermsDoCabecalho", "Incoterm")' + '/?idDoCabecalho=' + incoterm1,
+                type: 'GET',
+                cache: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Sucesso) {
+                        var comboDeIncoterm2 = $('#Inco2');
+
+                        comboDeIncoterm2.children(':not(:first)').remove();
+                        $.each(data.incoterms, function (indice, incoterm) {
+                            comboDeIncoterm2.append('<option value="' + incoterm.Id + '">' + incoterm.IncotermLinha + '</option>');
+                        });
+
+                        if (callBack) {
+                            callBack();
+                        }
+
+                    } else {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o incoterm 2. Detalhe: ' + data.Mensagem);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o incoterm 2. Detalhe: ' + errorThrown);
                 }
             });
 
@@ -310,7 +348,6 @@
                 $('#Cliente_Cnpj').val(clienteSelecionado.Cnpj || clienteSelecionado.Cpf);
                 $('#Cliente_Telefone').val(clienteSelecionado.Telefone);
 
-
             };
             selecionarCliente.configurarJanelaModal('#Cliente_Id', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
 
@@ -336,52 +373,31 @@
                 }
             });
 
+            @if (Model != null)
+            {
+                //vai entrar aqui quando estiver carregando um pedido que já foi salvo
+                @:carregarAreasDeVenda($('#Cliente_Codigo').val(), function() {
+                    @:$('#AreaDeVenda')
+                        @:.val('@Model.IdDaAreaDeVenda')
+                        @:.change();
+                @:});
+
+                @:carregarIncoterm2($('#Inco1').val(), function() {
+                    @:$('#Inco2').val('@Model.IdDoIncoterm2');
+                @:});
+
+                @:$('#btnGravar').val('Gravar Edição');
+                @:$('#btnSimular').val('Simular Edição');
+                
+            }
+
+
             $('#Inco1').change(function () {
                 var incoterm1 = $(this).val();
                 if (incoterm1) {
-                    $.ajax({
-                        url: '@Url.Action("ListarIncotermsDoCabecalho", "Incoterm")' + '/?codigoDoCabecalho=' + incoterm1,
-                        type: 'GET',
-                        cache: false,
-                        contentType: "application/json; charset=utf-8",
-                        dataType: 'json',
-                        success: function (data) {
-                            if (data.Sucesso) {
-                                var comboDeIncoterm2 = $('#Inco2');
-
-                                comboDeIncoterm2.children(':not(:first)').remove();
-                                $.each(data.incoterms, function (indice, incoterm) {
-                                    comboDeIncoterm2.append('<option value="' + incoterm.Id + '">' + incoterm.IncotermLinha + '</option>');
-                                });
-                            } else {
-                                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o incoterm 2. Detalhe: ' + data.Mensagem);
-                            }
-
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o incoterm 2. Detalhe: ' + errorThrown);
-                        }
-                    });
-
+                    carregarIncoterm2(incoterm1);
                 }
             });
-
-            // Botao de editar Pedido
-            $('#btnGravarEdicao').hide();
-            $('#btnSimularEdicao').hide();
-
-            function existeLinhaPedido(linha) {
-                var linhaEncontrada = false;
-                $.each(linhasAdicionadas, function(indice, fornecedor) {
-                    if (linhaEncontrada) {
-                        return;
-                    }
-                    if (indice == indiceEdicao) {
-                        return;
-                    }
-                });
-                return linhaEncontrada;
-            }
 
             function atualizaGrid() {
                 var grid = $("#gridLinhasAdicionadas").data("kendoGrid");
@@ -774,16 +790,6 @@
                     }
                 });
             });
-
-            var idDoPedido = '@(Model != null ? Model.id_pedido: "")';
-
-            if (idDoPedido) {
-
-                // Desabita Botao de Salvar e Simular Pedido
-                $('#btnGravar').val('Gravar Edição');
-                $('#btnSimular').val('Simular Edição');
-
-            }
 
         });
     </script>

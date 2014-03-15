@@ -162,4 +162,65 @@ GO
 ALTER TABLE pro_vitem ADD CONSTRAINT FK_Item_Material FOREIGN KEY (pro_id_material) REFERENCES pro_material (pro_id_material)
 GO
 ALTER TABLE pro_vitem DROP COLUMN Id_material
+
+GO
+
+ALTER TABLE pro_vitem ALTER COLUMN pro_id_material INT NOT NULL
+
+GO
+
 --vinculo entre material e itens do pedido (inicio)
+
+--vinculo entre pedido e incoterm1 (inicio)
+ALTER TABLE pro_vcab ADD pro_id_incotermCab INT
+
+GO
+
+update pro_vcab SET pro_id_incotermCab = 
+(
+	SELECT pro_id_incotermCab
+	FROM pro_incotermcab i
+	WHERE i.CodigoIncotermCab = pro_vcab.Inco1
+)
+
+GO
+
+ALTER TABLE pro_vcab ADD CONSTRAINT FK_PedidoVenda_Incoterm1 FOREIGN KEY (pro_id_incotermCab) REFERENCES pro_incotermcab(pro_id_incotermCab)
+
+GO
+
+ALTER TABLE pro_vcab ALTER COLUMN pro_id_incotermCab INT NOT NULL
+
+GO
+ALTER TABLE pro_vcab DROP COLUMN Inco1
+
+GO
+
+--vinculo entre pedido e incoterm1 (fim)
+--vinculo entre pedido e incoterm2 (inicio)
+ALTER TABLE pro_vcab ADD pro_id_incotermLinha INT
+
+GO
+
+update pro_vcab SET pro_id_incotermLinha = 
+(
+	SELECT pro_id_incotermLinha
+	FROM pro_incotermlinha i
+	WHERE i.IncotermLinha = pro_vcab.Inco2
+)
+
+GO
+
+ALTER TABLE pro_vcab ADD CONSTRAINT FK_PedidoVenda_Incoterm2 FOREIGN KEY (pro_id_incotermLinha) REFERENCES pro_incotermlinha(pro_id_incotermLinha)
+
+GO
+
+ALTER TABLE pro_vcab ALTER COLUMN pro_id_incotermLinha INT NOT NULL
+
+GO
+ALTER TABLE pro_vcab DROP COLUMN Inco2
+
+
+GO
+
+--vinculo entre pedido e incoterm2 (fim)

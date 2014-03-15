@@ -18,8 +18,8 @@ namespace Progas.Portal.ViewModel
         public int? CodigoDaTransportadoraDeRedespachoCif { get; set; } //
         public int IdDoCliente { get; set; } //
         public int IdDaAreaDeVenda { get; set; }
-        public string Inco1 { get; set; } //
-        public string Inco2 { get; set; } //
+        public int IdDoIncoterm1 { get; set; } //
+        public int IdDoIncoterm2 { get; set; } //
         public string Observacao { get; set; } //             
 
         public IList<PedidoVendaSalvarItemVm> Itens { get; set; }

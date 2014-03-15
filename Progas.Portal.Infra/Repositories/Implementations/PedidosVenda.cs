@@ -68,9 +68,9 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             return this;
         }
 
-        public IPedidosVenda FiltraPorId(string idDoPedido)
+        public IPedidosVenda FiltraPorId(string idDaCotacao)
         {
-            Query = Query.Where(x => x.Id_cotacao == idDoPedido);
+            Query = Query.Where(x => x.Id_cotacao == idDaCotacao);
             return this;
         }
 

@@ -19,9 +19,12 @@ namespace Progas.Portal.Application.Services.Implementations
         private readonly IClientes _clientes ;
         private readonly IMateriais _materiais;
         private readonly IFornecedores _fornecedores;
+        private readonly IIncotermsCabs _incotermsCabs;
+        private readonly IIncotermsLinhas _incotermsLinhas;
 
         public CadastroPedidoVenda(IUnitOfWork unitOfWork, IPedidosVenda pedidosVenda, 
-            IUsuarios usuarios, IClienteVendas clienteVendas, IMateriais materiais, IClientes clientes, IFornecedores fornecedores)
+            IUsuarios usuarios, IClienteVendas clienteVendas, IMateriais materiais, IClientes clientes,
+            IFornecedores fornecedores, IIncotermsCabs incotermsCabs, IIncotermsLinhas incotermsLinhas)
         {
             _unitOfWork = unitOfWork;
             _pedidosVenda = pedidosVenda;
@@ -30,6 +33,8 @@ namespace Progas.Portal.Application.Services.Implementations
             _materiais = materiais;
             _clientes = clientes;
             _fornecedores = fornecedores;
+            _incotermsCabs = incotermsCabs;
+            _incotermsLinhas = incotermsLinhas;
         }               
         // Parametro de Repositorio utilizado na conexao SAP
         public static string RepositorydestinationPar = ConfigurationSettings.AppSettings["RepositoryDestination"];
@@ -115,8 +120,8 @@ namespace Progas.Portal.Application.Services.Implementations
                 i_cabecalho.SetValue("SPART", Convert.ToString(clienteVendas.Set_ativ));
                 i_cabecalho.SetValue("KUNNR", pedido.IdDoCliente);
                 i_cabecalho.SetValue("ZTERM", pedido.CodigoDaCondicaoDePagamento);
-                i_cabecalho.SetValue("INCO1", pedido.Inco1);
-                i_cabecalho.SetValue("INCO2", pedido.Inco2);
+                i_cabecalho.SetValue("INCO1", pedido.IdDoIncoterm1);
+                i_cabecalho.SetValue("INCO2", pedido.IdDoIncoterm2);
                 i_cabecalho.SetValue("TRANS", pedido.CodigoDaTransportadora);
                 i_cabecalho.SetValue("TRANSRED", pedido.CodigoDaTransportadoraDeRedespacho);
                 i_cabecalho.SetValue("TRANSREDCIF", pedido.CodigoDaTransportadoraDeRedespachoCif);
@@ -171,6 +176,9 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 TransportadorasDoPedido transportadorasDoPedido = ConsultarTransportadoras(pedido);
 
+                IncotermCab incoterm1 = _incotermsCabs.FiltraPorId(pedido.IdDoIncoterm1).Single();
+
+                IncotermLinhas incoterm2 = _incotermsLinhas.FiltraPorId(pedido.IdDoIncoterm2).Single();
 
                 var pedidoVenda = new PedidoVenda(pedido.Tipo,
                     //primeiroItemDoRetorno.GetString("COTACAO"),
@@ -183,8 +191,8 @@ namespace Progas.Portal.Application.Services.Implementations
                     pedido.NumeroPedido,
                     pedido.DataDoPedido,
                     pedido.CodigoDaCondicaoDePagamento,
-                    pedido.Inco1,
-                    pedido.Inco2,
+                    incoterm1,
+                    incoterm2,
                     transportadorasDoPedido.Transportadora,
                     transportadorasDoPedido.TransportadoraDeRedespacho,
                     transportadorasDoPedido.TransportadoraDeRedespachoCif,
