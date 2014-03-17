@@ -11,17 +11,13 @@ namespace Progas.Portal.Application.Queries.Implementations
 {
     public class ConsultaPedidoVenda : IConsultaPedidoVenda
     {
-        private readonly IPedidosVenda      _pedidosVenda;
-        private readonly IBuilder<PedidoVenda, PedidoVendaCadastroVm> _builderPedidoVenda;
+        private readonly IPedidosVenda _pedidosVenda;
         private readonly IUsuarios _usuarios;
 
-        public ConsultaPedidoVenda( IPedidosVenda pedidosVenda,
-                                    IBuilder<PedidoVenda, PedidoVendaCadastroVm> builderPedidoVenda,
-                                    IUsuarios usuarios)
+        public ConsultaPedidoVenda(IPedidosVenda pedidosVenda, IUsuarios usuarios)
         {
-            _pedidosVenda             = pedidosVenda;
-            _builderPedidoVenda       = builderPedidoVenda;
-            _usuarios                 = usuarios;
+            _pedidosVenda = pedidosVenda;
+            _usuarios = usuarios;
         }
 
         // Pesquisa da tela de Listar Pedidos ( Cabecalho)
@@ -58,7 +54,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                         DataDeCriacao =  pedido.Datacp.ToString("dd/MM/yyyy HH:mm:ss"),
                         DataDoPedido =  pedido.Datap.ToShortDateString(),
                         NomeDoCliente =  pedido.Cliente.Nome,
-                        ValorTotal = pedido.Vlrtot
+                        ValorTotal = pedido.ValorTotal
                     })
                     .Cast<ListagemVm>()
                     .ToList()
@@ -67,47 +63,31 @@ namespace Progas.Portal.Application.Queries.Implementations
             return kendoGridVmn;
         }
 
-        // Pesquisa da tela de Listar Pedidos ( Linhas) 
-        public KendoGridVm ListarLinhasPedido(PaginacaoVm paginacaoVm, string cotacao)
-        {            
-            //_pedidosVendaLinha.CotacaoPedidoContendo(cotacao); 
-
-            //var kendoGridVm = new KendoGridVm
-            //{
-            //    QuantidadeDeRegistros = _pedidosVendaLinha.Count(),
-            //    Registros = 
-            //                _builderPedidoVendaLinha.BuildList
-            //                (
-            //                    _pedidosVendaLinha                                    
-            //                        .Skip(paginacaoVm.Skip)
-            //                       .Take(paginacaoVm.Take)                                   
-            //                       .List()
-            //                )
-            //                .Cast<ListagemVm>().ToList()
-            //};
-            //return kendoGridVm;
-
-            return new KendoGridVm();
-        }
-
-        // Pesquisa do Botão Copiar( Cabecalho )
-        public PedidoVendaCadastroVm ListarLinhasPedido(string id_cotacao)
+        public IList<PedidoVendaLinhaCadastroVm> ListarItensDoPedido(string idDoPedido)
         {
-            var usuarioConectado = _usuarios.UsuarioConectado();
+            IQueryable<PedidoVenda> queryable = _pedidosVenda.FiltraPorId(idDoPedido).GetQuery();
 
-            return _builderPedidoVenda.BuildSingle(_pedidosVenda.CotacaoPedidoContendo(id_cotacao, usuarioConectado.CodigoDoFornecedor));
-        }
+            var itens = (from pedido in queryable
+                from item in pedido.Itens
+                let motivoDeRecusa = item.MotivoDeRecusa
+                select new PedidoVendaLinhaCadastroVm
+                {
+                    Id = item.Id,
+                    Status = item.Status,
+                    IdMaterial = item.Material.pro_id_material ,
+                    CodigoMaterial = item.Material.Id_material ,
+                    DescricaoMaterial = item.Material.Descricao,
+                    Quantidade = item.Quantidade,
+                    CodigoUnidadeMedida = item.Material.Uni_med,
+                    CodigoListaPreco = item.ListaDePreco.Codigo,
+                    DescricaoListaPreco = item.ListaDePreco.Descricao ,
+                    Desconto =  item.DescontoManual ,
+                    CodigoDoMotivoDeRecusa =  motivoDeRecusa != null ? motivoDeRecusa.Codigo : null,
+                    DescricaoDoMotivoDeRecusa = motivoDeRecusa!= null ? motivoDeRecusa.Descricao : null
 
-        // Pesquisa do Botão Copiar( Linhas )
-        public IList<PedidoVendaLinhaCadastroVm> ListarLinhasCotacao(string cotacao)
-        {
-            //_pedidosVendaLinha.CotacaoPedidoContendo(cotacao);
-           //return _builderPedidoVendaLinha.BuildList(_pedidosVendaLinha.List());
-            //return _builderPedidoVendaLinha.BuildList(_pedidosVendaLinha.CotacaoPedidoContendo(cotacao).List());        
-            //var dados = _builderPedidoVendaLinha.BuildList(_pedidosVendaLinha.CotacaoPedidoContendo(cotacao).List());
-            //return dados.ToList();
+                }).ToList();
 
-            return new List<PedidoVendaLinhaCadastroVm>();
+            return itens;
 
         }
 
@@ -164,13 +144,20 @@ namespace Progas.Portal.Application.Queries.Implementations
                 id_repre =pedido.Id_repre ,
                 IdDoIncoterm1 = Convert.ToString(pedido.Incoterm1.pro_id_incotermCab),
                 IdDoIncoterm2 = Convert.ToString(pedido.Incoterm2.pro_id_incotermLinha),
-                vlrtot = pedido.Vlrtot,
+                vlrtot = pedido.ValorTotal,
                 obs = pedido.Obs
 
             }).Single();
 
             return pedidoVendaCadastroVm;
 
+        }
+
+        public bool PedidoExiste(string idDoPedido)
+        {
+            int count = _pedidosVenda.FiltraPorId(idDoPedido).Count();
+
+            return count == 1;
         }
     }
 }

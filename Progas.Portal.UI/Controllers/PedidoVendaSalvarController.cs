@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using Progas.Portal.Application.Services.Contracts;
+using Progas.Portal.DTO;
 using Progas.Portal.UI.Filters;
 using Progas.Portal.ViewModel;
 
@@ -21,8 +22,8 @@ namespace Progas.Portal.UI.Controllers
         {
              try
                 {
-                    _cadastroPedidoVenda.Salvar(pedido);
-                    return Json(new { Sucesso = true, pedido });
+                    PedidoSapRetornoDTO pedidoSapRetornoDTO = _cadastroPedidoVenda.Salvar(pedido);
+                    return Json(new { Sucesso = true, Retorno = pedidoSapRetornoDTO });
                 }
                 catch (Exception ex)
                 {

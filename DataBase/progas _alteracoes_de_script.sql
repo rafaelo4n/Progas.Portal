@@ -224,3 +224,53 @@ ALTER TABLE pro_vcab DROP COLUMN Inco2
 GO
 
 --vinculo entre pedido e incoterm2 (fim)
+
+--excluir coluna motivo de recusa do cabeçalho
+ALTER TABLE pro_vcab DROP COLUMN Motrec
+
+GO
+
+CREATE TABLE MotivoDeRecusa
+(
+	Codigo NVARCHAR(2) NOT NULL,
+	Descricao NVARCHAR(50) NOT NULL,
+	CONSTRAINT PK_MotivoDeRecusa PRIMARY KEY (Codigo)
+)
+
+GO
+
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('00', 'Substituição do Produto')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('01', 'Desistência do Cliente')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('02', 'Atraso na Entrega')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('03', 'Depósito não Efetuado')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('04', 'Cheque não Enviado')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('05', 'Nota Fiscal Cancelada')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('10', 'Solicitação do cliente não justificada')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('11', 'Saldo de Ordem')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('12', 'Sem definição da Assistência Técnica')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('50', 'Questão está sendo resolvida')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('51', 'Não Liberado pelo financeiro')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('52', 'Cancelamentos Remessas (acerto)')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('53', 'Faturamento Intercompany')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('54', 'Pedido em Duplicidade')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('98', 'Ordem Substituída')
+INSERT INTO MotivoDeRecusa (Codigo, Descricao) VALUES ('99', 'Política Comercial (Alçada)')
+
+GO
+
+update pro_vitem set Motrec = null
+where Motrec = ''
+
+GO
+
+ALTER TABLE pro_vitem ADD CONSTRAINT FK_PedidoVendaItem_MotivoDeRecusa FOREIGN KEY (Motrec) REFERENCES MotivoDeRecusa (Codigo)
+
+GO
+
+ALTER TABLE pro_vitem ADD Status CHAR(1)
+
+GO
+
+ALTER TABLE pro_vitem DROP COLUMN Id_pedido
+
+

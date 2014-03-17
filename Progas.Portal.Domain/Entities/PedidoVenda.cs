@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Progas.Portal.Domain.Entities
 {
@@ -23,7 +24,7 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Id_repre { get; set; }
         public virtual string Obs { get; set; }
         public virtual string Status { get; set; }
-        public virtual decimal Vlrtot { get; set; }
+        public virtual decimal ValorTotal { get; set; }
         public virtual ClienteVenda AreaDeVenda{ get; set; }
         public virtual IList<PedidoVendaLinha> Itens { get; protected set; }
 
@@ -78,6 +79,11 @@ namespace Progas.Portal.Domain.Entities
         {
             Itens.Add(item);
         }
-             
+
+        public virtual decimal CalcularTotal()
+        {
+            ValorTotal = Itens.Sum(item => item.ValorPolitica);
+            return ValorTotal;
+        }
     }
 }

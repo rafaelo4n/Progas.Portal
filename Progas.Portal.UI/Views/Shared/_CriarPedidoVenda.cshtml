@@ -10,29 +10,30 @@
 <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
 
 <div class="paginaCadastro">
+    <fieldset>
+        <legend>Pesquisa Cotação</legend> 
+        <div id="Copiar" class="divBotaoCopiar linha">
+            <div class="coluna3">
+                @Html.LabelFor(x => x.id_cotacao)
+                @Html.TextBox("IdDaCotacaoParaCopiar", "", new { @class = "campopequeno" })
+                <input type="button" id="btnCopiar" value="Copiar" class="blue" />
+                <input type="reset" id="btnNovo"   value="Novo"   class="blue" />
+            </div>
+            <div class="coluna3">
+                @Html.LabelFor(x => x.status)
+                @Html.TextBoxFor(x => x.status,new{@readonly=true,@class="campoDesabilitado campomedio"})
+            </div>
+            <div class="coluna3">
+                @Html.LabelFor(x => x.vlrtot)
+                @Html.TextBoxFor(x => x.vlrtot,new{@readonly=true,@class="campoDesabilitado campomedio"})
+            </div>
+        </div>                                 
+    </fieldset>
+    
     @using (Html.BeginForm())
     {
         @Html.HiddenFor(x => x.id_cotacao )
         <!-- Realiza a pequisa de cotações para carregar seus dados -->           
-        <fieldset>
-            <legend>Pesquisa Cotação</legend> 
-            <div id="Copiar" class="divBotaoCopiar linha">
-                <div class="coluna3">
-                    @Html.LabelFor(x => x.id_cotacao)
-                    @Html.TextBox("id_cotacao", "", new { @class = "campopequeno" })
-                    <input type="button" id="btnCopiar" value="Copiar" class="blue" />
-                    <input type="reset" id="btnNovo"   value="Novo"   class="blue" />
-                </div>
-                <div class="coluna3">
-                    @Html.LabelFor(x => x.status)
-                    @Html.TextBoxFor(x => x.status,new{@readonly=true,@class="campoDesabilitado campomedio"})
-                </div>
-                <div class="coluna3">
-                    @Html.LabelFor(x => x.vlrtot)
-                    @Html.TextBoxFor(x => x.vlrtot,new{@readonly=true,@class="campoDesabilitado campomedio"})
-                </div>
-            </div>                                 
-        </fieldset>
         <!-- Dados do Header-->   
         <fieldset>
             <legend>Dados de Cabeçalho</legend>
@@ -55,9 +56,9 @@
                 } 
                 
                 @Html.LinhaComCincoColunas(codigoTipoPedido, buscaDeCliente, 
-                new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Nome,"campogrande campoDesabilitado"),
-             new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Cnpj, "campogrande campoDesabilitado"),
-             new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Telefone, "campogrande campoDesabilitado"))
+                    new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Nome,"campogrande campoDesabilitado"),
+                    new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Cnpj, "campogrande campoDesabilitado"),
+                    new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Telefone, "campogrande campoDesabilitado"))
                 
                 @Html.HiddenFor(x => x.Cliente.Id)
 
@@ -146,46 +147,46 @@
             <legend>Dados de Itens</legend>                
             <div id="Linha">           
                 
-                    @{ 
+                @{ 
 
-                        var buscaDeMaterial = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.CodigoDoMaterial, new {@class = "campoDesabilitado campopequeno"}, "btnBuscaMaterial", "button_visualize");
-                        var campoDoNomeDoMaterial = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.NomeDoMaterial, new {@class = "campoDesabilitado campogrande"});
-                        var campoDaUnidadeDeMedidaDoMaterial = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.CodigoUnidadeMedida, new { @class = "campoDesabilitado campomedio" });
-                    }
+                    var buscaDeMaterial = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.CodigoDoMaterial, new {@class = "campoDesabilitado campopequeno"}, "btnBuscaMaterial", "button_visualize");
+                    var campoDoNomeDoMaterial = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.NomeDoMaterial, new {@class = "campoDesabilitado campogrande"});
+                    var campoDaUnidadeDeMedidaDoMaterial = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.CodigoUnidadeMedida, new { @class = "campoDesabilitado campomedio" });
+                }
                 
                 @Html.LinhaComTresColunas(buscaDeMaterial, campoDoNomeDoMaterial, campoDaUnidadeDeMedidaDoMaterial)  
                 @Html.HiddenFor(x => x.IdDoMaterial)
                 
 
                 @{ var listapreco = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                           (x => x.CodigoDaListaDePreco, ((List<ListaPrecoCadastroVm>)ViewBag.ListaPreco)
-                               .Select(x => new SelectListItem()
-                               {
-                                   Text = x.Descricao,
-                                   Value = Convert.ToString(x.Codigo),
-                                   Selected = Model != null && x.Codigo == Model.CodigoDaListaDePreco
-                               }
-                               ), "CodigoDaListaDePreco"
-                           );
-}
+                       (x => x.CodigoDaListaDePreco, ((List<ListaPrecoCadastroVm>)ViewBag.ListaPreco)
+                           .Select(x => new SelectListItem()
+                           {
+                               Text = x.Descricao,
+                               Value = Convert.ToString(x.Codigo),
+                               Selected = Model != null && x.Codigo == Model.CodigoDaListaDePreco
+                           }
+                           ), "CodigoDaListaDePreco"
+                       );
+                }
 
                 @{
-                       var motivosDeRecusa = ((List<MotivoDeRecusaVm>)ViewBag.MotivosDeRecusa).Select(x =>
-                           new SelectListItem
-                           {
-                               Value = x.Codigo,
-                               Text = x.Descricao,
-                               Selected = (Model != null && Model.motrec == x.Codigo)
-                           });
-                       var comboDeMotivoDeRecusa = new ColunaComDropDown<PedidoVendaCadastroVm, string>(x => x.motrec, motivosDeRecusa, "CodigoDoMotivoDeRecusa");
+                    var motivosDeRecusa = ((List<MotivoDeRecusaVm>)ViewBag.MotivosDeRecusa).Select(x =>
+                        new SelectListItem
+                        {
+                            Value = x.Codigo,
+                            Text = x.Descricao,
+                            Selected = (Model != null && Model.motrec == x.Codigo)
+                        });
+                    var comboDeMotivoDeRecusa = new ColunaComDropDown<PedidoVendaCadastroVm, string>(x => x.motrec, motivosDeRecusa, "CodigoDoMotivoDeRecusa");
                 }
 
 
                 
                 
                 @Html.LinhaComQuatroColunas(new ColunaComTextBox<PedidoVendaCadastroVm, decimal>(x => x.Quant,"maskquantidade campopequeno"),listapreco,
-             new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Desconto, "maskquantidade campopequeno")
-             , comboDeMotivoDeRecusa)
+                    new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Desconto, "maskquantidade campopequeno")
+                    , comboDeMotivoDeRecusa)
 
                 <div class="divBotao">
                     <input type="button" id="btnAdicionarItem" value="Adicionar" class="blue" />
@@ -222,29 +223,29 @@
 
         // array das linhas
         var linhasAdicionadas = new Array();
-        var quantidadeDeFornecedoresIniciais = 0;
         var indiceEdicao = -1;
         var status = 0;
         var simular = "S";
         var gravar = "G";
         var numeroDeItensInseridos = 0;
+        var somenteLeitura = '@(Model != null && Model.SomenteLeitura)'.boolean();
 
         function carregarAreasDeVenda(idDoCliente, callBack) {
             ///<param name="callBack">funcao para executar alguma ação após carregar as áreas de venda. Por exemplo, setar um valor</param>
             var comboDeAreaDeVenda = $('#AreaDeVenda');
-            comboDeAreaDeVenda  
+            comboDeAreaDeVenda
                 .val('')
                 .change();
 
             $.ajax({
-                url: '@Url.Action("ListarPorCliente", "AreaDeVenda")' + '/?idDoCliente='  + idDoCliente ,
+                url: '@Url.Action("ListarPorCliente", "AreaDeVenda")' + '/?idDoCliente=' + idDoCliente,
                 type: 'GET',
                 cache: false,
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
                 success: function(data) {
                     if (data.Sucesso) {
-                        
+
                         comboDeAreaDeVenda.children(':not(:first)').remove();
                         $.each(data.areasDeVenda, function(indice, areaDeVenda) {
                             comboDeAreaDeVenda.append('<option value="' + areaDeVenda.Id + '">' + areaDeVenda.Descricao + '</option>');
@@ -273,12 +274,12 @@
                 cache: false,
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
-                success: function (data) {
+                success: function(data) {
                     if (data.Sucesso) {
                         var comboDeIncoterm2 = $('#Inco2');
 
                         comboDeIncoterm2.children(':not(:first)').remove();
-                        $.each(data.incoterms, function (indice, incoterm) {
+                        $.each(data.incoterms, function(indice, incoterm) {
                             comboDeIncoterm2.append('<option value="' + incoterm.Id + '">' + incoterm.IncotermLinha + '</option>');
                         });
 
@@ -291,10 +292,41 @@
                     }
 
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                error: function(jqXHR, textStatus, errorThrown) {
                     Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o incoterm 2. Detalhe: ' + errorThrown);
                 }
             });
+
+        }
+
+        function carregarItens() {
+            var idDoPedido = $('#id_cotacao').val();
+
+            $.ajax({
+                url: '@Url.Action("ConsultarItensDoPedido", "PedidoVenda")' + '/?idDoPedido=' + idDoPedido,
+                type: 'GET',
+                cache: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.Sucesso) {
+                        linhasAdicionadas = data.Itens;
+                        $('#gridLinhasAdicionadas').data("kendoGrid").dataSource.read();
+                        var copia = '@(Model != null && Model.Copia )'.boolean();
+
+                        if (copia) {
+                            $('#id_cotacao').val('');
+                        }
+
+                    } else {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os itens do Pedido. Detalhe: ' + data.Mensagem);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os itens do Pedido. Detalhe: ' + errorThrown);
+                }
+            });
+
 
         }
 
@@ -304,7 +336,7 @@
 
             var selecionarTransportadora = new SelecionarFornecedor();
 
-            var funcaoParaRetornarCamposDaBuscaDeTransportadora = function () {
+            var funcaoParaRetornarCamposDaBuscaDeTransportadora = function() {
                 var transportadoraSelecionada = selecionarTransportadora.fornecedorSelecionado;
                 $("#Transportadora_Id").val(transportadoraSelecionada.Id);
                 $("#Transportadora_Codigo").val(transportadoraSelecionada.Codigo);
@@ -315,7 +347,7 @@
 
             var selecionarTransportadoraDeRedespacho = new SelecionarFornecedor();
 
-            var funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho = function () {
+            var funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho = function() {
                 var transportadoraSelecionada = selecionarTransportadoraDeRedespacho.fornecedorSelecionado;
                 $("#TransportadoraDeRedespacho_Id").val(transportadoraSelecionada.Id);
                 $("#TransportadoraDeRedespacho_Codigo").val(transportadoraSelecionada.Codigo);
@@ -326,7 +358,7 @@
 
             var selecionarTransportadoraDeRedespachoCif = new SelecionarFornecedor();
 
-            var funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif = function () {
+            var funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif = function() {
                 var transportadoraSelecionada = selecionarTransportadoraDeRedespachoCif.fornecedorSelecionado;
                 $("#TransportadoraDeRedespachoCif_Id").val(transportadoraSelecionada.Id);
                 $("#TransportadoraDeRedespachoCif_Codigo").val(transportadoraSelecionada.Codigo);
@@ -353,7 +385,7 @@
 
             var selecionarProduto = new SelecionarProduto();
 
-            var funcaoParaPreencherOsDadosDeRetornoDoProduto = function () {
+            var funcaoParaPreencherOsDadosDeRetornoDoProduto = function() {
                 var produtoSelecionado = selecionarProduto.produtoSelecionado;
                 $('#IdDoMaterial').val(produtoSelecionado.Id);
                 $('#CodigoDoMaterial').val(produtoSelecionado.Id_material);
@@ -361,7 +393,7 @@
                 $('#CodigoUnidadeMedida').val(produtoSelecionado.UnidadeMedida);
             };
 
-            selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscaMaterial','#id_centro', funcaoParaPreencherOsDadosDeRetornoDoProduto);
+            selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscaMaterial', '#id_centro', funcaoParaPreencherOsDadosDeRetornoDoProduto);
 
             $('#AreaDeVenda').change(function() {
                 var areaDeVendaSelecionada = $(this).val();
@@ -373,26 +405,35 @@
                 }
             });
 
-            @if (Model != null)
-            {
+            var carregando = '@(Model != null)'.boolean();
+
+            if (carregando) {
+
+                var idDaAreaDeVenda = '@(Model != null ? Model.IdDaAreaDeVenda: 0)';
+                var idDoIncoterm2 = '@(Model != null ? Model.IdDoIncoterm2: "")';
                 //vai entrar aqui quando estiver carregando um pedido que já foi salvo
-                @:carregarAreasDeVenda($('#Cliente_Codigo').val(), function() {
-                    @:$('#AreaDeVenda')
-                        @:.val('@Model.IdDaAreaDeVenda')
-                        @:.change();
-                @:});
+                carregarAreasDeVenda($('#Cliente_Codigo').val(), function() {
+                    $('#AreaDeVenda')
+                        .val(idDaAreaDeVenda)
+                        .change();
+                });
 
-                @:carregarIncoterm2($('#Inco1').val(), function() {
-                    @:$('#Inco2').val('@Model.IdDoIncoterm2');
-                @:});
+                carregarIncoterm2($('#Inco1').val(), function() {
+                    $('#Inco2').val(idDoIncoterm2);
+                });
 
-                @:$('#btnGravar').val('Gravar Edição');
-                @:$('#btnSimular').val('Simular Edição');
-                
+                $('#btnGravar').val('Gravar Edição');
+                $('#btnSimular').val('Simular Edição');
+
+                carregarItens();
+
             }
 
+            if (somenteLeitura) {
+                $('form :input').attr('disabled', true);
+            }
 
-            $('#Inco1').change(function () {
+            $('#Inco1').change(function() {
                 var incoterm1 = $(this).val();
                 if (incoterm1) {
                     carregarIncoterm2(incoterm1);
@@ -427,15 +468,15 @@
 
                 // grava a linha no array de fornecedor
                 // Array que sera enviado para o controller que salva os pedidos
-                var fornecedor = {
+                var item = {
                     NumeroDoItem: numeroDeItensInseridos * 10,
                     IdMaterial: $('#IdDoMaterial').val(),
                     CodigoMaterial: $('#CodigoDoMaterial').val(),
                     DescricaoMaterial: $('#NomeDoMaterial').val(),
                     UnidadeDeMedida: $('#CodigoUnidadeMedida').val(),
                     Quantidade: $('#Quant').val(),
-                    listpre: $('#CodigoDaListaDePreco :selected').val(),
-                    Descricaolistpre: $('#CodigoDaListaDePreco :selected').text(),
+                    CodigoListaPreco: $('#CodigoDaListaDePreco :selected').val(),
+                    DescricaoListaPreco: $('#CodigoDaListaDePreco :selected').text(),
                     Desconto: $('#descma').val(),
                     CodigoDoMotivoDeRecusa: codigoDoMotivoDeRecusa ? codigoDoMotivoDeRecusa : null,
                     DescricaoDoMotivoDeRecusa: codigoDoMotivoDeRecusa ? $('#CodigoDoMotivoDeRecusa :selected').text() : null
@@ -443,11 +484,11 @@
 
                 // grava na variavel linhasAdicionadas os dados que seram manipulados antes de serem salvos
                 if (indiceEdicao == -1) {
-                    linhasAdicionadas.push(fornecedor);
+                    linhasAdicionadas.push(item);
 
                 } else {
                     // array que sera exibido no grid
-                    linhasAdicionadas[indiceEdicao] = fornecedor;
+                    linhasAdicionadas[indiceEdicao] = item;
                     encerrarEdicao();
                 }
 
@@ -465,12 +506,13 @@
                             fields: {
                                 NumeroDoItem: { type: "number" },
                                 Status: { type: "string" },
-                                IdMaterial:{type:"number"},
+                                IdMaterial: { type: "number" },
                                 CodigoMaterial: { type: "string" },
                                 DescricaoMaterial: { type: "string" },
                                 Quantidade: { type: "number" },
-                                listpre: { type: "string" },
-                                Descricaolistpre: { type: "string" },
+                                CodigoUnidadeMedida: { type: "string" }, //falta colocar no adicionar
+                                CodigoListaPreco: { type: "string" },
+                                DescricaoListaPreco: { type: "string" },
                                 Desconto: { type: "number" },
                                 ValorTabela: { type: "number" },
                                 ValorPolitica: { type: "number" },
@@ -484,7 +526,7 @@
                 columns:
                 [
                     {
-                        title: ' ', 
+                        title: ' ',
                         width: 20,
                         template: '<input type="button" class="button_edit"></input>'
                     },
@@ -495,10 +537,9 @@
                     },
                     {
                         width: 30,
-                        field:"NumeroDoItem",
+                        field: "NumeroDoItem",
                         title: "Item"
                     },
-
                     {
                         width: 45,
                         title: "Status"
@@ -551,14 +592,17 @@
                         width: 75,
                         title: "Motivo de Recusa"
                     }
-
-
-                ]
+                ],
+                dataBound: function () {
+                    if (somenteLeitura) {
+                        $('#gridLinhasAdicionadas').find('.button_edit,.button_remove').attr('disabled', true);
+                    }
+                }
             });
 
             function enviarPedido(acao, mensagemDeSucesso) {
 
-                if (quantidadeDeFornecedoresIniciais == 0 && linhasAdicionadas.length == 0) {
+                if (linhasAdicionadas.length == 0) {
                     Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de salvar.');
                     return;
                 }
@@ -583,11 +627,11 @@
 
                 // Grava no array os dados que serão salvos
                 var itens = new Array();
-                $.each(linhasAdicionadas, function (indice, item) {
+                $.each(linhasAdicionadas, function(indice, item) {
                     itens.push({
                         IdMaterial: item.IdMaterial,
                         Quantidade: item.Quantidade,
-                        listapreco: item.listpre,
+                        listapreco: item.CodigoListaPreco,
                         Desconto: item.Desconto,
                         CodigoDoMotivoDeRecusa: item.CodigoDoMotivoDeRecusa
                     });
@@ -595,8 +639,8 @@
 
                 pedido.Itens = itens;
 
-                //
-                // Chamada do Controller reponsalvel por salvar o pedido.                
+                bloqueiaPagina();
+
                 $.ajax({
                     url: '@Url.Action("Salvar", "PedidoVendaSalvar")',
                     type: 'POST',
@@ -604,18 +648,32 @@
                     data: JSON.stringify({ Pedido: pedido }),
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    success: function (data) {
+                    done: function(data) {
                         if (data.Sucesso) {
+                            var retorno = data.Retorno;
+                            $('#status').val(retorno.Status);
+                            $('#vlrtot').val(retorno.ValorTotal);
+
+                            for (var i = 0; i < retorno.Itens.length; i++) {
+                                linhasAdicionadas[i].NumeroDoItem = retorno.Itens[i].NumeroDoItem;
+                                linhasAdicionadas[i].Status = retorno.Itens[i].Status;
+                                linhasAdicionadas[i].ValorTabela = retorno.Itens[i].ValorDeTabela;
+                                linhasAdicionadas[i].ValorPolitica = retorno.Itens[i].ValorPolitica;
+                            }
+
+                            $('#gridLinhasAdicionadas').data("kendoGrid").dataSource.read();
+
                             Mensagem.ExibirMensagemDeSucesso(mensagemDeSucesso);
-                            quantidadeDeFornecedoresIniciais = linhasAdicionadas.length;
-                            return;
                         } else {
-                            Mensagem.ExibirMensagemDeErro(data.Mensagem + ' Erro ao Inserir os itens');
+                            Mensagem.ExibirMensagemDeErro('Erro ao salvar o Pedido. Detalhe: ' + data.Mensagem);
                         }
 
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao enviar o Pedido para o SAP. Detalhe: ' + textStatus + errorThrown);
+                    fail: function(jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Erro ao salvar o Pedido. Detalhe: ' + errorThrown);
+                    },
+                    always: function() {
+                        desbloqueiaPagina();
                     }
                 });
 
@@ -643,8 +701,9 @@
                 $('#CodigoDoMaterial').val(item.CodigoMaterial);
                 $('#Quant').val(item.Quantidade);
                 $('#CodigoUnidadeMedida').val(item.UnidadeDeMedida);
-                $('#CodigoDaListaDePreco').val(item.listpre);
+                $('#CodigoDaListaDePreco').val(item.CodigoListaPreco);
                 $('#descma').val(item.Desconto ? item.Desconto : '');
+                $('#CodigoDoMotivoDeRecusa').val(item.CodigoDoMotivoDeRecusa);
 
                 $('#btnAdicionarItem').val('Atualizar');
                 $('#btnCancelarEdicao').show();
@@ -652,7 +711,7 @@
 
             $('#gridLinhasAdicionadas').find('.button_information').die('click');
 
-            $('#gridLinhasAdicionadas').find('.button_information').live('click', function () {
+            $('#gridLinhasAdicionadas').find('.button_information').live('click', function() {
 
                 Mensagem.ExibirMensagemDeErro('A tela para visualizar as condições de preço ainda não foi construída.');
 
@@ -675,7 +734,9 @@
                 $("#Data").datepicker();
             }
 
-            $('#btnNovo').click(function() {
+            $('#btnNovo').click(function () {
+                $('form :input').removeAttr('disabled');
+
                 habilitarCampoData();
                 linhasAdicionadas = [];
                 numeroDeItensInseridos = 0;
@@ -686,109 +747,34 @@
             // 
             $('#btnCopiar').click(function() {
                 // Grava o o numero da cotacao
-                var id_cotacao = $('#id_cotacao').val();
-
+                var idCotacao = $('#IdDaCotacaoParaCopiar').val();
 
                 // Verifica se foi digitado o numero da Cotacao
-                if (id_cotacao == 0) {
-                    Mensagem.ExibirMensagemDeErro('Deve ser digito o numero da Cotação para a pesquisa.');
+                if (idCotacao == '') {
+                    Mensagem.ExibirMensagemDeErro('Deve ser informado o Nº da Cotação para realizar a cópia.');
                     return;
                 }
-                // limpa o valor dos campos para depois carregar os dados da cotacao pesquisada
-                $('#btnNovo').click();
 
-                //
-                // Chamada do Controller reponsalvel por copiar o Cabecalho da cotacao.
                 $.ajax({
-                    url: '@Url.Action("ConsultarCotacao", "PedidoVenda")',
-                    type: 'POST',
+                    url: '@Url.Action("PedidoExiste", "PedidoVenda")' + '/?idDoPedido=' + idCotacao,
+                    type: 'GET',
                     cache: false,
-                    data: JSON.stringify({ cotacao: id_cotacao }),
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    success: function(data) {
-
-                        //$('#divSelecionarFornecedor').val(data.trans);
-                        var status_gravado = "Gravado";
-                        var status_simulacao = "Simulação";
-
-                        // Valida o Status
-                        if (data.Tipo == "G") {
-                            //Mensagem.ExibirMensagemDeErro("Gravado");
-                            $('#status').val(status_gravado);
-                        }
-
-                        if (data.Tipo == "S") {
-                            //Mensagem.ExibirMensagemDeErro("Simualado");
-                            $('#status').val(status_simulacao);
-                        }
-
-                        // Executa a função que carrega os fornecedores.
-                        if (data.trans != 0) {
-                            SelecionarFornecedor.retornaFornecedor(data.trans, "trans");
-                        }
-
-                        if (data.transred != 0) {
-                            SelecionarFornecedor.retornaFornecedor(data.transred, "transred");
-                        }
-
-                        if (data.transredcif != 0) {
-                            SelecionarFornecedor.retornaFornecedor(data.transredcif, "transredcif");
-                        }
-
-                        $('#CodigoTipoPedido').val(data.CodigoTipoPedido);
-                        $('#condpgto').val(data.condpgto);
-                        $('#datap').val(data.datap);
-                        $('#id_pedido').val(data.id_pedido);
-                        $('#trans').val(data.trans);
-                        $('#transred').val(data.transred);
-                        $('#transredcif').val(data.transredcif);
-                        $('#id_cliente').val(data.id_cliente);
-                        $('#id_centro').val(data.id_centro);
-                        $('#Inco1').val(data.inco1);
-                        $('#Inco2').val(data.inco2);
-                        $('#obs').val(data.obs);
-
-
-//
-                        // alterar mais tarde pelo id_cotacao (Caso encontra dados no cabecalho, carregas as linhas do pedido do representante                                              
-                        var cotacao = $('#CodigoTipoPedido').val();
-                        if (cotacao != "") {
-                            //
-                            // Chamada do Controller reponsalvel por copiar as linhas da cotacao gravando no Grid.
-                            $.ajax({
-                                url: '@Url.Action("ConsultarLinhasCotacao", "PedidoVenda")' + '?cotacao=' + id_cotacao,
-                                type: 'POST',
-                                //cache: false,
-                                data: JSON.stringify({ dados: id_cotacao }),
-                                contentType: "application/json",
-                                //dataType: 'json',
-                                success: function(data) {
-                                    $.each(data, function(index, value) {
-
-                                        $('#Id_material').val(value.id_material);
-                                        $('#Quant').val(value.Quant);
-                                        $('#CodigoDaListaDePreco').val(value.listpre);
-                                        $('#descma').val(value.descma);
-
-                                        $('#btnAdicionarItem').click();
-
-                                    });
-
-                                },
-                                error: function(jqXHR, textStatus, errorThrown) {
-                                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Linhas da Contacao: ' + textStatus + errorThrown);
-                                }
-                            });
+                    success: function (data) {
+                        if (data) {
+                            location.href = '@Url.Action("CopiarPedido", "PedidoVenda")' + '/?idDoPedido=' + idCotacao;
                         } else {
-                            Mensagem.ExibirMensagemDeErro("A Cotacao consultada não foi encontrada.");
+                            Mensagem.ExibirMensagemDeErro('Não foi encontrada Cotação com o número informado.');
                         }
-
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os dados da Contacao: ' + textStatus + errorThrown);
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os itens do Pedido. Detalhe: ' + errorThrown);
                     }
                 });
+
+
+
             });
 
         });

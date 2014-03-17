@@ -4,7 +4,12 @@ namespace Progas.Portal.ViewModel
 {
     public class PedidoVendaCadastroVm : ListagemVm
     {   
-        // Cabecalho
+        /// <summary>
+        /// /indica se é uma cópia de outro pedido de venda que já foi salvo
+        /// </summary>
+        public bool Copia { get; set; }
+
+        public bool SomenteLeitura { get; set; }
 
         // Campo de pesquisa
         [Display(Name = "N°  Cotação: ")]
@@ -80,8 +85,6 @@ namespace Progas.Portal.ViewModel
         [Display(Name = "Desconto:")]
         public string Desconto { get; set; }
 
-        public string ValorTotalFinal { get; set; }
-
         [Display(Name = "Área de Venda:")]
         public int IdDaAreaDeVenda { get; set; }
 
@@ -89,9 +92,6 @@ namespace Progas.Portal.ViewModel
         public TransportadoraDoPedidoDeVenda Transportadora { get; set; }
         public TransportadoraDoPedidoDeVenda TransportadoraDeRedespacho { get; set; }
         public TransportadoraDoPedidoDeVenda TransportadoraDeRedespachoCif { get; set; }
-
-        //itens
-        public string ordem { get; set; }
 
         public int IdDoMaterial { get; set; }
 

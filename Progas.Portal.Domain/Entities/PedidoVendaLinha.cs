@@ -1,22 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Progas.Portal.Domain.Entities
 {
     public class PedidoVendaLinha
     {
         // pro_vitem
-        public virtual int pro_id_item { get; set; }
-        //public virtual string  Id_cotacao { get; set; }
-        public virtual string  Id_item { get; set; }
-        public virtual string  Id_pedido { get; set; }
-        public virtual Material  Material { get; set; }
-        public virtual decimal Quant { get; set; }
-        public virtual string  Listpre { get; set; }
-        public virtual decimal Valtab { get; set; }
-        public virtual decimal Valpol { get; set; }
-        public virtual decimal Descma { get; set; }
-        public virtual decimal Valfin { get; set; }
-        public virtual string  Motrec { get; set; }
+        public virtual int Id { get; set; }
+        public virtual string  Numero { get; set; }
+        public virtual Material Material { get; set; }
+        public virtual decimal Quantidade { get; set; }
+        public virtual ListaPreco ListaDePreco { get; set; }
+        public virtual decimal ValorTabela { get; set; }
+        public virtual decimal ValorPolitica { get; set; }
+        public virtual decimal DescontoManual { get; set; }
+        //public virtual decimal Valfin { get; set; }
+        public virtual string Status { get; protected set; }
+        public virtual MotivoDeRecusa  MotivoDeRecusa { get; set; }
         public virtual IList<CondicaoDePreco> CondicoesDePreco  { get; protected set; }
 
         protected PedidoVendaLinha()
@@ -24,28 +24,26 @@ namespace Progas.Portal.Domain.Entities
             CondicoesDePreco = new List<CondicaoDePreco>();
         }
 
-        public PedidoVendaLinha(//string id_cotacao,
+        public PedidoVendaLinha(
             string id_item,
-            string id_pedido,
             Material material,
-            decimal quant,
-            string listpre,
-            decimal valtab,
-            decimal valpol,
-            decimal descma,
-            string motrec
+            decimal quantidade,
+            ListaPreco listaDePreco,
+            decimal valorTabela,
+            decimal valorPolitica,
+            decimal descontoManual,
+            MotivoDeRecusa motivoDeRecusa
             ) : this()
         {
             //Id_cotacao = id_cotacao;
-            Id_item = id_item;
-            Id_pedido = id_pedido;
+            Numero = id_item;
             Material = material;
-            Quant = quant;
-            Listpre = listpre;
-            Valtab = valtab;
-            Valpol = valpol;
-            Descma = descma;
-            Motrec = motrec;
+            Quantidade = quantidade;
+            ListaDePreco = listaDePreco;
+            ValorTabela = valorTabela;
+            ValorPolitica = valorPolitica;
+            DescontoManual = descontoManual;
+            MotivoDeRecusa = motivoDeRecusa;
         }
 
         public virtual void AdicionarCondicao(CondicaoDePreco condicaoDePreco)

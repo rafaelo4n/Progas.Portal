@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Progas.Portal.Application.Services.Contracts;
 using Progas.Portal.Domain.Entities;
+using Progas.Portal.DTO;
 using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.ViewModel;
 using SAP.Middleware.Connector;
@@ -21,10 +22,13 @@ namespace Progas.Portal.Application.Services.Implementations
         private readonly IFornecedores _fornecedores;
         private readonly IIncotermsCabs _incotermsCabs;
         private readonly IIncotermsLinhas _incotermsLinhas;
+        private readonly IMotivosDeRecusa _motivosDeRecusa;
+        private readonly IListasPreco _listasPreco;
 
         public CadastroPedidoVenda(IUnitOfWork unitOfWork, IPedidosVenda pedidosVenda, 
             IUsuarios usuarios, IClienteVendas clienteVendas, IMateriais materiais, IClientes clientes,
-            IFornecedores fornecedores, IIncotermsCabs incotermsCabs, IIncotermsLinhas incotermsLinhas)
+            IFornecedores fornecedores, IIncotermsCabs incotermsCabs, IIncotermsLinhas incotermsLinhas, 
+            IMotivosDeRecusa motivosDeRecusa, IListasPreco listasPreco)
         {
             _unitOfWork = unitOfWork;
             _pedidosVenda = pedidosVenda;
@@ -35,6 +39,8 @@ namespace Progas.Portal.Application.Services.Implementations
             _fornecedores = fornecedores;
             _incotermsCabs = incotermsCabs;
             _incotermsLinhas = incotermsLinhas;
+            _motivosDeRecusa = motivosDeRecusa;
+            _listasPreco = listasPreco;
         }               
         // Parametro de Repositorio utilizado na conexao SAP
         public static string RepositorydestinationPar = ConfigurationSettings.AppSettings["RepositoryDestination"];
@@ -85,13 +91,13 @@ namespace Progas.Portal.Application.Services.Implementations
 
         }
 
-        public void Salvar(PedidoVendaSalvarVm pedido)
+        public PedidoSapRetornoDTO Salvar(PedidoVendaSalvarVm pedido)
         {
 
-            SAPConnect con = null;
+            SapConnect con = null;
             try
             {
-                con = new SAPConnect();
+                con = new SapConnect();
                 con.GetParameters("DEV");
 
                 RfcDestinationManager.RegisterDestinationConfiguration(con);
@@ -168,7 +174,6 @@ namespace Progas.Portal.Application.Services.Implementations
                 }
 
                 IRfcTable retornoItens = fReadTable.GetTable("TE_ITEM");
-                //IRfcStructure primeiroItemDoRetorno = retornoItens.FirstOrDefault();
 
                 IRfcTable retornoCondicoes = fReadTable.GetTable("TE_CONDICOES");
 
@@ -181,7 +186,6 @@ namespace Progas.Portal.Application.Services.Implementations
                 IncotermLinhas incoterm2 = _incotermsLinhas.FiltraPorId(pedido.IdDoIncoterm2).Single();
 
                 var pedidoVenda = new PedidoVenda(pedido.Tipo,
-                    //primeiroItemDoRetorno.GetString("COTACAO"),
                     fReadTable.GetString("COTACAO"),
                     pedido.CodigoTipoPedido,
                     pedido.Centro,
@@ -200,6 +204,15 @@ namespace Progas.Portal.Application.Services.Implementations
                     pedido.Observacao,
                     status);
 
+                string[] codigoDosMotivosDeRecusa = retornoItens
+                    .Where(x => !string.IsNullOrEmpty(x.GetString("ABGRU")))
+                    .Select(x => x.GetString("ABGRU")).Distinct().ToArray();
+
+                IList<MotivoDeRecusa> motivosDeRecusa = _motivosDeRecusa.BuscarLista(codigoDosMotivosDeRecusa).List();
+
+                string[] codigoDasListasDePreco = pedido.Itens.Select(item => item.CodigoDaListaDePreco).Distinct().ToArray();
+
+                IList<ListaPreco> listasDePreco = _listasPreco.FiltraPorListaDeCodigos(codigoDasListasDePreco).List();
 
                 for (int i = 0; i < retornoItens.Count; i++)
                 {
@@ -208,16 +221,19 @@ namespace Progas.Portal.Application.Services.Implementations
 
                     Material material = materiaisDosItens.Single(x => x.pro_id_material == item.IdMaterial);
 
+                    MotivoDeRecusa motivoDeRecusa = motivosDeRecusa.Single(x => x.Codigo == retornoItem.GetString("ABGRU"));
+
+                    ListaPreco listaDePreco = listasDePreco.Single(lista => lista.Codigo == item.CodigoDaListaDePreco);
+
                     var linhasPedido = new PedidoVendaLinha(//retornoItem.GetString("COTACAO"),
                         retornoItem.GetString("POSNR"),
-                        pedido.NumeroPedido,
                         material, 
                         item.Quantidade,
-                        item.CodigoDaListaDePreco,
+                        listaDePreco,
                         Convert.ToDecimal(retornoItem.GetString("VLRTAB")), // valtab
                         Convert.ToDecimal(retornoItem.GetString("VLRPOL")), // valpol
                         item.Desconto,
-                        retornoItem.GetString("ABGRU") // motivo de recusa
+                        motivoDeRecusa 
                         );
 
                     foreach (var condicaoRetornada in
@@ -233,7 +249,8 @@ namespace Progas.Portal.Application.Services.Implementations
 
                     pedidoVenda.AdicionarItem(linhasPedido);
                 }
-                // retornar apenas a lista de itens                                
+                // retornar apenas a lista de itens
+                pedidoVenda.CalcularTotal();
 
                 if (pedido.Tipo == "G")
                 {
@@ -248,6 +265,21 @@ namespace Progas.Portal.Application.Services.Implementations
                     }
                 }
 
+                var dtoDeRetorno = new PedidoSapRetornoDTO
+                {
+                    IdDoPedido = pedidoVenda.Id_cotacao,
+                    Status = pedidoVenda.Status,
+                    ValorTotal = pedidoVenda.ValorTotal,
+                    Itens = pedidoVenda.Itens.Select(item => new PedidoSapItemRetornoDTO
+                    {
+                        NumeroDoItem = item.Numero,
+                        Status = item.Status,
+                        ValorDeTabela = item.ValorTabela,
+                        ValorPolitica = item.ValorPolitica
+                    }).ToList()
+                };
+
+                return dtoDeRetorno;
 
             }
             catch
@@ -266,7 +298,7 @@ namespace Progas.Portal.Application.Services.Implementations
         }
 
         // Realiza a Conexão no SAP conforme os dados do arquivo Web.config.
-        public class SAPConnect : IDestinationConfiguration
+        public class SapConnect : IDestinationConfiguration
         {
             // Dados de Parametros do Web.config
             public static string appserverhost = ConfigurationSettings.AppSettings["AppServerHost"];

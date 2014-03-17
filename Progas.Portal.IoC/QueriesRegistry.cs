@@ -66,7 +66,11 @@ namespace Progas.Portal.IoC
             For<IConsultaAreasDeVenda>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaAreasDeVenda>();
-        
+
+            For<IConsultaMotivoDeRecusa>()
+                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                 .Use<ConsultaMotivoDeRecusa>();
+         
         }
     }
 }

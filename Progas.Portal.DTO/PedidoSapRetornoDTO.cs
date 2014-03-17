@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Progas.Portal.DTO
 {
+
     public class PedidoSapRetornoDTO
     {
-        List<PedidoSapItemRetornoDTO> ItensDoPedido { get; set; }
-    }
-
-    public class PedidoSapCondicaoRetornoDTO
-    {
+        public string IdDoPedido { get; set; }
+        public string Status { get; set; }
+        public decimal ValorTotal { get; set; }
+        public IList<PedidoSapItemRetornoDTO> Itens { get; set; }
     }
 
     public class PedidoSapItemRetornoDTO
     {
-        public int NumeroDoItem { get; set; }
+        public string NumeroDoItem { get; set; }
         public string Status { get; set; }
         public decimal ValorDeTabela { get; set; }
         public decimal ValorPolitica { get; set; }
-        List<PedidoSapCondicaoRetornoDTO> CondicoesDePreco { get; set; }
     }
 }

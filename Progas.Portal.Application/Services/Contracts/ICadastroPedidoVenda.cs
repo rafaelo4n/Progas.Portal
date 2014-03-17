@@ -1,9 +1,10 @@
-﻿using Progas.Portal.ViewModel;
+﻿using Progas.Portal.DTO;
+using Progas.Portal.ViewModel;
 
 namespace Progas.Portal.Application.Services.Contracts
 {
     public interface ICadastroPedidoVenda
     {
-        void Salvar(PedidoVendaSalvarVm pedido);
+        PedidoSapRetornoDTO Salvar(PedidoVendaSalvarVm pedido);
     }
 }

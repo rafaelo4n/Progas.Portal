@@ -18,7 +18,7 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Id_repre);
             Map(x => x.Obs);
             Map(x => x.Status);
-            Map(x => x.Vlrtot);
+            Map(x => x.ValorTotal,"Vlrtot");
             Map(x => x.Tipo);
 
             References(x => x.Cliente, "pro_id_cliente");

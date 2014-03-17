@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using Progas.Portal.Application.Queries.Contracts;
 using Progas.Portal.UI.Filters;
@@ -12,42 +11,15 @@ namespace Progas.Portal.UI.Controllers
     {
         #region Repositorios
 
-        private readonly IConsultaTipoPedido        _consultaTipoPedido;
+        private readonly IConsultaTipoPedido _consultaTipoPedido;
         private readonly IConsultaCondicaoPagamento _consultaCondicaoPagamento;
-        private readonly IConsultaListaPreco        _consultaListaPreco;
-        private readonly IConsultaMaterial          _consultaMaterial;
-        private readonly IConsultaIncotermCab       _consultaIncotermCab;
-        private readonly IConsultaCliente           _consultaCliente;
-        private readonly IConsultaPedidoVenda       _consultaPedidoVenda;
+        private readonly IConsultaListaPreco _consultaListaPreco;
+        private readonly IConsultaMaterial _consultaMaterial;
+        private readonly IConsultaIncotermCab _consultaIncotermCab;
+        private readonly IConsultaPedidoVenda _consultaPedidoVenda;
 
-        private List<MotivoDeRecusaVm> _motivosDeRecusa;
+        private readonly IConsultaMotivoDeRecusa _consultaMotivoDeRecusa;
 
-        private void PreencherMotivosDeRecusa()
-        {
-            _motivosDeRecusa = new List<MotivoDeRecusaVm>
-            {
-                new MotivoDeRecusaVm{Codigo = "00", Descricao = "Substituição do Produto"},
-                new MotivoDeRecusaVm{Codigo = "01", Descricao = "Desistência do Cliente"},
-                new MotivoDeRecusaVm{Codigo = "02", Descricao = "Atraso na Entrega"},
-                new MotivoDeRecusaVm{Codigo = "03", Descricao = "Depósito não Efetuado"},
-                new MotivoDeRecusaVm{Codigo = "04", Descricao = "Cheque não Enviado"},
-                new MotivoDeRecusaVm{Codigo = "05", Descricao = "Nota Fiscal Cancelada"},
-                new MotivoDeRecusaVm{Codigo = "10", Descricao = "Solicitação do cliente não justificada"},
-                new MotivoDeRecusaVm{Codigo = "11", Descricao = "Saldo de Ordem"},
-                new MotivoDeRecusaVm{Codigo = "12", Descricao = "Sem definição da Assistência Técnica"},
-                new MotivoDeRecusaVm{Codigo = "50", Descricao = "Questão está sendo resolvida"},
-                new MotivoDeRecusaVm{Codigo = "51", Descricao = "Não Liberado pelo financeiro"},
-                new MotivoDeRecusaVm{Codigo = "52", Descricao = "Cancelamentos Remessas (acerto)"},
-                new MotivoDeRecusaVm{Codigo = "53", Descricao = "Faturamento Intercompany"},
-                new MotivoDeRecusaVm{Codigo = "54", Descricao = "Pedido em Duplicidade"},
-                new MotivoDeRecusaVm{Codigo = "98", Descricao = "Ordem Substituída"},
-                new MotivoDeRecusaVm{Codigo = "99", Descricao = "Política Comercial (Alçada)"},
-            };
-
-            
-        }
-
-        
         // implementa os valores dos repositorios que serao usados nas views (Lista de valrores dos campos)
         public PedidoVendaController(
             IConsultaCondicaoPagamento consultaCondicaoPagamento,
@@ -55,20 +27,15 @@ namespace Progas.Portal.UI.Controllers
             IConsultaListaPreco consultaListaPreco,
             IConsultaMaterial consultaMaterial,
             IConsultaIncotermCab consultaIncotermCab,
-            IConsultaCliente consultaCliente,
-            IConsultaPedidoVenda consultaPedidoVenda
-            )
+            IConsultaPedidoVenda consultaPedidoVenda, IConsultaMotivoDeRecusa consultaMotivoDeRecusa)
         {
             _consultaCondicaoPagamento = consultaCondicaoPagamento;
             _consultaTipoPedido = consultaTipoPedido;
             _consultaListaPreco = consultaListaPreco;
             _consultaMaterial = consultaMaterial;
-            //_consultaIncoterm          = consultaIncoterm;
             _consultaIncotermCab = consultaIncotermCab;
-            _consultaCliente = consultaCliente;
             _consultaPedidoVenda = consultaPedidoVenda;
-            PreencherMotivosDeRecusa();
-
+            _consultaMotivoDeRecusa = consultaMotivoDeRecusa;
         }
 
         #endregion
@@ -81,20 +48,22 @@ namespace Progas.Portal.UI.Controllers
             ViewBag.TipoPedidos = _consultaTipoPedido.ListarTodas();
             ViewBag.ListaPreco = _consultaListaPreco.ListarTodas();
             ViewBag.Centro = _consultaMaterial.ListarCentro();
-            ViewBag.Incoterms = _consultaIncotermCab.ListarTodas(); 
-            ViewBag.MotivosDeRecusa = _motivosDeRecusa;
-            
+            ViewBag.Incoterms = _consultaIncotermCab.ListarTodas();
+            ViewBag.MotivosDeRecusa = _consultaMotivoDeRecusa.ListarTodas();
+
         }
 
         // Criacao de um novo pedido de venda
+        [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.TituloDaPagina = "Criar Pedido de Venda";
             PrepararViewBagParaTelaDeCadastroDePedido();
+            ViewBag.TituloDaPagina = "Criar Pedido de Venda";
             return View("_CriarPedidoVenda");
 
         }
 
+        [HttpGet]
         public ActionResult EditarPedido(string idDaCotacao)
         {
             PrepararViewBagParaTelaDeCadastroDePedido();
@@ -103,26 +72,44 @@ namespace Progas.Portal.UI.Controllers
             return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
         }
 
+        [HttpGet]
         public ActionResult VisualizarPedido(string idDaCotacao)
         {
             PrepararViewBagParaTelaDeCadastroDePedido();
             ViewBag.TituloDaPagina = "Visualizar Pedido de Venda";
             PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDaCotacao);
-            return View("_CriarPedidoVenda",pedidoVendaCadastroVm);
-          
+            pedidoVendaCadastroVm.SomenteLeitura = true;
+            return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
+
+        }
+
+        [HttpGet]
+        public ActionResult PedidoExiste(string idDoPedido)
+        {
+            bool pedidoExiste = _consultaPedidoVenda.PedidoExiste(idDoPedido);
+            return Json(pedidoExiste, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult CopiarPedido(string idDoPedido)
+        {
+            PrepararViewBagParaTelaDeCadastroDePedido();
+            ViewBag.TituloDaPagina = "Criar Pedido de Venda";
+            PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDoPedido);
+            pedidoVendaCadastroVm.Copia = true;
+            return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
+            
         }
 
 
-        #endregion       
+        #endregion
 
         #region Consultar Pedidos
 
         // Consulta Pedido de Venda
         public ActionResult Consultar()
         {
-            ViewBag.Clientes  = _consultaCliente.Listar();
-            ViewBag.Materiais = _consultaMaterial.ListarTodas();
-            return View("_ConsultarPedidoVenda"); 
+            return View("_ConsultarPedidoVenda");
         }
 
         // Listar Pedido Venda
@@ -133,68 +120,29 @@ namespace Progas.Portal.UI.Controllers
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
 
-        // Listar Linhas do Pedido
-        [HttpGet]
-        public ViewResult ConsultarLinhasPedido(string cotacao)
-        {
-            PedidoVendaCadastroVm vieModel = _consultaPedidoVenda.ListarLinhasPedido(cotacao);
-            return View(vieModel);
-        }
+        #endregion
 
-        // linhas do pedido
+        #region Consultar Cotacao
+
+
+        // Consultar Linhas Cotacao
         [HttpGet]
-        public JsonResult ListarLinhasPedido(PaginacaoVm paginacaoVm, string cotacao)
+        public JsonResult ConsultarItensDoPedido(string idDoPedido)
         {
-            KendoGridVm kendoGridVm = _consultaPedidoVenda.ListarLinhasPedido(paginacaoVm, cotacao);
-            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+            try
+            {
+
+                var itens = _consultaPedidoVenda.ListarItensDoPedido(idDoPedido);
+                return Json(new {Sucesso = true, Itens = itens}, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Sucesso = false, Mensagem = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         #endregion
 
-        #region Consultar Cotacao
-        // Consultar Cotacao
-        [HttpPost]
-        public JsonResult ConsultarCotacao(string cotacao)
-        {
-            try
-            {
-                if (cotacao == null)
-                {
-                    return Json(new { Sucesso = false, Mensagem = "Erro ao consultar a Cotação" });                        
-                }
-
-                PedidoVendaCadastroVm vieModel = _consultaPedidoVenda.ListarLinhasPedido(cotacao);
-                return Json(vieModel, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Sucesso = false, Mensagem = ex.Message + "Erro ao consultar a Cotação" });
-            }
-
-        }
-        
-        // Consultar Linhas Cotacao
-        [HttpPost]
-        public JsonResult ConsultarLinhasCotacao(string cotacao)
-        {
-            try
-            {
-                if (cotacao == null)
-                {
-                    return Json(new { Sucesso = false, Mensagem = "Não executou a chamada Json, cotacao nao informada" });
-                }
-
-                var dados = _consultaPedidoVenda.ListarLinhasCotacao(cotacao);
-                return Json(dados, JsonRequestBehavior.AllowGet);
-
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Sucesso = false, Mensagem = ex.Message + "Não executou a chamada Json" });
-            }
-        }
-
-        #endregion                
-         
-    }   
+    }
 }
