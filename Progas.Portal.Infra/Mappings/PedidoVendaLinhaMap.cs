@@ -9,7 +9,7 @@ namespace Progas.Portal.Infra.Mappings
         {
             Table("pro_vitem");
             Id(x => x.Id,"pro_id_item");
-            Map(x => x.Numero,"id_item");
+            Map(x => x.Numero,"Id_item");
             Map(x => x.Status);
             Map(x => x.Quantidade,"Quant");
             Map(x => x.ValorTabela,"Valtab");

@@ -1,0 +1,64 @@
+﻿@model Progas.Portal.ViewModel.PedidoVendaLinhaChaveVm
+<div class="divGrid" id="gridCondicoesDePreco"></div>
+<script type="text/javascript">
+
+    $("#gridCondicoesDePreco").customKendoGrid({
+        dataSource: {
+            schema: {
+                data: 'Registros',
+                model: {
+                    fields: {
+                        Nivel: { type: "string" },
+                        Tipo: { type: "string" },
+                        Base: { type: "number" },
+                        Montante: { type: "number" },
+                        Valor: { type: "number" }
+                    }
+                },
+                total: 'QuantidadeDeRegistros'
+            },
+            serverFiltering: true,
+            pageable: false,
+            transport: {
+                read: {
+                    url: '@Url.Action("ListarCondicoesDePreco","PedidoVenda")',
+                    type: 'GET',
+                    cache: false,
+                    data: function () {
+                        return {
+                            IdDoPedido: '@Model.IdDoPedido',
+                            IdDoItem: '@Model.IdDoItem'
+                        };
+                    }
+                }
+            }
+        },
+        columns:
+        [
+            {
+                width: '20%',
+                field: 'Nivel'
+            },
+            {
+                width: '20%',
+                field: "Tipo"
+            },
+            {
+                field: "Base",
+                width: '20%',
+            },
+            {
+                field: "Montante",
+                width: '20%',
+            },
+            {
+                field: "Valor",
+                width: '20%',
+            }
+
+        ]
+    });
+
+
+</script>
+

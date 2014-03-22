@@ -190,6 +190,7 @@
 
                 <div class="divBotao">
                     <input type="button" id="btnAdicionarItem" value="Adicionar" class="blue" />
+                    <input type="button" id="btnCancelarEdicao" value="Cancelar" class="blue"  style="display: none"/>
                 </div>
 
             </div>          
@@ -207,6 +208,9 @@
         </div>
 
     }
+    <div id="divCondicoesDePreco" class="janelaModal">
+        <div id="gridCondicoesDePreco" class="divGrid"></div>
+    </div>
 </div>
 
 @section scripts
@@ -216,6 +220,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarCliente.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarProduto.js")"></script>
@@ -223,6 +228,7 @@
 
         // array das linhas
         var linhasAdicionadas = new Array();
+        var condicoesDePrecoDoItemSelecionado = new Array();
         var indiceEdicao = -1;
         var status = 0;
         var simular = "S";
@@ -473,11 +479,11 @@
                     IdMaterial: $('#IdDoMaterial').val(),
                     CodigoMaterial: $('#CodigoDoMaterial').val(),
                     DescricaoMaterial: $('#NomeDoMaterial').val(),
-                    UnidadeDeMedida: $('#CodigoUnidadeMedida').val(),
+                    CodigoUnidadeMedida: $('#CodigoUnidadeMedida').val(),
                     Quantidade: $('#Quant').val(),
-                    CodigoListaPreco: $('#CodigoDaListaDePreco :selected').val(),
+                    CodigoListaPreco: $('#CodigoDaListaDePreco').val(),
                     DescricaoListaPreco: $('#CodigoDaListaDePreco :selected').text(),
-                    Desconto: $('#descma').val(),
+                    Desconto: $('#Desconto').val(),
                     CodigoDoMotivoDeRecusa: codigoDoMotivoDeRecusa ? codigoDoMotivoDeRecusa : null,
                     DescricaoDoMotivoDeRecusa: codigoDoMotivoDeRecusa ? $('#CodigoDoMotivoDeRecusa :selected').text() : null
                 };
@@ -510,7 +516,7 @@
                                 CodigoMaterial: { type: "string" },
                                 DescricaoMaterial: { type: "string" },
                                 Quantidade: { type: "number" },
-                                CodigoUnidadeMedida: { type: "string" }, //falta colocar no adicionar
+                                CodigoUnidadeMedida: { type: "string" }, 
                                 CodigoListaPreco: { type: "string" },
                                 DescricaoListaPreco: { type: "string" },
                                 Desconto: { type: "number" },
@@ -527,16 +533,16 @@
                 [
                     {
                         title: ' ',
-                        width: 20,
+                        width: 30,
                         template: '<input type="button" class="button_edit"></input>'
                     },
                     {
                         title: ' ',
-                        width: 20,
+                        width: 30,
                         template: '<input type="button" class="button_remove"></input>'
                     },
                     {
-                        width: 30,
+                        width: 40,
                         field: "NumeroDoItem",
                         title: "Item"
                     },
@@ -546,50 +552,66 @@
                     },
                     {
                         field: "CodigoMaterial",
-                        width: 45,
+                        width: 60,
                         title: "Código"
                     },
                     {
                         field: "DescricaoMaterial",
-                        width: 150,
+                        width: 220,
                         title: "Material"
                     },
                     {
-                        width: 45,
+                        width: 70,
                         field: "Quantidade",
                         title: "Quantidade"
                     },
                     {
-                        field: "Descricaolistpre",
+                        field: "DescricaoListaPreco",
                         width: 50,
                         title: "Lista"
                     },
                     {
                         field: "Desconto",
-                        width: 45,
+                        width: 80,
                         title: "Desconto Manual",
                         template: function(dataItem) {
                             return dataItem.Desconto ? dataItem.Desconto : "";
+                        },
+                        format: "{0:n2}",
+                        attributes: {
+                            "class": "table-cell",
+                            style: "text-align: right;"
                         }
+
                     },
                     {
                         field: "ValorTabela",
-                        width: 45,
-                        title: "Tabela"
+                        width: 50,
+                        title: "Tabela",
+                        format: "{0:n2}",
+                        attributes: {
+                            "class": "table-cell",
+                            style: "text-align: right;"
+                        }
                     },
                     {
                         field: "ValorPolitica",
-                        width: 45,
-                        title: "Política"
+                        width: 50,
+                        title: "Política",
+                        format: "{0:n2}",
+                        attributes: {
+                            "class": "table-cell",
+                            style: "text-align: right;"
+                        }
                     },
                     {
-                        width: 45,
+                        width: 70,
                         title: "Condições",
                         template: '<input type="button" class="button_information"></input>'
                     },
                     {
                         field: "DescricaoDoMotivoDeRecusa",
-                        width: 75,
+                        width: 100,
                         title: "Motivo de Recusa"
                     }
                 ],
@@ -600,6 +622,66 @@
                 }
             });
 
+
+            $("#gridCondicoesDePreco").customKendoGrid({
+                dataSource: {
+                    schema: {
+                        data: function() { return condicoesDePrecoDoItemSelecionado; },
+                        model: {
+                            fields: {
+                                Nivel: { type: "string" },
+                                Tipo: { type: "string" },
+                                Base: { type: "number" },
+                                Montante: { type: "number" },
+                                Valor: { type: "number" }
+                            }
+                        },
+                        total: 'QuantidadeDeRegistros'
+                    },
+                    serverFiltering: true,
+                },
+                pageable: false,
+                columns:
+                [
+                    {
+                        width: '20%',
+                        field: 'Nivel'
+                    },
+                    {
+                        width: '20%',
+                        field: "Tipo"
+                    },
+                    {
+                        field: "Base",
+                        width: '20%',
+                        format: "{0:n2}",
+                        attributes: {
+                            "class": "table-cell",
+                            style: "text-align: right;"
+                        }
+                    },
+                    {
+                        field: "Montante",
+                        width: '20%',
+                        format: "{0:n2}",
+                        attributes: {
+                            "class": "table-cell",
+                            style: "text-align: right;"
+                        }
+                    },
+                    {
+                        field: "Valor",
+                        width: '20%',
+                        format: "{0:n2}",
+                        attributes: {
+                            "class": "table-cell",
+                            style: "text-align: right;"
+                        }
+                    }
+                ]
+            });
+                
+
             function enviarPedido(acao, mensagemDeSucesso) {
 
                 if (linhasAdicionadas.length == 0) {
@@ -608,7 +690,7 @@
                 }
 
                 var pedido = {
-                    IdDoPedido: $('#id_pedido').val(),
+                    IdDoPedido: $('#id_cotacao').val(),
                     tipo: acao,
                     CodigoTipoPedido: $('#CodigoTipoPedido').val(),
                     CodigoDaCondicaoDePagamento: $('#condpgto').val(),
@@ -617,11 +699,11 @@
                     CodigoDaTransportadora: $('#Transportadora_Codigo').val(),
                     CodigoDaTransportadoraDeRedespacho: $('#TransportadoraDeRedespacho_Codigo').val(),
                     CodigoDaTransportadoraDeRedespachoCif: $('#TransportadoraDeRedespachoCif_Codigo').val(),
-                    Cliente: $('#id_cliente').val(),
+                    IdDoCliente: $('#Cliente_Id').val(),
                     IdDaAreaDeVenda: $('#AreaDeVenda').val(),
                     Centro: $('#id_centro').val(),
-                    Inco1: $('#Inco1').val(),
-                    Inco2: $('#Inco2 :selected').text(),
+                    IdDoIncoterm1: $('#Inco1').val(),
+                    IdDoIncoterm2: $('#Inco2').val(),
                     Observacao: $('#obs').val()
                 };
 
@@ -648,9 +730,10 @@
                     data: JSON.stringify({ Pedido: pedido }),
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    done: function(data) {
+                    success: function (data) {
                         if (data.Sucesso) {
                             var retorno = data.Retorno;
+                            $('#id_cotacao').val(retorno.IdDoPedido);
                             $('#status').val(retorno.Status);
                             $('#vlrtot').val(retorno.ValorTotal);
 
@@ -659,6 +742,7 @@
                                 linhasAdicionadas[i].Status = retorno.Itens[i].Status;
                                 linhasAdicionadas[i].ValorTabela = retorno.Itens[i].ValorDeTabela;
                                 linhasAdicionadas[i].ValorPolitica = retorno.Itens[i].ValorPolitica;
+                                linhasAdicionadas[i].CondicoesDePreco = retorno.Itens[i].CondicoesDePreco;
                             }
 
                             $('#gridLinhasAdicionadas').data("kendoGrid").dataSource.read();
@@ -669,10 +753,10 @@
                         }
 
                     },
-                    fail: function(jqXHR, textStatus, errorThrown) {
+                    error: function(jqXHR, textStatus, errorThrown) {
                         Mensagem.ExibirMensagemDeErro('Erro ao salvar o Pedido. Detalhe: ' + errorThrown);
                     },
-                    always: function() {
+                    complete: function() {
                         desbloqueiaPagina();
                     }
                 });
@@ -699,10 +783,11 @@
 
                 $('#IdDoMaterial').val(item.IdMaterial);
                 $('#CodigoDoMaterial').val(item.CodigoMaterial);
+                $('#NomeDoMaterial').val(item.DescricaoMaterial);
                 $('#Quant').val(item.Quantidade);
-                $('#CodigoUnidadeMedida').val(item.UnidadeDeMedida);
+                $('#CodigoUnidadeMedida').val(item.CodigoUnidadeMedida);
                 $('#CodigoDaListaDePreco').val(item.CodigoListaPreco);
-                $('#descma').val(item.Desconto ? item.Desconto : '');
+                $('#Desconto').val(item.Desconto ? item.Desconto : '');
                 $('#CodigoDoMotivoDeRecusa').val(item.CodigoDoMotivoDeRecusa);
 
                 $('#btnAdicionarItem').val('Atualizar');
@@ -711,9 +796,22 @@
 
             $('#gridLinhasAdicionadas').find('.button_information').die('click');
 
-            $('#gridLinhasAdicionadas').find('.button_information').live('click', function() {
+            $('#divCondicoesDePreco').customDialog({
+                title: 'Condições de Preço',
+                position:{at:'center'}
+            });
 
-                Mensagem.ExibirMensagemDeErro('A tela para visualizar as condições de preço ainda não foi construída.');
+
+            $('#gridLinhasAdicionadas').find('.button_information').live('click', function () {
+
+                indiceEdicao = $(this).parents('tr:first')[0].rowIndex;
+                var item = linhasAdicionadas[indiceEdicao];
+
+                condicoesDePrecoDoItemSelecionado = item.CondicoesDePreco;
+
+                $('#gridCondicoesDePreco').data("kendoGrid").dataSource.read();
+
+                $('#divCondicoesDePreco').dialog('open');
 
             });
 
@@ -772,8 +870,6 @@
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os itens do Pedido. Detalhe: ' + errorThrown);
                     }
                 });
-
-
 
             });
 

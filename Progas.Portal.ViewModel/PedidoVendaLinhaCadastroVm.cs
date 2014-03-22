@@ -1,4 +1,7 @@
-﻿namespace Progas.Portal.ViewModel
+﻿using System.Collections.Generic;
+using Progas.Portal.DTO;
+
+namespace Progas.Portal.ViewModel
 {
     public class PedidoVendaLinhaCadastroVm
     {
@@ -29,6 +32,8 @@
         public string CodigoDoMotivoDeRecusa { get; set; }
 
         public string DescricaoDoMotivoDeRecusa { get; set; }
+
+        public IEnumerable<CondicaoDePrecoDTO> CondicoesDePreco { get; set; }
        
     }
 

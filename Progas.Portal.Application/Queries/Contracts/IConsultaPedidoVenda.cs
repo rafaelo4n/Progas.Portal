@@ -12,5 +12,6 @@ namespace Progas.Portal.Application.Queries.Contracts
 
         PedidoVendaCadastroVm Consultar(string idDoPedido);
         bool PedidoExiste(string idDoPedido);
+        KendoGridVm ListarCondicoesDePreco(PedidoVendaLinhaChaveVm item);
     }
 }

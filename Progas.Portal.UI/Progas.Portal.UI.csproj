@@ -433,6 +433,7 @@
     <Content Include="Views\Usuario\CadastrarUsuario.cshtml" />
     <Content Include="Views\Shared\_SelecionarCliente.cshtml" />
     <Content Include="Views\Shared\_SelecionarProduto.cshtml" />
+    <Content Include="Views\PedidoVenda\CondicaoDePreco.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

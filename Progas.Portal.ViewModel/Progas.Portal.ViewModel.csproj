@@ -101,6 +101,7 @@
     <Compile Include="PedidoVendaCadastroVm.cs" />
     <Compile Include="PedidoVendaFiltroVm.cs" />
     <Compile Include="PedidoVendaLinhaCadastroVm.cs" />
+    <Compile Include="PedidoVendaLinhaChaveVm.cs" />
     <Compile Include="PedidoVendaSalvarItemVm.cs" />
     <Compile Include="PedidoVendaSalvarVm.cs" />
     <Compile Include="PedidoVendaLinhaVm.cs" />
@@ -141,6 +142,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Progas.Portal.DTO\Progas.Portal.DTO.csproj">
+      <Project>{4D2BAA56-2D95-4034-8237-2A73EDEDF5C1}</Project>
+      <Name>Progas.Portal.DTO</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

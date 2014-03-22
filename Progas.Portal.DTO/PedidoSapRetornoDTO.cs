@@ -17,5 +17,6 @@ namespace Progas.Portal.DTO
         public string Status { get; set; }
         public decimal ValorDeTabela { get; set; }
         public decimal ValorPolitica { get; set; }
+        public IList<CondicaoDePrecoDTO> CondicoesDePreco { get; set; }
     }
 }

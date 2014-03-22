@@ -27,7 +27,7 @@ namespace Progas.Portal.UI.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return Json(new { Sucesso = false, Mensagem = ex.Message + "Erro ao Salvar o Pedido de Venda." });
+                    return Json(new { Sucesso = false, Mensagem = ex.Message});
                 }            
         }
 

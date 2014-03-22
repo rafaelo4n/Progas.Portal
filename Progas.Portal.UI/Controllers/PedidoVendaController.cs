@@ -143,6 +143,17 @@ namespace Progas.Portal.UI.Controllers
         }
 
         #endregion
+        [HttpGet]
+        public ActionResult ListarCondicoesDePreco(PedidoVendaLinhaChaveVm item)
+        {
+            KendoGridVm kendoGridVm = _consultaPedidoVenda.ListarCondicoesDePreco(item);
 
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CondicoesDePreco(PedidoVendaLinhaChaveVm item)
+        {
+            return PartialView("CondicaoDePreco", item);
+        }
     }
 }

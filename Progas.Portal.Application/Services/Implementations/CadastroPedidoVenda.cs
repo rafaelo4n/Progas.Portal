@@ -114,24 +114,31 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 var usuarioConectado = _usuarios.UsuarioConectado();
 
-                //ClienteVenda clienteVendas = _clienteVendas.ConsultaAtivDistribuicao(pedido.Cliente, pedido.Centro);
                 ClienteVenda clienteVendas = _clienteVendas.ObterPorId(pedido.IdDaAreaDeVenda);
+
+                TransportadorasDoPedido transportadorasDoPedido = ConsultarTransportadoras(pedido);
+
+                IncotermCab incoterm1 = _incotermsCabs.FiltraPorId(pedido.IdDoIncoterm1).Single();
+
+                IncotermLinhas incoterm2 = _incotermsLinhas.FiltraPorId(pedido.IdDoIncoterm2).Single();
+
+                Cliente cliente = _clientes.BuscaPeloId(pedido.IdDoCliente).Single();
 
                 fReadTable.SetValue("I_TIPO_ENVIO", pedido.Tipo);
                 i_cabecalho.SetValue("BSTKD", pedido.NumeroPedido);
                 i_cabecalho.SetValue("AUART", pedido.CodigoTipoPedido);
                 i_cabecalho.SetValue("WERKS", pedido.Centro);
                 i_cabecalho.SetValue("VKORG", pedido.Centro);
-                i_cabecalho.SetValue("VTWEG", Convert.ToString(clienteVendas.Can_dist));
-                i_cabecalho.SetValue("SPART", Convert.ToString(clienteVendas.Set_ativ));
-                i_cabecalho.SetValue("KUNNR", pedido.IdDoCliente);
+                i_cabecalho.SetValue("VTWEG", clienteVendas.Can_dist);
+                i_cabecalho.SetValue("SPART", clienteVendas.Set_ativ);
+                i_cabecalho.SetValue("KUNNR", cliente.Id_cliente);
                 i_cabecalho.SetValue("ZTERM", pedido.CodigoDaCondicaoDePagamento);
-                i_cabecalho.SetValue("INCO1", pedido.IdDoIncoterm1);
-                i_cabecalho.SetValue("INCO2", pedido.IdDoIncoterm2);
-                i_cabecalho.SetValue("TRANS", pedido.CodigoDaTransportadora);
-                i_cabecalho.SetValue("TRANSRED", pedido.CodigoDaTransportadoraDeRedespacho);
-                i_cabecalho.SetValue("TRANSREDCIF", pedido.CodigoDaTransportadoraDeRedespachoCif);
-                i_cabecalho.SetValue("REPRE", Convert.ToString(usuarioConectado.CodigoDoFornecedor));
+                i_cabecalho.SetValue("INCO1", incoterm1.CodigoIncotermCab);
+                i_cabecalho.SetValue("INCO2", incoterm2.IncotermLinha);
+                i_cabecalho.SetValue("TRANS", transportadorasDoPedido.Transportadora != null ? transportadorasDoPedido.Transportadora.Codigo : null);
+                i_cabecalho.SetValue("TRANSRED", transportadorasDoPedido.TransportadoraDeRedespacho != null ? transportadorasDoPedido.TransportadoraDeRedespacho.Codigo : null);
+                i_cabecalho.SetValue("TRANSREDCIF", transportadorasDoPedido.TransportadoraDeRedespachoCif != null ? transportadorasDoPedido.TransportadoraDeRedespachoCif.Codigo : null);
+                i_cabecalho.SetValue("REPRE", usuarioConectado.CodigoDoFornecedor);
                 i_cabecalho.SetValue("OBSERVACAO", pedido.Observacao);
 
                 int[] idDosMateriais = pedido.Itens.Select(x => x.IdMaterial).Distinct().ToArray();
@@ -146,7 +153,7 @@ namespace Progas.Portal.Application.Services.Implementations
 
                     // LINHAS (Estrutura tipo tabela)
                     linha_envio_item.SetValue("POSNR", contadorDeItens);
-                    linha_envio_item.SetValue("MATNR", dados.IdMaterial);
+                    linha_envio_item.SetValue("MATNR", material.Id_material);
                     linha_envio_item.SetValue("MENGE", dados.Quantidade);
                     linha_envio_item.SetValue("MEINS", material.Uni_med);
                     linha_envio_item.SetValue("PLTYP", dados.CodigoDaListaDePreco);
@@ -168,22 +175,16 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 string status = fReadTable.GetString("E_STATUS");
 
+                IRfcTable mensagensDeRetorno = fReadTable.GetTable("TE_MENSAGENS");
+
                 if (status == "E")
                 {
-                    throw new Exception("Ocorreu um erro ao enviar um Pedido para o SAP.");
+                    throw new Exception(string.Join(". ",mensagensDeRetorno.Select(m => m.GetString("MESSAGE"))));
                 }
 
                 IRfcTable retornoItens = fReadTable.GetTable("TE_ITEM");
 
                 IRfcTable retornoCondicoes = fReadTable.GetTable("TE_CONDICOES");
-
-                Cliente cliente = _clientes.BuscaPeloId(pedido.IdDoCliente).Single();
-
-                TransportadorasDoPedido transportadorasDoPedido = ConsultarTransportadoras(pedido);
-
-                IncotermCab incoterm1 = _incotermsCabs.FiltraPorId(pedido.IdDoIncoterm1).Single();
-
-                IncotermLinhas incoterm2 = _incotermsLinhas.FiltraPorId(pedido.IdDoIncoterm2).Single();
 
                 var pedidoVenda = new PedidoVenda(pedido.Tipo,
                     fReadTable.GetString("COTACAO"),
@@ -275,7 +276,15 @@ namespace Progas.Portal.Application.Services.Implementations
                         NumeroDoItem = item.Numero,
                         Status = item.Status,
                         ValorDeTabela = item.ValorTabela,
-                        ValorPolitica = item.ValorPolitica
+                        ValorPolitica = item.ValorPolitica,
+                        CondicoesDePreco = item.CondicoesDePreco.Select(condicaoDePreco => new CondicaoDePrecoDTO
+                        {
+                            Nivel = condicaoDePreco.Nivel,
+                            Tipo = condicaoDePreco.Tipo,
+                            Base = condicaoDePreco.Base,
+                            Montante = condicaoDePreco.Montante,
+                            Valor = condicaoDePreco.Valor
+                        }).ToList()
                     }).ToList()
                 };
 
