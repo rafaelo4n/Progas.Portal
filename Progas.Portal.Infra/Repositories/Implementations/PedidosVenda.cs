@@ -37,7 +37,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         {
             if (!string.IsNullOrEmpty(filtroPedido))
             {
-                Query = Query.Where(x => x.Id_pedido.Contains(filtroPedido));
+                Query = Query.Where(x => x.NumeroDoPedido.Contains(filtroPedido));
             }
 
             return this;

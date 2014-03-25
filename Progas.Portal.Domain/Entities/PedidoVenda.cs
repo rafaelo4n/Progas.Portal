@@ -13,7 +13,7 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Id_centro { get; set; }
         public virtual Cliente Cliente { get; set; }
         public virtual DateTime Datacp { get; set; }
-        public virtual string Id_pedido { get; set; }
+        public virtual string NumeroDoPedido { get; set; }
         public virtual DateTime Datap { get; set; }
         public virtual string Condpgto { get; set; }
         public virtual IncotermCab Incoterm1 { get; set; }
@@ -22,7 +22,7 @@ namespace Progas.Portal.Domain.Entities
         public virtual Fornecedor TransportadoraDeRedespacho { get; set; }
         public virtual Fornecedor TransportadoraDeRedespachoCif { get; set; }
         public virtual string Id_repre { get; set; }
-        public virtual string Obs { get; set; }
+        public virtual string Observacao { get; set; }
         public virtual string Status { get; set; }
         public virtual decimal ValorTotal { get; set; }
         public virtual ClienteVenda AreaDeVenda{ get; set; }
@@ -35,13 +35,13 @@ namespace Progas.Portal.Domain.Entities
         }
 
         public PedidoVenda(string tipo,
-            string id_cotacao,
+            //string id_cotacao,
             string tipoPedido,
             string id_centro,
             Cliente cliente,
             ClienteVenda areaDeVenda,
             DateTime datacp,
-            string id_pedido,
+            string numeroDoPedido,
             DateTime datap,
             string condpgto,
             IncotermCab incoterm1,
@@ -50,19 +50,18 @@ namespace Progas.Portal.Domain.Entities
             Fornecedor transportadoraDeRedespacho,
             Fornecedor transportadoraDeRedespachoCif,
             string id_repre,
-            string obs,
-            string status
-            //string motrec, string status, decimal vlrtot, string tipo
+            string observacao/*,
+            string status*/
             ) : this()
         {
             Tipo = tipo;
-            Id_cotacao = id_cotacao;
+            //Id_cotacao = id_cotacao;
             TipoPedido = tipoPedido;
             Id_centro = id_centro;
             Cliente = cliente;
             AreaDeVenda = areaDeVenda;
             Datacp = datacp;
-            Id_pedido = id_pedido;
+            NumeroDoPedido = numeroDoPedido;
             Datap = datap;
             Condpgto = condpgto;
             Incoterm1 = incoterm1;
@@ -71,8 +70,8 @@ namespace Progas.Portal.Domain.Entities
             TransportadoraDeRedespacho = transportadoraDeRedespacho;
             TransportadoraDeRedespachoCif = transportadoraDeRedespachoCif;
             Id_repre = id_repre;
-            Obs = obs;
-            Status = status;
+            Observacao = observacao;
+            //Status = status;
         }
 
         public virtual void AdicionarItem(PedidoVendaLinha item)
@@ -84,6 +83,12 @@ namespace Progas.Portal.Domain.Entities
         {
             ValorTotal = Itens.Sum(item => item.ValorPolitica);
             return ValorTotal;
+        }
+
+        public virtual void Alterar(string numeroDaCotacao, string status)
+        {
+            this.Id_cotacao = numeroDaCotacao;
+            this.Status = status;
         }
     }
 }

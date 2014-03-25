@@ -111,8 +111,6 @@
                        
                 }
                 
-                @*@Html.LinhaComUmaColuna(inco1)*@
-                
                 @Html.LinhaComQuatroColunas(inco1, inco2, buscaDeTransportadora, campoComNomeDaTransportadora)
                 
                 @Html.HiddenFor(x => x.Transportadora.Id)
@@ -235,6 +233,7 @@
         var gravar = "G";
         var numeroDeItensInseridos = 0;
         var somenteLeitura = '@(Model != null && Model.SomenteLeitura)'.boolean();
+        var copia = '@(Model != null && Model.Copia )'.boolean();
 
         function carregarAreasDeVenda(idDoCliente, callBack) {
             ///<param name="callBack">funcao para executar alguma ação após carregar as áreas de venda. Por exemplo, setar um valor</param>
@@ -318,7 +317,6 @@
                     if (data.Sucesso) {
                         linhasAdicionadas = data.Itens;
                         $('#gridLinhasAdicionadas').data("kendoGrid").dataSource.read();
-                        var copia = '@(Model != null && Model.Copia )'.boolean();
 
                         if (copia) {
                             $('#id_cotacao').val('');
@@ -428,8 +426,10 @@
                     $('#Inco2').val(idDoIncoterm2);
                 });
 
-                $('#btnGravar').val('Gravar Edição');
-                $('#btnSimular').val('Simular Edição');
+                if (!copia) {
+                    $('#btnGravar').val('Gravar Edição');
+                    $('#btnSimular').val('Simular Edição');
+                }
 
                 carregarItens();
 
@@ -713,7 +713,7 @@
                     itens.push({
                         IdMaterial: item.IdMaterial,
                         Quantidade: item.Quantidade,
-                        listapreco: item.CodigoListaPreco,
+                        CodigoDaListaDePreco: item.CodigoListaPreco,
                         Desconto: item.Desconto,
                         CodigoDoMotivoDeRecusa: item.CodigoDoMotivoDeRecusa
                     });

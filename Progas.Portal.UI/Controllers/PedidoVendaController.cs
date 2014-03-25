@@ -97,6 +97,8 @@ namespace Progas.Portal.UI.Controllers
             ViewBag.TituloDaPagina = "Criar Pedido de Venda";
             PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDoPedido);
             pedidoVendaCadastroVm.Copia = true;
+            pedidoVendaCadastroVm.id_pedido = null;
+            pedidoVendaCadastroVm.status = null;
             return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
             
         }

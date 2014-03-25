@@ -12,11 +12,11 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.TipoPedido);
             Map(x => x.Id_centro);
             Map(x => x.Datacp);
-            Map(x => x.Id_pedido);
+            Map(x => x.NumeroDoPedido, "Id_pedido");
             Map(x => x.Datap);
             Map(x => x.Condpgto);
             Map(x => x.Id_repre);
-            Map(x => x.Obs);
+            Map(x => x.Observacao,"Obs");
             Map(x => x.Status);
             Map(x => x.ValorTotal,"Vlrtot");
             Map(x => x.Tipo);

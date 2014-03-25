@@ -25,25 +25,24 @@ namespace Progas.Portal.Domain.Entities
         }
 
         public PedidoVendaLinha(
-            string id_item,
+            //string id_item,
             Material material,
             decimal quantidade,
             ListaPreco listaDePreco,
-            decimal valorTabela,
-            decimal valorPolitica,
-            decimal descontoManual,
-            MotivoDeRecusa motivoDeRecusa
+            //decimal valorTabela,
+            //decimal valorPolitica,
+            decimal descontoManual//,
+            //MotivoDeRecusa motivoDeRecusa
             ) : this()
         {
-            //Id_cotacao = id_cotacao;
-            Numero = id_item;
+            //Numero = id_item;
             Material = material;
             Quantidade = quantidade;
             ListaDePreco = listaDePreco;
-            ValorTabela = valorTabela;
-            ValorPolitica = valorPolitica;
+            //ValorTabela = valorTabela;
+            //ValorPolitica = valorPolitica;
             DescontoManual = descontoManual;
-            MotivoDeRecusa = motivoDeRecusa;
+            //MotivoDeRecusa = motivoDeRecusa;
         }
 
         public virtual void AdicionarCondicao(CondicaoDePreco condicaoDePreco)
@@ -51,5 +50,12 @@ namespace Progas.Portal.Domain.Entities
             CondicoesDePreco.Add(condicaoDePreco);
         }
 
+        public virtual void Alterar(string numeroDoPedido, decimal valorPolitica, decimal valorTabela, MotivoDeRecusa motivoDeRecusa)
+        {
+            this.Numero = numeroDoPedido;
+            this.ValorPolitica = valorPolitica;
+            this.ValorTabela = valorTabela;
+            this.MotivoDeRecusa = motivoDeRecusa;
+        }
     }
 }

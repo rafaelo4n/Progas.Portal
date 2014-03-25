@@ -1,10 +1,10 @@
-﻿using System;
-using System.Configuration;
+﻿using System; 
 using System.Collections.Generic;
 using System.Linq;
 using Progas.Portal.Application.Services.Contracts;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.DTO;
+using Progas.Portal.Infra.DataAccess;
 using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.ViewModel;
 using SAP.Middleware.Connector;
@@ -22,13 +22,13 @@ namespace Progas.Portal.Application.Services.Implementations
         private readonly IFornecedores _fornecedores;
         private readonly IIncotermsCabs _incotermsCabs;
         private readonly IIncotermsLinhas _incotermsLinhas;
-        private readonly IMotivosDeRecusa _motivosDeRecusa;
         private readonly IListasPreco _listasPreco;
+        private readonly IComunicacaoSap _comunicacaoSap;
 
         public CadastroPedidoVenda(IUnitOfWork unitOfWork, IPedidosVenda pedidosVenda, 
             IUsuarios usuarios, IClienteVendas clienteVendas, IMateriais materiais, IClientes clientes,
             IFornecedores fornecedores, IIncotermsCabs incotermsCabs, IIncotermsLinhas incotermsLinhas, 
-            IMotivosDeRecusa motivosDeRecusa, IListasPreco listasPreco)
+            IListasPreco listasPreco, IComunicacaoSap comunicacaoSap)
         {
             _unitOfWork = unitOfWork;
             _pedidosVenda = pedidosVenda;
@@ -39,11 +39,9 @@ namespace Progas.Portal.Application.Services.Implementations
             _fornecedores = fornecedores;
             _incotermsCabs = incotermsCabs;
             _incotermsLinhas = incotermsLinhas;
-            _motivosDeRecusa = motivosDeRecusa;
             _listasPreco = listasPreco;
+            _comunicacaoSap = comunicacaoSap;
         }               
-        // Parametro de Repositorio utilizado na conexao SAP
-        public static string RepositorydestinationPar = ConfigurationSettings.AppSettings["RepositoryDestination"];
 
         private class TransportadorasDoPedido
         {
@@ -94,23 +92,8 @@ namespace Progas.Portal.Application.Services.Implementations
         public PedidoSapRetornoDTO Salvar(PedidoVendaSalvarVm pedido)
         {
 
-            SapConnect con = null;
             try
             {
-                con = new SapConnect();
-                con.GetParameters("DEV");
-
-                RfcDestinationManager.RegisterDestinationConfiguration(con);
-                RfcDestination dest = RfcDestinationManager.GetDestination(RepositorydestinationPar);
-                RfcRepository repo = dest.Repository;
-                IRfcFunction fReadTable = repo.CreateFunction("ZFXI_SD06");
-                IRfcStructure i_cabecalho = fReadTable.GetStructure("I_CABECALHO");
-                RfcStructureMetadata t_item = repo.GetStructureMetadata("ZSTSD007");
-                IRfcStructure linha_envio_item = t_item.CreateStructure();
-                IRfcTable envio_item = fReadTable.GetTable("TI_ITEM");
-                RfcStructureMetadata t_condicoes = repo.GetStructureMetadata("ZSTSD008");
-                IRfcStructure linha_envio_cond = t_condicoes.CreateStructure();
-                IRfcTable envio_condicao = fReadTable.GetTable("TI_CONDICOES");
 
                 var usuarioConectado = _usuarios.UsuarioConectado();
 
@@ -124,74 +107,12 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 Cliente cliente = _clientes.BuscaPeloId(pedido.IdDoCliente).Single();
 
-                fReadTable.SetValue("I_TIPO_ENVIO", pedido.Tipo);
-                i_cabecalho.SetValue("BSTKD", pedido.NumeroPedido);
-                i_cabecalho.SetValue("AUART", pedido.CodigoTipoPedido);
-                i_cabecalho.SetValue("WERKS", pedido.Centro);
-                i_cabecalho.SetValue("VKORG", pedido.Centro);
-                i_cabecalho.SetValue("VTWEG", clienteVendas.Can_dist);
-                i_cabecalho.SetValue("SPART", clienteVendas.Set_ativ);
-                i_cabecalho.SetValue("KUNNR", cliente.Id_cliente);
-                i_cabecalho.SetValue("ZTERM", pedido.CodigoDaCondicaoDePagamento);
-                i_cabecalho.SetValue("INCO1", incoterm1.CodigoIncotermCab);
-                i_cabecalho.SetValue("INCO2", incoterm2.IncotermLinha);
-                i_cabecalho.SetValue("TRANS", transportadorasDoPedido.Transportadora != null ? transportadorasDoPedido.Transportadora.Codigo : null);
-                i_cabecalho.SetValue("TRANSRED", transportadorasDoPedido.TransportadoraDeRedespacho != null ? transportadorasDoPedido.TransportadoraDeRedespacho.Codigo : null);
-                i_cabecalho.SetValue("TRANSREDCIF", transportadorasDoPedido.TransportadoraDeRedespachoCif != null ? transportadorasDoPedido.TransportadoraDeRedespachoCif.Codigo : null);
-                i_cabecalho.SetValue("REPRE", usuarioConectado.CodigoDoFornecedor);
-                i_cabecalho.SetValue("OBSERVACAO", pedido.Observacao);
-
-                int[] idDosMateriais = pedido.Itens.Select(x => x.IdMaterial).Distinct().ToArray();
-
-                IList<Material> materiaisDosItens = _materiais.BuscarLista(idDosMateriais).List();
-
-                int contadorDeItens = 1;
-
-                foreach (var dados in pedido.Itens)
-                {
-                    Material material = materiaisDosItens.Single(x => x.pro_id_material == dados.IdMaterial);
-
-                    // LINHAS (Estrutura tipo tabela)
-                    linha_envio_item.SetValue("POSNR", contadorDeItens);
-                    linha_envio_item.SetValue("MATNR", material.Id_material);
-                    linha_envio_item.SetValue("MENGE", dados.Quantidade);
-                    linha_envio_item.SetValue("MEINS", material.Uni_med);
-                    linha_envio_item.SetValue("PLTYP", dados.CodigoDaListaDePreco);
-                    envio_item.Insert(linha_envio_item);
-                    
-                    // CONDICAO (Estrutura tipo tabela) 
-                    if (dados.Desconto > 0)
-                    {
-                        linha_envio_cond.SetValue("POSNR", contadorDeItens);
-                        linha_envio_cond.SetValue("KWERT", dados.Desconto);
-                        linha_envio_cond.SetValue("KSCHL", "ZDEM");
-                        envio_condicao.Insert(linha_envio_cond);
-                    }
-                    // Apos inserir o ultimo item na estrutura do SAP, realiza a chamada da Função e salva para o tipo Gravação e retornar as linhas.
-                    contadorDeItens++;
-                }
-
-                fReadTable.Invoke(dest);
-
-                string status = fReadTable.GetString("E_STATUS");
-
-                IRfcTable mensagensDeRetorno = fReadTable.GetTable("TE_MENSAGENS");
-
-                if (status == "E")
-                {
-                    throw new Exception(string.Join(". ",mensagensDeRetorno.Select(m => m.GetString("MESSAGE"))));
-                }
-
-                IRfcTable retornoItens = fReadTable.GetTable("TE_ITEM");
-
-                IRfcTable retornoCondicoes = fReadTable.GetTable("TE_CONDICOES");
-
                 var pedidoVenda = new PedidoVenda(pedido.Tipo,
-                    fReadTable.GetString("COTACAO"),
+                    //fReadTable.GetString("COTACAO"),
                     pedido.CodigoTipoPedido,
                     pedido.Centro,
                     cliente,
-                    clienteVendas, 
+                    clienteVendas,
                     DateTime.Now,
                     pedido.NumeroPedido,
                     pedido.DataDoPedido,
@@ -202,56 +123,44 @@ namespace Progas.Portal.Application.Services.Implementations
                     transportadorasDoPedido.TransportadoraDeRedespacho,
                     transportadorasDoPedido.TransportadoraDeRedespachoCif,
                     Convert.ToString(usuarioConectado.CodigoDoFornecedor),
-                    pedido.Observacao,
-                    status);
+                    pedido.Observacao
+                    //status
+                    );
 
-                string[] codigoDosMotivosDeRecusa = retornoItens
-                    .Where(x => !string.IsNullOrEmpty(x.GetString("ABGRU")))
-                    .Select(x => x.GetString("ABGRU")).Distinct().ToArray();
+                int[] idDosMateriais = pedido.Itens.Select(x => x.IdMaterial).Distinct().ToArray();
 
-                IList<MotivoDeRecusa> motivosDeRecusa = _motivosDeRecusa.BuscarLista(codigoDosMotivosDeRecusa).List();
+                IList<Material> materiaisDosItens = _materiais.BuscarLista(idDosMateriais).List();
 
                 string[] codigoDasListasDePreco = pedido.Itens.Select(item => item.CodigoDaListaDePreco).Distinct().ToArray();
 
                 IList<ListaPreco> listasDePreco = _listasPreco.FiltraPorListaDeCodigos(codigoDasListasDePreco).List();
 
-                for (int i = 0; i < retornoItens.Count; i++)
+                for (int i = 0; i < pedido.Itens.Count; i++)
                 {
-                    IRfcStructure retornoItem = retornoItens[i];
+                    //IRfcStructure retornoItem = retornoItens[i];
                     PedidoVendaSalvarItemVm item = pedido.Itens[i];
 
                     Material material = materiaisDosItens.Single(x => x.pro_id_material == item.IdMaterial);
 
-                    MotivoDeRecusa motivoDeRecusa = motivosDeRecusa.Single(x => x.Codigo == retornoItem.GetString("ABGRU"));
-
                     ListaPreco listaDePreco = listasDePreco.Single(lista => lista.Codigo == item.CodigoDaListaDePreco);
 
-                    var linhasPedido = new PedidoVendaLinha(//retornoItem.GetString("COTACAO"),
-                        retornoItem.GetString("POSNR"),
-                        material, 
+                    var linhasPedido = new PedidoVendaLinha(
+                        //retornoItem.GetString("POSNR"),
+                        material,
                         item.Quantidade,
                         listaDePreco,
-                        Convert.ToDecimal(retornoItem.GetString("VLRTAB")), // valtab
-                        Convert.ToDecimal(retornoItem.GetString("VLRPOL")), // valpol
-                        item.Desconto,
-                        motivoDeRecusa 
+                        //Convert.ToDecimal(retornoItem.GetString("VLRTAB")), // valtab
+                        //Convert.ToDecimal(retornoItem.GetString("VLRPOL")), // valpol
+                        item.Desconto//,
+                        //motivoDeRecusa
                         );
 
-                    foreach (var condicaoRetornada in
-                            retornoCondicoes.Where(
-                                condicao => condicao.GetString("POSNR") == retornoItem.GetString("POSNR")))
-                    {
-                        var condicaoDePreco = new CondicaoDePreco(condicaoRetornada.GetString("STUNR"), condicaoRetornada.GetString("KSCHL"),
-                            condicaoRetornada.GetDecimal("KAWRT"), condicaoRetornada.GetDecimal("KBETR"), condicaoRetornada.GetDecimal("KWERT"));
-
-                        linhasPedido.AdicionarCondicao(condicaoDePreco);
-
-                    }
 
                     pedidoVenda.AdicionarItem(linhasPedido);
                 }
-                // retornar apenas a lista de itens
-                pedidoVenda.CalcularTotal();
+
+
+                _comunicacaoSap.EnviarPedido(pedidoVenda);
 
                 if (pedido.Tipo == "G")
                 {
@@ -296,56 +205,8 @@ namespace Progas.Portal.Application.Services.Implementations
                 _unitOfWork.RollBack();
                 throw;
             }
-            finally
-            {
-                if (con != null)
-                {
-                    RfcDestinationManager.UnregisterDestinationConfiguration(con);
-                }
-            }
 
         }
 
-        // Realiza a Conexão no SAP conforme os dados do arquivo Web.config.
-        public class SapConnect : IDestinationConfiguration
-        {
-            // Dados de Parametros do Web.config
-            public static string appserverhost = ConfigurationSettings.AppSettings["AppServerHost"];
-            public static string saprouter = ConfigurationSettings.AppSettings["SAPRouter"];
-            public static string systemnumber = ConfigurationSettings.AppSettings["SystemNumber"];
-            public static string systemid = ConfigurationSettings.AppSettings["SystemID"];
-            public static string user = ConfigurationSettings.AppSettings["User"];
-            public static string password = ConfigurationSettings.AppSettings["Password"];
-            public static string client = ConfigurationSettings.AppSettings["Client"];
-            public static string poolsize = ConfigurationSettings.AppSettings["PoolSize"];
-            public static string repositorydestination = ConfigurationSettings.AppSettings["RepositoryDestination"];
-
-            public RfcConfigParameters GetParameters(String destinationName)
-            {
-                if (repositorydestination == destinationName)
-                {
-                    RfcConfigParameters parms = new RfcConfigParameters();
-                    parms.Add(RfcConfigParameters.AppServerHost, appserverhost);
-                    parms.Add(RfcConfigParameters.SAPRouter, saprouter);
-                    parms.Add(RfcConfigParameters.SystemNumber, systemnumber);
-                    parms.Add(RfcConfigParameters.SystemID, systemid);
-                    parms.Add(RfcConfigParameters.User, user);
-                    parms.Add(RfcConfigParameters.Password, password);
-                    parms.Add(RfcConfigParameters.Client, client);
-                    parms.Add(RfcConfigParameters.PoolSize, poolsize);
-                    return parms;
-                }
-                else return null;
-            }
-
-            // The following two are not used in this example:
-            public bool ChangeEventsSupported()
-            {
-                return false;
-            }
-
-            public event RfcDestinationManager.ConfigurationChangeHandler
-                ConfigurationChanged;
-        }
     }
 }

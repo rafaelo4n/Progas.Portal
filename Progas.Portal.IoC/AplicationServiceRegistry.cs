@@ -25,6 +25,12 @@ namespace Progas.Portal.IoC
             For<ICadastroPedidoVenda>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<CadastroPedidoVenda>();
+
+            For<IComunicacaoSap>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ComunicacaoSap>();
+
         }
+
     }
 }

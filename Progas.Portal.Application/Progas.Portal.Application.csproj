@@ -166,7 +166,9 @@
     <Compile Include="Services\Contracts\ICadastroPedidoVenda.cs" />
     <Compile Include="Services\Contracts\ICadastroUsuario.cs" />
     <Compile Include="Services\Contracts\IGerenciadorUsuario.cs" />
+    <Compile Include="Services\Contracts\IComunicacaoSap.cs" />
     <Compile Include="Services\Implementations\CadastroPedidoVenda.cs" />
+    <Compile Include="Services\Implementations\ComunicacaoSap.cs" />
     <Compile Include="Services\Implementations\GerenciadorUsuario.cs" />
     <Compile Include="Services\Implementations\CadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Implementations\CadastroUsuario.cs" />

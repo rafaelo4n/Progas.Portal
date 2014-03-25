@@ -18,7 +18,7 @@ namespace Progas.Portal.Application.Queries.Builders
                 //id_cliente       = pedidoVenda.Id_cliente,
                 datacp           = Convert.ToString(pedidoVenda.Datacp),
                 datap            = pedidoVenda.Datap.ToString("dd/MM/yyyy"),
-                id_pedido        = pedidoVenda.Id_pedido,
+                id_pedido        = pedidoVenda.NumeroDoPedido,
                 condpgto         = pedidoVenda.Condpgto,
                 IdDoIncoterm1            = pedidoVenda.Incoterm1.pro_id_incotermCab.ToString(),
                 IdDoIncoterm2            = pedidoVenda.Incoterm2.pro_id_incotermLinha.ToString(),
@@ -26,7 +26,7 @@ namespace Progas.Portal.Application.Queries.Builders
                 //transred         = pedidoVenda.Transred,
                 //transredcif      = pedidoVenda.Transredcif, 
                 id_repre         = pedidoVenda.Id_repre,
-                obs              = pedidoVenda.Obs//,
+                obs              = pedidoVenda.Observacao//,
                 //valfin           = pedidoVenda.Vlrtot,  
                 //vlrtot           = pedidoVenda.Vlrtot
                 //tipo             = pedidoVendTransportadorao,
