@@ -8,19 +8,24 @@ namespace Progas.Portal.Infra.Mappings
         public PedidoVendaLinhaMap()
         {
             Table("pro_vitem");
-            Id(x => x.pro_id_item);
-            Map(x => x.Id_cotacao);
-            Map(x => x.Id_item);
-            Map(x => x.Id_pedido);
-            Map(x => x.Id_material);
-            Map(x => x.Quant);
-            Map(x => x.Unimed);
-            Map(x => x.Listpre);
-            Map(x => x.Valtab);
-            Map(x => x.Valpol);
-            Map(x => x.Descma);
-            Map(x => x.Valfin);
-            Map(x => x.Motrec);
+            Id(x => x.Id,"pro_id_item");
+            Map(x => x.Numero,"Id_item");
+            Map(x => x.Status);
+            Map(x => x.Quantidade,"Quant");
+            Map(x => x.ValorTabela,"Valtab");
+            Map(x => x.ValorPolitica,"Valpol");
+            Map(x => x.DescontoManual,"Descma");
+            //Map(x => x.Valfin);
+            References(x => x.MotivoDeRecusa,"Motrec");
+            References(x => x.Material, "pro_id_material");
+            References(x => x.ListaDePreco,"Listpre");
+
+            HasMany(x => x.CondicoesDePreco)
+                .KeyColumn("pro_id_item")
+                .Not.Inverse()
+                .Not.KeyNullable()
+                .Not.KeyUpdate()
+                .Cascade.AllDeleteOrphan();
         }
     }
 }

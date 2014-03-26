@@ -205,7 +205,7 @@ namespace Portal.DadosSap.Business.Implementation
         }
 
 
-        public IList<T> ObterTodosComCampo(string campo, string busca)
+        public IList<T> ObterRegistrosUmCampo(string campo, string busca)
         {
             IList<T> lista;
 
@@ -226,8 +226,7 @@ namespace Portal.DadosSap.Business.Implementation
             }
         }
 
-        // Pesquisa de Cliente + Org
-        public IList<T> PesquisaClienteVendas(String CampoCliente, String buscaCliente, String CampoOrg, String buscaOrg)
+        public IList<T> ObterRegistrosDoisCampos(String campo1, String busca1, String campo2, String busca2)
         {
             IList<T> lista;
 
@@ -235,7 +234,7 @@ namespace Portal.DadosSap.Business.Implementation
             {
                 using (ISession session = SessionFactory.OpenSession())
                 {
-                    lista = session.CreateCriteria(typeof(T)).Add(Restrictions.Like(CampoCliente, buscaCliente)).Add(Restrictions.Like(CampoOrg, buscaOrg)).List<T>();
+                    lista = session.CreateCriteria(typeof(T)).Add(Restrictions.Like(campo1, busca1)).Add(Restrictions.Like(campo2, busca2)).List<T>();
 
                 }
 
@@ -247,6 +246,44 @@ namespace Portal.DadosSap.Business.Implementation
             }
         }
 
+        public IList<T> ObterRegistrosTresCampos(string campo1, string busca1, string campo2, string busca2, string campo3, string busca3)
+        {
+            IList<T> lista;
+
+            try
+            {
+                using (ISession session = SessionFactory.OpenSession())
+                {
+                    lista = session.CreateCriteria(typeof(T)).Add(Restrictions.Like(campo1, busca1)).Add(Restrictions.Like(campo2, busca2)).Add(Restrictions.Like(campo3, busca3)).List<T>();
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public IList<T> ObterRegistrosQuatroCampos(string campo1, string busca1, string campo2, string busca2, string campo3, string busca3, string campo4, string busca4)
+        {
+            IList<T> lista;
+
+            try
+            {
+                using (ISession session = SessionFactory.OpenSession())
+                {                    
+                    lista = session.CreateCriteria(typeof(T)).Add(Restrictions.Like(campo1, busca1)).Add(Restrictions.Like(campo2, busca2)).Add(Restrictions.Like(campo3, busca3)).Add(Restrictions.Like(campo4, busca4)).List<T>();
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+       
         // Pesquisa de Inco1 + Inco2
         public IList<T> PesquisaIncotermLinha(String CampoCodigoIncotermCab, String campoIncotermLinha, String valorCodigoIncotermCab, String valorIncotermLinha)
         {

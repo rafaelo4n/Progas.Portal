@@ -9,15 +9,22 @@ namespace Progas.Portal.Application.Queries.Builders
     {
         public override UsuarioConsultaVm BuildSingle(Usuario model)
         {
-            return new UsuarioConsultaVm()
+            var usuarioConsultaVm = new UsuarioConsultaVm()
             {
                 Login = model.Login,
                 Nome = model.Nome,
                 Email = model.Email,
-                CodigoFornecedor = model.CodigoFornecedor,
                 Status = model.Status.Descricao()
             };
-        }
 
+            if (model.Fornecedor != null)
+            {
+                usuarioConsultaVm.CodigoFornecedor = model.Fornecedor.Codigo;
+                usuarioConsultaVm.NomeDoRepresentante = model.Fornecedor.Nome;
+            }
+
+            return usuarioConsultaVm;
+
+        }
     }
 }

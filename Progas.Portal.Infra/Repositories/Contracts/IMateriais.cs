@@ -1,9 +1,4 @@
 ﻿using Progas.Portal.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progas.Portal.Infra.Repositories.Contracts
 {
@@ -14,5 +9,8 @@ namespace Progas.Portal.Infra.Repositories.Contracts
         IMateriais FiltraPorListaDeCodigos(string[] codigos);
         IMateriais CodigoContendo(string filtroCodigo);
         IMateriais NomeContendo(string filtroNome);
+        IMateriais DoTipo(string tipo);
+        IMateriais DoCentro(string centro);
+        IMateriais BuscarLista(int[] idDosMateriais);
     }
 }

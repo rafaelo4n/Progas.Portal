@@ -20,9 +20,13 @@ namespace Portal.DadosSap.Business.Repository
 
         IList<T> ObterTodos();
 
-        IList<T> ObterTodosComCampo(String Campo,String busca);
+        IList<T> ObterRegistrosUmCampo(String Campo, String busca);
 
-        IList<T> PesquisaClienteVendas(String CampoCliente, String buscaCliente, String CampoOrg, String buscaOrg);
+        IList<T> ObterRegistrosDoisCampos(String Campo1, String busca1, String campo2, String busca2);
+
+        IList<T> ObterRegistrosTresCampos(string campo1, string busca1, string campo2, string busca2, string campo3, string busca3);
+
+        IList<T> ObterRegistrosQuatroCampos(string campo1, string busca1, string campo2, string busca2, string campo3, string busca3, string campo4, string busca4);        
 
         IList<T> PesquisaIncotermLinha(String CampoCodigoIncotermCab, String campoIncotermLinha, String valorCodigoIncotermCab, String valorIncotermLinha);
     }

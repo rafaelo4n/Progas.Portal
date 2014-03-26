@@ -86,6 +86,10 @@
     <Compile Include="Entities\Cliente.cs" />
     <Compile Include="Entities\ClienteVenda.cs" />
     <Compile Include="Entities\CondicaoDePagamento.cs" />
+    <Compile Include="Entities\CondicaoDePreco.cs" />
+    <Compile Include="Entities\CondicaoDePrecoCliente.cs" />
+    <Compile Include="Entities\CondicaoDePrecoGeral.cs" />
+    <Compile Include="Entities\CondicaoDePrecoRegiao.cs" />
     <Compile Include="Entities\CondicaoPagamento.cs" />
     <Compile Include="Entities\Fornecedor.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
@@ -95,6 +99,7 @@
     <Compile Include="Entities\LinhaPedido.cs" />
     <Compile Include="Entities\ListaPreco.cs" />
     <Compile Include="Entities\Material.cs" />
+    <Compile Include="Entities\MotivoDeRecusa.cs" />
     <Compile Include="Entities\PedidoVenda.cs" />
     <Compile Include="Entities\PedidoVendaLinha.cs" />
     <Compile Include="Entities\TipoPedido.cs" />
@@ -106,10 +111,6 @@
     <ProjectReference Include="..\Progas.Portal.Common\Progas.Portal.Common.csproj">
       <Project>{52496ac5-d00f-4ae4-84b9-06ad65dadb47}</Project>
       <Name>Progas.Portal.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Progas.Portal.ViewModel\Progas.Portal.ViewModel.csproj">
-      <Project>{01C438CD-9055-4299-9F5C-A4086EE1CC00}</Project>
-      <Name>Progas.Portal.ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using Progas.Portal.Application.Queries.Contracts;
-using Progas.Portal.Common;
-using Progas.Portal.Infra.Model;
 using Progas.Portal.UI.Filters;
 using Progas.Portal.ViewModel;
-using StructureMap;
 
 namespace Progas.Portal.UI.Controllers
 {
@@ -15,90 +11,107 @@ namespace Progas.Portal.UI.Controllers
     {
         #region Repositorios
 
-        private readonly IConsultaUnidadeDeMedida   _consultaUnidadeDeMedida;
-        private readonly IConsultaTipoPedido        _consultaTipoPedido;
+        private readonly IConsultaTipoPedido _consultaTipoPedido;
         private readonly IConsultaCondicaoPagamento _consultaCondicaoPagamento;
-        private readonly IConsultaListaPreco        _consultaListaPreco;
-        private readonly IConsultaMaterial          _consultaMaterial;
-        //private readonly IConsultaIncoterm          _consultaIncoterm;
-        private readonly IConsultaIncotermCab       _consultaIncotermCab;
-        private readonly IConsultaIncotermLinhas    _consultaIncotermLinhas;
-        private readonly IConsultaCliente           _consultaCliente;
-        private readonly IConsultaFornecedor        _consultaFornecedor;
-        private readonly IConsultaPedidoVenda       _consultaPedidoVenda;
+        private readonly IConsultaListaPreco _consultaListaPreco;
+        private readonly IConsultaMaterial _consultaMaterial;
+        private readonly IConsultaIncotermCab _consultaIncotermCab;
+        private readonly IConsultaPedidoVenda _consultaPedidoVenda;
 
-        
+        private readonly IConsultaMotivoDeRecusa _consultaMotivoDeRecusa;
+
         // implementa os valores dos repositorios que serao usados nas views (Lista de valrores dos campos)
-        public PedidoVendaController( IConsultaUnidadeDeMedida   consultaUnidadeDeMedida, 
-                                      IConsultaCondicaoPagamento consultaCondicaoPagamento,
-                                      IConsultaTipoPedido        consultaTipoPedido,
-                                      IConsultaListaPreco        consultaListaPreco,
-                                      IConsultaMaterial          consultaMaterial,
-                                      //IConsultaIncoterm          consultaIncoterm,                                     
-                                      IConsultaIncotermCab       consultaIncotermCab,
-                                      IConsultaIncotermLinhas    consultaIncotermLinhas,
-                                      IConsultaCliente           consultaCliente,
-                                      IConsultaFornecedor        consultaFornecedor,
-                                      IConsultaPedidoVenda       consultaPedidoVenda
-                                    )                
-            {
-                _consultaUnidadeDeMedida   = consultaUnidadeDeMedida;
-                _consultaCondicaoPagamento = consultaCondicaoPagamento;
-                _consultaTipoPedido        = consultaTipoPedido;
-                _consultaListaPreco        = consultaListaPreco;
-                _consultaMaterial          = consultaMaterial;
-                //_consultaIncoterm          = consultaIncoterm;
-                _consultaIncotermCab       = consultaIncotermCab;
-                _consultaIncotermLinhas    = consultaIncotermLinhas;
-                _consultaCliente           = consultaCliente;
-                _consultaFornecedor        = consultaFornecedor;
-                _consultaPedidoVenda       = consultaPedidoVenda;
-            }
+        public PedidoVendaController(
+            IConsultaCondicaoPagamento consultaCondicaoPagamento,
+            IConsultaTipoPedido consultaTipoPedido,
+            IConsultaListaPreco consultaListaPreco,
+            IConsultaMaterial consultaMaterial,
+            IConsultaIncotermCab consultaIncotermCab,
+            IConsultaPedidoVenda consultaPedidoVenda, IConsultaMotivoDeRecusa consultaMotivoDeRecusa)
+        {
+            _consultaCondicaoPagamento = consultaCondicaoPagamento;
+            _consultaTipoPedido = consultaTipoPedido;
+            _consultaListaPreco = consultaListaPreco;
+            _consultaMaterial = consultaMaterial;
+            _consultaIncotermCab = consultaIncotermCab;
+            _consultaPedidoVenda = consultaPedidoVenda;
+            _consultaMotivoDeRecusa = consultaMotivoDeRecusa;
+        }
 
         #endregion
 
         #region Criar e Editar Pedido de Venda
-        // View de Criacao e Edicao de Pedido de Venda, muda o titulo da pagina e as funções estão localizadas no Html
-        public ActionResult Index(string cotacao_editar)
-        {
-            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Vendedor))
-            {
-                if (cotacao_editar == null)
-                {
-                    ViewBag.TituloDaPagina = "Pedido de Venda";
-                }
-                else
-                {
-                    ViewBag.TituloDaPagina = "Editar Pedido de Venda";
-                    ViewBag.Pedido = cotacao_editar;
-                }
-                        
-                ViewData["ActionEdicao"] = Url.Action("CriarPedidoVenda", "PedidoVenda");
-            }            
 
-            ViewBag.UnidadesDeMedida     = _consultaUnidadeDeMedida.ListarTodos();
+        private void PrepararViewBagParaTelaDeCadastroDePedido()
+        {
             ViewBag.CondicoesDePagamento = _consultaCondicaoPagamento.ListarTodas();
-            ViewBag.TipoPedidos          = _consultaTipoPedido.ListarTodas();
-            ViewBag.ListaPreco           = _consultaListaPreco.ListarTodas();
-            ViewBag.Centro               = _consultaMaterial.ListarCentro();
-            ViewBag.Materiais            = _consultaMaterial.ListarTodas();
-            ViewBag.Incoterms            = _consultaIncotermCab.ListarTodas(); //_consultaIncoterm.ListarTodas();
-            ViewBag.IncotermsLinhas      = _consultaIncotermLinhas.ListarTodas(); //_consultaIncoterm.ListarTodas();
-            ViewBag.Clientes             = _consultaCliente.Listar();
-            return View("_CriarPedidoVenda");
-           
+            ViewBag.TipoPedidos = _consultaTipoPedido.ListarTodas();
+            ViewBag.ListaPreco = _consultaListaPreco.ListarTodas();
+            ViewBag.Centro = _consultaMaterial.ListarCentro();
+            ViewBag.Incoterms = _consultaIncotermCab.ListarTodas();
+            ViewBag.MotivosDeRecusa = _consultaMotivoDeRecusa.ListarTodas();
+
         }
-        #endregion       
+
+        // Criacao de um novo pedido de venda
+        [HttpGet]
+        public ActionResult Index()
+        {
+            PrepararViewBagParaTelaDeCadastroDePedido();
+            ViewBag.TituloDaPagina = "Criar Pedido de Venda";
+            return View("_CriarPedidoVenda");
+
+        }
+
+        [HttpGet]
+        public ActionResult EditarPedido(string idDaCotacao)
+        {
+            PrepararViewBagParaTelaDeCadastroDePedido();
+            ViewBag.TituloDaPagina = "Editar Pedido de Venda";
+            PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDaCotacao);
+            return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
+        }
+
+        [HttpGet]
+        public ActionResult VisualizarPedido(string idDaCotacao)
+        {
+            PrepararViewBagParaTelaDeCadastroDePedido();
+            ViewBag.TituloDaPagina = "Visualizar Pedido de Venda";
+            PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDaCotacao);
+            pedidoVendaCadastroVm.SomenteLeitura = true;
+            return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
+
+        }
+
+        [HttpGet]
+        public ActionResult PedidoExiste(string idDoPedido)
+        {
+            bool pedidoExiste = _consultaPedidoVenda.PedidoExiste(idDoPedido);
+            return Json(pedidoExiste, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult CopiarPedido(string idDoPedido)
+        {
+            PrepararViewBagParaTelaDeCadastroDePedido();
+            ViewBag.TituloDaPagina = "Criar Pedido de Venda";
+            PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDoPedido);
+            pedidoVendaCadastroVm.Copia = true;
+            pedidoVendaCadastroVm.id_pedido = null;
+            pedidoVendaCadastroVm.status = null;
+            return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
+            
+        }
+
+
+        #endregion
 
         #region Consultar Pedidos
 
         // Consulta Pedido de Venda
         public ActionResult Consultar()
         {
-            ViewBag.Clientes  = _consultaCliente.Listar();
-            ViewBag.Materiais = _consultaMaterial.ListarTodas();
-            return View("_ConsultarPedidoVenda"); 
+            return View("_ConsultarPedidoVenda");
         }
 
         // Listar Pedido Venda
@@ -109,68 +122,40 @@ namespace Progas.Portal.UI.Controllers
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
 
-        // Listar Linhas do Pedido
-        [HttpGet]
-        public ViewResult ConsultarLinhasPedido(string cotacao)
-        {
-            PedidoVendaCadastroVm vieModel = _consultaPedidoVenda.ListarLinhasPedido(cotacao);
-            return View(vieModel);
-        }
-
-        // linhas do pedido
-        [HttpGet]
-        public JsonResult ListarLinhasPedido(PaginacaoVm paginacaoVm, string cotacao)
-        {
-            KendoGridVm kendoGridVm = _consultaPedidoVenda.ListarLinhasPedido(paginacaoVm, cotacao);
-            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
-        }
-
         #endregion
 
         #region Consultar Cotacao
-        // Consultar Cotacao
-        [HttpPost]
-        public JsonResult ConsultarCotacao(string cotacao)
-        {
-            try
-            {
-                if (cotacao == null)
-                {
-                    return Json(new { Sucesso = false, Mensagem = "Erro ao consultar a Cotação" });                        
-                }
 
-                PedidoVendaCadastroVm vieModel = _consultaPedidoVenda.ListarLinhasPedido(cotacao);
-                return Json(vieModel, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Sucesso = false, Mensagem = ex.Message + "Erro ao consultar a Cotação" });
-            }
 
-        }
-        
         // Consultar Linhas Cotacao
-        [HttpPost]
-        public JsonResult ConsultarLinhasCotacao(string cotacao)
+        [HttpGet]
+        public JsonResult ConsultarItensDoPedido(string idDoPedido)
         {
             try
             {
-                if (cotacao == null)
-                {
-                    return Json(new { Sucesso = false, Mensagem = "Não executou a chamada Json, cotacao nao informada" });
-                }
 
-                var dados = _consultaPedidoVenda.ListarLinhasCotacao(cotacao);
-                return Json(dados, JsonRequestBehavior.AllowGet);
+                var itens = _consultaPedidoVenda.ListarItensDoPedido(idDoPedido);
+                return Json(new {Sucesso = true, Itens = itens}, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
             {
-                return Json(new { Sucesso = false, Mensagem = ex.Message + "Não executou a chamada Json" });
+                return Json(new { Sucesso = false, Mensagem = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
-        #endregion                
-         
-    }   
+        #endregion
+        [HttpGet]
+        public ActionResult ListarCondicoesDePreco(PedidoVendaLinhaChaveVm item)
+        {
+            KendoGridVm kendoGridVm = _consultaPedidoVenda.ListarCondicoesDePreco(item);
+
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CondicoesDePreco(PedidoVendaLinhaChaveVm item)
+        {
+            return PartialView("CondicaoDePreco", item);
+        }
+    }
 }

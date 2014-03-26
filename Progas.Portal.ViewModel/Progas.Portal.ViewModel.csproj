@@ -82,8 +82,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlterarSenhaVm.cs" />
+    <Compile Include="AreaDeVendaVm.cs" />
     <Compile Include="ClienteCadastroVm.cs" />
+    <Compile Include="ClienteDoPedidoDeVendaVm.cs" />
     <Compile Include="ClienteFiltroVm.cs" />
+    <Compile Include="CondicaoDePrecoClienteCadastroVm.cs" />
+    <Compile Include="CondicaoDePrecoGeralCadastroVm.cs" />
+    <Compile Include="CondicaoDePrecoRegiaoCadastroVm.cs" />
     <Compile Include="CondicaoPagamentoFiltroVm.cs" />
     <Compile Include="CotacaoFiltroVm.cs" />
     <Compile Include="FornecedorFiltroVm.cs" />
@@ -95,9 +100,12 @@
     <Compile Include="MaterialDeCargaVm.cs" />
     <Compile Include="FornecedorDoProdutoFiltro.cs" />
     <Compile Include="MaterialFiltroVm.cs" />
+    <Compile Include="MotivoDeRecusaVm.cs" />
     <Compile Include="PedidoVendaCadastroVm.cs" />
     <Compile Include="PedidoVendaFiltroVm.cs" />
     <Compile Include="PedidoVendaLinhaCadastroVm.cs" />
+    <Compile Include="PedidoVendaLinhaChaveVm.cs" />
+    <Compile Include="PedidoVendaSalvarItemVm.cs" />
     <Compile Include="PedidoVendaSalvarVm.cs" />
     <Compile Include="PedidoVendaLinhaVm.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -109,6 +117,7 @@
     <Compile Include="TipoPedidoCadastroVm.cs" />
     <Compile Include="TipoPedidoFiltroVm.cs" />
     <Compile Include="TipoPedidoVm.cs" />
+    <Compile Include="TransportadoraDoPedidoDeVenda.cs" />
     <Compile Include="TransRedespachoCadastroVm.cs" />
     <Compile Include="TransRedespachoCifCadastroVm.cs" />
     <Compile Include="TransRedespachoCifFiltro.cs" />
@@ -136,6 +145,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Progas.Portal.DTO\Progas.Portal.DTO.csproj">
+      <Project>{4D2BAA56-2D95-4034-8237-2A73EDEDF5C1}</Project>
+      <Name>Progas.Portal.DTO</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

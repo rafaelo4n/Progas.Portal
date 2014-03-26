@@ -68,7 +68,7 @@ namespace Progas.Portal.Infra.Builders
             AdicionarItem("Condição de Pagamento", "Cadastros", "ConsultaCondicaoPagamento");
             AdicionarItem("Cliente", "Cadastros", "ConsultaCliente");
             AdicionarItem("Fornecedor", "Cadastros", "ConsultaFornecedor");
-            AdicionarItem("Undiade de Medida", "Cadastros", "ConsultaUnidadeMedida");
+            AdicionarItem("Unidade de Medida", "Cadastros", "ConsultaUnidadeMedida");
         }
     }
 

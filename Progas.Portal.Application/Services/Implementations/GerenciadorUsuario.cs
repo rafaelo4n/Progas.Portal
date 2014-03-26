@@ -151,17 +151,7 @@ namespace Progas.Portal.Application.Services.Implementations
                 _unitOfWork.BeginTransaction();
 
                 Usuario usuario = _usuarios.BuscaPorLogin(login);
-                IList<Enumeradores.Perfil> perfisRemovidos = usuario.Perfis.Except(perfis).ToList();
-                IList<Enumeradores.Perfil> perfisParaAdicionar = perfis.Except(usuario.Perfis).ToList();
-                foreach (var perfilRemovido in perfisRemovidos)
-                {
-                    usuario.RemoverPerfil(perfilRemovido);
-                }
-
-                foreach (var perfilParaAdicionar in perfisParaAdicionar)
-                {
-                    usuario.AdicionarPerfil(perfilParaAdicionar);
-                }
+                usuario.AlterarPerfis(perfis);
                 _usuarios.Save(usuario);
 
                 _unitOfWork.Commit();

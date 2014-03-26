@@ -5,5 +5,7 @@ namespace Progas.Portal.ViewModel
     {
         public string Codigo { get; set; }
         public string Descricao { get; set; }
+        public string Tipo { get; set; }
+        public string Centro { get; set; }
     }
 }

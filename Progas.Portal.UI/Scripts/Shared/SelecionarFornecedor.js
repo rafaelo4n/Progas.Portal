@@ -1,17 +1,165 @@
-﻿SelecionarFornecedor = {
-    FornecedorSelecionado: null,
-    Configurar: function () {
-        $('body').append('<div id="divSelecionarFornecedor" class="janelaModal"></div>');
-        $('#divSelecionarFornecedor').customDialog({
+﻿function SelecionarFornecedor() {
+    this.fornecedorSelecionado = null;
+
+    var me = this;
+
+    function configurarGridDeSelecao() {
+
+        $("#gridFornecedores").customKendoGrid({
+            dataSource: {
+                schema: {
+                    data: 'Registros',
+                    model: {
+                        fields: {
+                            Id: {type:"number"},
+                            Codigo: { type: "string" },
+                            Nome: { type: "string" },
+                            Cnpj: { type: "string" },
+                            nr_ie_for: { type: "string" },
+                            Cpf: { type: "string" },
+                            endereco: { type: "string" },
+                            numero: { type: "string" },
+                            complemento: { type: "string" },
+                            municipio: { type: "string" },
+                            uf: { type: "string" },
+                            pais: { type: "string" },
+                            tel_res: { type: "string" },
+                            tel_cel: { type: "string" },
+                            email: { type: "string" }
+                        }
+                    },
+                    total: 'QuantidadeDeRegistros'
+                },
+                serverFiltering: true,
+                serverPaging: true,
+                transport: {
+                    read: {
+                        url: UrlPadrao.ListarFornecedoresParaSelecao,
+                        type: 'GET',
+                        cache: false,
+                        data: function () {
+                            return {
+                                Codigo: $('#CodigoFiltro').val(),
+                                Nome: $('#NomeFiltro').val()
+                            };
+                        }
+                    }
+                },
+                pageSize: 10
+            },
+            dataBound: function (e) {
+                if (me.fornecedorSelecionado != null) {
+                    $('input[name=radioFornecedor][data-idfornecedor=' + me.fornecedorSelecionado.Id + ']').attr('checked', true);
+                }
+            },
+            columns:
+            [
+                {
+                    title: ' ', /*coloco um espaço para deixar o header sem título*/
+                    width: 30,
+                    sortable: false,
+                    template: '<input type="radio" name="radioFornecedor" data-idfornecedor="${Id}"></input>'
+                },
+                {
+                    field: "Codigo",
+                    width: 80,
+                    title: "Codigo"
+                },
+                {
+                    field: "Nome",
+                    width: 240,
+                    title: "Nome"
+                },
+                {
+                    field: "Cnpj",
+                    width: 100,
+                    title: "CNPJ"
+
+                },
+                {
+                    field: "nr_ie_for",
+                    width: 80,
+                    title: "Insc.Estadual"
+                },
+                {
+                    field: "Cpf",
+                    width: 90,
+                    title: "CPF"
+                },
+                {
+                    field: "endereco",
+                    width: 150,
+                    title: "Endereço"
+                },
+                {
+                    field: "numero",
+                    width: 55,
+                    title: "Numero"
+                },
+                {
+                    field: "complemento",
+                    width: 90,
+                    title: "Complemento"
+                },
+                {
+                    field: "municipio",
+                    width: 100,
+                    title: "Cidade"
+                },
+                {
+                    field: "uf",
+                    width: 30,
+                    title: "UF"
+                }, {
+                    field: "pais",
+                    width: 40,
+                    title: "País"
+                }, {
+                    field: "tel_res",
+                    width: 80,
+                    title: "Tel.Res"
+                }, {
+                    field: "tel_cel",
+                    width: 80,
+                    title: "Tel.Cel"
+                },
+                {
+                    field: "email",
+                    width: 200,
+                    title: "Email"
+                }
+
+            ]
+        });
+
+        $('#gridFornecedores').find('input[name=radioFornecedor]').die("change");
+        $('#gridFornecedores').find('input[name=radioFornecedor]').live("change", function () {
+            if (!$(this).is(':checked')) {
+                return;
+            }
+
+            var registroSelecionado = $('#gridFornecedores').data("kendoGrid").obterRegistroSelecionado();
+            me.fornecedorSelecionado = registroSelecionado;
+
+        });
+
+
+    };
+
+    this.configurarJanelaModal = function (idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno) {
+        $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
+        $('#' + idDaDivDaJanelaDeDialogo).customDialog({
             title: 'Selecionar Fornecedor',
             buttons: {
                 "Confirmar": function () {
-                    if (SelecionarFornecedor.FornecedorSelecionado == null) {
-                        Mensagem.ExibirMensagemDeErro("É necessário selecionar uma Transportadora.");
+                    if (me.fornecedorSelecionado == null) {
+                        Mensagem.ExibirMensagemDeErro("É necessário selecionar um Fornecedor.");
                         return;
                     }
-                    $('#CodigoFornecedor').val(SelecionarFornecedor.FornecedorSelecionado.Codigo);
-                    $('#trans').val(unescape(SelecionarFornecedor.FornecedorSelecionado.Nome));
+
+                    funcaoParaPreencherOsDadosDeRetorno();
+
+                    me.fornecedorSelecionado = null;
                     $(this).dialog("close");
                 },
                 "Cancelar": function () {
@@ -19,36 +167,19 @@
                 }
             }
         });
-        $('#btnSelecionarFornecedor').click(function () {
+        $(idDoBotaoDeSelecaoDoFornecedor).click(function () {
 
-            $('#divSelecionarFornecedor').load(UrlPadrao.SelecionarFornecedor
-                + '/?Codigo=' + $('#CodigoFornecedor').val() + '&Nome=' + escape($('#trans').val()),
-                function (response, status, xhr) {
-                    $('#divSelecionarFornecedor').dialog('open');
-                });
+            var idDoFornecedor = $(idDoCampoDoIdDoFornecedor).val();
+
+            if (idDoFornecedor) {
+                me.fornecedorSelecionado = {
+                    Id: idDoFornecedor
+                };
+            }
+
+            $('#' + idDaDivDaJanelaDeDialogo).customLoad(UrlPadrao.SelecionarFornecedor, configurarGridDeSelecao);
         });
 
-    }, // fim configurar
+    };
 
-    // Funcao retornar o Transportadora no Botao COPIAR da tela de Pedidos
-    retornaFornecedor: function (p_codigo, p_tipo) {
-
-        if (p_tipo == "trans") {
-            $('#CodigoFornecedor').val(p_codigo);
-            $('#trans').val(p_codigo);
-        }
-
-        if (p_tipo == "transred") {
-            $('#Codigotransred').val(p_codigo);
-            $('#transred').val(p_codigo);
-        }
-
-        if (p_tipo == "transredcif") {
-            $('#Codigotransredcif').val(p_codigo);
-            $('#transredCIF').val(p_codigo);
-        }
-
-
-
-    }
 }

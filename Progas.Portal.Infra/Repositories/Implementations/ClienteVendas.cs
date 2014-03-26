@@ -20,5 +20,16 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         {
             return Query.SingleOrDefault(x => x.Id_cliente == cliente && x.Org_vendas == centro);
         }
+
+        public IClienteVendas DoCliente(string idDoCliente)
+        {
+            Query = Query.Where(x => x.Id_cliente == idDoCliente);
+            return this;
+        }
+
+        public ClienteVenda ObterPorId(int idDaAreaDeVenda)
+        {
+            return Query.Single(x => x.Id == idDaAreaDeVenda);
+        }
     }
 }

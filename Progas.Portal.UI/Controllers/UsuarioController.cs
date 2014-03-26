@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Progas.Portal.Application.Queries.Contracts;
+using Progas.Portal.Common;
 using Progas.Portal.UI.Filters;
 using Progas.Portal.ViewModel;
 using Progas.Portal.Application.Services.Contracts;
-using Progas.Portal.Infra.Repositories.Contracts;
 
 namespace Progas.Portal.UI.Controllers
 {
@@ -33,6 +33,8 @@ namespace Progas.Portal.UI.Controllers
         public ViewResult EditarCadastro(string login)
         {
             UsuarioConsultaVm usuarioConsultaVm = _consultaUsuario.ConsultaPorLogin(login);
+            usuarioConsultaVm.UrlParaSalvar = Url.Action("EditarUsuario");
+            ViewBag.TituloDaPagina = "Usuário - Editar";
             return View("Cadastro", usuarioConsultaVm);
         }
 
@@ -63,8 +65,13 @@ namespace Progas.Portal.UI.Controllers
         {
             try
             {
-                ViewBag.TituloDaPagina = "Cadastro de Usuários";
-                return View("CadastrarUsuario");
+                ViewBag.TituloDaPagina = "Usuário - Novo Cadastro";
+                var modelo = new UsuarioConsultaVm
+                {
+                    UrlParaSalvar = Url.Action("NovoUsuario")
+                };
+
+                return View("Cadastro",modelo);
             }
             catch (Exception ex)
             {
@@ -73,14 +80,14 @@ namespace Progas.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult CadastrarUsuario(UsuarioCadastroVm usuarioCadastroVm)
+        public JsonResult NovoUsuario(UsuarioCadastroVm usuarioCadastroVm, IList<Enumeradores.Perfil> perfis )
         {
             try
             {
                 string consultaLogin = _consultaUsuario.ConfirmaLogin(usuarioCadastroVm.Login);
-                if (consultaLogin == "nao encontrou")
+                if (string.IsNullOrEmpty(consultaLogin))
                 {
-                    _cadastroUsuario.Novo(usuarioCadastroVm);
+                    _cadastroUsuario.AtualizarUsuario(usuarioCadastroVm,perfis);
                     _gerenciadorUsuario.CriarSenha(usuarioCadastroVm.Login);
                     return Json(new { Sucesso = true, Mensagem = "Usuario cadastrado com sucesso." });
                 }
@@ -95,5 +102,22 @@ namespace Progas.Portal.UI.Controllers
                 return Json(new { Sucesso = false, Mensagem = ex.Message });
             }
         }
+
+        [HttpPost]
+        public JsonResult EditarUsuario(UsuarioCadastroVm usuarioCadastroVm, IList<Enumeradores.Perfil> perfis)
+        {
+            try
+            {
+                _cadastroUsuario.AtualizarUsuario(usuarioCadastroVm, perfis);
+                return Json(new { Sucesso = true, Mensagem = "Usuario atualizado com sucesso." });
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Sucesso = false, Mensagem = ex.Message });
+            }
+        }
+
+
     }
 }

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using Progas.Portal.Application.Queries.Builders;
 using Progas.Portal.Application.Queries.Contracts;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.ViewModel;
-using NHibernate.Criterion;
-//using StructureMap;
-
 
 namespace Progas.Portal.Application.Queries.Implementations
 {
@@ -27,8 +23,13 @@ namespace Progas.Portal.Application.Queries.Implementations
         // pesquisa da tela
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, ClienteFiltroVm filtro)
         {
-            _clientes.CodigoContendo(filtro.Codigo)
-                .NomeContendo(filtro.Nome);
+            _clientes
+                .CodigoContendo(filtro.Codigo)
+                .NomeContendo(filtro.Nome)
+                .ComCnpj(filtro.Cnpj)
+                .ComCpf(filtro.Cpf)
+                .MunicipioContendo(filtro.Municipio);
+
             var kendoGridVmn = new KendoGridVm()
             {
                 QuantidadeDeRegistros = _clientes.Count(),
@@ -37,6 +38,38 @@ namespace Progas.Portal.Application.Queries.Implementations
                     .Take(paginacaoVm.Take).List())
                             .Cast<ListagemVm>()
                             .ToList()
+
+            };
+            return kendoGridVmn;
+        }
+
+        public KendoGridVm ListarParaSelecao(PaginacaoVm paginacaoVm, ClienteFiltroVm filtro)
+        {
+            _clientes
+                .CodigoContendo(filtro.Codigo)
+                .NomeContendo(filtro.Nome)
+                .ComCnpj(filtro.Cnpj)
+                .ComCpf(filtro.Cpf)
+                .MunicipioContendo(filtro.Municipio);
+
+            var kendoGridVmn = new KendoGridVm()
+            {
+                QuantidadeDeRegistros = _clientes.Count(),
+                Registros = _clientes.GetQuery()
+                    .Select(c => new ClienteParaSelecaoVm
+                    {
+                        Id =  c.Id,
+                        Codigo = c.Id_cliente,
+                        Nome = c.Nome,
+                        Cnpj = c.Cnpj,
+                        Cpf =  c.Cpf,
+                        Municipio = c.Municipio,
+                        Telefone = c.Tel_res
+                    })
+                    .Skip(paginacaoVm.Skip)
+                    .Take(paginacaoVm.Take)
+                    .Cast<ListagemVm>()
+                    .ToList()
 
             };
             return kendoGridVmn;

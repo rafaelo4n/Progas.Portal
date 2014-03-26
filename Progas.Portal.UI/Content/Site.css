@@ -7,6 +7,7 @@ body {
     background-color: #fff;
     color: #333;
     /*font-size: .85em;*/
+    font-size: 62.5%;
     font-family: "Segoe UI",Verdana, Helvetica, Sans-Serif;
     margin: 0 auto;
     padding: 0;
@@ -360,6 +361,12 @@ aside {
             padding: 2px 0 2px 20px;
         }
 
+label {
+    display: block;
+    /*font-size: 1em;*/
+    font-weight: 600;
+}
+
 .label {
     font-weight: 700;
 }
@@ -387,7 +394,7 @@ aside {
     }
 
     #loginForm input {
-        width: 225px;
+        width: 94%;
     }
 
     #FornecedorUsuario {
@@ -438,13 +445,6 @@ fieldset ol {
         padding-bottom: 5px;
     }
 
-
-labelEsquerda {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-}
-
 label.checkbox {
     display: inline;
 }
@@ -460,7 +460,7 @@ input, textarea {
 
 textarea {
     height: 45px;
-    width: 278px;
+    width: 86%;
            
 }
 
@@ -478,13 +478,6 @@ input[type="radio"] {
     margin: 0.2em;    
 }
 
-.divBotao {
-    margin: 0 auto;
-    display: block;
-    text-align: center;
-    clear: both
-}
-
 .divBotaoCopiar {
     margin: 0 auto;
     display: block;
@@ -497,67 +490,6 @@ input[type="radio"] {
     display: block;
     text-align: right;
     clear: both
-}
-
-.divBotao input[type="submit"],
-.divBotao input[type="button"],
-.divBotao button,
-.divBotao a {
-	display: inline-block;
-	outline: none;
-	cursor: pointer;
-	text-align: center;
-	text-decoration: none;
-	font: 14px/100% Arial, Helvetica, sans-serif;
-	padding: .5em 2em .55em;
-	text-shadow: 0 1px 1px rgba(0,0,0,.3);
-	-webkit-border-radius: .5em; 
-	-moz-border-radius: .5em;
-	border-radius: .5em;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    width: 110px;
-}
-    
-.divBotao a {
-    width: 50px;
-    color: #d9eef7
-}
-
-/*
-.divBotao .button:hover {
-	text-decoration: none;
-}
-.divBotao .button:active {
-	position: relative;
-	top: 1px;
-}
- */
-
-.blue {
-	color: #d9eef7;
-	border: solid 1px #0076a3;
-	background: #0095cd;
-	background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
-	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
-}
-.blue:hover {
-	background: #007ead;
-	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
-	background: -moz-linear-gradient(top,  #0095cc,  #00678e);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
-}
-.blue:active {
-	color: #80bed6;
-	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
-	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
-}
-
-.botaoGrande {
-    width: 200px!important
 }
 
 td input[type="submit"],
@@ -632,33 +564,55 @@ input[type="checkbox"].input-validation-error {
 .linha {
     clear: both;
 }
-.coluna {
-    /*width: 380px;*/
-    width: 25%; /*width: 49px;*/
+
+.coluna, .coluna3, .coluna4, .coluna5 {
     display: inline-block;
     float: left;
 }
+
+.coluna {
+    width: 49%;
+}
+
+.coluna3 {
+    width: 33%;
+}
+
+
+.coluna4 {
+    width: 24.5%;
+}
+
+.coluna5 {
+    width: 19.5%;
+}
+
+
+
 .colunaFiltro {
     width: 49%;
     display: inline-block;
     float: left;
 }
+
 .campopequeno {
-    width: 40px;/*150px;*/
+    width: 38%;
 }
 .campomedio {
-    width: 90px;/*250px;*/
-}
-
+    width: 63%;
+} 
 .campogrande, select {
-    width: 150px;/*350px;*/
+    width: 89%;
 }
 .campoextragrande {
-    width: 700px;
+    width: 91%;
 }
 .campopequenogrid {
-    width: 70px;
+    width: 90%;
 }
+
+
+
 
 .campoobs {
     width: 278px;
@@ -818,25 +772,6 @@ input[type="checkbox"].input-validation-error {
     background-color: lightgray !important;
     border-color: black !important;
 }
-.janelaModal .ui-dialog .ui-dialog-content {
-    padding: 0
-}
-.janelaModal  {
-    padding: 0!important
-}
 
-.janelaModal input {
-    font-size: 12px!important;
-}
-.ui-dialog-buttonpane {
-    margin: 0!important;
-    padding: 0!important;
-}
-.ui-button-text {
-    font-size: 14px!important;
-}
-.ui-dialog-title {
-    font-size: 18px!important;
-}
 
 

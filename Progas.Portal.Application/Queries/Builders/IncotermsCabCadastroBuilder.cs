@@ -11,6 +11,7 @@ namespace Progas.Portal.Application.Queries.Builders
         {
             return new IncotermsCabCadastroVm()
             {
+                Id = incotermCab.pro_id_incotermCab,
                 CodigoIncotermCab = incotermCab.CodigoIncotermCab,
                 Descricao         = incotermCab.Descricao
             };
@@ -20,6 +21,7 @@ namespace Progas.Portal.Application.Queries.Builders
         {
             return incotermCab.Select(incoterm => new IncotermsCabCadastroVm()
             {
+                Id = incoterm.pro_id_incotermCab,
                 CodigoIncotermCab = incoterm.CodigoIncotermCab,
                 Descricao         = incoterm.Descricao
             }).ToList();

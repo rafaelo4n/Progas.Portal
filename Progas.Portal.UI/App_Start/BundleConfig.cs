@@ -44,7 +44,7 @@ namespace Progas.Portal.UI
             //    "~/Content/kendo/2012.3.1114/kendo.common.min.css",
             //    "~/Content/kendo/2012.3.1114/kendo.default.min.css"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", "~/Content/Botoes.css", "~/Content/Modal.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",

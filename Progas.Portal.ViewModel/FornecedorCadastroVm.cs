@@ -7,6 +7,7 @@ namespace Progas.Portal.ViewModel
     [DataContract]
     public class FornecedorCadastroVm : ListagemVm
     {
+        public int Id { get; set; }
         [DataMember]
         [Display(Name = "Código: ")]
         public string Codigo { get; set; }

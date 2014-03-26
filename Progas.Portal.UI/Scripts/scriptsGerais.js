@@ -1,14 +1,74 @@
 ﻿Globalize.culture('pt-BR');
 
 Mensagem = {
-    ExibirMensagemDeErro: function (mensagem) {
-        alert(mensagem);
+
+    gerarCaixaDeMensagem: function (mensagem, titulo, classeParaAdicionar, classeParaRemover, funcaoConfirmacao, exibirBotaoCancelar) {
+
+        var mensagemModal = $('.mensagemModal');
+
+        if (mensagemModal.length == 0) {
+
+            $('body').append(
+                '<div class="mensagemModal" title=Progas - ' + titulo + '" class="janelaModal">' +
+                        '<span class="ui-icon ' + classeParaAdicionar + '" style="float: left; margin: 0 7px 50px 0;"></span>' +
+                        '<span id="conteudoDoMessageBox">' + mensagem + '</span>' +
+                '</div>');
+        } else {
+            $(mensagemModal).find('#conteudoDoMessageBox').text(mensagem);
+            $(mensagemModal).find('.ui-icon')
+                .removeClass(classeParaRemover)
+                .addClass(classeParaAdicionar);
+        }
+
+        var botoes = {
+            OK: function () {
+                Mensagem.confirmado = true;
+                $(this).dialog("close");
+                if (funcaoConfirmacao) {
+                    funcaoConfirmacao();
+                }
+            }
+        };
+
+        if (exibirBotaoCancelar) {
+            botoes.Cancelar = function () {
+                $(this).dialog("close");
+            };
+        }
+
+        $(".mensagemModal").dialog({
+            modal: true,
+            buttons: botoes
+        });
     },
 
-    ExibirMensagemDeSucesso: function (mensagem) {
-        alert(mensagem);
+    ExibirMensagemDeErro: function (mensagem, funcaoConfirmacao) {
+        this.gerarCaixaDeMensagem(mensagem, 'Erro', 'ui-icon-alert', 'ui-icon-check', funcaoConfirmacao);
+    },
+
+    ExibirMensagemDeSucesso: function (mensagem, funcaoConfirmacao) {
+        this.gerarCaixaDeMensagem(mensagem, 'Sucesso', 'ui-icon-check', 'ui-icon-alert',funcaoConfirmacao,false);
+    },
+    ExibirMensagemDeConfirmacao: function (mensagem, funcaoConfirmacao) {
+        this.gerarCaixaDeMensagem(mensagem, 'Confirmação', 'ui-icon-check', 'ui-icon-alert', funcaoConfirmacao, true);
+    },
+    ExibirJanelaComHtml: function (html) {
+        var janela = $('#divJanelaComHtml');
+        if (janela.length == 0) {
+            $('body').append('<div id="divJanelaComHtml"></div>');
+
+            $('#divJanelaComHtml').customDialog({
+                title: 'Mensagem',
+                width: 1024
+
+            });
+        }
+        $('#divJanelaComHtml').html(html);
+        $('#divJanelaComHtml').dialog('open');
     }
+
 };
+
 
 String.prototype.boolean = function () {
     return this.match(/^(true|True)$/i) !== null;
@@ -77,14 +137,26 @@ $.fn.customKendoGrid = function (configuracao) {
     configuracao.dataSource.serverPaging = true;
     configuracao.dataSource.pageSize = 10;
 
+    if (configuracao.scrollable === undefined) {
+        configuracao.scrollable = true;
+    }
+
     this.kendoGrid(configuracao);
+
+    this.data("kendoGrid").obterRegistroSelecionado = function () {
+        var linhaSelecionada = this.select();
+        return this.dataItem(linhaSelecionada);
+    };
+
 };
 
 $.fn.customDialog = function (configuracao) {
     configuracao.autoOpen = false;
     configuracao.resizable = false;
     configuracao.modal = true;
-    configuracao.position = { at: "top" };
+    if (!configuracao.position) {
+        configuracao.position = { at: "top" };
+    }
     configuracao.beforeClose = function () {
         $(this).empty();
     };
@@ -94,6 +166,50 @@ $.fn.customDialog = function (configuracao) {
     }
 
     this.dialog(configuracao);
+};
+
+$.fn.customLoad = function (url, callBack) {
+
+    var divParaCarregar = this;
+
+    var larguraDaViewPort = $(window).width();
+
+    if (larguraDaViewPort > 800) {
+        $(divParaCarregar).dialog("option", "width", 800);
+    } else {
+        $(divParaCarregar).dialog("option", "width", '99%');
+    }
+
+    this.load(url, function (responseText, textStatus, xmlHttpRequest) {
+        var contentType = xmlHttpRequest.getResponseHeader('Content-Type');
+        if (contentType.indexOf("json") > -1) {
+            if (sessaoEstaExpirada(xmlHttpRequest)) {
+                return;
+            }
+        }
+        if (callBack) {
+            callBack();
+        }
+
+        divParaCarregar.dialog("open");
+    });
+
+};
+
+$.fn.serializeObject = function () {
+    var inputs = $(this).find(":input");
+    var object = {};
+    $.each(inputs, function (index, input) {
+        var valorDoInput;
+        if ($(input).attr('type') == 'checkbox') {
+            valorDoInput = $(input).is(':checked');
+        } else {
+            valorDoInput = $(input).val();
+        }
+        object[input.name] = valorDoInput;
+    });
+
+    return object;
 };
 
 
@@ -298,12 +414,41 @@ $(function () {
 });
 
 $(document).ajaxComplete(function (event, request, ajaxOptions) {
-    if (ajaxOptions.dataType != "json") {
-        return;
-    }
-    var resposta = JSON.parse(request.responseText);
-    if (resposta.SessaoExpirada) {
-        Mensagem.ExibirMensagemDeErro(resposta.Mensagem);
-        location.href = resposta.ReturnUrl;
+    if (responseIsJsonDataType(ajaxOptions)) {
+        sessaoEstaExpirada(request, ajaxOptions);
     }
 });
+
+function trataFalhaEmRequisicoesAjax(jqXHR) {
+    if (jqXHR.getResponseHeader('Content-Type').indexOf('html') > -1) {
+        Mensagem.ExibirJanelaComHtml(jqXHR.responseText);
+    } else {
+        Mensagem.ExibirMensagemDeErro(jqXHR.responseText);
+    }
+}
+
+$.ajaxSetup({
+    cache: false
+});
+
+function responseIsJsonDataType(ajaxOptions) {
+    return (ajaxOptions.dataType == "json")
+        || (ajaxOptions.dataTypes && ajaxOptions.dataTypes.indexOf("json") > -1);
+}
+
+function sessaoEstaExpirada(request) {
+
+    var sessaoExpirada = false;
+
+    var resposta = $.parseJSON(request.responseText);
+    if (resposta.SessaoExpirada) {
+        sessaoExpirada = true;
+        Mensagem.ExibirMensagemDeErro(resposta.Mensagem, function () {
+            location.href = resposta.ReturnUrl;
+        });
+
+    }
+
+    return sessaoExpirada;
+
+}

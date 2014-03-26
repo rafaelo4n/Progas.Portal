@@ -11,8 +11,8 @@
                         Mensagem.ExibirMensagemDeErro("É necessário selecionar um Representante.");
                         return;
                     }
-                    $('#Codigo').val(SelecionarFornecedor.FornecedorSelecionado.Codigo);
-                    $('#CodigoFornecedor').val(unescape(SelecionarFornecedor.FornecedorSelecionado.Nome));
+                    $('#CodigoFornecedor').val(SelecionarFornecedor.FornecedorSelecionado.Codigo);
+                    $('#NomeDoRepresentante').val(unescape(SelecionarFornecedor.FornecedorSelecionado.Nome));
                     $(this).dialog("close");
                 },
                 "Cancelar": function () {
@@ -23,7 +23,7 @@
         $('#btnSelecionarRepresentante').click(function () {
 
             $('#divSelecionarRepresentante').load(UrlPadrao.SelecionarFornecedor
-                + '/?Codigo=' + $('#Codigo').val() + '&Nome=' + escape($('#CodigoFornecedor').val()),
+                + '/?Codigo=' + $('#CodigoFornecedor').val() + '&Nome=' + escape($('#NomeDoRepresentante').val()),
                 function (response, status, xhr) {
                     $('#divSelecionarRepresentante').dialog('open');
                 });

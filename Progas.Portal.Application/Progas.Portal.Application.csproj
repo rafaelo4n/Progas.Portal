@@ -74,17 +74,25 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\intranet\Progas.Portal\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NSAPConnector, Version=1.0.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NSAPConnector_x86.1.0.2\lib\NSAPConnector.dll</HintPath>
     </Reference>
     <Reference Include="sapnco, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\assembly\GAC_64\sapnco\v4.0_3.0.0.42__50436dca5c7f7d23\sapnco.dll</HintPath>
+      <HintPath>..\packages\NSAPConnector_x86.1.0.2\lib\sapnco.dll</HintPath>
     </Reference>
     <Reference Include="sapnco_utils, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\assembly\GAC_64\sapnco_utils\v4.0_3.0.0.42__50436dca5c7f7d23\sapnco_utils.dll</HintPath>
+      <HintPath>..\packages\NSAPConnector_x86.1.0.2\lib\sapnco_utils.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -113,17 +121,20 @@
     <Compile Include="Queries\Builders\MaterialCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\PedidoVendaCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\PedidoVendaLinhaCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\PedidoVendaListagemVm.cs" />
     <Compile Include="Queries\Builders\TipoPedidoCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\UnidadeDeMedidaCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\PerfilBuilder.cs" />
     <Compile Include="Queries\Builders\UsuarioConsultaBuilder.cs" />
     <Compile Include="Queries\Builders\IBuilder.cs" />
+    <Compile Include="Queries\Contracts\IConsultaAreasDeVenda.cs" />
     <Compile Include="Queries\Contracts\IConsultaCliente.cs" />
     <Compile Include="Queries\Contracts\IConsultaIncoterm.cs" />
     <Compile Include="Queries\Contracts\IConsultaIncotermCab.cs" />
     <Compile Include="Queries\Contracts\IConsultaIncotermLinhas.cs" />
     <Compile Include="Queries\Contracts\IConsultaListaPreco.cs" />
     <Compile Include="Queries\Contracts\IConsultaMaterial.cs" />
+    <Compile Include="Queries\Contracts\IConsultaMotivoDeRecusa.cs" />
     <Compile Include="Queries\Contracts\IConsultaPedidoVenda.cs" />
     <Compile Include="Queries\Contracts\IConsultaPedidoVendaLinha.cs" />
     <Compile Include="Queries\Contracts\IConsultaTipoPedido.cs" />
@@ -134,6 +145,7 @@
     <Compile Include="Queries\Contracts\IConsultaPerfil.cs" />
     <Compile Include="Queries\Contracts\IConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Contracts\IConsultaUsuario.cs" />
+    <Compile Include="Queries\Implementations\ConsultaAreasDeVenda.cs" />
     <Compile Include="Queries\Implementations\ConsultaCliente.cs" />
     <Compile Include="Queries\Implementations\ConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
@@ -142,8 +154,8 @@
     <Compile Include="Queries\Implementations\ConsultaIncotermLinhas.cs" />
     <Compile Include="Queries\Implementations\ConsultaListaPreco.cs" />
     <Compile Include="Queries\Implementations\ConsultaMaterial.cs" />
+    <Compile Include="Queries\Implementations\ConsultaMotivoDeRecusa.cs" />
     <Compile Include="Queries\Implementations\ConsultaPedidoVenda.cs" />
-    <Compile Include="Queries\Implementations\ConsultaPedidoVendaLinha.cs" />
     <Compile Include="Queries\Implementations\ConsultaPerfil.cs" />
     <Compile Include="Queries\Implementations\ConsultaTipoPedido.cs" />
     <Compile Include="Queries\Implementations\ConsultaTransRedespacho.cs" />
@@ -154,7 +166,9 @@
     <Compile Include="Services\Contracts\ICadastroPedidoVenda.cs" />
     <Compile Include="Services\Contracts\ICadastroUsuario.cs" />
     <Compile Include="Services\Contracts\IGerenciadorUsuario.cs" />
+    <Compile Include="Services\Contracts\IComunicacaoSap.cs" />
     <Compile Include="Services\Implementations\CadastroPedidoVenda.cs" />
+    <Compile Include="Services\Implementations\ComunicacaoSap.cs" />
     <Compile Include="Services\Implementations\GerenciadorUsuario.cs" />
     <Compile Include="Services\Implementations\CadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Implementations\CadastroUsuario.cs" />
@@ -168,6 +182,10 @@
       <Project>{2b790b52-c827-486c-b871-1392cfad1c48}</Project>
       <Name>Progas.Portal.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Progas.Portal.DTO\Progas.Portal.DTO.csproj">
+      <Project>{4D2BAA56-2D95-4034-8237-2A73EDEDF5C1}</Project>
+      <Name>Progas.Portal.DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Progas.Portal.Infra\Progas.Portal.Infra.csproj">
       <Project>{77402211-516b-4cf9-a328-420b5a8854a7}</Project>
       <Name>Progas.Portal.Infra</Name>
@@ -178,8 +196,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\Progas.Portal.Application.dll.config" />
-    <None Include="bin\x64\Debug\Progas.Portal.Application.dll.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -190,97 +206,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="bin\Debug\de\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\es\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\fa\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\FluentNHibernate.dll" />
-    <Content Include="bin\Debug\FluentNHibernate.xml" />
-    <Content Include="bin\Debug\fr\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\hr\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\Iesi.Collections.dll" />
-    <Content Include="bin\Debug\Iesi.Collections.xml" />
-    <Content Include="bin\Debug\it\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\libicudecnumber.dll" />
-    <Content Include="bin\Debug\lv\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\Mappings\Cliente.hbm.xml" />
-    <Content Include="bin\Debug\Mappings\ClienteVendas.hbm.xml" />
-    <Content Include="bin\Debug\Mappings\CondicaoPagamento.hbm.xml" />
-    <Content Include="bin\Debug\Mappings\Fornecedor.hbm.xml" />
-    <Content Include="bin\Debug\Mappings\Material.hbm.xml" />
-    <Content Include="bin\Debug\Mappings\UnidadeMedida.hbm.xml" />
-    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
-    <Content Include="bin\Debug\Newtonsoft.Json.xml" />
-    <Content Include="bin\Debug\NHibernate.Caches.SysCache2.dll" />
-    <Content Include="bin\Debug\NHibernate.dll" />
-    <Content Include="bin\Debug\NHibernate.Validator.dll" />
-    <Content Include="bin\Debug\NHibernate.Validator.xml" />
-    <Content Include="bin\Debug\NHibernate.xml" />
-    <Content Include="bin\Debug\nl\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\pl\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\Progas.Portal.Application.pdb" />
-    <Content Include="bin\Debug\Progas.Portal.Common.dll" />
-    <Content Include="bin\Debug\Progas.Portal.Common.pdb" />
-    <Content Include="bin\Debug\Progas.Portal.Domain.dll" />
-    <Content Include="bin\Debug\Progas.Portal.Domain.pdb" />
-    <Content Include="bin\Debug\Progas.Portal.Infra.dll" />
-    <Content Include="bin\Debug\Progas.Portal.Infra.pdb" />
-    <Content Include="bin\Debug\Progas.Portal.ViewModel.dll" />
-    <Content Include="bin\Debug\Progas.Portal.ViewModel.pdb" />
-    <Content Include="bin\Debug\pt-BR\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\Debug\System.Net.Http.Formatting.dll" />
-    <Content Include="bin\Debug\System.Net.Http.Formatting.xml" />
-    <Content Include="bin\Debug\System.Web.Http.dll" />
-    <Content Include="bin\Debug\System.Web.Http.xml" />
-    <Content Include="bin\x64\Debug\de\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\es\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\fa\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\FluentNHibernate.dll" />
-    <Content Include="bin\x64\Debug\FluentNHibernate.xml" />
-    <Content Include="bin\x64\Debug\fr\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\hr\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\Iesi.Collections.dll" />
-    <Content Include="bin\x64\Debug\Iesi.Collections.xml" />
-    <Content Include="bin\x64\Debug\it\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\lv\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\Mappings\Cliente.hbm.xml" />
-    <Content Include="bin\x64\Debug\Mappings\ClienteVendas.hbm.xml" />
-    <Content Include="bin\x64\Debug\Mappings\CondicaoPagamento.hbm.xml" />
-    <Content Include="bin\x64\Debug\Mappings\Fornecedor.hbm.xml" />
-    <Content Include="bin\x64\Debug\Mappings\Material.hbm.xml" />
-    <Content Include="bin\x64\Debug\Mappings\UnidadeMedida.hbm.xml" />
-    <Content Include="bin\x64\Debug\Newtonsoft.Json.dll" />
-    <Content Include="bin\x64\Debug\Newtonsoft.Json.xml" />
-    <Content Include="bin\x64\Debug\NHibernate.Caches.SysCache2.dll" />
-    <Content Include="bin\x64\Debug\NHibernate.dll" />
-    <Content Include="bin\x64\Debug\NHibernate.Validator.dll" />
-    <Content Include="bin\x64\Debug\NHibernate.Validator.xml" />
-    <Content Include="bin\x64\Debug\NHibernate.xml" />
-    <Content Include="bin\x64\Debug\nl\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\pl\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\Portal.DadosSap.exe" />
-    <Content Include="bin\x64\Debug\Portal.DadosSap.pdb" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Application.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="bin\x64\Debug\Progas.Portal.Application.pdb" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Common.dll" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Common.pdb" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Domain.dll" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Domain.pdb" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Infra.dll" />
-    <Content Include="bin\x64\Debug\Progas.Portal.Infra.pdb" />
-    <Content Include="bin\x64\Debug\Progas.Portal.ViewModel.dll" />
-    <Content Include="bin\x64\Debug\Progas.Portal.ViewModel.pdb" />
-    <Content Include="bin\x64\Debug\pt-BR\NHibernate.Validator.resources.dll" />
-    <Content Include="bin\x64\Debug\System.Net.Http.Formatting.dll" />
-    <Content Include="bin\x64\Debug\System.Net.Http.Formatting.xml" />
-    <Content Include="bin\x64\Debug\System.Web.Http.dll" />
-    <Content Include="bin\x64\Debug\System.Web.Http.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\x86\Debug\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>

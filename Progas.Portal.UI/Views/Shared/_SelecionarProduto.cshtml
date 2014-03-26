@@ -1,0 +1,42 @@
+﻿@{
+    Layout = null;
+}
+<style type="text/css">
+    .colunaFiltroPequena {
+        width: 25%;
+        display: inline-block;
+        float: left;
+    }
+    .colunaFiltroGrande {
+        width: 35%;
+        display: inline-block;
+        float: left;
+    }
+</style>
+<div id="divFiltros" class="divFiltros">
+    <fieldset>
+        <legend>Filtros</legend>
+        <form id="filtrosDoProduto">
+            <div class="colunaFiltroGrande">
+                @Html.Label("Código")
+                @Html.TextBox("CodigoFiltro", "", new { @class = "campomedio" })
+            </div>
+            <div class="colunaFiltroGrande">
+                @Html.Label("Descrição")
+                @Html.TextBox("DescricaoFiltro", "", new { @class = "campomedio" })
+            </div>
+            <div class="colunaFiltroPequena">
+                @Html.Label("Tipo")
+                @Html.TextBox("TipoFiltro", "", new { @class = "campopequeno" })
+            </div>
+            <div class="divBotao">
+                <input id="btnPesquisar" type="button" value="Pesquisar" class="blue" />
+                <input id="btnLimpar" type="reset" value="Limpar" class="blue" />
+            </div>
+        </form>
+
+    </fieldset>
+</div>
+<div id="gridProdutos" class="divGrid"></div>
+
+

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Progas.Portal.Domain.Entities;
+﻿using Progas.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace Progas.Portal.Infra.Mappings
@@ -13,7 +8,8 @@ namespace Progas.Portal.Infra.Mappings
         public MaterialMap()
         {
             Table("pro_material");
-            Id(x => x.Id_material);
+            Id(x => x.pro_id_material);
+            Map(x => x.Id_material);
             Map(x => x.Id_cliente);
             Map(x => x.Id_centro);
             Map(x => x.Descricao);

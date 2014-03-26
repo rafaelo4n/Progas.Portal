@@ -1,9 +1,7 @@
 ﻿using System.Linq;
-using Progas.Portal.Common;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 using System;
-using FluentNHibernate;
 
 namespace Progas.Portal.Infra.Repositories.Implementations
 {
@@ -17,7 +15,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         {
             if (!string.IsNullOrEmpty(filtroCodigo))
             {
-                Query = Query.Where(x => x.Id_cliente.ToLower().Contains(filtroCodigo.ToLower()));
+                Query = Query.Where(x => x.Cliente.Id_cliente.ToLower().Contains(filtroCodigo.ToLower()));
             }
 
             return this;
@@ -39,7 +37,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         {
             if (!string.IsNullOrEmpty(filtroPedido))
             {
-                Query = Query.Where(x => x.Id_pedido.Contains(filtroPedido));
+                Query = Query.Where(x => x.NumeroDoPedido.Contains(filtroPedido));
             }
 
             return this;
@@ -70,5 +68,22 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IPedidosVenda FiltraPorId(string idDaCotacao)
+        {
+            Query = Query.Where(x => x.Id_cotacao == idDaCotacao);
+            return this;
+        }
+
+        public IPedidosVenda ContendoMaterial(int idDoMaterial)
+        {
+            Query = Query.Where(pedido => pedido.Itens.Select(item => item.Material.pro_id_material).Contains(idDoMaterial));
+            return this;
+        }
+
+        public IPedidosVenda DoCliente(int idCliente)
+        {
+            Query = Query.Where(pedido => pedido.Cliente.Id == idCliente);
+            return this;
+        }
     }
 }

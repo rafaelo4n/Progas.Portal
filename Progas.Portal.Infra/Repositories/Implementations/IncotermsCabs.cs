@@ -10,5 +10,11 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         public IncotermsCabs(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
         }
+
+        public IIncotermsCabs FiltraPorId(int id)
+        {
+            Query = Query.Where(x => x.pro_id_incotermCab == id);
+            return this;
+        }
     }
 }

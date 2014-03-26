@@ -1,9 +1,4 @@
 ﻿using Progas.Portal.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progas.Portal.Infra.Repositories.Contracts
 {
@@ -15,5 +10,9 @@ namespace Progas.Portal.Infra.Repositories.Contracts
         IClientes CodigoContendo(string filtroCodigo);
         IClientes FiltraPelaDescricao(string descricao);
         IClientes NomeContendo(string filtroNome);
+        IClientes ComCnpj(string cnpj);
+        IClientes MunicipioContendo(string municipio);
+        IClientes ComCpf(string cpf);
+        IClientes BuscaPeloId(int idDoCliente);
     }
 }

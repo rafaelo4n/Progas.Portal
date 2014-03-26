@@ -1,10 +1,5 @@
 ﻿using Progas.Portal.Domain.Entities;
 using Progas.Portal.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progas.Portal.Application.Queries.Builders
 {
@@ -14,11 +9,12 @@ namespace Progas.Portal.Application.Queries.Builders
         {
             return new MaterialCadastroVm()
             {
-                Id_material     = material.Id_material,
-                Descricao       = material.Descricao,
-                Centro          = material.Id_centro,
-                Tipo            = material.Tip_mat,
-                UnidadeMedida   = material.Uni_med
+                Id = material.pro_id_material,
+                Id_material = material.Id_material,
+                Descricao = material.Descricao,
+                Centro = material.Id_centro,
+                Tipo = material.Tip_mat,
+                UnidadeMedida = material.Uni_med
             };
         }
     }

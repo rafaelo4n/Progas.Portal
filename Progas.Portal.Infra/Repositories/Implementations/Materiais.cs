@@ -9,7 +9,6 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         public Materiais(IUnitOfWorkNh unitOfWork)
             : base(unitOfWork)
         {
-            //Query = Query.OrderBy(x => x.Descricao);
         }
 
         public Material BuscaPeloCodigo(string codigoSap)
@@ -26,7 +25,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
 
         public IMateriais FiltraPorListaDeCodigos(string[] codigos)
         {
-            Query = Query.Where(x => codigos.Contains(x.Id_centro));
+            Query = Query.Where(x => codigos.Contains(x.Id_material));
             return this;
         }
 
@@ -50,5 +49,28 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IMateriais DoTipo(string tipo)
+        {
+            if (!string.IsNullOrEmpty(tipo))
+            {
+                Query = Query.Where(x => x.Tip_mat == tipo);
+            }
+            return this;
+        }
+
+        public IMateriais DoCentro(string centro)
+        {
+            if (!string.IsNullOrEmpty(centro))
+            {
+                Query = Query.Where(x => x.Id_centro == centro);
+            }
+            return this;
+        }
+
+        public IMateriais BuscarLista(int[] idDosMateriais)
+        {
+            Query = Query.Where(x => idDosMateriais.Contains(x.pro_id_material));
+            return this;
+        }
     }
 }

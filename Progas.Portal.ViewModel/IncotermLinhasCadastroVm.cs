@@ -7,7 +7,7 @@ namespace Progas.Portal.ViewModel
     public class IncotermLinhasCadastroVm
     {
         [DataMember]
-        public string CodigoIncotermCab { get; set; }
+        public int Id { get; set; }
         [DataMember]
         public string IncotermLinha     { get; set; }        
     }

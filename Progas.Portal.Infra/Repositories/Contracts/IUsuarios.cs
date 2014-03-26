@@ -11,5 +11,6 @@ namespace Progas.Portal.Infra.Repositories.Contracts
         IUsuarios FiltraPorListaDeLogins(string[] logins);
         Usuario UsuarioConectado();
         IUsuarios SemSenha();
+        IUsuarios OrdenarPorNome();
     }
 }

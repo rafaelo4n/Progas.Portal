@@ -1,4 +1,5 @@
-﻿using Progas.Portal.Domain.Entities;
+﻿using System.Collections.Generic;
+using Progas.Portal.Domain.Entities;
 
 namespace Progas.Portal.Infra.Repositories.Contracts
 {
@@ -11,5 +12,6 @@ namespace Progas.Portal.Infra.Repositories.Contracts
         IFornecedores NomeContendo(string filtroNome);
         IFornecedores CodigoContendo(string filtroCodigo);
         IFornecedores FiltraPelaDescricao(string descricao);
+        IFornecedores BuscaListaPorIds(IList<int> ids);
     }
 }

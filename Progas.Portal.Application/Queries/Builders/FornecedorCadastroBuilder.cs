@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Progas.Portal.Domain.Entities;
+﻿using Progas.Portal.Domain.Entities;
 using Progas.Portal.ViewModel;
 
 namespace Progas.Portal.Application.Queries.Builders
@@ -14,22 +9,24 @@ namespace Progas.Portal.Application.Queries.Builders
         {
             return new FornecedorCadastroVm()
             {
-                Codigo      = model.Codigo,
-                Nome        = model.Nome,
-                Cpf         = model.Cpf,
-                Cnpj        = model.Cnpj,
-                nr_ie_for   = model.Nr_ie_for,  
-                cep         = model.Cep,
-                endereco    = model.Endereco,
-                numero      = model.Numero,
+
+                Id = model.Id,
+                Codigo = model.Codigo,
+                Nome = model.Nome,
+                Cpf = model.Cpf,
+                Cnpj = model.Cnpj,
+                nr_ie_for = model.Nr_ie_for,
+                cep = model.Cep,
+                endereco = model.Endereco,
+                numero = model.Numero,
                 complemento = model.Complemento,
-                municipio   = model.Municipio,
-                bairro      = model.Bairro,
-                uf          = model.Uf,
-                pais        = model.Pais,
-                tel_res     = model.Tel_res,
-                tel_cel     = model.Tel_cel,
-                email       = model.Email                               
+                municipio = model.Municipio,
+                bairro = model.Bairro,
+                uf = model.Uf,
+                pais = model.Pais,
+                tel_res = model.Tel_res,
+                tel_cel = model.Tel_cel,
+                email = model.Email
             };
         }
     }

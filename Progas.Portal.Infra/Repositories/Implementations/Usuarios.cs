@@ -10,7 +10,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
     {
         public Usuarios(IUnitOfWorkNh unitOfWorkNh) : base(unitOfWorkNh)
         {
-            Query = Query.OrderBy(x => x.Nome);
+            //Query = Query.OrderBy(x => x.Nome);
         }
 
         public Usuario BuscaPorLogin(string login)
@@ -20,7 +20,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
 
         public Usuario BuscaPorCodigoRepresentante(string codigoRepresentante)
         {
-            return Query.SingleOrDefault(u => u.CodigoFornecedor.ToLower() == codigoRepresentante.ToLower());
+            return Query.SingleOrDefault(u => u.Fornecedor.Codigo.ToLower() == codigoRepresentante.ToLower());
         }
 
         public IUsuarios NomeContendo(string filtroNome)
@@ -57,6 +57,12 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         public IUsuarios SemSenha()
         {
             Query = Query.Where(x => x.Senha == null);
+            return this;
+        }
+
+        public IUsuarios OrdenarPorNome()
+        {
+            Query = Query.OrderBy(x => x.Nome.ToLower());
             return this;
         }
     }
