@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Portal.DadosSap"
+                   namespace="Portal.DadosSap.Entity" >
+
+  <class name="CondicaoDePrecoCliente" table="pro_condicaopreco_cliente">
+
+    <id name="Id" access="property" column="Id" type="Int32">
+      <generator class="identity">
+        <param name="identity">Id</param>
+      </generator>
+    </id>
+    
+    <property name="Org_vendas" not-null="false" access="property" type="String">
+      <column name="Org_vendas" length="4" />
+    </property>
+
+    <property name="Can_dist" not-null="false" access="property" type="String">
+      <column name="Can_dist" length="2" />
+    </property>
+
+    <property name="Id_cliente" not-null="false" access="property" type="String">
+      <column name="Id_cliente" length="10" />
+    </property>
+
+    <property name="Id_material" not-null="false" access="property" type="String">
+      <column name="Id_material" length="18" />
+    </property>
+
+    <property name="NumeroRegistroCondicao" not-null="false" access="property" type="String">
+      <column name="NumeroRegistroCondicao" length="10" />
+    </property>
+
+    <property name="Montante" not-null="false" access="property">
+      <column name="Montante" scale="2" precision="11" sql-type="number(11,2)" />
+    </property>
+
+    <property name="UnidadeCondicao" not-null="false" access="property" type="String">
+      <column name="UnidadeCondicao" length="5" />
+    </property>    
+
+    <property name="Pacote" not-null="false" access="property" type="String">
+      <column name="Pacote" length="30" />
+    </property>
+
+    <property name="Data_criacao" not-null="false" access="property" type="DateTime">
+      <column name="Data_criacao"/>
+    </property>
+
+    <property name="Hora_criacao" not-null="false" access="property" type="String">
+      <column name="Hora_criacao" length="8"/>
+    </property>
+
+  </class>
+
+</hibernate-mapping>

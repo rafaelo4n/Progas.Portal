@@ -87,6 +87,9 @@
     <Compile Include="Entities\ClienteVenda.cs" />
     <Compile Include="Entities\CondicaoDePagamento.cs" />
     <Compile Include="Entities\CondicaoDePreco.cs" />
+    <Compile Include="Entities\CondicaoDePrecoCliente.cs" />
+    <Compile Include="Entities\CondicaoDePrecoGeral.cs" />
+    <Compile Include="Entities\CondicaoDePrecoRegiao.cs" />
     <Compile Include="Entities\CondicaoPagamento.cs" />
     <Compile Include="Entities\Fornecedor.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
@@ -103,6 +106,7 @@
     <Compile Include="Entities\UnidadeDeMedida.cs" />
     <Compile Include="Entities\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueObjects\ItemDeVenda.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Progas.Portal.Common\Progas.Portal.Common.csproj">
@@ -110,9 +114,7 @@
       <Name>Progas.Portal.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ValueObjects\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

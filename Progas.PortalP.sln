@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.Domain", "Progas.Portal.Domain\Progas.Portal.Domain.csproj", "{2B790B52-C827-486C-B871-1392CFAD1C48}"
 EndProject
@@ -20,6 +20,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.Application", "Progas.Portal.Application\Progas.Portal.Application.csproj", "{A2DA2E00-3386-4EC4-8D95-D98C5052F636}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.DTO", "Progas.Portal.DTO\Progas.Portal.DTO.csproj", "{4D2BAA56-2D95-4034-8237-2A73EDEDF5C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.Domain.Services.Contracts", "Progas.Portal.Domain.Services.Contracts\Progas.Portal.Domain.Services.Contracts.csproj", "{9B5E0FEA-003B-41B8-847E-66CA20165FAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.Domain.Services.Implementations", "Progas.Portal.Domain.Services.Implementations\Progas.Portal.Domain.Services.Implementations.csproj", "{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -171,6 +175,26 @@ Global
 		{4D2BAA56-2D95-4034-8237-2A73EDEDF5C1}.Release|win 64.ActiveCfg = Release|Any CPU
 		{4D2BAA56-2D95-4034-8237-2A73EDEDF5C1}.Release|x64.ActiveCfg = Release|Any CPU
 		{4D2BAA56-2D95-4034-8237-2A73EDEDF5C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Debug|win 64.ActiveCfg = Debug|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Release|win 64.ActiveCfg = Release|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Release|x64.ActiveCfg = Release|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Release|x86.ActiveCfg = Release|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Debug|win 64.ActiveCfg = Debug|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|win 64.ActiveCfg = Release|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|x64.ActiveCfg = Release|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

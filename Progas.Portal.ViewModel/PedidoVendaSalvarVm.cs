@@ -7,6 +7,7 @@ namespace Progas.Portal.ViewModel
     public class PedidoVendaSalvarVm
     {
         // cabecalho
+        public string IdDaCotacao { get; set; }
         public string Tipo { get; set; } //
         public string NumeroPedido { get; set; } //
         public string CodigoDaCondicaoDePagamento { get; set; } //

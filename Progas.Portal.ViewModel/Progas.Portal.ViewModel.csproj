@@ -86,6 +86,9 @@
     <Compile Include="ClienteCadastroVm.cs" />
     <Compile Include="ClienteDoPedidoDeVendaVm.cs" />
     <Compile Include="ClienteFiltroVm.cs" />
+    <Compile Include="CondicaoDePrecoClienteCadastroVm.cs" />
+    <Compile Include="CondicaoDePrecoGeralCadastroVm.cs" />
+    <Compile Include="CondicaoDePrecoRegiaoCadastroVm.cs" />
     <Compile Include="CondicaoPagamentoFiltroVm.cs" />
     <Compile Include="CotacaoFiltroVm.cs" />
     <Compile Include="FornecedorFiltroVm.cs" />

@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace Portal.DadosSap.Entity
 {
     public class Fornecedor
-    {
-        
+    {       
         public virtual int pro_id_fornecedor { get; set; }
         public virtual string Codigo { get; set; }
         public virtual string Nome { get; set; }
@@ -30,5 +29,7 @@ namespace Portal.DadosSap.Entity
         public virtual DateTime Data_criacao { get; set; }
         public virtual string Pacote { get; set; }
         public virtual string Hora_criacao { get; set; }
+        public virtual string Grupo_contas { get; set; }
+        public virtual string Codigo_eliminacao { get; set; }        
     }
 }

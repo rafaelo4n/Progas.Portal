@@ -13,6 +13,7 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Id_fornecedor { get; set; }
         public virtual string Pacote        { get; set; }
         public virtual string Hora_criacao  { get; set; }
-        public virtual DateTime Data_criacao{ get; set; } 
+        public virtual DateTime Data_criacao{ get; set; }
+        public virtual string Denominacao { get; set; }
     }
 }

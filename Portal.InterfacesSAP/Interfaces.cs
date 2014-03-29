@@ -16,7 +16,6 @@ namespace Portal.DadosSap
 {
     public class Interfaces
     {
- 
         public static void conexaoRFC()
         {
             string nome_rfc = System.Configuration.ConfigurationSettings.AppSettings["nome_RFC"];
@@ -78,6 +77,14 @@ namespace Portal.DadosSap
                     case "ZFXI_SD07C":
                         Console.WriteLine("Incoterms");
                         MyServerHandlerExecute.StfcInterfaceIncoterms(context, function);
+                        break;
+                }
+
+                switch (context.FunctionName)
+                {
+                    case "ZFXI_SD09C":
+                        Console.WriteLine("Precos");
+                        MyServerHandlerExecute.StfcInterfacePreco(context, function);
                         break;
                 }
             }
@@ -164,7 +171,7 @@ namespace Portal.DadosSap
                         v_cont = v_cont + 1;
                         if (deletar == ' ')
                         {
-                            IList<Cliente> fromDB = clienteRepository.ObterTodosComCampo("Id_cliente", cliente.Id_cliente);
+                            IList<Cliente> fromDB = clienteRepository.ObterRegistrosUmCampo("Id_cliente", cliente.Id_cliente);
                             foreach (Cliente dados in fromDB)
                             {
                                 clienteRepository.Excluir(dados);
@@ -175,7 +182,6 @@ namespace Portal.DadosSap
                     {
                         // Em caso de erro retorna o erro
                         Console.Write("Erro ao inserir o Cliente, Mensagem: " + ex);
-
                         IRfcTable retorno = function.GetTable("IT_RETURN");
                         linha_retorno.SetValue("TYPE", "E");
                         linha_retorno.SetValue("MESSAGE", ex.Message);
@@ -185,8 +191,8 @@ namespace Portal.DadosSap
 
                     clienteRepository.Salvar(cliente);
                     String PACOTE = row.GetString("PACOTE");
-                    String ERDAT = row.GetString("ERDAT");
-                    String ERZET = row.GetString("ERZET");
+                    String ERDAT  = row.GetString("ERDAT");
+                    String ERZET  = row.GetString("ERZET");
                 }
 
                 IRfcTable retornoSucesso = function.GetTable("IT_RETURN");
@@ -244,13 +250,14 @@ namespace Portal.DadosSap
                     clienteVendas.Data_criacao = Convert.ToDateTime(v_data_Cricao);
                     // Hora de Criacao
                     clienteVendas.Hora_criacao = row.GetString("ERZET");
-
+                    clienteVendas.Denominacao  = row.GetString("VKORG_TXT");
+                        
                     try
                     {
                         v_cont_vendas = v_cont_vendas + 1;
                         if (deletar == ' ')
                         {
-                            IList<ClienteVendas> fromDB = clienteVendasRepository.PesquisaClienteVendas("Id_cliente", clienteVendas.Id_cliente, "Org_vendas", clienteVendas.Org_vendas);
+                            IList<ClienteVendas> fromDB = clienteVendasRepository.ObterRegistrosDoisCampos("Id_cliente", clienteVendas.Id_cliente, "Org_vendas", clienteVendas.Org_vendas);
                             foreach (ClienteVendas dados in fromDB)
                             {
                                 clienteVendasRepository.Excluir(dados);
@@ -268,7 +275,6 @@ namespace Portal.DadosSap
                         linha_retorno_vendas.SetValue("MESSAGE", "Erro ao inserir o Cliente: " + cliente.Nome + " - Id: " + cliente.Id_cliente);
                         retorno.Insert(linha_retorno_vendas);
                     }
-
                     clienteVendasRepository.Salvar(clienteVendas);
                     String PACOTE = row.GetString("PACOTE");
                     String ERDAT = row.GetString("ERDAT");
@@ -351,14 +357,16 @@ namespace Portal.DadosSap
                     string v_data_Cricao = row.GetString("ERDAT");
                     fornecedor.Data_criacao = Convert.ToDateTime(v_data_Cricao);
                     // Hora de Criacao
-                    fornecedor.Hora_criacao = row.GetString("ERZET");                                    
+                    fornecedor.Hora_criacao = row.GetString("ERZET");
+                    fornecedor.Grupo_contas = row.GetString("KTOKK");
+                    fornecedor.Codigo_eliminacao = row.GetString("LOEVM");      
 
                     try
                     {
                         v_cont = v_cont + 1;
                         if (deletar == ' ')
                         {
-                            IList<Fornecedor> fromDB = fornecedorRepository.ObterTodosComCampo("Codigo", fornecedor.Codigo);
+                            IList<Fornecedor> fromDB = fornecedorRepository.ObterRegistrosUmCampo("Codigo", fornecedor.Codigo);
                             foreach (Fornecedor dados in fromDB)
                             {
                                 fornecedorRepository.Excluir(dados);
@@ -369,7 +377,6 @@ namespace Portal.DadosSap
                     {
                         // Em caso de erro retorna o erro e a descricao do material
                         Console.Write("Erro ao inserir o Fornecedor, Mensagem:" + ex);
-
                         IRfcTable retorno = function.GetTable("IT_RETURN");
                         linha_retorno.SetValue("TYPE", "E");
                         linha_retorno.SetValue("MESSAGE", ex.Message);
@@ -453,7 +460,7 @@ namespace Portal.DadosSap
                         v_cont = v_cont + 1;
                         if (deletar == ' ')
                         {
-                            IList<Material> fromDB = materialRepository.ObterTodosComCampo("Id_material", material.Id_material);
+                            IList<Material> fromDB = materialRepository.ObterRegistrosUmCampo("Id_material", material.Id_material);
                             foreach (Material dados in fromDB)
                             {       
                                 materialRepository.Excluir(dados);                                
@@ -477,7 +484,6 @@ namespace Portal.DadosSap
                     String ERDAT = row.GetString("ERDAT");
                     String ERZET = row.GetString("ERZET");
                 }
-
                 IRfcTable retornoSucesso = function.GetTable("IT_RETURN");
                 linha_retorno.SetValue("TYPE", "S");
                 linha_retorno.SetValue("MESSAGE", "Registros com Sucesso: " + v_cont);
@@ -546,7 +552,7 @@ namespace Portal.DadosSap
                         v_cont = v_cont + 1;
                         if (deletar == ' ')
                         {
-                            IList<CondicaoPagamento> fromDB = condicaoPagamentoRepository.ObterTodosComCampo("Codigo", condicaoPagamento.Codigo);
+                            IList<CondicaoPagamento> fromDB = condicaoPagamentoRepository.ObterRegistrosUmCampo("Codigo", condicaoPagamento.Codigo);
                             foreach (CondicaoPagamento dados in fromDB)
                             {
                                 condicaoPagamentoRepository.Excluir(dados);
@@ -640,7 +646,7 @@ namespace Portal.DadosSap
                         v_cont = v_cont + 1;
                         if (deletar == ' ')
                         {
-                            IList<UnidadeMedida> fromDB = unidadeMedidaRepository.ObterTodosComCampo("Id_unidademedida", unidadeMedida.Id_unidademedida);
+                            IList<UnidadeMedida> fromDB = unidadeMedidaRepository.ObterRegistrosUmCampo("Id_unidademedida", unidadeMedida.Id_unidademedida);
                             foreach (UnidadeMedida dados in fromDB)
                             {
                                 unidadeMedidaRepository.Excluir(dados);
@@ -720,13 +726,10 @@ namespace Portal.DadosSap
                 foreach (IRfcStructure row in it_incotermCab)
                 {
                     incotermsCab.CodigoIncotermCab = row.GetString("INCO1");
-                    incotermsCab.Descricao         = row.GetString("BEZEI");    
-                    // Pacote
-                    incotermsCab.Pacote            = row.GetString("PACOTE");
-                    // Data Cricao
+                    incotermsCab.Descricao         = row.GetString("BEZEI");                        
+                    incotermsCab.Pacote            = row.GetString("PACOTE");                    
                     string v_data_Cricao           = row.GetString("ERDAT");
-                    incotermsCab.Data_criacao      = Convert.ToDateTime(v_data_Cricao);
-                    // Hora de Criacao
+                    incotermsCab.Data_criacao      = Convert.ToDateTime(v_data_Cricao);                    
                     incotermsCab.Hora_criacao      = row.GetString("ERZET");
 
                     try
@@ -734,7 +737,7 @@ namespace Portal.DadosSap
                         v_cont = v_cont + 1;
                         if (deletar == ' ')
                         {
-                            IList<IncotermsCab> fromDB = incotermsCabRepository.ObterTodosComCampo("CodigoIncotermCab", incotermsCab.CodigoIncotermCab);
+                            IList<IncotermsCab> fromDB = incotermsCabRepository.ObterRegistrosUmCampo("CodigoIncotermCab", incotermsCab.CodigoIncotermCab);
                             foreach (IncotermsCab dados in fromDB)
                             {
                                 incotermsCabRepository.Excluir(dados);
@@ -845,6 +848,254 @@ namespace Portal.DadosSap
                 retornoSucessoLinha.Insert(linha_retorno_inc_linha);
 
                 // FIM INCOTERMS
+            }
+
+            // SD09 - Inteface de Preco- Comunicação
+            // Funcao - ZFXI_SD09C
+            //[RfcServerFunction(Name = "ZGXI_SD09")]
+            public static void StfcInterfacePreco(RfcServerContext context, IRfcFunction function)
+            {
+                //
+                // PRECOS CLIENTE
+                //
+
+                // Exibe no console a interface que será executada
+                Console.WriteLine("Received function call {0} from system {1}.", function.Metadata.Name, context.SystemAttributes.SystemID);
+
+                // Mandar salvar o Preco do Cliente
+                CondicaoDePrecoClienteRepository condicaoDePrecoClienteRepository = new CondicaoDePrecoClienteRepository();
+
+                // Implementa repositorio antes do Foreach para evitar duplicações
+                CondicaoDePrecoCliente condicaoDePrecoCliente = new CondicaoDePrecoCliente();
+
+                // Flag da interface que de Limpar tabela de dados
+                Char deletar = function.GetChar("I_REFRESH");
+
+                // exibe se o mesmo foi flegado
+                Console.WriteLine(deletar);
+
+                // Se estiver espaco em branco na variavel, não limpa a tabela da interface.
+                if (deletar != ' ')
+                {
+                    // Apaga todos os registros da tabela pro_fornecedor
+                    IList<CondicaoDePrecoCliente> fromDB = condicaoDePrecoClienteRepository.ObterTodos();
+                    foreach (CondicaoDePrecoCliente dados in fromDB)
+                    {
+                        condicaoDePrecoClienteRepository.Excluir(dados);
+                    }
+                }
+
+                // ZTBSD074
+                IRfcTable it_condicaoDePrecoCliente = function.GetTable("IT_PRECO_CLIENTE");
+
+                // Implementa Repositorio Rfc de resposta
+                RfcRepository repCliente = context.Repository;
+
+                // RETORNO - BAPIRET2
+                RfcStructureMetadata bapiret2      = repCliente.GetStructureMetadata("BAPIRET2");
+                IRfcStructure linha_retornoCliente = bapiret2.CreateStructure();
+
+                int v_contCliente = 0;
+                foreach (IRfcStructure row in it_condicaoDePrecoCliente)
+                {
+                    condicaoDePrecoCliente.Org_vendas             = row.GetString("VKORG");
+                    condicaoDePrecoCliente.Can_dist               = row.GetString("VTWEG");
+                    condicaoDePrecoCliente.Id_cliente             = row.GetString("KUNNR");
+                    condicaoDePrecoCliente.Id_material            = row.GetString("MATNR");
+                    condicaoDePrecoCliente.NumeroRegistroCondicao = row.GetString("KNUMH");
+                    condicaoDePrecoCliente.Montante               = Convert.ToDecimal(row.GetString("KBETR"));
+                    condicaoDePrecoCliente.UnidadeCondicao        = row.GetString("KONWA");                   
+                    condicaoDePrecoCliente.Pacote                 = row.GetString("PACOTE");
+                    condicaoDePrecoCliente.Data_criacao           = Convert.ToDateTime(row.GetString("ERDAT"));                    
+                    condicaoDePrecoCliente.Hora_criacao           = row.GetString("ERZET");                             
+                    try
+                    {
+                        v_contCliente = v_contCliente + 1;
+                        if (deletar == ' ')
+                        {
+                            IList<CondicaoDePrecoCliente> fromDB = condicaoDePrecoClienteRepository.ObterRegistrosQuatroCampos("Org_vendas", condicaoDePrecoCliente.Org_vendas,"Can_dist", condicaoDePrecoCliente.Can_dist,"Id_cliente", condicaoDePrecoCliente.Id_cliente, "Id_material", condicaoDePrecoCliente.Id_material);
+                            foreach (CondicaoDePrecoCliente dados in fromDB)
+                            {
+                                condicaoDePrecoClienteRepository.Excluir(dados);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write("Erro ao Inserir o Preco do Cliente, Mensagem: " + ex);
+                        IRfcTable retorno = function.GetTable("IT_RETURN");
+                        linha_retornoCliente.SetValue("TYPE", "E");
+                        linha_retornoCliente.SetValue("MESSAGE", ex.Message);
+                        linha_retornoCliente.SetValue("MESSAGE", "Erro ao inserir o Preco do Cliente: " + condicaoDePrecoCliente.Id_cliente + " - Material: " + condicaoDePrecoCliente.Id_material + " - Org.: " + condicaoDePrecoCliente.Org_vendas + " - Canal:" + condicaoDePrecoCliente.Can_dist);
+                        retorno.Insert(linha_retornoCliente);
+                    }
+                    condicaoDePrecoClienteRepository.Salvar(condicaoDePrecoCliente);
+                    String PACOTE = row.GetString("PACOTE");
+                    String ERDAT = row.GetString("ERDAT");
+                    String ERZET = row.GetString("ERZET");
+                }
+
+                IRfcTable retornoSucessoCliente = function.GetTable("IT_RETURN");
+                linha_retornoCliente.SetValue("TYPE", "S");
+                linha_retornoCliente.SetValue("MESSAGE", "Registros com Sucesso(CLIENTE): " + v_contCliente);
+                retornoSucessoCliente.Insert(linha_retornoCliente);
+
+                //
+                // PRECOS REGIAO
+                //
+
+                // Mandar salvar o Preco da Regiao
+                CondicaoDePrecoRegiaoRepository condicaoDePrecoRegiaoRepository = new CondicaoDePrecoRegiaoRepository();
+
+                // Implementa repositorio antes do Foreach para evitar duplicações
+                CondicaoDePrecoRegiao condicaoDePrecoRegiao = new CondicaoDePrecoRegiao();
+
+                // Se estiver espaco em branco na variavel, não limpa a tabela da interface.
+                if (deletar != ' ')
+                {
+                    // Apaga todos os registros da tabela pro_fornecedor
+                    IList<CondicaoDePrecoRegiao> fromDB = condicaoDePrecoRegiaoRepository.ObterTodos();
+                    foreach (CondicaoDePrecoRegiao dados in fromDB)
+                    {
+                        condicaoDePrecoRegiaoRepository.Excluir(dados);
+                    }
+                }
+
+                // ZTBSD075
+                IRfcTable it_condicaoDePrecoRegiao = function.GetTable("IT_PRECO_REGIAO");
+
+                // Implementa Repositorio Rfc de resposta
+                RfcRepository repRegiao = context.Repository;
+
+                // RETORNO - BAPIRET2
+                RfcStructureMetadata bapiret2Regiao = repRegiao.GetStructureMetadata("BAPIRET2");
+                IRfcStructure linha_retornoRegiao   = bapiret2Regiao.CreateStructure();
+
+                int v_contRegiao = 0;
+                foreach (IRfcStructure row in it_condicaoDePrecoRegiao)
+                {
+                    condicaoDePrecoRegiao.Regiao                 = row.GetString("REGIO");
+                    condicaoDePrecoRegiao.Id_material            = row.GetString("MATNR");
+                    condicaoDePrecoRegiao.NumeroRegistroCondicao = row.GetString("KNUMH");
+                    condicaoDePrecoRegiao.Id_material            = row.GetString("MATNR");
+                    condicaoDePrecoRegiao.NumeroRegistroCondicao = row.GetString("KNUMH");
+                    condicaoDePrecoRegiao.Montante               = Convert.ToDecimal(row.GetString("KBETR"));
+                    condicaoDePrecoRegiao.UnidadeCondicao        = row.GetString("KONWA");          
+                    condicaoDePrecoRegiao.Pacote                 = row.GetString("PACOTE");                    
+                    condicaoDePrecoRegiao.Data_criacao           = Convert.ToDateTime(row.GetString("ERDAT"));
+                    condicaoDePrecoRegiao.Hora_criacao           = row.GetString("ERZET");
+                    try
+                    {
+                        v_contRegiao = v_contRegiao + 1; 
+                        if (deletar == ' ')
+                        {
+                            IList<CondicaoDePrecoRegiao> fromDB = condicaoDePrecoRegiaoRepository.ObterRegistrosDoisCampos("Regiao",condicaoDePrecoRegiao.Regiao, "Id_material", condicaoDePrecoRegiao.Id_material);
+                            foreach (CondicaoDePrecoRegiao dados in fromDB)
+                            {
+                                condicaoDePrecoRegiaoRepository.Excluir(dados);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Em caso de erro retorna o erro e a descricao do material
+                        Console.Write("Erro ao Inserir a Condicao de Preco Regiao, Mensagem: " + ex);
+                        IRfcTable retorno = function.GetTable("IT_RETURN");
+                        linha_retornoRegiao.SetValue("TYPE", "E");
+                        linha_retornoRegiao.SetValue("MESSAGE", ex.Message);
+                        linha_retornoRegiao.SetValue("MESSAGE", "Erro ao inserir a Condicao de Preco Regiao: " + condicaoDePrecoRegiao.Regiao + " - Material: " + condicaoDePrecoRegiao.Id_material);
+                        retorno.Insert(linha_retornoRegiao);
+                    }
+
+                    condicaoDePrecoRegiaoRepository.Salvar(condicaoDePrecoRegiao);
+                    String PACOTE = row.GetString("PACOTE");
+                    String ERDAT = row.GetString("ERDAT");
+                    String ERZET = row.GetString("ERZET");
+                }
+
+                IRfcTable retornoSucessoRegiao = function.GetTable("IT_RETURN");
+                linha_retornoRegiao.SetValue("TYPE", "S");
+                linha_retornoRegiao.SetValue("MESSAGE", "Registros com Sucesso(REGIAO): " + v_contRegiao);
+                retornoSucessoRegiao.Insert(linha_retornoRegiao);
+
+                //
+                // PRECOS GERAL
+                //
+
+                // Mandar salvar o Preco da Regiao
+                CondicaoDePrecoGeralRepository condicaoDePrecoGeralRepository = new CondicaoDePrecoGeralRepository();
+
+                // Implementa repositorio antes do Foreach para evitar duplicações
+                CondicaoDePrecoGeral condicaoDePrecoGeral = new CondicaoDePrecoGeral();
+
+                // Se estiver espaco em branco na variavel, não limpa a tabela da interface.
+                if (deletar != ' ')
+                {
+                    // Apaga todos os registros da tabela pro_fornecedor
+                    IList<CondicaoDePrecoGeral> fromDB = condicaoDePrecoGeralRepository.ObterTodos();
+                    foreach (CondicaoDePrecoGeral dados in fromDB)
+                    {
+                        condicaoDePrecoGeralRepository.Excluir(dados);
+                    }
+                }
+
+                // ZTBSD076
+                IRfcTable it_condicaoDePrecoGeral= function.GetTable("IT_PRECO_GERAL");
+
+                // Implementa Repositorio Rfc de resposta
+                RfcRepository repGeral = context.Repository;
+
+                // RETORNO - BAPIRET2
+                RfcStructureMetadata bapiret2Geral = repGeral.GetStructureMetadata("BAPIRET2");
+                IRfcStructure linha_retornoGeral   = bapiret2Geral.CreateStructure();
+
+                int v_contGeral = 0;
+                foreach (IRfcStructure row in it_condicaoDePrecoGeral)
+                {
+                    condicaoDePrecoGeral.Org_vendas             = row.GetString("VKORG");
+                    condicaoDePrecoGeral.Can_dist               = row.GetString("VTWEG");
+                    condicaoDePrecoGeral.Id_material            = row.GetString("MATNR");
+                    condicaoDePrecoGeral.NumeroRegistroCondicao = row.GetString("KNUMH");
+                    condicaoDePrecoGeral.Id_material            = row.GetString("MATNR");
+                    condicaoDePrecoGeral.NumeroRegistroCondicao = row.GetString("KNUMH");
+                    condicaoDePrecoGeral.Montante               = Convert.ToDecimal(row.GetString("KBETR"));
+                    condicaoDePrecoGeral.UnidadeCondicao        = row.GetString("KONWA");
+                    condicaoDePrecoGeral.Pacote                 = row.GetString("PACOTE");
+                    condicaoDePrecoGeral.Data_criacao           = Convert.ToDateTime(row.GetString("ERDAT"));
+                    condicaoDePrecoGeral.Hora_criacao           = row.GetString("ERZET");
+                    try
+                    {
+                        v_contGeral = v_contGeral + 1; 
+                        if (deletar == ' ')
+                        {
+                            IList<CondicaoDePrecoGeral> fromDB = condicaoDePrecoGeralRepository.ObterRegistrosTresCampos("Org_vendas", condicaoDePrecoGeral.Org_vendas, "Can_dist", condicaoDePrecoGeral.Can_dist, "Id_material", condicaoDePrecoGeral.Id_material);
+                            foreach (CondicaoDePrecoGeral dados in fromDB)
+                            {
+                                condicaoDePrecoGeralRepository.Excluir(dados);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Em caso de erro retorna o erro e a descricao do material
+                        Console.Write("Erro ao Inserir a Condicao de Preco Geral, Mensagem: " + ex);
+                        IRfcTable retorno = function.GetTable("IT_RETURN");
+                        linha_retornoRegiao.SetValue("TYPE", "E");
+                        linha_retornoRegiao.SetValue("MESSAGE", ex.Message);
+                        linha_retornoRegiao.SetValue("MESSAGE", "Erro ao inserir a Condicao de Preco Geral para o Material: " + condicaoDePrecoGeral.Id_material + " - Organização: " + condicaoDePrecoGeral.Org_vendas + " - Canal: " + condicaoDePrecoGeral.Can_dist);
+                        retorno.Insert(linha_retornoRegiao);
+                    }
+
+                    condicaoDePrecoGeralRepository.Salvar(condicaoDePrecoGeral);
+                    String PACOTE = row.GetString("PACOTE");
+                    String ERDAT = row.GetString("ERDAT");
+                    String ERZET = row.GetString("ERZET");
+                }
+
+                IRfcTable retornoSucessoGeral = function.GetTable("IT_RETURN");
+                linha_retornoGeral.SetValue("TYPE", "S");
+                linha_retornoGeral.SetValue("MESSAGE", "Registros com Sucesso(GERAL): " + v_contGeral);
+                retornoSucessoGeral.Insert(linha_retornoGeral);
             }
         }
         

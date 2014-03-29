@@ -206,7 +206,7 @@
         </div>
 
     }
-    <div id="divCondicoesDePreco" class="janelaModal">
+    <div id="divCondicoesDePreco" class="janelaModal" @*style="display: none"*@>
         <div id="gridCondicoesDePreco" class="divGrid"></div>
     </div>
 </div>
@@ -616,6 +616,7 @@
                     }
                 ],
                 dataBound: function () {
+                    debugger;
                     if (somenteLeitura) {
                         $('#gridLinhasAdicionadas').find('.button_edit,.button_remove').attr('disabled', true);
                     }
@@ -684,13 +685,19 @@
 
             function enviarPedido(acao, mensagemDeSucesso) {
 
+                var form = $('form');
+                if (!$(form).validate().form()) {
+                    return;
+                }
+
                 if (linhasAdicionadas.length == 0) {
                     Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de salvar.');
                     return;
                 }
 
                 var pedido = {
-                    IdDoPedido: $('#id_cotacao').val(),
+                    IdDaCotacao:  $('#id_cotacao').val(),
+                    IdDoPedido: $('#id_pedido').val(),
                     tipo: acao,
                     CodigoTipoPedido: $('#CodigoTipoPedido').val(),
                     CodigoDaCondicaoDePagamento: $('#condpgto').val(),
@@ -711,6 +718,7 @@
                 var itens = new Array();
                 $.each(linhasAdicionadas, function(indice, item) {
                     itens.push({
+                        IdDoItem: item.Id,
                         IdMaterial: item.IdMaterial,
                         Quantidade: item.Quantidade,
                         CodigoDaListaDePreco: item.CodigoListaPreco,
