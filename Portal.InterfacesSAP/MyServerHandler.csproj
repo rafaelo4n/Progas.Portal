@@ -141,6 +141,9 @@
   <ItemGroup>
     <Compile Include="Business\Implementation\ClienteRepository.cs" />
     <Compile Include="Business\Implementation\ClienteVendasRepository.cs" />
+    <Compile Include="Business\Implementation\CondicaoDePrecoClienteRepository.cs" />
+    <Compile Include="Business\Implementation\CondicaoDePrecoGeralRepository.cs" />
+    <Compile Include="Business\Implementation\CondicaoDePrecoRegiaoRepository.cs" />
     <Compile Include="Business\Implementation\CondicaoPagamentoRepository.cs" />
     <Compile Include="Business\Implementation\FornecedorRepository.cs" />
     <Compile Include="Business\Implementation\IncotermsCabRepository.cs" />
@@ -150,6 +153,9 @@
     <Compile Include="Business\Implementation\UnidadeMedidaRepository.cs" />
     <Compile Include="Business\Repository\IClienteRepository.cs" />
     <Compile Include="Business\Repository\IClienteVendasRepository.cs" />
+    <Compile Include="Business\Repository\ICondicaoDePrecoClienteRepository.cs" />
+    <Compile Include="Business\Repository\ICondicaoDePrecoGeralRepository.cs" />
+    <Compile Include="Business\Repository\ICondicaoDePrecoRegiaoRepository.cs" />
     <Compile Include="Business\Repository\ICondicaoPagamentoRepository.cs" />
     <Compile Include="Business\Repository\IFornecedorRepository.cs" />
     <Compile Include="Business\Repository\IIncotermsCabRepository.cs" />
@@ -160,6 +166,9 @@
     <Compile Include="ConexaoNHibernate.cs" />
     <Compile Include="Entity\Cliente.cs" />
     <Compile Include="Entity\ClienteVendas.cs" />
+    <Compile Include="Entity\CondicaoDePrecoCliente.cs" />
+    <Compile Include="Entity\CondicaoDePrecoGeral.cs" />
+    <Compile Include="Entity\CondicaoDePrecoRegiao.cs" />
     <Compile Include="Entity\CondicaoPagamento.cs" />
     <Compile Include="Entity\Fornecedor.cs" />
     <Compile Include="Entity\IncotermsCab.cs" />
@@ -189,6 +198,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="hibernate.cfg.xml" />
+    <EmbeddedResource Include="Mappings\CondicaoDePrecoGeral.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\CondicaoDePrecoRegiao.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\CondicaoDePrecoCliente.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Mappings\IncotermsCab.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

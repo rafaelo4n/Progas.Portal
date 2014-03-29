@@ -47,6 +47,12 @@
       <column name="Hora_criacao" length="8" />
     </property>
 
+    <property name="Denominacao" not-null="false" access="property" type="String">
+      <column name="Denominacao" length="40" />
+    </property>
+    
+    
+
   </class>
 
 </hibernate-mapping>

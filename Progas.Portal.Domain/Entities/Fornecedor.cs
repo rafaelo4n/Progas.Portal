@@ -25,13 +25,16 @@ namespace Progas.Portal.Domain.Entities
         public virtual DateTime data_criacao { get; protected set; }
         public virtual string pacote { get; protected set; }
         public virtual string hora_criacao { get; protected set; }
+        public virtual string Grupo_contas { get; protected set; }
+        public virtual string Codigo_eliminacao { get; protected set; }
 
         
         //public virtual IList<Produto>  Produtos { get; protected set; }
         public Fornecedor(string codigo, string nome, string cpf, string cnpj, string nr_ie_for,
                         string cep, string endereco, string numero, string complemento,
                         string municipio, string bairro, string uf, string pais, string tel_res, string tel_cel,
-                        string email):this()
+                        string email, string grupo_contas, string codigo_eliminacao)
+            : this()
         {
             Codigo = codigo;
             Nome = nome;
@@ -49,7 +52,8 @@ namespace Progas.Portal.Domain.Entities
             Tel_res = tel_res;
             Tel_cel = tel_cel;
             Email = email;
-
+            Grupo_contas = grupo_contas;
+            Codigo_eliminacao = codigo_eliminacao;
         }
 
         public Fornecedor()

@@ -273,4 +273,78 @@ GO
 
 ALTER TABLE pro_vitem DROP COLUMN Id_pedido
 
+GO
+
+ -- ULTIMAS ALTERACOES
+ALTER TABLE pro_fornecedor
+ADD Grupo_contas nchar(4) null;
+
+GO
+
+ALTER TABLE pro_fornecedor
+ADD Codigo_eliminacao nchar(1) null;
+
+GO
+
+ALTER TABLE pro_cliente_vendas
+ADD Denominacao nchar(40) null;
+
+GO
+
+CREATE TABLE [dbo].[pro_condicaopreco_cliente](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Org_vendas] [nvarchar](4) NULL,
+	[Can_dist] [nvarchar](2) NULL,
+	[Id_cliente] [nchar](10) NULL,
+	[Id_material] [nvarchar](18) NULL,
+	[NumeroRegistroCondicao] [nvarchar](10) NULL,
+	[Montante] [decimal](11, 2) NULL,
+	[UnidadeCondicao] [nvarchar](5) NULL,
+	[Pacote] [nchar](30) NULL,
+	[Data_criacao] [date] NULL,
+	[Hora_criacao] [nchar](8) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+CREATE TABLE [dbo].[pro_condicaopreco_geral](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Org_vendas] [nvarchar](4) NULL,
+	[Can_dist] [nvarchar](2) NULL,
+	[Id_material] [nvarchar](18) NULL,
+	[NumeroRegistroCondicao] [nvarchar](10) NULL,
+	[Montante] [decimal](11, 2) NULL,
+	[UnidadeCondicao] [nvarchar](5) NULL,
+	[Pacote] [nchar](30) NULL,
+	[Data_criacao] [date] NULL,
+	[Hora_criacao] [nchar](8) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+CREATE TABLE [dbo].[pro_condicaopreco_regiao](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Regiao] [nvarchar](3) NULL,
+	[Id_material] [nvarchar](18) NULL,
+	[NumeroRegistroCondicao] [nvarchar](10) NULL,
+	[Montante] [decimal](11, 2) NULL,
+	[UnidadeCondicao] [nvarchar](5) NULL,
+	[Pacote] [nchar](30) NULL,
+	[Data_criacao] [date] NULL,
+	[Hora_criacao] [nchar](8) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+
 
