@@ -8,7 +8,7 @@ namespace Progas.Portal.Infra.Mappings
         public PedidoVendaMap()
         {
             Table("pro_vcab");
-            Id(x => x.Id_cotacao).Column("id_cotacao");//.GeneratedBy.Native("pro_id_pedido_venda");
+            Id(x => x.Id_cotacao).Column("id_cotacao");
             Map(x => x.TipoPedido);
             Map(x => x.Id_centro);
             Map(x => x.Datacp);
@@ -21,11 +21,11 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.ValorTotal,"Vlrtot");
             Map(x => x.Tipo);
 
-            References(x => x.Cliente, "pro_id_cliente");
+            References(x => x.Cliente, "Id_cliente");
             References(x => x.AreaDeVenda, "pro_id_cliente_vendas");
-            References(x => x.Transportadora,"IdDaTransportadora");
-            References(x => x.TransportadoraDeRedespacho, "IdDaTransportadoraDeRedespacho");
-            References(x => x.TransportadoraDeRedespachoCif,"IdDaTransportadoraDeRedespachoCif");
+            References(x => x.Transportadora,"CodigoDaTransportadora");
+            References(x => x.TransportadoraDeRedespacho, "CodigoDaTransportadoraDeRedespacho");
+            References(x => x.TransportadoraDeRedespachoCif,"CodigoDaTransportadoraDeRedespachoCif");
             References(x => x.Incoterm1, "pro_id_incotermCab");
             References(x => x.Incoterm2, "pro_id_incotermLinha");
 

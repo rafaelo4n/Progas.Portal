@@ -80,9 +80,9 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             return this;
         }
 
-        public IPedidosVenda DoCliente(int idCliente)
+        public IPedidosVenda DoCliente(string codigoDoCliente)
         {
-            Query = Query.Where(pedido => pedido.Cliente.Id == idCliente);
+            Query = Query.Where(pedido => pedido.Cliente.Id_cliente == codigoDoCliente);
             return this;
         }
     }

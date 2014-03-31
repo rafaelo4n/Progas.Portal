@@ -119,6 +119,8 @@ namespace Progas.Portal.Application.Services.Implementations
                         itemDoPedido.Alterar(retornoItem.GetString("POSNR"), Convert.ToDecimal(retornoItem.GetString("VLRTAB")),
                                 Convert.ToDecimal(retornoItem.GetString("VLRPOL")), motivoDeRecusa);
 
+                        itemDoPedido.CondicoesDePreco.Clear();
+
                         foreach (var condicaoRetornada in
                                 retornoCondicoes.Where(
                                     condicao => condicao.GetString("POSNR") == retornoItem.GetString("POSNR")))

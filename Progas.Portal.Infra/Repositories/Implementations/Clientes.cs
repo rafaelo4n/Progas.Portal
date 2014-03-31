@@ -80,10 +80,5 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             return this;
         }
 
-        public IClientes BuscaPeloId(int idDoCliente)
-        {
-            Query = Query.Where(x => x.Id == idDoCliente);
-            return this;
-        }
     }
 }

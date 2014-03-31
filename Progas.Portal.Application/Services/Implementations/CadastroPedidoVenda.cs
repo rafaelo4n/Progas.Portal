@@ -1,14 +1,11 @@
 ﻿using System; 
 using System.Collections.Generic;
 using System.Linq;
-using NHibernate.Hql;
 using Progas.Portal.Application.Services.Contracts;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.DTO;
-using Progas.Portal.Infra.DataAccess;
 using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.ViewModel;
-using SAP.Middleware.Connector;
 
 namespace Progas.Portal.Application.Services.Implementations
 {
@@ -56,35 +53,35 @@ namespace Progas.Portal.Application.Services.Implementations
 
         private TransportadorasDoPedido ConsultarTransportadoras(PedidoVendaSalvarVm pedido)
         {
-            var idsDasTransportadoras = new List<int>();
+            var codigosDasTransportadoras = new List<string>();
 
-            if (pedido.CodigoDaTransportadora.HasValue)
+            if (!string.IsNullOrEmpty(pedido.CodigoDaTransportadora))
             {
-                idsDasTransportadoras.Add(pedido.CodigoDaTransportadora.Value);
+                codigosDasTransportadoras.Add(pedido.CodigoDaTransportadora);
             }
 
-            if (pedido.CodigoDaTransportadoraDeRedespacho.HasValue)
+            if (!string.IsNullOrEmpty(pedido.CodigoDaTransportadoraDeRedespacho))
             {
-                idsDasTransportadoras.Add(pedido.CodigoDaTransportadoraDeRedespacho.Value);
+                codigosDasTransportadoras.Add(pedido.CodigoDaTransportadoraDeRedespacho);
             }
 
-            if (pedido.CodigoDaTransportadoraDeRedespachoCif.HasValue)
+            if (!string.IsNullOrEmpty(pedido.CodigoDaTransportadoraDeRedespachoCif))
             {
-                idsDasTransportadoras.Add(pedido.CodigoDaTransportadoraDeRedespachoCif.Value);
+                codigosDasTransportadoras.Add(pedido.CodigoDaTransportadoraDeRedespachoCif);
             }
 
-            IList<Fornecedor> transportadoras = _fornecedores.BuscaListaPorIds(idsDasTransportadoras).List();
+            IList<Fornecedor> transportadoras = _fornecedores.BuscaListaPorCodigo(codigosDasTransportadoras.ToArray()).List();
 
             var retorno = new TransportadorasDoPedido
             {
-                Transportadora = pedido.CodigoDaTransportadora.HasValue
-                    ? transportadoras.Single(x => x.Id == pedido.CodigoDaTransportadora.Value)
+                Transportadora = !string.IsNullOrEmpty(pedido.CodigoDaTransportadora) 
+                    ? transportadoras.Single(x => x.Codigo == pedido.CodigoDaTransportadora)
                     : null,
-                TransportadoraDeRedespacho = pedido.CodigoDaTransportadoraDeRedespacho.HasValue
-                    ? transportadoras.Single(x => x.Id == pedido.CodigoDaTransportadoraDeRedespacho.Value)
+                TransportadoraDeRedespacho = !string.IsNullOrEmpty(pedido.CodigoDaTransportadoraDeRedespacho)
+                    ? transportadoras.Single(x => x.Codigo == pedido.CodigoDaTransportadoraDeRedespacho)
                     : null,
-                TransportadoraDeRedespachoCif = pedido.CodigoDaTransportadoraDeRedespachoCif.HasValue
-                    ? transportadoras.Single(x => x.Id == pedido.CodigoDaTransportadoraDeRedespachoCif.Value)
+                TransportadoraDeRedespachoCif = !string.IsNullOrEmpty(pedido.CodigoDaTransportadoraDeRedespachoCif)
+                    ? transportadoras.Single(x => x.Codigo == pedido.CodigoDaTransportadoraDeRedespachoCif)
                     : null
             };
 
@@ -108,7 +105,7 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 IncotermLinhas incoterm2 = _incotermsLinhas.FiltraPorId(pedido.IdDoIncoterm2).Single();
 
-                Cliente cliente = _clientes.BuscaPeloId(pedido.IdDoCliente).Single();
+                Cliente cliente = _clientes.BuscaPeloCodigo(pedido.CodigoDoCliente);
 
                 PedidoVenda pedidoVenda;
 
@@ -196,9 +193,10 @@ namespace Progas.Portal.Application.Services.Implementations
                     Itens = pedidoVenda.Itens.Select(item => new PedidoSapItemRetornoDTO
                     {
                         NumeroDoItem = item.Numero,
-                        Status = item.Status,
                         ValorDeTabela = item.ValorTabela,
                         ValorPolitica = item.ValorPolitica,
+                        CodigoDoMotivoDeRecusa = item.MotivoDeRecusa != null ? item.MotivoDeRecusa.Codigo : null,
+                        DescricaoDoMotivoDeRecusa = item.MotivoDeRecusa != null ? item.MotivoDeRecusa.Descricao: null,
                         CondicoesDePreco = item.CondicoesDePreco.Select(condicaoDePreco => new CondicaoDePrecoDTO
                         {
                             Nivel = condicaoDePreco.Nivel,

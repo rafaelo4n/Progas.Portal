@@ -58,7 +58,6 @@ namespace Progas.Portal.Application.Queries.Implementations
                 Registros = _clientes.GetQuery()
                     .Select(c => new ClienteParaSelecaoVm
                     {
-                        Id =  c.Id,
                         Codigo = c.Id_cliente,
                         Nome = c.Nome,
                         Cnpj = c.Cnpj,
@@ -88,8 +87,6 @@ namespace Progas.Portal.Application.Queries.Implementations
                 _clientes.FiltraPelaDescricao(filtro.nome);
             }
             int skip = (paginacaoVm.Page - 1) * paginacaoVm.PageSize;
-
-            //paginacaoVm.TotalRecords = _condicoesDePagamento.Count();
 
             return _builderCliente.BuildList(_clientes.Skip(skip).Take(paginacaoVm.Take).List());
 

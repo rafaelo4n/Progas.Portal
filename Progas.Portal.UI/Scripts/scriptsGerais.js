@@ -197,11 +197,12 @@ $.fn.customLoad = function (url, callBack) {
 };
 
 $.fn.serializeObject = function () {
-    var inputs = $(this).find(":input");
+    var inputs = $(this).find("input:not([type=button]):not([type=reset])");
     var object = {};
     $.each(inputs, function (index, input) {
+        var tipoDoInput = $(input).attr('type');
         var valorDoInput;
-        if ($(input).attr('type') == 'checkbox') {
+        if (tipoDoInput == 'checkbox') {
             valorDoInput = $(input).is(':checked');
         } else {
             valorDoInput = $(input).val();

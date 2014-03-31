@@ -7,9 +7,9 @@
         <div style="display:block" >
             @if (usuarioConectado != null)
             {
-                <div style="width: 300px; display: inline; float: right; margin-right: 10px">
+                <div style="width: 300px; display: inline; float: right; margin-right: 10px; font-size: 1.2em">
                     <div style="width: 100%; ">
-                        <p style="color: black; font-weight: bold; font-size: 0.8em;text-align: right;margin: 0">Bem Vindo @usuarioConectado.NomeCompleto </p>
+                        <p style="color: black; font-weight: bold ;text-align: right;margin: 0">Bem Vindo @usuarioConectado.NomeCompleto </p>
                     </div>
                     <div style="width: 100%">
                         <p style="text-align: right;margin: 0">@Html.ActionLink("Sair", "LogOff","Account")</p>

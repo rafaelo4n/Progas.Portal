@@ -5,7 +5,6 @@ namespace Progas.Portal.Domain.Entities
 
     public class Cliente : IAggregateRoot 
     {        
-        public virtual int Id { get; set; }
         public virtual string Id_cliente { get; set; }
         public virtual string Nome { get; set; }
         public virtual string Cpf { get; set; }
@@ -52,7 +51,7 @@ namespace Progas.Portal.Domain.Entities
 
     }
 
-    public Cliente()
+    protected Cliente()
     {
         // TODO: Complete member initialization
     }

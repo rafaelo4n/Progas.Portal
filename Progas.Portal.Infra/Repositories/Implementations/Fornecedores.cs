@@ -9,6 +9,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
     {
         public Fornecedores(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
+            Query = Query.Where(f => (f.Codigo_eliminacao == null || !f.Codigo_eliminacao.Equals("X")));
         }
 
         public Fornecedor BuscaPeloCodigo(string codigoSap)
@@ -54,10 +55,35 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             return this;
         }
 
-        public IFornecedores BuscaListaPorIds(IList<int> ids)
+        public IFornecedores ComCnpj(string cnpj)
         {
-            Query = Query.Where(x => ids.Contains(x.Id));
+            if (!string.IsNullOrEmpty(cnpj))
+            {
+                Query = Query.Where(x => x.Cnpj == cnpj);
+            }
+            return this;
+
+        }
+
+        public IFornecedores ComCpf(string cpf)
+        {
+            if (!string.IsNullOrEmpty(cpf))
+            {
+                Query = Query.Where(x => x.Cpf == cpf);
+            }
             return this;
         }
+
+
+        public IFornecedores MunicipioContendo(string municipio)
+        {
+            if (!string.IsNullOrEmpty(municipio))
+            {
+                Query = Query.Where(x => x.Municipio.ToLower().Contains(municipio.ToLower()));
+
+            }
+            return this;
+        }
+
     }
 }

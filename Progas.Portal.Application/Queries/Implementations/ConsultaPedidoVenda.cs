@@ -27,9 +27,9 @@ namespace Progas.Portal.Application.Queries.Implementations
         {
             var usuarioConectado = _usuarios.UsuarioConectado();
 
-            if (filtro.id_cliente.HasValue)
+            if (!string.IsNullOrEmpty(filtro.id_cliente))
             {
-                _pedidosVenda.DoCliente(filtro.id_cliente.Value);
+                _pedidosVenda.DoCliente(filtro.id_cliente);
 
             }
 
@@ -177,7 +177,6 @@ namespace Progas.Portal.Application.Queries.Implementations
                 IdDaAreaDeVenda = pedido.AreaDeVenda.Id,
                 Cliente = new ClienteDoPedidoDeVendaVm
                 {
-                  Id  = pedido.Cliente.Id ,
                   Codigo = pedido.Cliente.Id_cliente,
                   Nome = pedido.Cliente.Nome,
                   Cnpj =  pedido.Cliente.Cnpj ?? pedido.Cliente.Cpf,
@@ -187,7 +186,6 @@ namespace Progas.Portal.Application.Queries.Implementations
                 Transportadora = pedido.Transportadora != null 
                 ? new TransportadoraDoPedidoDeVenda
                 {
-                    Id = pedido.Transportadora.Id,
                     Codigo = pedido.Transportadora.Codigo,
                     Nome = pedido.Transportadora.Nome
                 }
@@ -196,7 +194,6 @@ namespace Progas.Portal.Application.Queries.Implementations
                 TransportadoraDeRedespacho = pedido.TransportadoraDeRedespacho != null
                 ?new TransportadoraDoPedidoDeVenda
                 {
-                    Id = pedido.TransportadoraDeRedespacho.Id,
                     Codigo = pedido.TransportadoraDeRedespacho.Codigo,
                     Nome =  pedido.TransportadoraDeRedespacho.Nome
                 }
@@ -205,7 +202,6 @@ namespace Progas.Portal.Application.Queries.Implementations
                 TransportadoraDeRedespachoCif = pedido.TransportadoraDeRedespachoCif != null 
                 ?  new TransportadoraDoPedidoDeVenda
                 {
-                    Id = pedido.TransportadoraDeRedespachoCif.Id,
                     Codigo = pedido.TransportadoraDeRedespachoCif.Codigo,
                     Nome = pedido.TransportadoraDeRedespachoCif.Nome
                 }

@@ -4,7 +4,6 @@ namespace Progas.Portal.Domain.Entities
 {
     public class Fornecedor:IAggregateRoot
     {
-        public virtual int Id { get; protected set; }
         public virtual string Codigo { get; protected set; }
         public virtual string Nome { get; protected set; }
         public virtual string Cpf { get; protected set; }        
@@ -56,7 +55,7 @@ namespace Progas.Portal.Domain.Entities
             Codigo_eliminacao = codigo_eliminacao;
         }
 
-        public Fornecedor()
+        protected Fornecedor()
         { 
         
         }

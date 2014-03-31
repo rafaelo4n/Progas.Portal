@@ -60,8 +60,6 @@
                     new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Cnpj, "campogrande campoDesabilitado"),
                     new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Telefone, "campogrande campoDesabilitado"))
                 
-                @Html.HiddenFor(x => x.Cliente.Id)
-
                 
                 @{
                     var comboDeAreaDeVendas = new ColunaComDropDown<PedidoVendaCadastroVm, int>
@@ -113,7 +111,6 @@
                 
                 @Html.LinhaComQuatroColunas(inco1, inco2, buscaDeTransportadora, campoComNomeDaTransportadora)
                 
-                @Html.HiddenFor(x => x.Transportadora.Id)
                 
                 @{
                     var buscaDeTransportadoraDeRedespacho = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespacho.Codigo,
@@ -131,9 +128,6 @@
                 }
                 
                 @Html.LinhaComQuatroColunas(buscaDeTransportadoraDeRedespacho, campoComNomeDaTransportadoraDeRedespacho,buscaDeTransportadoraDeRedespachoCif, campoComNomeDaTransportadoraDeRedespachoCif)
-                
-                @Html.HiddenFor(x => x.TransportadoraDeRedespacho.Id)
-                @Html.HiddenFor(x => x.TransportadoraDeRedespachoCif.Id)
                 
                 @Html.LinhaComUmaColuna(new ColunaComTextArea<PedidoVendaCadastroVm, string>(x => x.obs))
 
@@ -228,7 +222,6 @@
         var linhasAdicionadas = new Array();
         var condicoesDePrecoDoItemSelecionado = new Array();
         var indiceEdicao = -1;
-        var status = 0;
         var simular = "S";
         var gravar = "G";
         var numeroDeItensInseridos = 0;
@@ -342,34 +335,31 @@
 
             var funcaoParaRetornarCamposDaBuscaDeTransportadora = function() {
                 var transportadoraSelecionada = selecionarTransportadora.fornecedorSelecionado;
-                $("#Transportadora_Id").val(transportadoraSelecionada.Id);
                 $("#Transportadora_Codigo").val(transportadoraSelecionada.Codigo);
                 $("#Transportadora_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadora.configurarJanelaModal("#Transportadora_Id", "divSelecionarTransportadora", "#btnSelecionarTransportadora", funcaoParaRetornarCamposDaBuscaDeTransportadora);
+            selecionarTransportadora.configurarJanelaModal("#Transportadora_Codigo", "divSelecionarTransportadora", "#btnSelecionarTransportadora", funcaoParaRetornarCamposDaBuscaDeTransportadora);
 
             var selecionarTransportadoraDeRedespacho = new SelecionarFornecedor();
 
             var funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho = function() {
                 var transportadoraSelecionada = selecionarTransportadoraDeRedespacho.fornecedorSelecionado;
-                $("#TransportadoraDeRedespacho_Id").val(transportadoraSelecionada.Id);
                 $("#TransportadoraDeRedespacho_Codigo").val(transportadoraSelecionada.Codigo);
                 $("#TransportadoraDeRedespacho_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadoraDeRedespacho.configurarJanelaModal("#TransportadoraDeRedespacho_Id", "divSelecionarTransportadoraDeRedespacho", "#btnSelecionarTransportadoraDeRedespacho", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
+            selecionarTransportadoraDeRedespacho.configurarJanelaModal("#TransportadoraDeRedespacho_Codigo", "divSelecionarTransportadoraDeRedespacho", "#btnSelecionarTransportadoraDeRedespacho", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
 
             var selecionarTransportadoraDeRedespachoCif = new SelecionarFornecedor();
 
             var funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif = function() {
                 var transportadoraSelecionada = selecionarTransportadoraDeRedespachoCif.fornecedorSelecionado;
-                $("#TransportadoraDeRedespachoCif_Id").val(transportadoraSelecionada.Id);
                 $("#TransportadoraDeRedespachoCif_Codigo").val(transportadoraSelecionada.Codigo);
                 $("#TransportadoraDeRedespachoCif_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadoraDeRedespachoCif.configurarJanelaModal("#TransportadoraDeRedespachoCif_Id", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
+            selecionarTransportadoraDeRedespachoCif.configurarJanelaModal("#TransportadoraDeRedespachoCif_Codigo", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
 
             var selecionarCliente = new SelecionarCliente();
             var funcaoParaRetornarCamposDaBuscaDeCliente = function() {
@@ -378,14 +368,13 @@
                 if (codigoDoCliente != clienteSelecionado.Codigo) {
                     carregarAreasDeVenda(clienteSelecionado.Codigo);
                 }
-                $('#Cliente_Id').val(clienteSelecionado.Id);
                 $('#Cliente_Codigo').val(clienteSelecionado.Codigo);
                 $('#Cliente_Nome').val(clienteSelecionado.Nome);
                 $('#Cliente_Cnpj').val(clienteSelecionado.Cnpj || clienteSelecionado.Cpf);
                 $('#Cliente_Telefone').val(clienteSelecionado.Telefone);
 
             };
-            selecionarCliente.configurarJanelaModal('#Cliente_Id', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
+            selecionarCliente.configurarJanelaModal('#Cliente_Codigo', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
 
             var selecionarProduto = new SelecionarProduto();
 
@@ -511,7 +500,6 @@
                             id: 'Codigo',
                             fields: {
                                 NumeroDoItem: { type: "number" },
-                                Status: { type: "string" },
                                 IdMaterial: { type: "number" },
                                 CodigoMaterial: { type: "string" },
                                 DescricaoMaterial: { type: "string" },
@@ -545,10 +533,6 @@
                         width: 40,
                         field: "NumeroDoItem",
                         title: "Item"
-                    },
-                    {
-                        width: 45,
-                        title: "Status"
                     },
                     {
                         field: "CodigoMaterial",
@@ -616,7 +600,6 @@
                     }
                 ],
                 dataBound: function () {
-                    debugger;
                     if (somenteLeitura) {
                         $('#gridLinhasAdicionadas').find('.button_edit,.button_remove').attr('disabled', true);
                     }
@@ -706,7 +689,7 @@
                     CodigoDaTransportadora: $('#Transportadora_Codigo').val(),
                     CodigoDaTransportadoraDeRedespacho: $('#TransportadoraDeRedespacho_Codigo').val(),
                     CodigoDaTransportadoraDeRedespachoCif: $('#TransportadoraDeRedespachoCif_Codigo').val(),
-                    IdDoCliente: $('#Cliente_Id').val(),
+                    CodigoDoCliente: $('#Cliente_Codigo').val(),
                     IdDaAreaDeVenda: $('#AreaDeVenda').val(),
                     Centro: $('#id_centro').val(),
                     IdDoIncoterm1: $('#Inco1').val(),
@@ -747,7 +730,8 @@
 
                             for (var i = 0; i < retorno.Itens.length; i++) {
                                 linhasAdicionadas[i].NumeroDoItem = retorno.Itens[i].NumeroDoItem;
-                                linhasAdicionadas[i].Status = retorno.Itens[i].Status;
+                                linhasAdicionadas[i].CodigoDoMotivoDeRecusa = retorno.Itens[i].CodigoDoMotivoDeRecusa;
+                                linhasAdicionadas[i].DescricaoDoMotivoDeRecusa = retorno.Itens[i].DescricaoDoMotivoDeRecusa;
                                 linhasAdicionadas[i].ValorTabela = retorno.Itens[i].ValorDeTabela;
                                 linhasAdicionadas[i].ValorPolitica = retorno.Itens[i].ValorPolitica;
                                 linhasAdicionadas[i].CondicoesDePreco = retorno.Itens[i].CondicoesDePreco;
