@@ -16,7 +16,7 @@
                             Cnpj: { type: "string" },
                             Cpf: { type: "string" },
                             Municipio: { type: "string" },
-                            Telefone: { type: "string" }
+                            Uf: { type: "string" }
                         }
                     },
                     total: 'QuantidadeDeRegistros'
@@ -70,10 +70,16 @@
                     title: "CPF"
                 },
                 {
-                    field: "municipio",
+                    field: "Municipio",
                     width: 100,
                     title: "Cidade"
+                },
+                {
+                    field: "Uf",
+                    width: 30,
+                    title: "UF"
                 }
+
             ]
         });
 

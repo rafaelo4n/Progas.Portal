@@ -1,10 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Progas.Portal.Domain.Entities
 {
 
     public class Cliente : IAggregateRoot 
-    {        
+    {
+
+        protected Cliente()
+        {
+            this.AreasDeVenda = new List<ClienteVenda>();
+        }
+
         public virtual string Id_cliente { get; set; }
         public virtual string Nome { get; set; }
         public virtual string Cpf { get; set; }
@@ -25,7 +32,7 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Pacote { get; set; }
         public virtual string Hora_criacao { get; set; }
         public virtual DateTime Data_criacao { get; set; }
-
+        public virtual IList<ClienteVenda> AreasDeVenda { get; set; }
 
         public Cliente( string id_cliente, string nome, string cpf, string cnpj, string nr_ie_cli,
                         string cep, string endereco, string numero, string complemento, 
@@ -51,9 +58,5 @@ namespace Progas.Portal.Domain.Entities
 
     }
 
-    protected Cliente()
-    {
-        // TODO: Complete member initialization
-    }
   }
 }

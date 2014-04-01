@@ -14,5 +14,6 @@ namespace Progas.Portal.Application.Queries.Contracts
         IList<ClienteCadastroVm> Listar(PaginacaoVm paginacaoVm, ClienteCadastroVm filtro);
         KendoGridVm ListarParaSelecao(PaginacaoVm paginacaoVm, ClienteFiltroVm filtro);
         IList<ClienteCadastroVm> Listar();
+        int ConsultaDeTeste();
     }
 }

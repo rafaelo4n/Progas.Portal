@@ -109,7 +109,7 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 PedidoVenda pedidoVenda;
 
-                if (string.IsNullOrEmpty(pedido.IdDaCotacao))
+                if (!string.IsNullOrEmpty(pedido.IdDaCotacao))
                 {
                     pedidoVenda = _pedidosVenda.FiltraPorId(pedido.IdDaCotacao).Single();
 

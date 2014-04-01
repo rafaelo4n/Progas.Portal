@@ -3,6 +3,8 @@
 
     var me = this;
 
+    var somenteTransportadora;
+
     function configurarGridDeSelecao() {
 
         $("#gridFornecedores").customKendoGrid({
@@ -37,7 +39,9 @@
                         type: 'GET',
                         cache: false,
                         data: function () {
-                            return $('#filtrosDeFornecedor').serializeObject();
+                            var filtro = $('#filtrosDeFornecedor').serializeObject();
+                            filtro.SomenteTransportadora = somenteTransportadora;
+                            return filtro;
                         }
                     }
                 },
@@ -143,7 +147,7 @@
 
     };
 
-    this.configurarJanelaModal = function (idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno) {
+    function configurarJanelaModal(idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno) {
         $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
         $('#' + idDaDivDaJanelaDeDialogo).customDialog({
             title: 'Selecionar Fornecedor',
@@ -180,10 +184,12 @@
     };
 
     this.configurarJanelaModalParaFornecedor = function (idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno) {
+        somenteTransportadora = false;
         configurarJanelaModal(idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno);
     };
 
     this.configurarJanelaModalParaTransportadora = function (idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno) {
+        somenteTransportadora = true;
         configurarJanelaModal(idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno);
     };
 

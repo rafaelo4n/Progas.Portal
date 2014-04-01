@@ -13,5 +13,6 @@ namespace Progas.Portal.Infra.Repositories.Contracts
         IFornecedores FiltraPelaDescricao(string descricao);
         IFornecedores ComCnpj(string cnpj);
         IFornecedores ComCpf(string cpf);
+        IFornecedores SomenteTransportadora();
     }
 }

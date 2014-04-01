@@ -26,7 +26,7 @@ namespace Progas.Portal.Application.Queries.Implementations
             return queryable.Select(c => new AreaDeVendaVm
             {
                 Id = c.Id,
-                Descricao = string.Format("{0}-{1}-{2}",c.Org_vendas,c.Can_dist,c.Set_ativ)
+                Descricao = string.IsNullOrEmpty(c.Denominacao) ? "" : (c.Denominacao  + "-") + string.Format("{0}-{1}-{2}", c.Org_vendas, c.Can_dist, c.Set_ativ)
             }).ToList();
 
         }

@@ -30,6 +30,11 @@ namespace Progas.Portal.Application.Queries.Implementations
                 .NomeContendo(filtro.Nome)
                 .ComCnpj(filtro.Cnpj)
                 .ComCpf(filtro.Cpf);
+
+            if (filtro.SomenteTransportadora)
+            {
+                _fornecedores.SomenteTransportadora();
+            }
             
             var kendoGridVm = new KendoGridVm()
                 {

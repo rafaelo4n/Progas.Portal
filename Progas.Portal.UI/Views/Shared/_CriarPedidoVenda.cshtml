@@ -339,7 +339,7 @@
                 $("#Transportadora_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadora.configurarJanelaModal("#Transportadora_Codigo", "divSelecionarTransportadora", "#btnSelecionarTransportadora", funcaoParaRetornarCamposDaBuscaDeTransportadora);
+            selecionarTransportadora.configurarJanelaModalParaTransportadora("#Transportadora_Codigo", "divSelecionarTransportadora", "#btnSelecionarTransportadora", funcaoParaRetornarCamposDaBuscaDeTransportadora);
 
             var selecionarTransportadoraDeRedespacho = new SelecionarFornecedor();
 
@@ -349,7 +349,7 @@
                 $("#TransportadoraDeRedespacho_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadoraDeRedespacho.configurarJanelaModal("#TransportadoraDeRedespacho_Codigo", "divSelecionarTransportadoraDeRedespacho", "#btnSelecionarTransportadoraDeRedespacho", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
+            selecionarTransportadoraDeRedespacho.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespacho_Codigo", "divSelecionarTransportadoraDeRedespacho", "#btnSelecionarTransportadoraDeRedespacho", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
 
             var selecionarTransportadoraDeRedespachoCif = new SelecionarFornecedor();
 
@@ -359,7 +359,7 @@
                 $("#TransportadoraDeRedespachoCif_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadoraDeRedespachoCif.configurarJanelaModal("#TransportadoraDeRedespachoCif_Codigo", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
+            selecionarTransportadoraDeRedespachoCif.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespachoCif_Codigo", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
 
             var selecionarCliente = new SelecionarCliente();
             var funcaoParaRetornarCamposDaBuscaDeCliente = function() {

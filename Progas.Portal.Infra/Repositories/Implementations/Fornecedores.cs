@@ -74,6 +74,12 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IFornecedores SomenteTransportadora()
+        {
+            Query = Query.Where(f => f.Grupo_contas == "ZTRA");
+            return this;
+        }
+
 
         public IFornecedores MunicipioContendo(string municipio)
         {

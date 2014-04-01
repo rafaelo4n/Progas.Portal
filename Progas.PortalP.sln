@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.Domain", "Progas.Portal.Domain\Progas.Portal.Domain.csproj", "{2B790B52-C827-486C-B871-1392CFAD1C48}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.Domain.Services.Contracts", "Progas.Portal.Domain.Services.Contracts\Progas.Portal.Domain.Services.Contracts.csproj", "{9B5E0FEA-003B-41B8-847E-66CA20165FAE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.Domain.Services.Implementations", "Progas.Portal.Domain.Services.Implementations\Progas.Portal.Domain.Services.Implementations.csproj", "{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.UnitTest", "Progas.Portal.UnitTest\Progas.Portal.UnitTest.csproj", "{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -195,6 +197,16 @@ Global
 		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|win 64.ActiveCfg = Release|Any CPU
 		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|x64.ActiveCfg = Release|Any CPU
 		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|x86.ActiveCfg = Release|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Debug|win 64.ActiveCfg = Debug|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Release|win 64.ActiveCfg = Release|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Release|x64.ActiveCfg = Release|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

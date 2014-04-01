@@ -1,9 +1,6 @@
 ﻿using System.Linq;
-using System.Security.Policy;
 using Progas.Portal.Domain.Entities;
-using Progas.Portal.Infra.Model;
 using Progas.Portal.Infra.Repositories.Contracts;
-using StructureMap;
 
 namespace Progas.Portal.Infra.Repositories.Implementations
 {
@@ -80,5 +77,10 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IClientes DoRepresentante(string codigoDoRepresentante)
+        {
+            //Query = Query.Where(x => x.AreasDeVenda.Select(area => area.Fornecedor.Codigo).Contains(codigoDoRepresentante));
+            return this;
+        }
     }
 }
