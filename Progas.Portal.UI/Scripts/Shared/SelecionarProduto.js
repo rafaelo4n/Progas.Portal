@@ -2,6 +2,7 @@
 
     this.produtoSelecionado = null;
     var centro = null;
+    var cliente = null;
 
     var me = this;
 
@@ -30,12 +31,19 @@
                         type: 'GET',
                         cache: false,
                         data: function () {
-                            return {
+                            var filtro = {
                                 Codigo: $('#CodigoFiltro').val(),
                                 Descricao: $('#DescricaoFiltro').val(),
                                 Tipo: $('#TipoFiltro').val(),
                                 Centro: centro
                             };
+
+                            if (cliente) {
+                                filtro.IdDoCliente = cliente;
+                                filtro.ComPrecoAtivo = true;
+                            }
+
+                            return filtro;
                         }
                     }
                 }
@@ -84,7 +92,7 @@
     };
 
     this.configurarJanelaModal = function (idDoCampoDoIdDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto,
-        idDoCampoDoCentro, funcaoParaPreencherOsDadosDeRetorno) {
+        idDoCampoDoCentro, idDoCampoDoCliente, funcaoParaPreencherOsDadosDeRetorno) {
 
         $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
         $('#' + idDaDivDaJanelaDeDialogo).customDialog({
@@ -116,6 +124,11 @@
                     Mensagem.ExibirMensagemDeErro('Antes de selecionar o Material é necessário selecionar uma Área de Venda para identificarmos o Centro.');
                     return;
                 }
+            }
+
+            if (idDoCampoDoCliente) {
+                
+                cliente = $(idDoCampoDoCliente).val();
             }
 
             var idDoProduto = $(idDoCampoDoIdDoProduto).val();

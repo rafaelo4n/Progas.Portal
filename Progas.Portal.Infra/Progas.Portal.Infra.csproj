@@ -104,22 +104,14 @@
     <Reference Include="NSAPConnector">
       <HintPath>..\packages\NSAPConnector_x86.1.0.2\lib\NSAPConnector.dll</HintPath>
     </Reference>
-    <Reference Include="Progas.Portal.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Progas.Portal.Common\bin\Debug\Progas.Portal.Common.dll</HintPath>
-    </Reference>
     <Reference Include="sapnco">
       <HintPath>..\packages\NSAPConnector_x86.1.0.2\lib\sapnco.dll</HintPath>
     </Reference>
     <Reference Include="sapnco_utils">
       <HintPath>..\packages\NSAPConnector_x86.1.0.2\lib\sapnco_utils.dll</HintPath>
     </Reference>
-    <Reference Include="StructureMap, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\structuremap.3.0.0.108\lib\net40\StructureMap.dll</HintPath>
-    </Reference>
-    <Reference Include="StructureMap.Net4">
-      <HintPath>..\packages\structuremap.3.0.0.108\lib\net40\StructureMap.Net4.dll</HintPath>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -153,6 +145,7 @@
     <Compile Include="Mappings\CondicaoDePrecoClienteMap.cs" />
     <Compile Include="Mappings\CondicaoDePrecoGeralMap.cs" />
     <Compile Include="Mappings\CondicaoDePrecoMap.cs" />
+    <Compile Include="Mappings\CondicaoDePrecoRegiaoMap.cs" />
     <Compile Include="Mappings\FornecedorMap.cs" />
     <Compile Include="Mappings\IncotermLinhasMap.cs" />
     <Compile Include="Mappings\IncotermMap.cs" />
@@ -241,6 +234,10 @@
     <Folder Include="IoC\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Progas.Portal.Common\Progas.Portal.Common.csproj">
+      <Project>{52496AC5-D00F-4AE4-84B9-06AD65DADB47}</Project>
+      <Name>Progas.Portal.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Progas.Portal.Domain\Progas.Portal.Domain.csproj">
       <Project>{2b790b52-c827-486c-b871-1392cfad1c48}</Project>
       <Name>Progas.Portal.Domain</Name>

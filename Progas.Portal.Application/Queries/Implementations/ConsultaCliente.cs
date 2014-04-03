@@ -28,39 +28,14 @@ namespace Progas.Portal.Application.Queries.Implementations
             _unitOfWorkNh = unitOfWorkNh;
         }
 
-        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ClienteFiltroVm filtro)
-        {
-            _clientes
-                .CodigoContendo(filtro.Codigo)
-                .NomeContendo(filtro.Nome)
-                .ComCnpj(filtro.Cnpj)
-                .ComCpf(filtro.Cpf)
-                .MunicipioContendo(filtro.Municipio);
-
-            var kendoGridVmn = new KendoGridVm()
-            {
-                QuantidadeDeRegistros = _clientes.Count(),
-                Registros =
-                    _builderCliente.BuildList(_clientes.Skip(paginacaoVm.Skip)
-                    .Take(paginacaoVm.Take).List())
-                            .Cast<ListagemVm>()
-                            .ToList()
-
-            };
-            return kendoGridVmn;
-        }
-
-        public KendoGridVm ListarParaSelecao(PaginacaoVm paginacaoVm, ClienteFiltroVm filtro)
+        private IQueryOver<Cliente, Cliente> ConstruirQuery(ClienteFiltroVm filtro)
         {
             Usuario usuarioConectado = _usuarios.UsuarioConectado();
-            var unitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
 
             ClienteVenda areaDeVenda = null;
             Cliente cliente = null;
 
-            ClienteParaSelecaoVm clienteVm = null;
-
-            IQueryOver<Cliente, Cliente> queryOver = unitOfWorkNh.Session.QueryOver<Cliente>(() => cliente);
+            IQueryOver<Cliente, Cliente> queryOver = _unitOfWorkNh.Session.QueryOver<Cliente>(() => cliente);
 
             if (!string.IsNullOrEmpty(filtro.Nome))
             {
@@ -74,7 +49,7 @@ namespace Progas.Portal.Application.Queries.Implementations
 
             if (!string.IsNullOrEmpty(filtro.Cpf))
             {
-                queryOver = queryOver.Where(x => x.Cpf.IsInsensitiveLike(filtro.Cpf,MatchMode.Anywhere));
+                queryOver = queryOver.Where(x => x.Cpf.IsInsensitiveLike(filtro.Cpf, MatchMode.Anywhere));
             }
 
             if (!string.IsNullOrEmpty(filtro.Codigo))
@@ -96,6 +71,58 @@ namespace Progas.Portal.Application.Queries.Implementations
 
             queryOver.WithSubquery.WhereExists(subQuery);
 
+            return queryOver;
+
+        }
+
+        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ClienteFiltroVm filtro)
+        {
+
+            var queryOver = ConstruirQuery(filtro);
+
+            Cliente cliente = null;
+            ClienteCadastroVm clienteVm = null;
+
+            queryOver.SelectList(lista => lista
+                .Select(x => cliente.Cnpj).WithAlias(() => clienteVm.Cnpj)
+                .Select(x => cliente.Cpf).WithAlias(() => clienteVm.Cpf)
+                .Select(x => cliente.Complemento).WithAlias(() => clienteVm.complemento)
+                .Select(x => cliente.Email).WithAlias(() => clienteVm.email)
+                .Select(x => cliente.Endereco).WithAlias(() => clienteVm.endereco)
+                .Select(x => cliente.Id_cliente).WithAlias(() => clienteVm.id_cliente )
+                .Select(x => cliente.Municipio).WithAlias(() => clienteVm.municipio)
+                .Select(x => cliente.Nome).WithAlias(() => clienteVm.nome)
+                .Select(x => cliente.Nr_ie_cli).WithAlias(() => clienteVm.nr_ie_for)
+                .Select(x => cliente.Numero).WithAlias(() => clienteVm.numero)
+                .Select(x => cliente.Pais).WithAlias(() => clienteVm.pais)
+                .Select(x => cliente.Tel_cel).WithAlias(() => clienteVm.tel_cel)
+                .Select(x => cliente.Tel_res).WithAlias(() => clienteVm.tel_res)
+                .Select(x => cliente.Uf).WithAlias(() => clienteVm.uf)
+                );
+
+            var kendoGridVm = new KendoGridVm()
+            {
+                QuantidadeDeRegistros = queryOver.RowCount(),
+                Registros = queryOver
+                    .TransformUsing(Transformers.AliasToBean<ClienteCadastroVm>())
+                    .Skip(paginacaoVm.Skip)
+                    .Take(paginacaoVm.Take)
+                    .List<ClienteCadastroVm>()
+                    .Cast<ListagemVm>()
+                    .ToList()
+            };
+
+            return kendoGridVm;
+
+        }
+
+        public KendoGridVm ListarParaSelecao(PaginacaoVm paginacaoVm, ClienteFiltroVm filtro)
+        {
+            var queryOver = ConstruirQuery(filtro);
+
+            Cliente cliente = null;
+            ClienteParaSelecaoVm clienteVm = null;
+
             queryOver.SelectList(lista => lista
                 .Select(x => cliente.Id_cliente).WithAlias(() => clienteVm.Codigo)
                 .Select(x => cliente.Nome).WithAlias(() => clienteVm.Nome)
@@ -116,8 +143,6 @@ namespace Progas.Portal.Application.Queries.Implementations
                     .List<ClienteParaSelecaoVm>()
                     .Cast<ListagemVm>()
                     .ToList()
-
-
             };
 
             return kendoGridVm;
