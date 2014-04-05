@@ -23,13 +23,6 @@ namespace Progas.Portal.UnitTest
         }
 
         [TestMethod]
-        public void ConsultaDeTeste()
-        {
-            var consultaCliente = ObjectFactory.GetInstance<IConsultaCliente>();
-            Assert.AreEqual(0, consultaCliente.ConsultaDeTeste());
-        }
-
-        [TestMethod]
         public void FiltrarPorMunicipio()
         {
             var consultaCliente = ObjectFactory.GetInstance<IConsultaCliente>();

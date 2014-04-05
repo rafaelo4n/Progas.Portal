@@ -1,9 +1,5 @@
 ﻿using Progas.Portal.ViewModel;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progas.Portal.Application.Queries.Contracts
 {
@@ -14,6 +10,5 @@ namespace Progas.Portal.Application.Queries.Contracts
         IList<ClienteCadastroVm> Listar(PaginacaoVm paginacaoVm, ClienteCadastroVm filtro);
         KendoGridVm ListarParaSelecao(PaginacaoVm paginacaoVm, ClienteFiltroVm filtro);
         IList<ClienteCadastroVm> Listar();
-        int ConsultaDeTeste();
     }
 }

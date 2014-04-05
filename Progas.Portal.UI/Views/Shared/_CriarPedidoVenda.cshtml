@@ -29,9 +29,8 @@
             </div>
         </div>                                 
     </fieldset>
-    
-    @using (Html.BeginForm())
-    {
+    <form id="formCabecalho">
+
         @Html.HiddenFor(x => x.id_cotacao )
         <!-- Realiza a pequisa de cotações para carregar seus dados -->           
         <!-- Dados do Header-->   
@@ -134,10 +133,12 @@
             </div> 
               
         </fieldset>
-        <!-- Dados das Linhas--> 
-        <fieldset>
-            <legend>Dados de Itens</legend>                
-            <div id="Linha">           
+    </form>
+    <!-- Dados das Linhas--> 
+    <fieldset>
+        <legend>Dados de Itens</legend>                
+        <div id="Linha">
+            <form id="formItens">
                 
                 @{ 
 
@@ -184,22 +185,23 @@
                     <input type="button" id="btnAdicionarItem" value="Adicionar" class="blue" />
                     <input type="button" id="btnCancelarEdicao" value="Cancelar" class="blue"  style="display: none"/>
                 </div>
+                    
+            </form>           
 
-            </div>          
-        </fieldset>                
-        <fieldset>
-            <legend>Grid de Linhas</legend> 
-            <div @*class="divGrid"*@>
-                <div id="gridLinhasAdicionadas" style="width: 785px" class="divGrid" ></div>    
-            </div>
-        </fieldset>
-        
-        <div class="divBotao">
-            <input type="button" id="btnSimular"             value="Simular"          class="blue"/>
-            <input type="button" id="btnGravar"              value="Gravar"           class="blue"/>
         </div>
+    </fieldset>                
+    <fieldset>
+        <legend>Grid de Linhas</legend> 
+        <div @*class="divGrid"*@>
+            <div id="gridLinhasAdicionadas" style="width: 785px" class="divGrid" ></div>    
+        </div>
+    </fieldset>
+        
+    <div class="divBotao">
+        <input type="button" id="btnSimular"             value="Simular"          class="blue"/>
+        <input type="button" id="btnGravar"              value="Gravar"           class="blue"/>
+    </div>
 
-    }
     <div id="divCondicoesDePreco" class="janelaModal" @*style="display: none"*@>
         <div id="gridCondicoesDePreco" class="divGrid"></div>
     </div>
@@ -225,8 +227,9 @@
         var simular = "S";
         var gravar = "G";
         var numeroDeItensInseridos = 0;
-        var somenteLeitura = '@(Model != null && Model.SomenteLeitura)'.boolean();
+        var somenteLeitura = '@(Model != null && (Model.SomenteLeitura || (!string.IsNullOrEmpty(Model.status) && Model.status != "S") ) )'.boolean();
         var copia = '@(Model != null && Model.Copia )'.boolean();
+        var edicao = !copia && '@(Model != null && !string.IsNullOrEmpty(Model.id_cotacao))'.boolean();
 
         function carregarAreasDeVenda(idDoCliente, callBack) {
             ///<param name="callBack">funcao para executar alguma ação após carregar as áreas de venda. Por exemplo, setar um valor</param>
@@ -324,7 +327,10 @@
                 }
             });
 
+        }
 
+        function passarCamposParaSomenteLeitura() {
+            $('form :input').attr('disabled', true);
         }
 
         $(function() {
@@ -415,7 +421,7 @@
                     $('#Inco2').val(idDoIncoterm2);
                 });
 
-                if (!copia) {
+                if (edicao) {
                     $('#btnGravar').val('Gravar Edição');
                     $('#btnSimular').val('Simular Edição');
                 }
@@ -425,7 +431,7 @@
             }
 
             if (somenteLeitura) {
-                $('form :input').attr('disabled', true);
+                passarCamposParaSomenteLeitura();
             }
 
             $('#Inco1').change(function() {
@@ -453,7 +459,7 @@
 
             // Adiciona linha ao grid
             $('#btnAdicionarItem').click(function() {
-                var form = $('form');
+                var form = $('#formItens');
                 if (!$(form).validate().form()) {
                     return;
                 }
@@ -483,12 +489,22 @@
 
                 } else {
                     // array que sera exibido no grid
+                    var itemAtual = linhasAdicionadas[indiceEdicao];
+                    item.ValorTabela = itemAtual.ValorTabela;
+                    item.ValorPolitica = itemAtual.ValorPolitica;
+
                     linhasAdicionadas[indiceEdicao] = item;
+
                     encerrarEdicao();
                 }
 
                 atualizaGrid();
             });
+
+            function permiteAlterarItem(dataItem) {
+                return !somenteLeitura && (!edicao || !dataItem.CodigoMotivoDeRecusa);
+
+            }
 
             // exibe os valores no grid 
             // quota. campo
@@ -522,12 +538,27 @@
                     {
                         title: ' ',
                         width: 30,
-                        template: '<input type="button" class="button_edit"></input>'
+                        template: function (dataItem) {
+                            debugger;
+                            if (permiteAlterarItem(dataItem)) {
+                                return '<input type="button" class="button_edit"></input>';
+                            } else {
+                                return '';
+                            }
+                        } 
                     },
                     {
                         title: ' ',
                         width: 30,
-                        template: '<input type="button" class="button_remove"></input>'
+                        template: function(dataItem) {
+                            if (permiteAlterarItem(dataItem)) {
+                                return '<input type="button" class="button_remove"></input>';
+                            } else {
+                                return '';
+                            }
+                           
+                        }
+
                     },
                     {
                         width: 40,
@@ -668,7 +699,7 @@
 
             function enviarPedido(acao, mensagemDeSucesso) {
 
-                var form = $('form');
+                var form = $('#formCabecalho');
                 if (!$(form).validate().form()) {
                     return;
                 }
@@ -723,10 +754,22 @@
                     dataType: 'json',
                     success: function (data) {
                         if (data.Sucesso) {
+
+                            edicao = true;
+
+                            $('#btnGravar').val('Gravar Edição');
+                            $('#btnSimular').val('Simular Edição');
+
                             var retorno = data.Retorno;
                             $('#id_cotacao').val(retorno.IdDoPedido);
-                            $('#status').val(retorno.Status);
                             $('#vlrtot').val(retorno.ValorTotal);
+                            $('#status').val(retorno.Status);
+
+                            somenteLeitura = retorno.Status != 'S';
+
+                            if (somenteLeitura) {
+                                passarCamposParaSomenteLeitura();
+                            }
 
                             for (var i = 0; i < retorno.Itens.length; i++) {
                                 linhasAdicionadas[i].NumeroDoItem = retorno.Itens[i].NumeroDoItem;

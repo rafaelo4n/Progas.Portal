@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Criterion;
@@ -9,7 +8,6 @@ using Progas.Portal.Application.Queries.Contracts;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.ViewModel;
-using StructureMap;
 
 namespace Progas.Portal.Application.Queries.Implementations
 {
@@ -146,28 +144,6 @@ namespace Progas.Portal.Application.Queries.Implementations
             };
 
             return kendoGridVm;
-        }
-
-        public int ConsultaDeTeste()
-        {
-            Usuario usuarioConectado = _usuarios.UsuarioConectado();
-            var unitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
-
-            ClienteVenda areaDeVenda = null;
-            Cliente cliente = null;
-
-            QueryOver<ClienteVenda, ClienteVenda> subQuery = QueryOver
-                .Of<ClienteVenda>(() => areaDeVenda)
-                .Where(Restrictions.EqProperty(Projections.Property(() => areaDeVenda.Cliente.Id_cliente),
-                    Projections.Property(() => cliente.Id_cliente)))
-                .Where(() => areaDeVenda.Fornecedor.Codigo == usuarioConectado.CodigoDoFornecedor)
-                .Select(Projections.Property(() => areaDeVenda.Id));
-
-            IQueryOver<Cliente,Cliente> queryOver = unitOfWorkNh.Session.QueryOver<Cliente>(() => cliente);
-            queryOver.WithSubquery.WhereExists(subQuery);
-
-            return queryOver.RowCount();
-
         }
 
         public IList<ClienteCadastroVm> Listar(PaginacaoVm paginacaoVm, ClienteCadastroVm filtro)

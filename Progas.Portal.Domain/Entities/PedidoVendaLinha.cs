@@ -13,7 +13,6 @@ namespace Progas.Portal.Domain.Entities
         public virtual decimal ValorTabela { get; set; }
         public virtual decimal ValorPolitica { get; set; }
         public virtual decimal DescontoManual { get; set; }
-        public virtual string Status { get; protected set; }
         public virtual MotivoDeRecusa  MotivoDeRecusa { get; set; }
         public virtual IList<CondicaoDePreco> CondicoesDePreco  { get; protected set; }
 
