@@ -8,8 +8,6 @@ namespace Portal.DadosSap.Entity
 {
     public class Cliente
     {
-
-        public virtual int pro_id_cliente { get; set; }
         public virtual string Id_cliente { get; set; }
         public virtual string Nome { get; set; }
         public virtual string Cpf { get; set; }
@@ -30,6 +28,9 @@ namespace Portal.DadosSap.Entity
         public virtual DateTime Data_criacao { get; set; }
         public virtual string Pacote { get; set; }
         public virtual string Hora_criacao { get; set; }
+        public virtual string Eliminacao { get; set; }
+        //public virtual IList<ClienteVendas> ListaClienteVendas { get; set; }
+        //public virtual IList<ClienteCondicaoLiberada> ListaClienteCondLiberadas { get; set; }
 
     }
 }

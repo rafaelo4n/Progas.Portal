@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using NHibernate;
 using Progas.Portal.Application.Queries.Builders;
 using Progas.Portal.Application.Queries.Contracts;
 using Progas.Portal.Domain.Entities;
@@ -27,9 +26,9 @@ namespace Progas.Portal.Application.Queries.Implementations
         {
             var usuarioConectado = _usuarios.UsuarioConectado();
 
-            if (filtro.id_cliente.HasValue)
+            if (!string.IsNullOrEmpty(filtro.id_cliente))
             {
-                _pedidosVenda.DoCliente(filtro.id_cliente.Value);
+                _pedidosVenda.DoCliente(filtro.id_cliente);
 
             }
 
@@ -76,7 +75,6 @@ namespace Progas.Portal.Application.Queries.Implementations
             List<PedidoVendaLinhaCadastroVm> linhas = itens.Select(item => new PedidoVendaLinhaCadastroVm()
             {
                 Id = item.Id,
-                Status = item.Status,
                 IdMaterial = item.Material.pro_id_material,
                 CodigoMaterial = item.Material.Id_material,
                 DescricaoMaterial = item.Material.Descricao,
@@ -85,6 +83,8 @@ namespace Progas.Portal.Application.Queries.Implementations
                 CodigoListaPreco = item.ListaDePreco.Codigo,
                 DescricaoListaPreco = item.ListaDePreco.Descricao,
                 Desconto = item.DescontoManual,
+                ValorPolitica = item.ValorPolitica,
+                ValorTabela =  item.ValorTabela,
                 CodigoDoMotivoDeRecusa = item.MotivoDeRecusa != null ? item.MotivoDeRecusa.Codigo : null,
                 DescricaoDoMotivoDeRecusa = item.MotivoDeRecusa != null ? item.MotivoDeRecusa.Descricao : null,
                 CondicoesDePreco = item.CondicoesDePreco.Select(condicaoDePreco => new CondicaoDePrecoDTO
@@ -99,68 +99,6 @@ namespace Progas.Portal.Application.Queries.Implementations
 
             }).ToList();
 
-
-            //var itens = (from pedido in queryable
-            //             from item in pedido.Itens
-            //             from condicaoDePreco in item.CondicoesDePreco
-            //             group new { item.Id, item.Status, condicaoDePreco.Nivel } by new { item.Id, item.Status }
-            //                 into agrupamento
-            //                 //let motivoDeRecusa = agrupamento.Key.MotivoDeRecusa
-            //                 select new PedidoVendaLinhaCadastroVm()
-            //                 {
-            //                     Id = agrupamento.Key.Id,
-            //                     Status = agrupamento.Key.Status,
-            //                     //IdMaterial = agrupamento.Key.Material.pro_id_material,
-            //                     //CodigoMaterial = agrupamento.Key.Material.Id_material,
-            //                     //DescricaoMaterial = agrupamento.Key.Material.Descricao,
-            //                     //Quantidade = agrupamento.Key.Quantidade,
-            //                     //CodigoUnidadeMedida = agrupamento.Key.Material.Uni_med,
-            //                     //CodigoListaPreco = agrupamento.Key.ListaDePreco.Codigo,
-            //                     //DescricaoListaPreco = agrupamento.Key.ListaDePreco.Descricao,
-            //                     //Desconto = agrupamento.Key.DescontoManual,
-            //                     //CodigoDoMotivoDeRecusa = motivoDeRecusa != null ? motivoDeRecusa.Codigo : null,
-            //                     //DescricaoDoMotivoDeRecusa = motivoDeRecusa != null ? motivoDeRecusa.Descricao : null,
-            //                     CondicoesDePreco = agrupamento.Select(g => new CondicaoDePrecoDTO
-            //                     {
-            //                         Nivel = g.Nivel,
-            //                         //Tipo = g.condicaoDePreco.Tipo,
-            //                         //Base = g.condicaoDePreco.Base,
-            //                         //Montante = g.condicaoDePreco.Montante,
-            //                         //Valor = g.condicaoDePreco.Valor
-
-            //                     })
-
-            //                 }).ToList();
-
-
-            //var itens = (from pedido in queryable
-            //    from item in pedido.Itens
-            //    let motivoDeRecusa = item.MotivoDeRecusa
-            //    select new PedidoVendaLinhaCadastroVm
-            //    {
-            //        Id = item.Id,
-            //        Status = item.Status,
-            //        IdMaterial = item.Material.pro_id_material ,
-            //        CodigoMaterial = item.Material.Id_material ,
-            //        DescricaoMaterial = item.Material.Descricao,
-            //        Quantidade = item.Quantidade,
-            //        CodigoUnidadeMedida = item.Material.Uni_med,
-            //        CodigoListaPreco = item.ListaDePreco.Codigo,
-            //        DescricaoListaPreco = item.ListaDePreco.Descricao ,
-            //        Desconto =  item.DescontoManual ,
-            //        CodigoDoMotivoDeRecusa =  motivoDeRecusa != null ? motivoDeRecusa.Codigo : null,
-            //        DescricaoDoMotivoDeRecusa = motivoDeRecusa!= null ? motivoDeRecusa.Descricao : null,
-            //        CondicoesDePreco = item.CondicoesDePreco.Select(condicaoDePreco => new CondicaoDePrecoDTO
-            //        {
-            //            Nivel = condicaoDePreco.Nivel,
-            //            Tipo = condicaoDePreco.Tipo,
-            //            Base = condicaoDePreco.Base,
-            //            Montante = condicaoDePreco.Montante,
-            //            Valor =  condicaoDePreco.Valor
-            //        }).ToList()
-
-            //    }).ToList();
-
             return linhas;
 
         }
@@ -174,10 +112,10 @@ namespace Progas.Portal.Application.Queries.Implementations
             PedidoVendaCadastroVm pedidoVendaCadastroVm = queryable.Select(pedido => new PedidoVendaCadastroVm
             {
                 id_cotacao = pedido.Id_cotacao,
+                status = pedido.Status,
                 IdDaAreaDeVenda = pedido.AreaDeVenda.Id,
                 Cliente = new ClienteDoPedidoDeVendaVm
                 {
-                  Id  = pedido.Cliente.Id ,
                   Codigo = pedido.Cliente.Id_cliente,
                   Nome = pedido.Cliente.Nome,
                   Cnpj =  pedido.Cliente.Cnpj ?? pedido.Cliente.Cpf,
@@ -187,7 +125,6 @@ namespace Progas.Portal.Application.Queries.Implementations
                 Transportadora = pedido.Transportadora != null 
                 ? new TransportadoraDoPedidoDeVenda
                 {
-                    Id = pedido.Transportadora.Id,
                     Codigo = pedido.Transportadora.Codigo,
                     Nome = pedido.Transportadora.Nome
                 }
@@ -196,7 +133,6 @@ namespace Progas.Portal.Application.Queries.Implementations
                 TransportadoraDeRedespacho = pedido.TransportadoraDeRedespacho != null
                 ?new TransportadoraDoPedidoDeVenda
                 {
-                    Id = pedido.TransportadoraDeRedespacho.Id,
                     Codigo = pedido.TransportadoraDeRedespacho.Codigo,
                     Nome =  pedido.TransportadoraDeRedespacho.Nome
                 }
@@ -205,7 +141,6 @@ namespace Progas.Portal.Application.Queries.Implementations
                 TransportadoraDeRedespachoCif = pedido.TransportadoraDeRedespachoCif != null 
                 ?  new TransportadoraDoPedidoDeVenda
                 {
-                    Id = pedido.TransportadoraDeRedespachoCif.Id,
                     Codigo = pedido.TransportadoraDeRedespachoCif.Codigo,
                     Nome = pedido.TransportadoraDeRedespachoCif.Nome
                 }

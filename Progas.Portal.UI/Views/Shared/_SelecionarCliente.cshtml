@@ -6,7 +6,7 @@
 <div class="divFiltros">
     <fieldset>
         <legend>Filtros</legend>
-        <form id="filtrosDeFornecedor">
+        <form id="filtrosDeCliente">
             <div class="coluna">
                 @Html.Label("Código:")
                 @Html.TextBox("Codigo","", new{@class="campomedio"})
@@ -28,7 +28,7 @@
                 @Html.TextBox("Municipio","", new{@class="campomedio"})
             </div>
             <div class="divBotao">
-                <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
+                <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
                 <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
             </div>
         </form>

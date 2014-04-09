@@ -5,15 +5,8 @@
 
   <class name="Cliente" table="pro_cliente">
 
-    <id name="pro_id_cliente" access="property" column="pro_id_cliente" type="Int32">
-      <generator class="identity">
-        <param name="identity">pro_id_cliente</param>
-      </generator>
+    <id name="Id_cliente" access="property" column="Id_cliente" type="String"  length="10">
     </id>
-
-    <property name="Id_cliente" not-null="false" access="property" type="String">
-      <column name="Id_cliente" length="10" />
-    </property>
 
     <property name="Nome" not-null="false" access="property" type="String">
       <column name="Nome" length="35" />
@@ -90,6 +83,20 @@
     <property name="Hora_criacao" not-null="false" access="property" type="String">
       <column name="Hora_criacao" length="8"/>
     </property>
+
+    <property name="Eliminacao" not-null="false" access="property" type="String">
+      <column name="Eliminacao" length="1" />
+    </property>
+
+    <!--<bag name="ListaClienteVendas" table="pro_cliente_vendas" cascade="none" lazy="false">      
+      <key column="Id_cliente" />
+      <many-to-many class="ClienteVendas" column="Id_cliente" not-found="ignore" />     
+    </bag>
+
+    <bag name="ListaClienteCondLiberadas" table="pro_cliente_condicoes_lib" cascade="none" lazy="false">
+      <key column="Id_cliente" />
+      <many-to-many class="ClienteCondicaoLiberada" column="Id_cliente" not-found="ignore" />
+    </bag>-->
 
   </class>
 

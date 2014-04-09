@@ -5,16 +5,9 @@
 
   <class name="Fornecedor" table="pro_fornecedor">
 
-    <id name="pro_id_fornecedor" access="property" column="pro_id_fornecedor" type="Int32">
-      <generator class="identity">
-        <param name="identity">pro_id_fornecedor</param>
-      </generator>
+    <id name="Codigo" access="property" column="Codigo" type="String" length="10">
     </id>
-
-    <property name="Codigo" not-null="false" access="property" type="String">
-      <column name="Codigo" length="10" />
-    </property>
-
+    
     <property name="Nome" not-null="false" access="property" type="String">
       <column name="Nome" length="35" />
     </property>
@@ -95,8 +88,8 @@
       <column name="Grupo_contas" length="4" />
     </property>
 
-    <property name="Codigo_eliminacao" not-null="false" access="property" type="String">
-      <column name="Codigo_eliminacao" length="1" />
+    <property name="Eliminacao" not-null="false" access="property" type="String">
+      <column name="Eliminacao" length="1" />
     </property>
 
   </class>

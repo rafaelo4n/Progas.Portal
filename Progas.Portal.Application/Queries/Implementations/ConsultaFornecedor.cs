@@ -27,8 +27,16 @@ namespace Progas.Portal.Application.Queries.Implementations
         {
             _fornecedores
                 .CodigoContendo(filtro.Codigo)
-                .NomeContendo(filtro.Nome);
-            var kendoGridVmn = new KendoGridVm()
+                .NomeContendo(filtro.Nome)
+                .ComCnpj(filtro.Cnpj)
+                .ComCpf(filtro.Cpf);
+
+            if (filtro.SomenteTransportadora)
+            {
+                _fornecedores.SomenteTransportadora();
+            }
+            
+            var kendoGridVm = new KendoGridVm()
                 {
                     QuantidadeDeRegistros = _fornecedores.Count(),
                     Registros =
@@ -37,7 +45,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                                 .ToList()
 
                 };
-            return kendoGridVmn;
+            return kendoGridVm;
         }
 
         public IList<FornecedorCadastroVm> Listar(PaginacaoVm paginacaoVm, FornecedorCadastroVm filtro)

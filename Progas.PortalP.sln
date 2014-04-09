@@ -21,6 +21,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.Application",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.DTO", "Progas.Portal.DTO\Progas.Portal.DTO.csproj", "{4D2BAA56-2D95-4034-8237-2A73EDEDF5C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.Domain.Services.Contracts", "Progas.Portal.Domain.Services.Contracts\Progas.Portal.Domain.Services.Contracts.csproj", "{9B5E0FEA-003B-41B8-847E-66CA20165FAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.Domain.Services.Implementations", "Progas.Portal.Domain.Services.Implementations\Progas.Portal.Domain.Services.Implementations.csproj", "{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progas.Portal.UnitTest", "Progas.Portal.UnitTest\Progas.Portal.UnitTest.csproj", "{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,6 +177,36 @@ Global
 		{4D2BAA56-2D95-4034-8237-2A73EDEDF5C1}.Release|win 64.ActiveCfg = Release|Any CPU
 		{4D2BAA56-2D95-4034-8237-2A73EDEDF5C1}.Release|x64.ActiveCfg = Release|Any CPU
 		{4D2BAA56-2D95-4034-8237-2A73EDEDF5C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Debug|win 64.ActiveCfg = Debug|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Release|win 64.ActiveCfg = Release|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Release|x64.ActiveCfg = Release|Any CPU
+		{9B5E0FEA-003B-41B8-847E-66CA20165FAE}.Release|x86.ActiveCfg = Release|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Debug|win 64.ActiveCfg = Debug|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|win 64.ActiveCfg = Release|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|x64.ActiveCfg = Release|Any CPU
+		{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}.Release|x86.ActiveCfg = Release|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Debug|win 64.ActiveCfg = Debug|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Release|win 64.ActiveCfg = Release|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Release|x64.ActiveCfg = Release|Any CPU
+		{D475090A-50AA-4BE2-AE25-ACF878B5AF7D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

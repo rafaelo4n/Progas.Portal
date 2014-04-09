@@ -7,8 +7,6 @@ namespace Progas.Portal.ViewModel
     {
         public int Id { get; set; }
 
-        public string Status { get; set; }
-
         public int IdMaterial { get; set; }
 
         public string CodigoMaterial{ get; set; }

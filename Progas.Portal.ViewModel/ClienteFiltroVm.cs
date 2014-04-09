@@ -7,13 +7,16 @@
         public string Cnpj { get; set; }
         public string Cpf { get; set; }
         public string Municipio { get; set; }
+        public string Uf { get; set; }
     }
 
     public class ClienteParaSelecaoVm: ClienteFiltroVm
     {
-        public int Id { get; set; }
         public string Telefone { get; set; }
+
     }
+
+
 
 
 }

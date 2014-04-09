@@ -103,30 +103,19 @@ namespace Portal.DadosSap
                 //
 
                 // Exibe no console a interface que será executada
-                Console.WriteLine("Received function call {0} from system {1}.", function.Metadata.Name, context.SystemAttributes.SystemID);                
-
-                // Implementa repositorio antes do Foreach para evitar duplicações
-                ClienteRepository clienteRepository = new ClienteRepository();
-
-                // Implementa repositorio antes do Foreach para evitar duplicações
-                Cliente cliente = new Cliente();
-
+                Console.WriteLine("Received function call {0} from system {1}.", function.Metadata.Name, context.SystemAttributes.SystemID);
                 // Flag da interface que de Limpar tabela de dados
                 Char deletar = function.GetChar("I_REFRESH");
-
                 // exibe se o mesmo foi flegado 
                 Console.WriteLine(deletar);
 
-                // Se estiver espaco em branco na variavel, não limpa a tabela da interface.
-                if (deletar != ' ')
-                {
-                    // Apaga todos os registros da tabela pro_fornecedor
-                    IList<Cliente> fromDB = clienteRepository.ObterTodos();
-                    foreach (Cliente dados in fromDB)
-                    {
-                        clienteRepository.Excluir(dados);
-                    }
-                }
+                // Implementa repositorio antes do Foreach para evitar duplicações
+                ClienteRepository clienteRepository = new ClienteRepository();                
+                Cliente cliente                     = new Cliente();                                
+                ClienteVendasRepository clienteVendasRepository = new ClienteVendasRepository();
+                ClienteVendas clienteVendas                     = new ClienteVendas();
+                ClienteCondicaoLiberadaRepository clienteCondicaoLiberadaRepository = new ClienteCondicaoLiberadaRepository();
+                ClienteCondicaoLiberada clienteCondicaoLiberada                     = new ClienteCondicaoLiberada();
 
                 // ZTBSD056 - ZTBXI_101
                 IRfcTable it_cliente = function.GetTable("IT_CLIENTE");
@@ -137,6 +126,71 @@ namespace Portal.DadosSap
                 // RETORNO
                 RfcStructureMetadata bapiret2 = rep.GetStructureMetadata("BAPIRET2");
                 IRfcStructure linha_retorno = bapiret2.CreateStructure();
+
+                // ZTBSD057 - ZTBXI_101
+                IRfcTable it_cliente_vendas = function.GetTable("IT_CLIENTE_AV");
+
+                // Implementa Repositorio Rfc de resposta
+                RfcRepository repVendas = context.Repository;
+
+                // RETORNO
+                RfcStructureMetadata bapiret2Vendas = repVendas.GetStructureMetadata("BAPIRET2");
+                IRfcStructure linha_retorno_vendas = bapiret2Vendas.CreateStructure();
+
+                // ZTBSD058 - ZTBXI_101
+                IRfcTable it_cliente_condicao = function.GetTable("IT_CLIENTE_CP");
+
+                // Implementa Repositorio Rfc de resposta
+                RfcRepository repcondicao = context.Repository;
+
+                // RETORNO
+                RfcStructureMetadata bapiret2Condicao = repcondicao.GetStructureMetadata("BAPIRET2");
+                IRfcStructure linha_retorno_condicao = bapiret2Condicao.CreateStructure();
+
+                // Se estiver espaco em branco na variavel, não limpa a tabela da interface.
+                if (deletar != ' ')
+                {
+                    // Se a interface de cliente estiver marcada para Reiniciar "X" marca os registros das 3 tabebas como Eliminados.
+                    IList<Cliente> fromDBcliente                     = clienteRepository.ObterTodos();
+                    IList<ClienteVendas> fromDBclienteV              = clienteVendasRepository.ObterTodos();
+                    IList<ClienteCondicaoLiberada> fromDBclienteCond = clienteCondicaoLiberadaRepository.ObterTodos();
+                    
+                    foreach (Cliente dados in fromDBcliente)
+                    {
+                        foreach (IRfcStructure row in it_cliente)
+                        {
+                            dados.Pacote = row.GetString("PACOTE");
+                            dados.Data_criacao = Convert.ToDateTime(row.GetString("ERDAT"));
+                            dados.Hora_criacao = row.GetString("ERZET");
+                        }    
+                        dados.Eliminacao = "X";
+                        clienteRepository.Alterar(dados);
+                    }
+
+                    foreach (ClienteVendas dados in fromDBclienteV)
+                    {
+                        foreach (IRfcStructure row in it_cliente_vendas)
+                        {
+                            dados.Pacote = row.GetString("PACOTE");
+                            dados.Data_criacao = Convert.ToDateTime(row.GetString("ERDAT"));
+                            dados.Hora_criacao = row.GetString("ERZET");
+                        } 
+                        dados.Eliminacao = "X";
+                        clienteVendasRepository.Alterar(dados);
+                    }
+
+                    foreach (ClienteCondicaoLiberada dados in fromDBclienteCond)
+                    {
+                        foreach (IRfcStructure row in it_cliente_condicao)
+                        {
+                            dados.Pacote = row.GetString("PACOTE");
+                            dados.Data_criacao = Convert.ToDateTime(row.GetString("ERDAT"));
+                            dados.Hora_criacao = row.GetString("ERZET");
+                        }
+                        dados.Eliminacao = "X";
+                        clienteCondicaoLiberadaRepository.Alterar(dados);
+                    }
+                }                
 
                 int v_cont = 0;
                 foreach (IRfcStructure row in it_cliente)
@@ -158,24 +212,35 @@ namespace Portal.DadosSap
                     cliente.Tel_cel      = row.GetString("TELF2");
                     cliente.Fax          = row.GetString("TELFX");
                     cliente.Email        = row.GetString("EMAIL");
-                    // Pacote
                     cliente.Pacote       = row.GetString("PACOTE");
-                    // Data Cricao
-                    string v_data_Cricao = row.GetString("ERDAT");
-                    cliente.Data_criacao = Convert.ToDateTime(v_data_Cricao);
-                    // Hora de Criacao
-                    cliente.Hora_criacao = row.GetString("ERZET");                                
+                    cliente.Data_criacao = Convert.ToDateTime(row.GetString("ERDAT"));
+                    cliente.Hora_criacao = row.GetString("ERZET");
+                    cliente.Eliminacao   = row.GetString("LOEVM");
 
+                    // Obtem todas as condicoes do banco para o cliente que esta sendo processado
+                    IList<ClienteCondicaoLiberada> fromCondicao = clienteCondicaoLiberadaRepository.ObterRegistrosUmCampo("Id_cliente", cliente.Id_cliente);
+                    // Atualiza para Eliminado todas as condicoes do cliente
+                    foreach (ClienteCondicaoLiberada dados in fromCondicao)
+                    {
+                        dados.Pacote       = row.GetString("PACOTE");
+                        dados.Data_criacao = Convert.ToDateTime(row.GetString("ERDAT"));
+                        dados.Hora_criacao = row.GetString("ERZET");
+                        dados.Eliminacao = "X";
+                        clienteCondicaoLiberadaRepository.Alterar(dados);
+                    }
+
+                    v_cont = v_cont + 1;  
                     try
                     {
-                        v_cont = v_cont + 1;
-                        if (deletar == ' ')
-                        {
-                            IList<Cliente> fromDB = clienteRepository.ObterRegistrosUmCampo("Id_cliente", cliente.Id_cliente);
-                            foreach (Cliente dados in fromDB)
-                            {
-                                clienteRepository.Excluir(dados);
-                            }
+                        // Se o registro existir, ele é atualizado, se não ele é inserido.                                                            
+                        IList<Cliente> fromDB = clienteRepository.ObterRegistrosUmCampo("Id_cliente", cliente.Id_cliente);
+                        if (fromDB.Count == 0)
+                        {                            
+                            clienteRepository.Salvar(cliente);
+                        }
+                        else
+                        {                         
+                            clienteRepository.Alterar(cliente);
                         }
                     }
                     catch (Exception ex)
@@ -185,108 +250,114 @@ namespace Portal.DadosSap
                         IRfcTable retorno = function.GetTable("IT_RETURN");
                         linha_retorno.SetValue("TYPE", "E");
                         linha_retorno.SetValue("MESSAGE", ex.Message);
-                        linha_retorno.SetValue("MESSAGE", "Erro ao inserir o Cliente: " + cliente.Nome + " - Id: " + cliente.Id_cliente);
+                        linha_retorno.SetValue("MESSAGE", "Erro ao inserir o Cliente Dados Gerais: " + cliente.Nome + " - Id: " + cliente.Id_cliente);
                         retorno.Insert(linha_retorno);
                     }
-
-                    clienteRepository.Salvar(cliente);
-                    String PACOTE = row.GetString("PACOTE");
-                    String ERDAT  = row.GetString("ERDAT");
-                    String ERZET  = row.GetString("ERZET");
                 }
-
-                IRfcTable retornoSucesso = function.GetTable("IT_RETURN");
-                linha_retorno.SetValue("TYPE", "S");
-                linha_retorno.SetValue("MESSAGE", "Registros com Sucesso: " + v_cont);
-                retornoSucesso.Insert(linha_retorno);
-
+                    
                 // FIM CLIENTE
 
                 //
                 // CLIENTE VENDAS
-                //
-
-                // Implementa repositorio antes do Foreach para evitar duplicações
-                ClienteVendasRepository clienteVendasRepository = new ClienteVendasRepository();
-
-                // Implementa repositorio antes do Foreach para evitar duplicações
-                ClienteVendas clienteVendas = new ClienteVendas();
-
-                // Se estiver espaco em branco na variavel, não limpa a tabela da interface.
-                if (deletar != ' ')
-                {
-                    // Apaga todos os registros da tabela pro_cliente_vendas
-                    IList<ClienteVendas> fromDB = clienteVendasRepository.ObterTodos();
-                    foreach (ClienteVendas dados in fromDB)
-                    {
-                        clienteVendasRepository.Excluir(dados);
-                    }
-                }
-
-                // ZTBSD056 - ZTBXI_101
-                IRfcTable it_cliente_vendas = function.GetTable("IT_CLIENTE_AV");
-
-                // Implementa Repositorio Rfc de resposta
-                RfcRepository repVendas = context.Repository;
-
-                // RETORNO
-                RfcStructureMetadata bapiret2Vendas = repVendas.GetStructureMetadata("BAPIRET2");
-                IRfcStructure linha_retorno_vendas = bapiret2Vendas.CreateStructure();
+                //                                
 
                 int v_cont_vendas = 0;
                 foreach (IRfcStructure row in it_cliente_vendas)
-                {
-
+                {       
                     clienteVendas.Id_cliente    = row.GetString("KUNNR");
                     clienteVendas.Org_vendas    = row.GetString("VKORG");
                     clienteVendas.Can_dist      = row.GetString("VTWEG");
                     clienteVendas.Set_ativ      = row.GetString("SPART");
                     clienteVendas.Grupo_cli     = row.GetString("KDGRP");
-                    clienteVendas.Id_fornecedor = row.GetString("LIFNR");
-                    // Pacote
-                    clienteVendas.Pacote = row.GetString("PACOTE");
-                    // Data Cricao
-                    string v_data_Cricao = row.GetString("ERDAT");
-                    clienteVendas.Data_criacao = Convert.ToDateTime(v_data_Cricao);
-                    // Hora de Criacao
-                    clienteVendas.Hora_criacao = row.GetString("ERZET");
-                    clienteVendas.Denominacao  = row.GetString("VKORG_TXT");
-                        
+                    clienteVendas.Id_fornecedor = row.GetString("LIFNR");                    
+                    clienteVendas.Denominacao   = row.GetString("VKORG_TXT");
+                    clienteVendas.Pacote        = row.GetString("PACOTE");
+                    clienteVendas.Data_criacao  = Convert.ToDateTime(row.GetString("ERDAT"));
+                    clienteVendas.Hora_criacao  = row.GetString("ERZET");
+                    clienteVendas.Eliminacao    = row.GetString("LOEVM");
+
+                    v_cont_vendas = v_cont_vendas + 1;
                     try
                     {
-                        v_cont_vendas = v_cont_vendas + 1;
-                        if (deletar == ' ')
-                        {
-                            IList<ClienteVendas> fromDB = clienteVendasRepository.ObterRegistrosDoisCampos("Id_cliente", clienteVendas.Id_cliente, "Org_vendas", clienteVendas.Org_vendas);
-                            foreach (ClienteVendas dados in fromDB)
-                            {
-                                clienteVendasRepository.Excluir(dados);
-                            }
+                        IList<ClienteVendas> fromDB = clienteVendasRepository.ObterRegistrosQuatroCampos("Id_cliente", clienteVendas.Id_cliente, "Org_vendas", clienteVendas.Org_vendas, "Can_dist", clienteVendas.Can_dist, "Set_ativ", clienteVendas.Set_ativ);
+                        if (fromDB.Count == 0)
+                        {                            
+                            clienteVendasRepository.Salvar(clienteVendas);
                         }
+                        else 
+                        {
+                            clienteVendasRepository.Alterar(clienteVendas);
+                        }                        
                     }
                     catch (Exception ex)
                     {
                         // Em caso de erro retorna o erro
                         Console.Write("Erro ao inserir o Cliente Vendas, Mensagem: " + ex);
-
                         IRfcTable retorno = function.GetTable("IT_RETURN");
                         linha_retorno_vendas.SetValue("TYPE", "E");
                         linha_retorno_vendas.SetValue("MESSAGE", ex.Message);
-                        linha_retorno_vendas.SetValue("MESSAGE", "Erro ao inserir o Cliente: " + cliente.Nome + " - Id: " + cliente.Id_cliente);
+                        linha_retorno_vendas.SetValue("MESSAGE", "Erro ao inserir o Cliente Área de Vendas: " + cliente.Nome + " - Id: " + cliente.Id_cliente);
                         retorno.Insert(linha_retorno_vendas);
-                    }
-                    clienteVendasRepository.Salvar(clienteVendas);
-                    String PACOTE = row.GetString("PACOTE");
-                    String ERDAT = row.GetString("ERDAT");
-                    String ERZET = row.GetString("ERZET");
+                    }                    
                 }
+
+                // FIM CLIENTE VENDAS
+
+                //
+                // CLIENTE CONDICAO
+                //                                
+
+                int v_cont_condicao = 0;
+                foreach (IRfcStructure row in it_cliente_condicao)
+                {
+                    clienteCondicaoLiberada.Id_cliente        = row.GetString("KUNNR");
+                    clienteCondicaoLiberada.Chave_condicao    = row.GetString("ZTERM");
+                    clienteCondicaoLiberada.Data_fim_condicao = Convert.ToDateTime(row.GetString("DATBI"));
+                    clienteCondicaoLiberada.Pacote            = row.GetString("PACOTE");
+                    clienteCondicaoLiberada.Data_criacao      = Convert.ToDateTime(row.GetString("ERDAT"));
+                    clienteCondicaoLiberada.Hora_criacao      = row.GetString("ERZET");
+
+                    v_cont_condicao = v_cont_condicao + 1;
+                    try
+                    {
+                        IList<ClienteCondicaoLiberada> fromDB = clienteCondicaoLiberadaRepository.ObterRegistrosDoisCampos("Id_cliente", clienteCondicaoLiberada.Id_cliente, "Chave_condicao", clienteCondicaoLiberada.Chave_condicao);
+                        if (fromDB.Count == 0)
+                        {                            
+                            clienteCondicaoLiberadaRepository.Salvar(clienteCondicaoLiberada);
+                        }
+                        else 
+                        {
+                            clienteCondicaoLiberadaRepository.Alterar(clienteCondicaoLiberada);
+                        }                                                    
+                    }
+                    catch (Exception ex)
+                    {
+                        // Em caso de erro retorna o erro
+                        Console.Write("Erro ao inserir a Condicao do Cliente, Mensagem: " + ex);
+                        IRfcTable retorno = function.GetTable("IT_RETURN");
+                        linha_retorno_condicao.SetValue("TYPE", "E");
+                        linha_retorno_condicao.SetValue("MESSAGE", ex.Message);
+                        linha_retorno_condicao.SetValue("MESSAGE", "Erro ao inserir o Cliente Condições Pagto " + clienteCondicaoLiberada.Id_cliente + " - Condicao: " + clienteCondicaoLiberada.Chave_condicao);
+                        retorno.Insert(linha_retorno_condicao);
+                    }                    
+                }
+                // FIM CLIENTE CONDICAO
+
+                IRfcTable retornoSucessoCondicao = function.GetTable("IT_RETURN");
+                linha_retorno_condicao.SetValue("TYPE", "S");
+                linha_retorno_condicao.SetValue("MESSAGE", "Registros com Sucesso Condições Pagto: " + v_cont_condicao);
+                retornoSucessoCondicao.Insert(linha_retorno_condicao);
 
                 IRfcTable retornoSucessoVendas = function.GetTable("IT_RETURN");
                 linha_retorno_vendas.SetValue("TYPE", "S");
-                linha_retorno_vendas.SetValue("MESSAGE", "Registros com Sucesso Grupo de Vendas: " + v_cont_vendas);
+                linha_retorno_vendas.SetValue("MESSAGE", "Registros com Sucesso Área de Vendas: " + v_cont_vendas);
                 retornoSucessoVendas.Insert(linha_retorno_vendas);
 
-                // FIM CLIENTE VENDAS
+                // Envia o retorno dos registros inseridos com sucesso
+                IRfcTable retornoSucesso = function.GetTable("IT_RETURN");
+                linha_retorno.SetValue("TYPE", "S");
+                linha_retorno.SetValue("MESSAGE", "Registros com Sucesso Dados Gerais: " + v_cont);
+                retornoSucesso.Insert(linha_retorno);
             }
 
             // SD02 - Inteface de fornecedor - Comunicação
@@ -297,80 +368,112 @@ namespace Portal.DadosSap
             {
                 // Exibe no console a interface que será executada
                 Console.WriteLine("Received function call {0} from system {1}.", function.Metadata.Name, context.SystemAttributes.SystemID);
+                // Flag da interface que de Limpar tabela de dados
+                Char deletar = function.GetChar("I_REFRESH");
+                // exibe se o mesmo foi flegado
+                Console.WriteLine(deletar);
                
                 // Implementa Repositório dos dados
                 FornecedorRepository fornecedorRepository = new FornecedorRepository();
-
-                // Implementa repositorio antes do Foreach para evitar duplicações
-                Fornecedor fornecedor = new Fornecedor();
-                
-                // Flag da interface que de Limpar tabela de dados
-                Char deletar = function.GetChar("I_REFRESH");
-
-                // exibe se o mesmo foi flegado
-                Console.WriteLine(deletar);
-
-                // Se estiver espaco em branco na variavel, não limpa a tabela da interface.
-                if (deletar != ' ')
-                {
-                    // Apaga todos os registros da tabela pro_fornecedor
-                    IList<Fornecedor> fromDB = fornecedorRepository.ObterTodos();
-                    foreach (Fornecedor dados in fromDB)
-                    {
-                        fornecedorRepository.Excluir(dados);
-                    }                    
-                }
+                Fornecedor fornecedor                     = new Fornecedor();
+                FornecedorEmpresaRepository fornecedorEmpresaRepository = new FornecedorEmpresaRepository();
+                FornecedorEmpresa fornecedorEmpresa                     = new FornecedorEmpresa();
 
                 // ZTBSD060
                 IRfcTable it_fornecedor = function.GetTable("IT_FORNECEDOR");
-                    
+
                 // Implementa Repositorio Rfc de resposta
                 RfcRepository rep = context.Repository;
 
                 // RETORNO - BAPIRET2
                 RfcStructureMetadata bapiret2 = rep.GetStructureMetadata("BAPIRET2");
-                IRfcStructure linha_retorno = bapiret2.CreateStructure();                                                                 
+                IRfcStructure linha_retorno = bapiret2.CreateStructure();
+
+                // ZTBSD079
+                IRfcTable it_fornecedor_emp = function.GetTable("IT_FORNECEDOR_EMP");
+
+                // Implementa Repositorio Rfc de resposta
+                RfcRepository repEmp = context.Repository;
+
+                // RETORNO - BAPIRET2
+                RfcStructureMetadata bapiret2emp = repEmp.GetStructureMetadata("BAPIRET2");
+                IRfcStructure linha_retorno_emp = bapiret2emp.CreateStructure();
+
+                // Se a interface de Fornecedor estiver marcada para Reiniciar "X" marca os registros das 2 tabebas como Eliminados.
+                if (deletar != ' ')
+                {
+                    // Apaga todos os registros da tabela pro_fornecedor
+                    IList<Fornecedor> fromDB           = fornecedorRepository.ObterTodos();
+                    IList<FornecedorEmpresa> fromDBemp = fornecedorEmpresaRepository.ObterTodos();
+                    foreach (Fornecedor dados in fromDB)
+                    {                        
+                        foreach (IRfcStructure row in it_fornecedor)
+                        {
+                            dados.Pacote       = row.GetString("PACOTE");
+                            dados.Data_criacao = Convert.ToDateTime(row.GetString("ERDAT"));
+                            dados.Hora_criacao = row.GetString("ERZET"); 
+                        }
+                        dados.Eliminacao = "X";
+                        fornecedorRepository.Alterar(dados);
+                    }
+
+                    foreach (FornecedorEmpresa dados in fromDBemp)
+                    {
+                        foreach (IRfcStructure row in it_fornecedor_emp)
+                        {
+                            dados.Pacote       = row.GetString("PACOTE");
+                            dados.Data_criacao = Convert.ToDateTime(row.GetString("ERDAT"));
+                            dados.Hora_criacao = row.GetString("ERZET");
+                        }
+                        dados.Eliminacao = "X";
+                        fornecedorEmpresaRepository.Alterar(dados);
+                    } 
+                }
+
+                //
+                // FORNECEDOR
+                //                 
+
+                //Char deletar = function.GetChar("I_REFRESH");                              
 
                 int v_cont = 0;
                 foreach (IRfcStructure row in it_fornecedor)
                 {
-                    fornecedor.Codigo     = row.GetString("LIFNR");
-                    fornecedor.Nome       = row.GetString("NAME1");
-                    fornecedor.Cpf        = row.GetString("STCD2");
-                    fornecedor.Cnpj       = row.GetString("STCD1");
-                    fornecedor.Nr_ie_for  = row.GetString("STCD3");
-                    fornecedor.Cep        = row.GetString("POST_CODE");
-                    fornecedor.Endereco   = row.GetString("STREET");
-                    fornecedor.Numero     = row.GetString("HOUSE_NUM1");
-                    fornecedor.Municipio  = row.GetString("CITY1");
-                    fornecedor.Bairro     = row.GetString("CITY2");
-                    fornecedor.Uf         = row.GetString("UF");
-                    fornecedor.Pais       = row.GetString("COUNTRY");
-                    fornecedor.Tel_res    = row.GetString("TELF1");
-                    fornecedor.Tel_res    = row.GetString("TELF2");
-                    fornecedor.Tel_cel    = row.GetString("TELF1");
-                    fornecedor.Fax        = row.GetString("TELFX");
-                    fornecedor.Email      = row.GetString("EMAIL");
-                    // Pacote
-                    fornecedor.Pacote = row.GetString("PACOTE");
-                    // Data Cricao
-                    string v_data_Cricao = row.GetString("ERDAT");
-                    fornecedor.Data_criacao = Convert.ToDateTime(v_data_Cricao);
-                    // Hora de Criacao
-                    fornecedor.Hora_criacao = row.GetString("ERZET");
-                    fornecedor.Grupo_contas = row.GetString("KTOKK");
-                    fornecedor.Codigo_eliminacao = row.GetString("LOEVM");      
-
+                    fornecedor.Codigo        = row.GetString("LIFNR");
+                    fornecedor.Nome          = row.GetString("NAME1");
+                    fornecedor.Cpf           = row.GetString("STCD2");
+                    fornecedor.Cnpj          = row.GetString("STCD1");
+                    fornecedor.Nr_ie_for     = row.GetString("STCD3");
+                    fornecedor.Cep           = row.GetString("POST_CODE");
+                    fornecedor.Endereco      = row.GetString("STREET");
+                    fornecedor.Numero        = row.GetString("HOUSE_NUM1");
+                    fornecedor.Municipio     = row.GetString("CITY1");
+                    fornecedor.Bairro        = row.GetString("CITY2");
+                    fornecedor.Uf            = row.GetString("UF");
+                    fornecedor.Pais          = row.GetString("COUNTRY");
+                    fornecedor.Tel_res       = row.GetString("TELF1");
+                    fornecedor.Tel_res       = row.GetString("TELF2");
+                    fornecedor.Tel_cel       = row.GetString("TELF1");
+                    fornecedor.Fax           = row.GetString("TELFX");
+                    fornecedor.Email         = row.GetString("EMAIL");
+                    fornecedor.Grupo_contas  = row.GetString("KTOKK");
+                    fornecedor.Pacote        = row.GetString("PACOTE");
+                    fornecedor.Data_criacao  = Convert.ToDateTime(row.GetString("ERDAT"));
+                    fornecedor.Hora_criacao  = row.GetString("ERZET");
+                    fornecedor.Eliminacao    = row.GetString("LOEVM");
+ 
+                    
+                    v_cont = v_cont + 1;
                     try
                     {
-                        v_cont = v_cont + 1;
-                        if (deletar == ' ')
+                        IList<Fornecedor> fromDB = fornecedorRepository.ObterRegistrosUmCampo("Codigo", fornecedor.Codigo);
+                        if (fromDB.Count == 0)
+                        {                                                                                              
+                            fornecedorRepository.Salvar(fornecedor);                           
+                        }
+                        else 
                         {
-                            IList<Fornecedor> fromDB = fornecedorRepository.ObterRegistrosUmCampo("Codigo", fornecedor.Codigo);
-                            foreach (Fornecedor dados in fromDB)
-                            {
-                                fornecedorRepository.Excluir(dados);
-                            }
+                            fornecedorRepository.Alterar(fornecedor);
                         }
                     }
                     catch (Exception ex)
@@ -383,17 +486,57 @@ namespace Portal.DadosSap
                         linha_retorno.SetValue("MESSAGE", "Erro ao inserir o Fornecedor: " + fornecedor.Nome);
                         retorno.Insert(linha_retorno);
                     }
-
-                    fornecedorRepository.Salvar(fornecedor);
-                    String PACOTE = row.GetString("PACOTE");
-                    String ERDAT = row.GetString("ERDAT");
-                    String ERZET = row.GetString("ERZET");
                 }
 
                 IRfcTable retornoSucesso = function.GetTable("IT_RETURN");
                 linha_retorno.SetValue("TYPE", "S");
-                linha_retorno.SetValue("MESSAGE", "Registros com Sucesso: " + v_cont);
+                linha_retorno.SetValue("MESSAGE", "Registros com Sucesso Fornecedor: " + v_cont);
                 retornoSucesso.Insert(linha_retorno);
+
+                //
+                // FIM FORNECEDOR
+
+                //
+                // FORNECEDOR EMPRESA
+                //                 
+
+                int v_cont_emp = 0;
+                foreach (IRfcStructure row in it_fornecedor_emp)
+                {
+                    fornecedorEmpresa.Empresa       = row.GetString("BUKRS");
+                    fornecedorEmpresa.Codigo        = row.GetString("LIFNR");
+                    fornecedorEmpresa.Pacote        = row.GetString("PACOTE");
+                    fornecedorEmpresa.Data_criacao  = Convert.ToDateTime(row.GetString("ERDAT"));
+                    fornecedorEmpresa.Hora_criacao  = row.GetString("ERZET");
+                    fornecedorEmpresa.Eliminacao    = row.GetString("LOEVM");
+                  
+                    v_cont_emp = v_cont_emp + 1;
+                    try
+                    {
+                        IList<FornecedorEmpresa> fromDB = fornecedorEmpresaRepository.ObterRegistrosDoisCampos("Empresa", fornecedorEmpresa.Empresa, "Codigo", fornecedorEmpresa.Codigo);
+                        if (fromDB.Count == 0)
+                        {                            
+                            fornecedorEmpresaRepository.Salvar(fornecedorEmpresa);
+                        }
+                        else
+                        {     
+                            fornecedorEmpresaRepository.Alterar(fornecedorEmpresa);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write("Erro ao inserir o Fornecedor Empresa, Mensagem:" + ex);
+                        IRfcTable retorno = function.GetTable("IT_RETURN");
+                        linha_retorno_emp.SetValue("TYPE", "E");
+                        linha_retorno_emp.SetValue("MESSAGE", ex.Message);
+                        linha_retorno_emp.SetValue("MESSAGE", "Erro ao inserir o Forn. Empresa: " + fornecedorEmpresa.Empresa + "Fornecedor: " + fornecedorEmpresa.Codigo);
+                        retorno.Insert(linha_retorno_emp);
+                    }
+                }
+                IRfcTable retornoSucessoEmp = function.GetTable("IT_RETURN");
+                linha_retorno_emp.SetValue("TYPE", "S");
+                linha_retorno_emp.SetValue("MESSAGE", "Registros com Sucesso Forn. Empresa: " + v_cont_emp);
+                retornoSucessoEmp.Insert(linha_retorno_emp);
             }
 
             // SD03 - Inteface de materiais - Comunicação

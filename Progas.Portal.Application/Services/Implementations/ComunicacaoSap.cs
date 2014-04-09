@@ -90,9 +90,11 @@ namespace Progas.Portal.Application.Services.Implementations
                         throw new Exception(string.Join(". ", mensagensDeRetorno.Select(m => m.GetString("MESSAGE"))));
                     }
 
-                    pedidoVenda.Alterar(fReadTable.GetString("COTACAO"), status);
-
                     IRfcTable retornoItens = fReadTable.GetTable("TE_ITEM");
+
+                    IRfcStructure primeiroItem = retornoItens.First();
+
+                    pedidoVenda.Alterar(primeiroItem.GetString("COTACAO"), status);
 
                     IRfcTable retornoCondicoes = fReadTable.GetTable("TE_CONDICOES");
 
@@ -108,10 +110,16 @@ namespace Progas.Portal.Application.Services.Implementations
                         IRfcStructure retornoItem = retornoItens[i];
                         PedidoVendaLinha itemDoPedido = pedidoVenda.Itens[i];
 
-                        MotivoDeRecusa motivoDeRecusa = motivosDeRecusa.Single(x => x.Codigo == retornoItem.GetString("ABGRU"));
+                        string codigoDoMotivoDeRecusa = retornoItem.GetString("ABGRU");
+                        MotivoDeRecusa motivoDeRecusa = string.IsNullOrEmpty(codigoDoMotivoDeRecusa)
+                            ? null
+                            : 
+                            motivosDeRecusa.Single(x => x.Codigo == codigoDoMotivoDeRecusa);
 
                         itemDoPedido.Alterar(retornoItem.GetString("POSNR"), Convert.ToDecimal(retornoItem.GetString("VLRTAB")),
                                 Convert.ToDecimal(retornoItem.GetString("VLRPOL")), motivoDeRecusa);
+
+                        itemDoPedido.CondicoesDePreco.Clear();
 
                         foreach (var condicaoRetornada in
                                 retornoCondicoes.Where(

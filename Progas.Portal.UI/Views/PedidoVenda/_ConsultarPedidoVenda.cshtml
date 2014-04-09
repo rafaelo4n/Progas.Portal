@@ -84,14 +84,15 @@
 
         selecionarCliente.configurarJanelaModal('#id_cliente', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
 
+        var selecionarProduto = new SelecionarProduto();
+
         var funcaoParaPreencherOsDadosDeRetornoDoProduto = function () {
             $('#IdDoMaterial').val(selecionarProduto.produtoSelecionado.Id);
             $('#CodigoDoMaterial').val(selecionarProduto.produtoSelecionado.Id_material);
             $('#NomeDoMaterial').val(selecionarProduto.produtoSelecionado.Descricao);
         };
 
-        var selecionarProduto = new SelecionarProduto();
-        selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscarMaterial', null, funcaoParaPreencherOsDadosDeRetornoDoProduto);
+        selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscarMaterial', null,null, funcaoParaPreencherOsDadosDeRetornoDoProduto);
 
         $("#gridPedidos").customKendoGrid({
             dataSource: {

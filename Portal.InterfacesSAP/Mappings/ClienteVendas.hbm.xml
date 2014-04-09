@@ -5,28 +5,13 @@
 
   <class name="ClienteVendas" table="pro_cliente_vendas">
 
-    <id name="pro_id_cliente_vendas" access="property" column="pro_id_cliente_vendas" type="Int32">
-      <generator class="identity">
-        <param name="identity">pro_id_cliente_vendas</param>
-      </generator>
-    </id>
-
-    <property name="Id_cliente" not-null="false" access="property" type="String">
-      <column name="Id_cliente" length="10" />
-    </property>
-
-    <property name="Org_vendas" not-null="false" access="property" type="String">
-      <column name="Org_vendas" length="4" />
-    </property>
-
-    <property name="Can_dist" not-null="false" access="property" type="String">
-      <column name="Can_dist" length="3" />
-    </property>
-
-    <property name="Set_ativ" not-null="false" access="property" type="String">
-      <column name="Set_ativ" length="3" />
-    </property>
-
+    <composite-id>
+      <key-property name="Id_cliente"/>
+      <key-property name="Org_vendas"/>
+      <key-property name="Can_dist"/>
+      <key-property name="Set_ativ"/>
+    </composite-id>
+   
     <property name="Grupo_cli" not-null="false" access="property" type="String">
       <column name="Grupo_cli" length="3" />
     </property>
@@ -50,8 +35,10 @@
     <property name="Denominacao" not-null="false" access="property" type="String">
       <column name="Denominacao" length="40" />
     </property>
-    
-    
+
+    <property name="Eliminacao" not-null="false" access="property" type="String">
+      <column name="Eliminacao" length="1" />
+    </property>
 
   </class>
 

@@ -9,8 +9,6 @@ namespace Progas.Portal.Application.Queries.Builders
         {
             return new FornecedorCadastroVm()
             {
-
-                Id = model.Id,
                 Codigo = model.Codigo,
                 Nome = model.Nome,
                 Cpf = model.Cpf,

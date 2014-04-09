@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Portal.DadosSap"
+                   namespace="Portal.DadosSap.Entity" >
+
+  <class name="FornecedorEmpresa" table="pro_fornecedor_emp">
+
+    <composite-id>
+      <key-property name="Empresa"/>
+      <key-property name="Codigo"/>
+    </composite-id>
+  
+    <property name="Data_criacao" not-null="false" access="property" type="DateTime">
+      <column name="Data_criacao"/>
+    </property>
+
+    <property name="Pacote" not-null="false" access="property" type="String">
+      <column name="Pacote" length="30" />
+    </property>
+
+    <property name="Hora_criacao" not-null="false" access="property" type="String">
+      <column name="Hora_criacao" length="8"/>
+    </property>
+    
+    <property name="Eliminacao" not-null="false" access="property" type="String">
+      <column name="Eliminacao" length="1" />
+    </property>
+
+  </class>
+
+</hibernate-mapping>

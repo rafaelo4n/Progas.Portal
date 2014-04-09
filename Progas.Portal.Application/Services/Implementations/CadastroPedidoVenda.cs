@@ -4,10 +4,8 @@ using System.Linq;
 using Progas.Portal.Application.Services.Contracts;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.DTO;
-using Progas.Portal.Infra.DataAccess;
 using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.ViewModel;
-using SAP.Middleware.Connector;
 
 namespace Progas.Portal.Application.Services.Implementations
 {
@@ -23,12 +21,13 @@ namespace Progas.Portal.Application.Services.Implementations
         private readonly IIncotermsCabs _incotermsCabs;
         private readonly IIncotermsLinhas _incotermsLinhas;
         private readonly IListasPreco _listasPreco;
+        private readonly IMotivosDeRecusa _motivosDeRecusa;
         private readonly IComunicacaoSap _comunicacaoSap;
 
         public CadastroPedidoVenda(IUnitOfWork unitOfWork, IPedidosVenda pedidosVenda, 
             IUsuarios usuarios, IClienteVendas clienteVendas, IMateriais materiais, IClientes clientes,
             IFornecedores fornecedores, IIncotermsCabs incotermsCabs, IIncotermsLinhas incotermsLinhas, 
-            IListasPreco listasPreco, IComunicacaoSap comunicacaoSap)
+            IListasPreco listasPreco, IComunicacaoSap comunicacaoSap, IMotivosDeRecusa motivosDeRecusa)
         {
             _unitOfWork = unitOfWork;
             _pedidosVenda = pedidosVenda;
@@ -41,6 +40,7 @@ namespace Progas.Portal.Application.Services.Implementations
             _incotermsLinhas = incotermsLinhas;
             _listasPreco = listasPreco;
             _comunicacaoSap = comunicacaoSap;
+            _motivosDeRecusa = motivosDeRecusa;
         }               
 
         private class TransportadorasDoPedido
@@ -53,35 +53,35 @@ namespace Progas.Portal.Application.Services.Implementations
 
         private TransportadorasDoPedido ConsultarTransportadoras(PedidoVendaSalvarVm pedido)
         {
-            var idsDasTransportadoras = new List<int>();
+            var codigosDasTransportadoras = new List<string>();
 
-            if (pedido.CodigoDaTransportadora.HasValue)
+            if (!string.IsNullOrEmpty(pedido.CodigoDaTransportadora))
             {
-                idsDasTransportadoras.Add(pedido.CodigoDaTransportadora.Value);
+                codigosDasTransportadoras.Add(pedido.CodigoDaTransportadora);
             }
 
-            if (pedido.CodigoDaTransportadoraDeRedespacho.HasValue)
+            if (!string.IsNullOrEmpty(pedido.CodigoDaTransportadoraDeRedespacho))
             {
-                idsDasTransportadoras.Add(pedido.CodigoDaTransportadoraDeRedespacho.Value);
+                codigosDasTransportadoras.Add(pedido.CodigoDaTransportadoraDeRedespacho);
             }
 
-            if (pedido.CodigoDaTransportadoraDeRedespachoCif.HasValue)
+            if (!string.IsNullOrEmpty(pedido.CodigoDaTransportadoraDeRedespachoCif))
             {
-                idsDasTransportadoras.Add(pedido.CodigoDaTransportadoraDeRedespachoCif.Value);
+                codigosDasTransportadoras.Add(pedido.CodigoDaTransportadoraDeRedespachoCif);
             }
 
-            IList<Fornecedor> transportadoras = _fornecedores.BuscaListaPorIds(idsDasTransportadoras).List();
+            IList<Fornecedor> transportadoras = _fornecedores.BuscaListaPorCodigo(codigosDasTransportadoras.ToArray()).List();
 
             var retorno = new TransportadorasDoPedido
             {
-                Transportadora = pedido.CodigoDaTransportadora.HasValue
-                    ? transportadoras.Single(x => x.Id == pedido.CodigoDaTransportadora.Value)
+                Transportadora = !string.IsNullOrEmpty(pedido.CodigoDaTransportadora) 
+                    ? transportadoras.Single(x => x.Codigo == pedido.CodigoDaTransportadora)
                     : null,
-                TransportadoraDeRedespacho = pedido.CodigoDaTransportadoraDeRedespacho.HasValue
-                    ? transportadoras.Single(x => x.Id == pedido.CodigoDaTransportadoraDeRedespacho.Value)
+                TransportadoraDeRedespacho = !string.IsNullOrEmpty(pedido.CodigoDaTransportadoraDeRedespacho)
+                    ? transportadoras.Single(x => x.Codigo == pedido.CodigoDaTransportadoraDeRedespacho)
                     : null,
-                TransportadoraDeRedespachoCif = pedido.CodigoDaTransportadoraDeRedespachoCif.HasValue
-                    ? transportadoras.Single(x => x.Id == pedido.CodigoDaTransportadoraDeRedespachoCif.Value)
+                TransportadoraDeRedespachoCif = !string.IsNullOrEmpty(pedido.CodigoDaTransportadoraDeRedespachoCif)
+                    ? transportadoras.Single(x => x.Codigo == pedido.CodigoDaTransportadoraDeRedespachoCif)
                     : null
             };
 
@@ -105,27 +105,38 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 IncotermLinhas incoterm2 = _incotermsLinhas.FiltraPorId(pedido.IdDoIncoterm2).Single();
 
-                Cliente cliente = _clientes.BuscaPeloId(pedido.IdDoCliente).Single();
+                Cliente cliente = _clientes.BuscaPeloCodigo(pedido.CodigoDoCliente);
 
-                var pedidoVenda = new PedidoVenda(pedido.Tipo,
-                    //fReadTable.GetString("COTACAO"),
-                    pedido.CodigoTipoPedido,
-                    pedido.Centro,
-                    cliente,
-                    clienteVendas,
-                    DateTime.Now,
-                    pedido.NumeroPedido,
-                    pedido.DataDoPedido,
-                    pedido.CodigoDaCondicaoDePagamento,
-                    incoterm1,
-                    incoterm2,
-                    transportadorasDoPedido.Transportadora,
-                    transportadorasDoPedido.TransportadoraDeRedespacho,
-                    transportadorasDoPedido.TransportadoraDeRedespachoCif,
-                    Convert.ToString(usuarioConectado.CodigoDoFornecedor),
-                    pedido.Observacao
-                    //status
-                    );
+                PedidoVenda pedidoVenda;
+
+                if (!string.IsNullOrEmpty(pedido.IdDaCotacao))
+                {
+                    pedidoVenda = _pedidosVenda.FiltraPorId(pedido.IdDaCotacao).Single();
+
+                }
+                else
+                {
+
+                    pedidoVenda = new PedidoVenda(pedido.Tipo,
+                        //fReadTable.GetString("COTACAO"),
+                        pedido.CodigoTipoPedido,
+                        pedido.Centro,
+                        cliente,
+                        clienteVendas,
+                        DateTime.Now,
+                        pedido.NumeroPedido,
+                        pedido.DataDoPedido,
+                        pedido.CodigoDaCondicaoDePagamento,
+                        incoterm1,
+                        incoterm2,
+                        transportadorasDoPedido.Transportadora,
+                        transportadorasDoPedido.TransportadoraDeRedespacho,
+                        transportadorasDoPedido.TransportadoraDeRedespachoCif,
+                        Convert.ToString(usuarioConectado.CodigoDoFornecedor),
+                        pedido.Observacao
+                        //status
+                        );
+                }
 
                 int[] idDosMateriais = pedido.Itens.Select(x => x.IdMaterial).Distinct().ToArray();
 
@@ -135,30 +146,29 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 IList<ListaPreco> listasDePreco = _listasPreco.FiltraPorListaDeCodigos(codigoDasListasDePreco).List();
 
+                string[] codigoDosMotivosDeRecusa = pedido.Itens
+                    .Where(item => !string.IsNullOrEmpty(item.CodigoDoMotivoDeRecusa))
+                    .Select(item => item.CodigoDoMotivoDeRecusa)
+                    .ToArray();
+                
+                IList<MotivoDeRecusa> motivosDeRecusaDosItens = _motivosDeRecusa.BuscarLista(codigoDosMotivosDeRecusa).List();
+
                 for (int i = 0; i < pedido.Itens.Count; i++)
                 {
-                    //IRfcStructure retornoItem = retornoItens[i];
                     PedidoVendaSalvarItemVm item = pedido.Itens[i];
 
                     Material material = materiaisDosItens.Single(x => x.pro_id_material == item.IdMaterial);
 
                     ListaPreco listaDePreco = listasDePreco.Single(lista => lista.Codigo == item.CodigoDaListaDePreco);
 
-                    var linhasPedido = new PedidoVendaLinha(
-                        //retornoItem.GetString("POSNR"),
-                        material,
-                        item.Quantidade,
-                        listaDePreco,
-                        //Convert.ToDecimal(retornoItem.GetString("VLRTAB")), // valtab
-                        //Convert.ToDecimal(retornoItem.GetString("VLRPOL")), // valpol
-                        item.Desconto//,
-                        //motivoDeRecusa
-                        );
+                    MotivoDeRecusa motivoDeRecusa = string.IsNullOrEmpty(item.CodigoDoMotivoDeRecusa)
+                        ? null
+                        : motivosDeRecusaDosItens.Single(m => m.Codigo == item.CodigoDoMotivoDeRecusa);
 
-
+                    var linhasPedido = new PedidoVendaLinha(material,item.Quantidade,listaDePreco,item.Desconto,motivoDeRecusa);
+                    
                     pedidoVenda.AdicionarItem(linhasPedido);
                 }
-
 
                 _comunicacaoSap.EnviarPedido(pedidoVenda);
 
@@ -183,9 +193,10 @@ namespace Progas.Portal.Application.Services.Implementations
                     Itens = pedidoVenda.Itens.Select(item => new PedidoSapItemRetornoDTO
                     {
                         NumeroDoItem = item.Numero,
-                        Status = item.Status,
                         ValorDeTabela = item.ValorTabela,
                         ValorPolitica = item.ValorPolitica,
+                        CodigoDoMotivoDeRecusa = item.MotivoDeRecusa != null ? item.MotivoDeRecusa.Codigo : null,
+                        DescricaoDoMotivoDeRecusa = item.MotivoDeRecusa != null ? item.MotivoDeRecusa.Descricao: null,
                         CondicoesDePreco = item.CondicoesDePreco.Select(condicaoDePreco => new CondicaoDePrecoDTO
                         {
                             Nivel = condicaoDePreco.Nivel,

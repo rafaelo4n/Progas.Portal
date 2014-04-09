@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Portal.DadosSap"
+                   namespace="Portal.DadosSap.Entity" >
+
+  <class name="ClienteCondicaoLiberada" table="pro_cliente_condicoes_lib">
+
+    <composite-id>
+      <key-property name="Chave_condicao"/>
+      <key-property name="Id_cliente"/>
+    </composite-id>
+
+    <property name="Data_fim_condicao" not-null="false" access="property" type="DateTime">
+      <column name="Data_fim_condicao"/>
+    </property>
+
+    <property name="Data_criacao" not-null="false" access="property" type="DateTime">
+      <column name="Data_criacao"/>
+    </property>
+
+    <property name="Pacote" not-null="false" access="property" type="String">
+      <column name="Pacote" length="30" />
+    </property>
+
+    <property name="Hora_criacao" not-null="false" access="property" type="String">
+      <column name="Hora_criacao" length="8" />
+    </property>
+
+    <property name="Eliminacao" not-null="false" access="property" type="String">
+      <column name="Eliminacao" length="1" />
+    </property>
+
+    <!--<bag name="ListaClientes" table="pro_cliente" cascade="none" lazy="false">      
+      <key column="Chave_condicao" />      
+      <many-to-many class="Cliente" column="Id_cliente" not-found="ignore" />      
+    </bag>-->
+    
+  </class>
+
+</hibernate-mapping>

@@ -346,5 +346,81 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+-- ULTIMAS ALTERACOES
+ 
+ GO
+alter table pro_cliente add Eliminacao nchar(1);
+ 
+GO
+alter table pro_cliente_vendas add Eliminacao nchar(1);
+
+GO
+ CREATE TABLE [dbo].[pro_cliente_condicoes_lib](
+	[Chave_condicao]    [nvarchar](4) NOT NULL,
+	[Id_cliente]        [nvarchar](10) NOT NULL,	
+	[Data_fim_condicao] [date] NULL,
+	[Pacote]	        [nchar](30) NULL,
+	[Data_criacao]		[date] NULL,
+	[Hora_criacao]		[nchar](8) NULL,
+	[Eliminacao]		[nchar](1) NULL,	
+	constraint PK_chave_condicao   PRIMARY KEY (Chave_condicao, Id_cliente),
+	constraint FK_cliente_condicao FOREIGN KEY (Id_cliente) REFERENCES pro_cliente(Id_cliente)	
+);
+
+GO 
+ alter table pro_fornecedor DROP COLUMN Codigo_eliminacao;
+
+ GO 
+ alter table pro_fornecedor add Eliminacao nchar(1);
+ 
+  GO 
+ CREATE TABLE [dbo].[pro_fornecedor_emp](
+	[Empresa]			[nvarchar](4) NOT NULL,
+	[Codigo]			[nvarchar](10) NOT NULL,	
+	[Data_fim_condicao] [date] NULL,
+	[Pacote]	        [nchar](30) NULL,
+	[Data_criacao]		[date] NULL,
+	[Hora_criacao]		[nchar](8) NULL,
+	[Eliminacao]		[nchar](1) NULL,	
+	constraint PK_empresa		 PRIMARY KEY (Empresa, Codigo),
+	constraint FK_fornecedor_imp FOREIGN KEY (Codigo) REFERENCES pro_fornecedor(Codigo)	
+);
+
+ GO 
+ alter table pro_vcab DROP CONSTRAINT  FK_cliente_vendas_vcab;
+ 
+  GO 
+ alter table pro_cliente_vendas DROP CONSTRAINT  PK__pro_clie__C0226D7CFC576DC6;
+ 
+  GO
+ alter table pro_cliente_vendas DROP COLUMN pro_id_cliente_vendas;
+ 
+   GO 
+ ALTER TABLE pro_cliente_vendas ALTER COLUMN Id_cliente nvarchar(10) not null;
+ 
+ GO
+ ALTER TABLE pro_cliente_vendas ADD CONSTRAINT FK_pro_cliente FOREIGN KEY (Id_cliente) REFERENCES pro_cliente(Id_cliente);
+ 
+ GO 
+ ALTER TABLE pro_cliente_vendas ALTER COLUMN Org_vendas nvarchar(4) not null;
+ 
+ GO
+ ALTER TABLE pro_cliente_vendas ALTER COLUMN Can_dist nvarchar(2) not null;
+ 
+  GO
+ ALTER TABLE pro_cliente_vendas ALTER COLUMN Set_ativ nvarchar(2) not null;
+ 
+ GO 
+ ALTER TABLE pro_cliente_vendas ADD CONSTRAINT PK_cliente_vendas PRIMARY KEY(Id_cliente, Org_vendas, Can_dist, Set_ativ); 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
 
 

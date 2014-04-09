@@ -70,7 +70,7 @@ namespace Progas.Portal.IoC
             For<IConsultaMotivoDeRecusa>()
                  .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                  .Use<ConsultaMotivoDeRecusa>();
-         
+
         }
     }
 }

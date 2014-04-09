@@ -11,13 +11,12 @@
                     data: 'Registros',
                     model: {
                         fields: {
-                            Id: {type: "number"},
                             Codigo: { type: "string" },
                             Nome: { type: "string" },
                             Cnpj: { type: "string" },
                             Cpf: { type: "string" },
                             Municipio: { type: "string" },
-                            Telefone: { type: "string" }
+                            Uf: { type: "string" }
                         }
                     },
                     total: 'QuantidadeDeRegistros'
@@ -30,7 +29,7 @@
                         type: 'GET',
                         cache: false,
                         data: function () {
-                            return $('#filtrosDeFornecedor').serializeObject();
+                            return $('#filtrosDeCliente').serializeObject();
                         }
                     }
                 },
@@ -38,21 +37,21 @@
             },
             dataBound: function () {
                 if (me.clienteSelecionado) {
-                    $('input[name=radioCliente][data-idcliente=' + me.clienteSelecionado.Id + ']').attr('checked', true);
+                    $('input[name=radioCliente][data-idcliente=' + me.clienteSelecionado.Codigo + ']').attr('checked', true);
                 }
             },
             columns:
             [
                 {
-                    title: ' ', /*coloco um espaço para deixar o header sem título*/
+                    title: ' ', 
                     width: 30,
                     sortable: false,
-                    template: '<input type="radio" name="radioCliente" data-idcliente="${Id}"></input>'
+                    template: '<input type="radio" name="radioCliente" data-idcliente="${Codigo}"></input>'
                 },
                 {
                     field: "Codigo",
                     width: 80,
-                    title: "Codigo"
+                    title: "Código"
                 },
                 {
                     field: "Nome",
@@ -71,10 +70,16 @@
                     title: "CPF"
                 },
                 {
-                    field: "municipio",
+                    field: "Municipio",
                     width: 100,
                     title: "Cidade"
+                },
+                {
+                    field: "Uf",
+                    width: 30,
+                    title: "UF"
                 }
+
             ]
         });
 
@@ -120,7 +125,7 @@
 
             if (idDoCliente) {
                 me.clienteSelecionado = {
-                    Id: idDoCliente
+                    Codigo: idDoCliente
                 };
             }
 

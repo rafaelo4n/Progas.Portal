@@ -80,10 +80,16 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarRepresentante.js")"></script>
     <script>
 
-        //SelecionarRepresentante.Configurar();
 
-        var selecionarTransportadora = new SelecionarFornecedor();
-        selecionarTransportadora.configurar("#CodigoFornecedor", "#NomeDoRepresentante", "divSelecionarRepresentante", "#btnSelecionarRepresentante");
+        var selecionarRepresentante = new SelecionarFornecedor();
+
+        var funcaoParaPreencherOsCamposDoRepresentante = function() {
+            var representanteSelecionado = selecionarRepresentante.fornecedorSelecionado;
+            $('#CodigoFornecedor').val(representanteSelecionado.Codigo);
+            $('#NomeDoRepresentante').val(representanteSelecionado.Nome);
+        };
+
+        selecionarRepresentante.configurarJanelaModalParaFornecedor("#CodigoFornecedor", "divSelecionarRepresentante", "#btnSelecionarRepresentante", funcaoParaPreencherOsCamposDoRepresentante);
         
         var perfisDoUsuario = new Array();
         var perfisNaoAtribuidos = new Array();

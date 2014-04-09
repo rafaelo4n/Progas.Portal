@@ -13,6 +13,6 @@ namespace Progas.Portal.Infra.Repositories.Contracts
         IClientes ComCnpj(string cnpj);
         IClientes MunicipioContendo(string municipio);
         IClientes ComCpf(string cpf);
-        IClientes BuscaPeloId(int idDoCliente);
+        IClientes DoRepresentante(string codigoDoRepresentante);
     }
 }

@@ -13,17 +13,17 @@ namespace Progas.Portal.Infra.Repositories.Implementations
     {
         public ClienteVendas(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
-            Query = Query.OrderBy(x => x.Id_cliente);
+            Query = Query.OrderBy(x => x.Cliente.Id_cliente);
         }
 
         public ClienteVenda ConsultaAtivDistribuicao(string cliente, string centro)
         {
-            return Query.SingleOrDefault(x => x.Id_cliente == cliente && x.Org_vendas == centro);
+            return Query.SingleOrDefault(x => x.Cliente.Id_cliente == cliente && x.Org_vendas == centro);
         }
 
         public IClienteVendas DoCliente(string idDoCliente)
         {
-            Query = Query.Where(x => x.Id_cliente == idDoCliente);
+            Query = Query.Where(x => x.Cliente.Id_cliente == idDoCliente);
             return this;
         }
 

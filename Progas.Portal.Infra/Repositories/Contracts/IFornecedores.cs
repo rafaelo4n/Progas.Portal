@@ -8,10 +8,11 @@ namespace Progas.Portal.Infra.Repositories.Contracts
         Fornecedor BuscaPeloCodigo(string codigo);
         IFornecedores BuscaPeloCnpj(string cnpj);
         IFornecedores BuscaListaPorCodigo(string[] codigoDosFornecedores);
-        //IFornecedores FornecedoresNaoVinculadosAoProduto(string codigoProduto);
         IFornecedores NomeContendo(string filtroNome);
         IFornecedores CodigoContendo(string filtroCodigo);
         IFornecedores FiltraPelaDescricao(string descricao);
-        IFornecedores BuscaListaPorIds(IList<int> ids);
+        IFornecedores ComCnpj(string cnpj);
+        IFornecedores ComCpf(string cpf);
+        IFornecedores SomenteTransportadora();
     }
 }

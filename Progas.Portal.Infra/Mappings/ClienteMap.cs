@@ -8,8 +8,7 @@ namespace Progas.Portal.Infra.Mappings
         public ClienteMap()
         {
             Table("pro_cliente");
-            Id(x => x.Id, "pro_id_cliente");
-            Map(x => x.Id_cliente);
+            Id(x => x.Id_cliente);
             Map(x => x.Nome);
             Map(x => x.Cpf);
             Map(x => x.Cnpj);
@@ -29,6 +28,17 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Pacote);
             Map(x => x.Hora_criacao);
             Map(x => x.Data_criacao);
+
+            HasMany(x => x.AreasDeVenda)
+                .KeyColumn("Id_cliente");
+
+            //HasMany(x => x.AreasDeVenda)
+            //    .KeyColumn("Id_cliente")
+            //    .Not.Inverse()
+            //    .Not.KeyNullable()
+            //    .Not.KeyUpdate()
+            //    .Cascade.AllDeleteOrphan();
+
         }
     }
 }

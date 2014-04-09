@@ -29,9 +29,8 @@
             </div>
         </div>                                 
     </fieldset>
-    
-    @using (Html.BeginForm())
-    {
+    <form id="formCabecalho">
+
         @Html.HiddenFor(x => x.id_cotacao )
         <!-- Realiza a pequisa de cotações para carregar seus dados -->           
         <!-- Dados do Header-->   
@@ -60,8 +59,6 @@
                     new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Cnpj, "campogrande campoDesabilitado"),
                     new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Telefone, "campogrande campoDesabilitado"))
                 
-                @Html.HiddenFor(x => x.Cliente.Id)
-
                 
                 @{
                     var comboDeAreaDeVendas = new ColunaComDropDown<PedidoVendaCadastroVm, int>
@@ -113,7 +110,6 @@
                 
                 @Html.LinhaComQuatroColunas(inco1, inco2, buscaDeTransportadora, campoComNomeDaTransportadora)
                 
-                @Html.HiddenFor(x => x.Transportadora.Id)
                 
                 @{
                     var buscaDeTransportadoraDeRedespacho = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespacho.Codigo,
@@ -132,18 +128,17 @@
                 
                 @Html.LinhaComQuatroColunas(buscaDeTransportadoraDeRedespacho, campoComNomeDaTransportadoraDeRedespacho,buscaDeTransportadoraDeRedespachoCif, campoComNomeDaTransportadoraDeRedespachoCif)
                 
-                @Html.HiddenFor(x => x.TransportadoraDeRedespacho.Id)
-                @Html.HiddenFor(x => x.TransportadoraDeRedespachoCif.Id)
-                
                 @Html.LinhaComUmaColuna(new ColunaComTextArea<PedidoVendaCadastroVm, string>(x => x.obs))
 
             </div> 
               
         </fieldset>
-        <!-- Dados das Linhas--> 
-        <fieldset>
-            <legend>Dados de Itens</legend>                
-            <div id="Linha">           
+    </form>
+    <!-- Dados das Linhas--> 
+    <fieldset>
+        <legend>Dados de Itens</legend>                
+        <div id="Linha">
+            <form id="formItens">
                 
                 @{ 
 
@@ -190,23 +185,24 @@
                     <input type="button" id="btnAdicionarItem" value="Adicionar" class="blue" />
                     <input type="button" id="btnCancelarEdicao" value="Cancelar" class="blue"  style="display: none"/>
                 </div>
+                    
+            </form>           
 
-            </div>          
-        </fieldset>                
-        <fieldset>
-            <legend>Grid de Linhas</legend> 
-            <div @*class="divGrid"*@>
-                <div id="gridLinhasAdicionadas" style="width: 785px" class="divGrid" ></div>    
-            </div>
-        </fieldset>
-        
-        <div class="divBotao">
-            <input type="button" id="btnSimular"             value="Simular"          class="blue"/>
-            <input type="button" id="btnGravar"              value="Gravar"           class="blue"/>
         </div>
+    </fieldset>                
+    <fieldset>
+        <legend>Grid de Linhas</legend> 
+        <div @*class="divGrid"*@>
+            <div id="gridLinhasAdicionadas" style="width: 785px" class="divGrid" ></div>    
+        </div>
+    </fieldset>
+        
+    <div class="divBotao">
+        <input type="button" id="btnSimular"             value="Simular"          class="blue"/>
+        <input type="button" id="btnGravar"              value="Gravar"           class="blue"/>
+    </div>
 
-    }
-    <div id="divCondicoesDePreco" class="janelaModal">
+    <div id="divCondicoesDePreco" class="janelaModal" @*style="display: none"*@>
         <div id="gridCondicoesDePreco" class="divGrid"></div>
     </div>
 </div>
@@ -228,12 +224,12 @@
         var linhasAdicionadas = new Array();
         var condicoesDePrecoDoItemSelecionado = new Array();
         var indiceEdicao = -1;
-        var status = 0;
         var simular = "S";
         var gravar = "G";
         var numeroDeItensInseridos = 0;
-        var somenteLeitura = '@(Model != null && Model.SomenteLeitura)'.boolean();
+        var somenteLeitura = '@(Model != null && (Model.SomenteLeitura || (!string.IsNullOrEmpty(Model.status) && Model.status != "S") ) )'.boolean();
         var copia = '@(Model != null && Model.Copia )'.boolean();
+        var edicao = !copia && '@(Model != null && !string.IsNullOrEmpty(Model.id_cotacao))'.boolean();
 
         function carregarAreasDeVenda(idDoCliente, callBack) {
             ///<param name="callBack">funcao para executar alguma ação após carregar as áreas de venda. Por exemplo, setar um valor</param>
@@ -331,7 +327,10 @@
                 }
             });
 
+        }
 
+        function passarCamposParaSomenteLeitura() {
+            $('form :input').attr('disabled', true);
         }
 
         $(function() {
@@ -342,34 +341,31 @@
 
             var funcaoParaRetornarCamposDaBuscaDeTransportadora = function() {
                 var transportadoraSelecionada = selecionarTransportadora.fornecedorSelecionado;
-                $("#Transportadora_Id").val(transportadoraSelecionada.Id);
                 $("#Transportadora_Codigo").val(transportadoraSelecionada.Codigo);
                 $("#Transportadora_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadora.configurarJanelaModal("#Transportadora_Id", "divSelecionarTransportadora", "#btnSelecionarTransportadora", funcaoParaRetornarCamposDaBuscaDeTransportadora);
+            selecionarTransportadora.configurarJanelaModalParaTransportadora("#Transportadora_Codigo", "divSelecionarTransportadora", "#btnSelecionarTransportadora", funcaoParaRetornarCamposDaBuscaDeTransportadora);
 
             var selecionarTransportadoraDeRedespacho = new SelecionarFornecedor();
 
             var funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho = function() {
                 var transportadoraSelecionada = selecionarTransportadoraDeRedespacho.fornecedorSelecionado;
-                $("#TransportadoraDeRedespacho_Id").val(transportadoraSelecionada.Id);
                 $("#TransportadoraDeRedespacho_Codigo").val(transportadoraSelecionada.Codigo);
                 $("#TransportadoraDeRedespacho_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadoraDeRedespacho.configurarJanelaModal("#TransportadoraDeRedespacho_Id", "divSelecionarTransportadoraDeRedespacho", "#btnSelecionarTransportadoraDeRedespacho", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
+            selecionarTransportadoraDeRedespacho.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespacho_Codigo", "divSelecionarTransportadoraDeRedespacho", "#btnSelecionarTransportadoraDeRedespacho", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
 
             var selecionarTransportadoraDeRedespachoCif = new SelecionarFornecedor();
 
             var funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif = function() {
                 var transportadoraSelecionada = selecionarTransportadoraDeRedespachoCif.fornecedorSelecionado;
-                $("#TransportadoraDeRedespachoCif_Id").val(transportadoraSelecionada.Id);
                 $("#TransportadoraDeRedespachoCif_Codigo").val(transportadoraSelecionada.Codigo);
                 $("#TransportadoraDeRedespachoCif_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadoraDeRedespachoCif.configurarJanelaModal("#TransportadoraDeRedespachoCif_Id", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
+            selecionarTransportadoraDeRedespachoCif.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespachoCif_Codigo", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
 
             var selecionarCliente = new SelecionarCliente();
             var funcaoParaRetornarCamposDaBuscaDeCliente = function() {
@@ -378,14 +374,13 @@
                 if (codigoDoCliente != clienteSelecionado.Codigo) {
                     carregarAreasDeVenda(clienteSelecionado.Codigo);
                 }
-                $('#Cliente_Id').val(clienteSelecionado.Id);
                 $('#Cliente_Codigo').val(clienteSelecionado.Codigo);
                 $('#Cliente_Nome').val(clienteSelecionado.Nome);
                 $('#Cliente_Cnpj').val(clienteSelecionado.Cnpj || clienteSelecionado.Cpf);
                 $('#Cliente_Telefone').val(clienteSelecionado.Telefone);
 
             };
-            selecionarCliente.configurarJanelaModal('#Cliente_Id', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
+            selecionarCliente.configurarJanelaModal('#Cliente_Codigo', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
 
             var selecionarProduto = new SelecionarProduto();
 
@@ -397,7 +392,7 @@
                 $('#CodigoUnidadeMedida').val(produtoSelecionado.UnidadeMedida);
             };
 
-            selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscaMaterial', '#id_centro', funcaoParaPreencherOsDadosDeRetornoDoProduto);
+            selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscaMaterial', '#id_centro', '#Cliente_Codigo', funcaoParaPreencherOsDadosDeRetornoDoProduto);
 
             $('#AreaDeVenda').change(function() {
                 var areaDeVendaSelecionada = $(this).val();
@@ -426,7 +421,7 @@
                     $('#Inco2').val(idDoIncoterm2);
                 });
 
-                if (!copia) {
+                if (edicao) {
                     $('#btnGravar').val('Gravar Edição');
                     $('#btnSimular').val('Simular Edição');
                 }
@@ -436,7 +431,7 @@
             }
 
             if (somenteLeitura) {
-                $('form :input').attr('disabled', true);
+                passarCamposParaSomenteLeitura();
             }
 
             $('#Inco1').change(function() {
@@ -464,7 +459,7 @@
 
             // Adiciona linha ao grid
             $('#btnAdicionarItem').click(function() {
-                var form = $('form');
+                var form = $('#formItens');
                 if (!$(form).validate().form()) {
                     return;
                 }
@@ -494,12 +489,22 @@
 
                 } else {
                     // array que sera exibido no grid
+                    var itemAtual = linhasAdicionadas[indiceEdicao];
+                    item.ValorTabela = itemAtual.ValorTabela;
+                    item.ValorPolitica = itemAtual.ValorPolitica;
+
                     linhasAdicionadas[indiceEdicao] = item;
+
                     encerrarEdicao();
                 }
 
                 atualizaGrid();
             });
+
+            function permiteAlterarItem(dataItem) {
+                return !somenteLeitura && (!edicao || !dataItem.CodigoMotivoDeRecusa);
+
+            }
 
             // exibe os valores no grid 
             // quota. campo
@@ -511,7 +516,6 @@
                             id: 'Codigo',
                             fields: {
                                 NumeroDoItem: { type: "number" },
-                                Status: { type: "string" },
                                 IdMaterial: { type: "number" },
                                 CodigoMaterial: { type: "string" },
                                 DescricaoMaterial: { type: "string" },
@@ -534,21 +538,32 @@
                     {
                         title: ' ',
                         width: 30,
-                        template: '<input type="button" class="button_edit"></input>'
+                        template: function (dataItem) {
+                            debugger;
+                            if (permiteAlterarItem(dataItem)) {
+                                return '<input type="button" class="button_edit"></input>';
+                            } else {
+                                return '';
+                            }
+                        } 
                     },
                     {
                         title: ' ',
                         width: 30,
-                        template: '<input type="button" class="button_remove"></input>'
+                        template: function(dataItem) {
+                            if (permiteAlterarItem(dataItem)) {
+                                return '<input type="button" class="button_remove"></input>';
+                            } else {
+                                return '';
+                            }
+                           
+                        }
+
                     },
                     {
                         width: 40,
                         field: "NumeroDoItem",
                         title: "Item"
-                    },
-                    {
-                        width: 45,
-                        title: "Status"
                     },
                     {
                         field: "CodigoMaterial",
@@ -684,13 +699,19 @@
 
             function enviarPedido(acao, mensagemDeSucesso) {
 
+                var form = $('#formCabecalho');
+                if (!$(form).validate().form()) {
+                    return;
+                }
+
                 if (linhasAdicionadas.length == 0) {
                     Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Item antes de salvar.');
                     return;
                 }
 
                 var pedido = {
-                    IdDoPedido: $('#id_cotacao').val(),
+                    IdDaCotacao:  $('#id_cotacao').val(),
+                    IdDoPedido: $('#id_pedido').val(),
                     tipo: acao,
                     CodigoTipoPedido: $('#CodigoTipoPedido').val(),
                     CodigoDaCondicaoDePagamento: $('#condpgto').val(),
@@ -699,7 +720,7 @@
                     CodigoDaTransportadora: $('#Transportadora_Codigo').val(),
                     CodigoDaTransportadoraDeRedespacho: $('#TransportadoraDeRedespacho_Codigo').val(),
                     CodigoDaTransportadoraDeRedespachoCif: $('#TransportadoraDeRedespachoCif_Codigo').val(),
-                    IdDoCliente: $('#Cliente_Id').val(),
+                    CodigoDoCliente: $('#Cliente_Codigo').val(),
                     IdDaAreaDeVenda: $('#AreaDeVenda').val(),
                     Centro: $('#id_centro').val(),
                     IdDoIncoterm1: $('#Inco1').val(),
@@ -711,6 +732,7 @@
                 var itens = new Array();
                 $.each(linhasAdicionadas, function(indice, item) {
                     itens.push({
+                        IdDoItem: item.Id,
                         IdMaterial: item.IdMaterial,
                         Quantidade: item.Quantidade,
                         CodigoDaListaDePreco: item.CodigoListaPreco,
@@ -732,14 +754,27 @@
                     dataType: 'json',
                     success: function (data) {
                         if (data.Sucesso) {
+
+                            edicao = true;
+
+                            $('#btnGravar').val('Gravar Edição');
+                            $('#btnSimular').val('Simular Edição');
+
                             var retorno = data.Retorno;
                             $('#id_cotacao').val(retorno.IdDoPedido);
-                            $('#status').val(retorno.Status);
                             $('#vlrtot').val(retorno.ValorTotal);
+                            $('#status').val(retorno.Status);
+
+                            somenteLeitura = retorno.Status != 'S';
+
+                            if (somenteLeitura) {
+                                passarCamposParaSomenteLeitura();
+                            }
 
                             for (var i = 0; i < retorno.Itens.length; i++) {
                                 linhasAdicionadas[i].NumeroDoItem = retorno.Itens[i].NumeroDoItem;
-                                linhasAdicionadas[i].Status = retorno.Itens[i].Status;
+                                linhasAdicionadas[i].CodigoDoMotivoDeRecusa = retorno.Itens[i].CodigoDoMotivoDeRecusa;
+                                linhasAdicionadas[i].DescricaoDoMotivoDeRecusa = retorno.Itens[i].DescricaoDoMotivoDeRecusa;
                                 linhasAdicionadas[i].ValorTabela = retorno.Itens[i].ValorDeTabela;
                                 linhasAdicionadas[i].ValorPolitica = retorno.Itens[i].ValorPolitica;
                                 linhasAdicionadas[i].CondicoesDePreco = retorno.Itens[i].CondicoesDePreco;
