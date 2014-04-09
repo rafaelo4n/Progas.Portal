@@ -413,7 +413,76 @@ GO
  GO 
  ALTER TABLE pro_cliente_vendas ADD CONSTRAINT PK_cliente_vendas PRIMARY KEY(Id_cliente, Org_vendas, Can_dist, Set_ativ); 
  
+ -- ultimas alteracoes
  
+ GO
+ alter table pro_material add Eliminacao nchar(1);
+ 
+ GO
+ alter table pro_vitem DROP CONSTRAINT  FK_Item_Material;
+
+ GO
+ alter table pro_vitem alter column pro_id_material nvarchar(10) not null;
+ 
+ GO
+ alter table pro_material DROP CONSTRAINT PK__pro_mate__7BDC2C701CB22475; 
+ 
+ GO
+ alter table pro_material alter column Id_material nvarchar(10) not null;
+ 
+ GO 
+ ALTER TABLE pro_material ADD CONSTRAINT PK_material PRIMARY KEY(Id_material);
+ 
+ GO
+ ALTER TABLE pro_material DROP COLUMN pro_id_material;
+ 
+ GO
+ ALTER TABLE pro_vitem ADD CONSTRAINT FK_Item_Material FOREIGN KEY (pro_id_material) REFERENCES pro_material(Id_material);
+ 
+ GO
+ alter table pro_incotermcab add Eliminacao nchar(1);
+ 
+ GO
+ alter table pro_incotermlinha add Eliminacao nchar(1);
+ 
+ GO
+ alter table pro_condpgto add Eliminacao nchar(1);
+
+ GO
+ alter table pro_condpgto alter column Codigo nvarchar(4) not null;
+ 
+ GO
+ alter table pro_condpgto drop column pro_id_condpgto;
+ 
+ GO 
+ ALTER TABLE pro_condpgto ADD CONSTRAINT PK_condpgto PRIMARY KEY(Codigo);
+ 
+  GO 
+ alter table pro_vcab DROP CONSTRAINT  FK_PedidoVenda_Incoterm1;
+  
+ GO
+ alter table pro_incotermcab DROP CONSTRAINT PK__pro_inco__D88C61320BCA3402;
+ 
+ GO
+ alter table pro_incotermcab DROP COLUMN pro_id_incotermCab;
+ 
+ GO
+ alter table pro_incotermcab ALTER COLUMN CodigoIncotermCab nchar(3) not null;
+  
+ GO
+ alter table pro_incotermlinha ALTER COLUMN CodigoIncotermCab nchar(3) not null;
+ 
+ GO
+ ALTER TABLE pro_incotermcab ADD CONSTRAINT PK_incoterm1 PRIMARY KEY(CodigoIncotermCab); 
+ 
+ GO
+ ALTER TABLE pro_incotermlinha ADD CONSTRAINT FK_incoterm1 FOREIGN KEY (CodigoIncotermCab) REFERENCES pro_incotermcab(CodigoIncotermCab);
+ 
+ GO
+ alter table pro_vcab ALTER COLUMN pro_id_incotermCab nchar(3) not null;
+ 
+ GO
+ ALTER TABLE pro_vcab ADD CONSTRAINT FK_PedidoVenda_Incoterm1 FOREIGN KEY (pro_id_incotermCab) REFERENCES pro_incotermcab(CodigoIncotermCab);
  
  
  

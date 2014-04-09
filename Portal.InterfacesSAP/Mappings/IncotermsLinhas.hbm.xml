@@ -12,7 +12,7 @@
     </id>
 
     <property name="CodigoIncotermCab" not-null="false" access="property" type="String">
-      <column name="CodigoIncotermCab" length="10" />
+      <column name="CodigoIncotermCab" length="3" />
     </property>
     
     <property name="IncotermLinha" not-null="false" access="property" type="String">
@@ -29,6 +29,10 @@
 
     <property name="Hora_criacao" not-null="false" access="property" type="String">
       <column name="Hora_criacao" length="8"/>
+    </property>
+
+    <property name="Eliminacao" not-null="false" access="property" type="String">
+      <column name="Eliminacao" length="1" />
     </property>
 
   </class>
