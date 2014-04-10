@@ -19,6 +19,7 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.pacote);
             Map(x => x.hora_criacao);
             Map(x => x.data_criacao);
+            Map(x => x.Eliminacao);
         }
     }
 }

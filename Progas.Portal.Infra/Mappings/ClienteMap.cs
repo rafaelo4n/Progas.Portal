@@ -32,6 +32,9 @@ namespace Progas.Portal.Infra.Mappings
             HasMany(x => x.AreasDeVenda)
                 .KeyColumn("Id_cliente");
 
+            HasMany(x => x.CondicoesDePagamento)
+                .KeyColumn("Id_cliente");
+
             //HasMany(x => x.AreasDeVenda)
             //    .KeyColumn("Id_cliente")
             //    .Not.Inverse()

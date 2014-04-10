@@ -141,6 +141,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AreaDeVendaController.cs" />
     <Compile Include="Controllers\CadastrosController.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\IncotermController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />

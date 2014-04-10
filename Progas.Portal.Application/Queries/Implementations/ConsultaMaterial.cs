@@ -80,7 +80,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                     //queryOver.WithSubquery.WhereExists(subQueryCondicaoCliente);
                     disjuncaoDasSubqueries.Add(Subqueries.WhereProperty<Material>(m => m.Id_material).In(subQueryCondicaoCliente) );
 
-                    Cliente cliente = _clientes.BuscaPeloCodigo(filtro.IdDoCliente);
+                    Cliente cliente = _clientes.BuscaPeloCodigo(filtro.IdDoCliente).Single();
 
                     CondicaoDePrecoRegiao condicaoDePrecoRegiao = null;
 

@@ -1,4 +1,5 @@
-﻿@using Progas.Portal.UI.Helpers
+﻿@using NHibernate.Mapping
+@using Progas.Portal.UI.Helpers
 @using Progas.Portal.ViewModel
 @model PedidoVendaCadastroVm
 
@@ -65,15 +66,7 @@
                         (x => x.IdDaAreaDeVenda, new List<SelectListItem>(), "AreaDeVenda");
                            
                     var condpgto = new ColunaComDropDown<PedidoVendaCadastroVm, string>
-                        (x => x.condpgto, ((List<CondicaoDePagamentoCadastroVm>)ViewBag.CondicoesDePagamento)
-                            .Select(x => new SelectListItem()
-                            {
-                                Text = string.Format("{0} - {1}",x.Codigo,x.Descricao) ,
-                                Value = Convert.ToString(x.Codigo),
-                                Selected = Model != null && x.Codigo == Model.condpgto
-                            }
-                            ), "condpgto"
-                        );                            
+                        (x => x.condpgto, new List<SelectListItem>(), "condpgto");                            
                 }
                 
                 @Html.LinhaComCincoColunas(comboDeAreaDeVendas,
@@ -268,6 +261,45 @@
 
         }
 
+        function carregarCondicoesDePagamento(idDoCliente, callBack) {
+            ///<param name="callBack">funcao para executar alguma ação após carregar as condições de pagamento. Por exemplo, setar um valor</param>
+            var comboDeCondicaoDePagamento = $('#condpgto');
+            comboDeCondicaoDePagamento
+                .val('')
+                .change();
+
+            $.ajax({
+                url: '@Url.Action("ListarCondicoesDePagamento", "Cliente")' + '/?idDoCliente=' + idDoCliente,
+                type: 'GET',
+                cache: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Sucesso) {
+
+                        comboDeCondicaoDePagamento.children(':not(:first)').remove();
+                        $.each(data.condicoesDePagamento, function (indice, condicaoDePagamento) {
+                            comboDeCondicaoDePagamento.append('<option value="' + condicaoDePagamento.Codigo + '">' + condicaoDePagamento.Descricao + '</option>');
+                        });
+
+                        if (callBack) {
+                            callBack();
+                        }
+
+                    } else {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Condições de Pagamento do cliente. Detalhe: ' + data.Mensagem);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Condições de Pagamento do cliente. Detalhe: ' + errorThrown);
+                }
+            });
+
+        }
+
+
+
         function carregarIncoterm2(incoterm1, callBack) {
             $.ajax({
                 url: '@Url.Action("ListarIncotermsDoCabecalho", "Incoterm")' + '/?idDoCabecalho=' + incoterm1,
@@ -373,6 +405,7 @@
                 var codigoDoCliente = $('#Cliente_Codigo').val();
                 if (codigoDoCliente != clienteSelecionado.Codigo) {
                     carregarAreasDeVenda(clienteSelecionado.Codigo);
+                    carregarCondicoesDePagamento(clienteSelecionado.Codigo);
                 }
                 $('#Cliente_Codigo').val(clienteSelecionado.Codigo);
                 $('#Cliente_Nome').val(clienteSelecionado.Nome);
@@ -410,8 +443,10 @@
 
                 var idDaAreaDeVenda = '@(Model != null ? Model.IdDaAreaDeVenda: 0)';
                 var idDoIncoterm2 = '@(Model != null ? Model.IdDoIncoterm2: "")';
+                var codigoDaCondicaoDePagamento = '@(Model != null ? Model.condpgto: ""  )';
+                var idDoCliente = $('#Cliente_Codigo').val();
                 //vai entrar aqui quando estiver carregando um pedido que já foi salvo
-                carregarAreasDeVenda($('#Cliente_Codigo').val(), function() {
+                carregarAreasDeVenda(idDoCliente, function() {
                     $('#AreaDeVenda')
                         .val(idDaAreaDeVenda)
                         .change();
@@ -419,6 +454,10 @@
 
                 carregarIncoterm2($('#Inco1').val(), function() {
                     $('#Inco2').val(idDoIncoterm2);
+                });
+
+                carregarCondicoesDePagamento(idDoCliente,function() {
+                    $('#condpgto').val(codigoDaCondicaoDePagamento);
                 });
 
                 if (edicao) {

@@ -105,7 +105,7 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 IncotermLinhas incoterm2 = _incotermsLinhas.FiltraPorId(pedido.IdDoIncoterm2).Single();
 
-                Cliente cliente = _clientes.BuscaPeloCodigo(pedido.CodigoDoCliente);
+                Cliente cliente = _clientes.BuscaPeloCodigo(pedido.CodigoDoCliente).Single();
 
                 PedidoVenda pedidoVenda;
 

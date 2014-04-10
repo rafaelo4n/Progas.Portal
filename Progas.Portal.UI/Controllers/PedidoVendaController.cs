@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Progas.Portal.Application.Queries.Contracts;
 using Progas.Portal.UI.Filters;
@@ -44,7 +45,7 @@ namespace Progas.Portal.UI.Controllers
 
         private void PrepararViewBagParaTelaDeCadastroDePedido()
         {
-            ViewBag.CondicoesDePagamento = _consultaCondicaoPagamento.ListarTodas();
+            ViewBag.CondicoesDePagamento = new List<CondicaoDePagamentoCadastroVm>();
             ViewBag.TipoPedidos = _consultaTipoPedido.ListarTodas();
             ViewBag.ListaPreco = _consultaListaPreco.ListarTodas();
             ViewBag.Centro = _consultaMaterial.ListarCentro();

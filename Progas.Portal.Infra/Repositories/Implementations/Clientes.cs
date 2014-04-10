@@ -11,9 +11,10 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             Query = Query.OrderBy(x => x.Nome);
         }
 
-        public Cliente BuscaPeloCodigo(string codigoSap)
+        public IClientes BuscaPeloCodigo(string codigoSap)
         {
-            return Query.SingleOrDefault(x => x.Id_cliente == codigoSap);
+            Query =  Query.Where(x => x.Id_cliente == codigoSap);
+            return this;
         }
 
         public IClientes FiltraPelaDescricao(string descricao)

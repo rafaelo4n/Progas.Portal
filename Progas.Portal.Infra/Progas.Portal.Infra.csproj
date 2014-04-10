@@ -134,11 +134,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builders\MenuUsuarioBuilder.cs" />
+    <Compile Include="CondicaoDePagamentoDoClienteMap.cs" />
     <Compile Include="DataAccess\CascadeConvention.cs" />
     <Compile Include="DataAccess\SapConnect.cs" />
     <Compile Include="DataAccess\SessionManager.cs" />
     <Compile Include="Factory\StructureMapControllerFactory.cs" />
     <Compile Include="Factory\StructureMapDependencyResolver.cs" />
+    <Compile Include="Filters\FiltroDeCondicaoDePagamentoDoCliente.cs" />
     <Compile Include="Mappings\ClienteMap.cs" />
     <Compile Include="Mappings\ClienteVendasMap.cs" />
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />

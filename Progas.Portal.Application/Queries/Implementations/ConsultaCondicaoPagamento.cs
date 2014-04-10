@@ -55,17 +55,10 @@ namespace Progas.Portal.Application.Queries.Implementations
             }
             int skip = (paginacaoVm.Page - 1) * paginacaoVm.PageSize;
 
-            //paginacaoVm.TotalRecords = _condicoesDePagamento.Count();
-
             return _builder.BuildList(_condicoesDePagamento.Skip(skip).Take(paginacaoVm.Take).List());
             
         }
 
-        public IList<CondicaoDePagamentoCadastroVm> ListarTodas()
-        {
-            return _builder.BuildList(_condicoesDePagamento.List());
-        }
-
-        
+       
     }
 }

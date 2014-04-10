@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Criterion;
@@ -171,5 +172,26 @@ namespace Progas.Portal.Application.Queries.Implementations
 
         }
 
+        public IList<CondicaoDePagamentoCadastroVm> ListarCondicoesDePagamento(string idDoCliente)
+        {
+            IQueryable<Cliente> queryable = _clientes
+                .BuscaPeloCodigo(idDoCliente)
+                .GetQuery();
+
+            var condicoesDePagamento = (from cliente in queryable
+                from condicaoDoCliente in cliente.CondicoesDePagamento
+                let condicaoDePagamento = condicaoDoCliente.CondicaoDePagamento
+                where (condicaoDoCliente.Eliminacao == null || condicaoDoCliente.Eliminacao != "X")
+                      && condicaoDoCliente.DataDeValidade >= DateTime.Today
+                      && (condicaoDePagamento.Eliminacao == null || condicaoDePagamento.Eliminacao != "X")
+                select new CondicaoDePagamentoCadastroVm
+                {
+                    Codigo = condicaoDePagamento.Codigo,
+                    Descricao = string.Format("{0} - {1}", condicaoDePagamento.Codigo, condicaoDePagamento.Descricao)
+                }).ToList();
+
+            return condicoesDePagamento;
+
+        }
     }
 }
