@@ -34,6 +34,12 @@ namespace Progas.Portal.Application.Queries.Implementations
 
             IQueryOver<Material,Material> queryOver = _unitOfWorkNh.Session.QueryOver(() => material);
 
+            queryOver.Where(
+                Restrictions.Disjunction()
+                    .Add(() => material.Eliminacao == null)
+                    .Add(() => material.Eliminacao != "X"));
+
+
             if (!string.IsNullOrEmpty(filtro.Centro))
             {
                 queryOver = queryOver.Where(m => m.Id_centro == filtro.Centro);

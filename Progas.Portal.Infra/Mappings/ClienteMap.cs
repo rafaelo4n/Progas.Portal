@@ -28,6 +28,7 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Pacote);
             Map(x => x.Hora_criacao);
             Map(x => x.Data_criacao);
+            Map(x => x.Eliminacao);
 
             HasMany(x => x.AreasDeVenda)
                 .KeyColumn("Id_cliente");

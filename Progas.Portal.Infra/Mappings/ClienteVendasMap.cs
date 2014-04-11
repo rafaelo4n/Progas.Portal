@@ -17,6 +17,7 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Hora_criacao);
             Map(x => x.Data_criacao);
             Map(x => x.Denominacao);
+            Map(x => x.Eliminacao);
 
             References(x => x.Cliente, "Id_cliente");
             References(x => x.Fornecedor, "Id_fornecedor");

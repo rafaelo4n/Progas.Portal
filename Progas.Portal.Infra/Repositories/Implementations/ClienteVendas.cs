@@ -1,10 +1,6 @@
 ﻿using Progas.Portal.Infra.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Progas.Portal.Domain.Entities;
-using Progas.Portal.Infra.Model;
-using StructureMap;
 
 
 namespace Progas.Portal.Infra.Repositories.Implementations
@@ -13,7 +9,9 @@ namespace Progas.Portal.Infra.Repositories.Implementations
     {
         public ClienteVendas(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
-            Query = Query.OrderBy(x => x.Cliente.Id_cliente);
+            Query = Query
+                .Where(x  => x.Eliminacao == null || x.Eliminacao != "X")
+                .OrderBy(x => x.Cliente.Id_cliente);
         }
 
         public ClienteVenda ConsultaAtivDistribuicao(string cliente, string centro)

@@ -25,7 +25,7 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Tel_cel);
             Map(x => x.Fax);
             Map(x => x.Grupo_contas);
-            Map(x => x.Codigo_eliminacao);
+            Map(x => x.Eliminacao);
 
         }
     }

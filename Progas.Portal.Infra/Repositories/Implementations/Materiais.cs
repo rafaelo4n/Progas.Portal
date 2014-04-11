@@ -6,9 +6,9 @@ namespace Progas.Portal.Infra.Repositories.Implementations
 {
     public class Materiais : CompleteRepositoryNh<Material>, IMateriais
     {
-        public Materiais(IUnitOfWorkNh unitOfWork)
-            : base(unitOfWork)
+        public Materiais(IUnitOfWorkNh unitOfWork): base(unitOfWork)
         {
+            Query = Query.Where(x => x.Eliminacao == null || x.Eliminacao != "X");
         }
 
         public Material BuscaPeloCodigo(string codigoSap)

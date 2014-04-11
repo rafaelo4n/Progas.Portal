@@ -120,7 +120,7 @@ namespace Progas.Portal.Application.Services.Implementations
                     pedidoVenda = new PedidoVenda(pedido.Tipo,
                         //fReadTable.GetString("COTACAO"),
                         pedido.CodigoTipoPedido,
-                        pedido.Centro,
+                        clienteVendas.Org_vendas,
                         cliente,
                         clienteVendas,
                         DateTime.Now,

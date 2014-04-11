@@ -36,6 +36,11 @@ namespace Progas.Portal.Application.Queries.Implementations
 
             IQueryOver<Cliente, Cliente> queryOver = _unitOfWorkNh.Session.QueryOver<Cliente>(() => cliente);
 
+            queryOver.Where(
+                Restrictions.Disjunction()
+                    .Add(() => cliente.Eliminacao == null)
+                    .Add(() => cliente.Eliminacao != "X"));
+
             if (!string.IsNullOrEmpty(filtro.Nome))
             {
                 queryOver = queryOver.Where(x => x.Nome.IsInsensitiveLike(filtro.Nome, MatchMode.Anywhere));

@@ -1,4 +1,5 @@
 ﻿using System;
+using Progas.Portal.Domain;
 using Progas.Portal.Domain.Entities;
 
 namespace Progas.Portal.Infra.Filters

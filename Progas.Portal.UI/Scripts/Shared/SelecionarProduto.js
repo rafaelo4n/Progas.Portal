@@ -3,6 +3,7 @@
     this.produtoSelecionado = null;
     var centro = null;
     var cliente = null;
+    var areaDeVenda = null;
 
     var me = this;
 
@@ -35,12 +36,16 @@
                                 Codigo: $('#CodigoFiltro').val(),
                                 Descricao: $('#DescricaoFiltro').val(),
                                 Tipo: $('#TipoFiltro').val(),
-                                Centro: centro
+                                Centro: '1000'
                             };
 
                             if (cliente) {
                                 filtro.IdDoCliente = cliente;
                                 filtro.ComPrecoAtivo = true;
+                            }
+
+                            if (areaDeVenda) {
+                                filtro.IdDaAreaDeVenda = areaDeVenda;
                             }
 
                             return filtro;
@@ -92,7 +97,7 @@
     };
 
     this.configurarJanelaModal = function (idDoCampoDoIdDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto,
-        idDoCampoDoCentro, idDoCampoDoCliente, funcaoParaPreencherOsDadosDeRetorno) {
+        idDoCampoDoCentro, idDoCampoDoCliente, idDoCampoDaAreaDeVenda, funcaoParaPreencherOsDadosDeRetorno) {
 
         $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
         $('#' + idDaDivDaJanelaDeDialogo).customDialog({
@@ -129,6 +134,10 @@
             if (idDoCampoDoCliente) {
                 
                 cliente = $(idDoCampoDoCliente).val();
+            }
+
+            if (idDoCampoDaAreaDeVenda) {
+                areaDeVenda = $(idDoCampoDaAreaDeVenda).val();
             }
 
             var idDoProduto = $(idDoCampoDoIdDoProduto).val();

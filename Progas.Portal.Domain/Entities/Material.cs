@@ -23,13 +23,7 @@ namespace Progas.Portal.Domain.Entities
         public virtual DateTime Data_criacao { get; set; }
         public virtual string Pacote  { get; set; }
         public virtual string Hora_criacao { get; set; }
-        public virtual IList<Material> Materiais { get; set; }
-    
-
-        /*protected Material()
-        {
-            Materiais = new List<Material>();
-        }*/
+        public virtual string Eliminacao { get; set; }
 
         public Material (string id_material,string descricao, string centro, string tip_mat, string uni_med  ):this()
         {
@@ -40,10 +34,8 @@ namespace Progas.Portal.Domain.Entities
             Uni_med = uni_med;
         }
 
-        public Material()
-        {
-            // TODO: Complete member initialization
-        }
+        protected Material(){}
+
 
     }
 }

@@ -9,5 +9,6 @@ namespace Progas.Portal.ViewModel
         public string Centro { get; set; }
         public string IdDoCliente { get; set; }
         public bool ComPrecoAtivo { get; set; }
+        public int IdDaAreaDeVenda { get; set; }
     }
 }

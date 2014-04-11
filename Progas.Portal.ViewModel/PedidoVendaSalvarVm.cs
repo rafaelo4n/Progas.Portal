@@ -11,7 +11,7 @@ namespace Progas.Portal.ViewModel
         public string Tipo { get; set; } 
         public string NumeroPedido { get; set; } 
         public string CodigoDaCondicaoDePagamento { get; set; } 
-        public string Centro { get; set; } 
+        //public string Centro { get; set; } 
         public DateTime DataDoPedido { get; set; }
         public string CodigoTipoPedido { get; set; } 
         public string CodigoDaTransportadora { get; set; } 
