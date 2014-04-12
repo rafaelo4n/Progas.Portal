@@ -803,7 +803,7 @@
 
                             var retorno = data.Retorno;
                             $('#id_cotacao').val(retorno.IdDoPedido);
-                            $('#vlrtot').val(retorno.ValorTotal);
+                            $('#vlrtot').val(Globalize.format(retorno.ValorTotal));
                             $('#status').val(retorno.Status);
 
                             somenteLeitura = retorno.Status != 'S';
