@@ -56,8 +56,10 @@ namespace Progas.Portal.Application.Services.Implementations
 
                     var contadorDeItens = 1;
 
-                    foreach (var item in pedidoVenda.Itens)
+                    for (int i = pedidoVenda.Itens.Count - 1; i >= 0; i--)
                     {
+
+                        var item = pedidoVenda.Itens[i];
                         // LINHAS (Estrutura tipo tabela)
                         IRfcStructure linha_envio_item = t_item.CreateStructure();
 
