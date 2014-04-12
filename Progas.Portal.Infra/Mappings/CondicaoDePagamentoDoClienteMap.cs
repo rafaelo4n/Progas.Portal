@@ -1,8 +1,7 @@
 ﻿using FluentNHibernate.Mapping;
 using Progas.Portal.Domain;
-using Progas.Portal.Domain.Entities;
 
-namespace Progas.Portal.Infra
+namespace Progas.Portal.Infra.Mappings
 {
     public class CondicaoDePagamentoDoClienteMap: ClassMap<CondicaoDePagamentoDoCliente>
     {

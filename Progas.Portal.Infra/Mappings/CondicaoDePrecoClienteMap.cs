@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Progas.Portal.Domain.Entities;
+﻿using Progas.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace Progas.Portal.Infra.Mappings

@@ -27,6 +27,8 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Grupo_contas);
             Map(x => x.Eliminacao);
 
+            HasMany(x => x.Empresas).KeyColumn("Codigo");
+
         }
     }
 }

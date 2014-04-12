@@ -1,7 +1,6 @@
 ﻿function SelecionarProduto() {
 
     this.produtoSelecionado = null;
-    var centro = null;
     var cliente = null;
     var areaDeVenda = null;
 
@@ -35,8 +34,7 @@
                             var filtro = {
                                 Codigo: $('#CodigoFiltro').val(),
                                 Descricao: $('#DescricaoFiltro').val(),
-                                Tipo: $('#TipoFiltro').val(),
-                                Centro: '1000'
+                                Tipo: $('#TipoFiltro').val()
                             };
 
                             if (cliente) {
@@ -97,7 +95,7 @@
     };
 
     this.configurarJanelaModal = function (idDoCampoDoIdDoProduto, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoProduto,
-        idDoCampoDoCentro, idDoCampoDoCliente, idDoCampoDaAreaDeVenda, funcaoParaPreencherOsDadosDeRetorno) {
+        idDoCampoDoCliente, idDoCampoDaAreaDeVenda, funcaoParaPreencherOsDadosDeRetorno) {
 
         $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
         $('#' + idDaDivDaJanelaDeDialogo).customDialog({
@@ -121,16 +119,6 @@
         });
         $(idDoBotaoDeSelecaoDoProduto).click(function () {
 
-            if (idDoCampoDoCentro) {
-                
-                centro = $(idDoCampoDoCentro).val();
-
-                if (!centro) {
-                    Mensagem.ExibirMensagemDeErro('Antes de selecionar o Material é necessário selecionar uma Área de Venda para identificarmos o Centro.');
-                    return;
-                }
-            }
-
             if (idDoCampoDoCliente) {
                 
                 cliente = $(idDoCampoDoCliente).val();
@@ -138,6 +126,11 @@
 
             if (idDoCampoDaAreaDeVenda) {
                 areaDeVenda = $(idDoCampoDaAreaDeVenda).val();
+                if (!areaDeVenda) {
+                    Mensagem.ExibirMensagemDeErro('Antes de selecionar o Material é necessário selecionar uma Área de Venda para identificarmos o Centro.');
+                    return;
+                }
+
             }
 
             var idDoProduto = $(idDoCampoDoIdDoProduto).val();

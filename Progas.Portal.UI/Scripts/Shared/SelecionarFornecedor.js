@@ -4,6 +4,7 @@
     var me = this;
 
     var somenteTransportadora;
+    var areaDeVenda;
 
     function configurarGridDeSelecao() {
 
@@ -41,6 +42,7 @@
                         data: function () {
                             var filtro = $('#filtrosDeFornecedor').serializeObject();
                             filtro.SomenteTransportadora = somenteTransportadora;
+                            filtro.IdDaAreaDeVenda = areaDeVenda;
                             return filtro;
                         }
                     }
@@ -147,7 +149,7 @@
 
     };
 
-    function configurarJanelaModal(idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno) {
+    function configurarJanelaModal(idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, idDoCampoDaAreaDeVenda, funcaoParaPreencherOsDadosDeRetorno) {
         $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
         $('#' + idDaDivDaJanelaDeDialogo).customDialog({
             title: 'Selecionar Fornecedor',
@@ -170,6 +172,17 @@
         });
         $(idDoBotaoDeSelecaoDoFornecedor).click(function () {
 
+            if (idDoCampoDaAreaDeVenda) {
+                areaDeVenda = $(idDoCampoDaAreaDeVenda).val();
+                if (!areaDeVenda) {
+                    Mensagem.ExibirMensagemDeErro('Antes de selecionar ' + (somenteTransportadora ? 'a Transportadora' : 'o Fornecedor') +
+                        ' é necessário selecionar uma Área de Venda para identificarmos a Empresa.');
+                    return;
+                }
+
+            }
+
+
             var idDoFornecedor = $(idDoCampoDoIdDoFornecedor).val();
 
             if (idDoFornecedor) {
@@ -183,14 +196,14 @@
 
     };
 
-    this.configurarJanelaModalParaFornecedor = function (idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno) {
+    this.configurarJanelaModalParaFornecedor = function (idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, idDoCampoDaAreaDeVenda, funcaoParaPreencherOsDadosDeRetorno) {
         somenteTransportadora = false;
-        configurarJanelaModal(idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno);
+        configurarJanelaModal(idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, idDoCampoDaAreaDeVenda, funcaoParaPreencherOsDadosDeRetorno);
     };
 
-    this.configurarJanelaModalParaTransportadora = function (idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno) {
+    this.configurarJanelaModalParaTransportadora = function (idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, idDoCampoDaAreaDeVenda, funcaoParaPreencherOsDadosDeRetorno) {
         somenteTransportadora = true;
-        configurarJanelaModal(idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, funcaoParaPreencherOsDadosDeRetorno);
+        configurarJanelaModal(idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, idDoCampoDaAreaDeVenda, funcaoParaPreencherOsDadosDeRetorno);
     };
 
 

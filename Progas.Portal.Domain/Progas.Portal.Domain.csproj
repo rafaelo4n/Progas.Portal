@@ -92,6 +92,7 @@
     <Compile Include="Entities\CondicaoDePrecoGeral.cs" />
     <Compile Include="Entities\CondicaoDePrecoRegiao.cs" />
     <Compile Include="Entities\Fornecedor.cs" />
+    <Compile Include="Entities\FornecedorDaEmpresa.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
     <Compile Include="Entities\Incoterm.cs" />
     <Compile Include="Entities\IncotermCab.cs" />

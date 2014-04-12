@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 
@@ -79,7 +78,6 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             Query = Query.Where(f => f.Grupo_contas == "ZTRA");
             return this;
         }
-
 
         public IFornecedores MunicipioContendo(string municipio)
         {

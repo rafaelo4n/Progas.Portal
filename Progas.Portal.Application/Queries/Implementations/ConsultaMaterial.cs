@@ -15,16 +15,18 @@ namespace Progas.Portal.Application.Queries.Implementations
     {
         private readonly IMateriais _materiais;
         private readonly IClientes _clientes;
+        private readonly IClienteVendas _areasDeVenda;
         private readonly IBuilder<Material, MaterialCadastroVm> _builderMaterial;
         private readonly IUnitOfWorkNh _unitOfWorkNh;
         
         // Recebe dados Interface do repositorio do Tipo pedido e monta a lista com a Entidade + ViewModel
-        public ConsultaMaterial(IMateriais materiais, IBuilder<Material, MaterialCadastroVm> builder, IUnitOfWorkNh unitOfWorkNh, IClientes clientes)
+        public ConsultaMaterial(IMateriais materiais, IBuilder<Material, MaterialCadastroVm> builder, IUnitOfWorkNh unitOfWorkNh, IClientes clientes, IClienteVendas areasDeVenda)
         {
             _materiais = materiais;
             _builderMaterial = builder;
             _unitOfWorkNh = unitOfWorkNh;
             _clientes = clientes;
+            _areasDeVenda = areasDeVenda;
         }
 
         // pesquisa da tela
@@ -39,11 +41,6 @@ namespace Progas.Portal.Application.Queries.Implementations
                     .Add(() => material.Eliminacao == null)
                     .Add(() => material.Eliminacao != "X"));
 
-
-            if (!string.IsNullOrEmpty(filtro.Centro))
-            {
-                queryOver = queryOver.Where(m => m.Id_centro == filtro.Centro);
-            }
 
             if (!string.IsNullOrEmpty(filtro.Tipo))
             {
@@ -64,12 +61,16 @@ namespace Progas.Portal.Application.Queries.Implementations
 
             if (filtro.ComPrecoAtivo)
             {
-                QueryOver<CondicaoDePrecoGeral, CondicaoDePrecoGeral> subQueryCondicaoGeral = QueryOver.Of(() => condicaoDePrecoGeral)
-                    //.Where(Restrictions.EqProperty(Projections.Property(() => material.Id_material),
-                    //    Projections.Property(() => condicaoDePrecoGeral.Id_material)))
+                ClienteVenda areaDeVenda = _areasDeVenda.ObterPorId(filtro.IdDaAreaDeVenda);
+
+                queryOver = queryOver.Where(m => m.Id_centro == areaDeVenda.Org_vendas);
+
+                QueryOver<CondicaoDePrecoGeral, CondicaoDePrecoGeral> subQueryCondicaoGeral = 
+                    QueryOver.Of(() => condicaoDePrecoGeral)
+                    .Where(c => c.Org_vendas == areaDeVenda.Org_vendas)
+                    .And(c => c.Can_dist == areaDeVenda.Can_dist)
                     .Select(Projections.Property(() => condicaoDePrecoGeral.Id_material));
 
-                //queryOver.WithSubquery.WhereExists(subQueryCondicaoGeral);
                 var disjuncaoDasSubqueries = Restrictions.Disjunction()
                     .Add(Subqueries.WhereProperty<Material>(m => m.Id_material).In(subQueryCondicaoGeral));
 
@@ -77,13 +78,13 @@ namespace Progas.Portal.Application.Queries.Implementations
                 {
                     CondicaoDePrecoCliente condicaoDePrecoCliente = null;
 
-                    QueryOver<CondicaoDePrecoCliente, CondicaoDePrecoCliente> subQueryCondicaoCliente = QueryOver.Of(() => condicaoDePrecoCliente)
-                        //.Where(Restrictions.EqProperty(Projections.Property(() => material.Id_material),
-                        //    Projections.Property(() => condicaoDePrecoCliente.Id_material)))
+                    QueryOver<CondicaoDePrecoCliente, CondicaoDePrecoCliente> subQueryCondicaoCliente = 
+                        QueryOver.Of(() => condicaoDePrecoCliente)
                         .Where(() => condicaoDePrecoCliente.Id_cliente == filtro.IdDoCliente)
+                        .And(c => c.Org_vendas == areaDeVenda.Org_vendas)
+                        .And(c => c.Can_dist == areaDeVenda.Can_dist)
                         .Select(Projections.Property(() => condicaoDePrecoCliente.Id_material));
 
-                    //queryOver.WithSubquery.WhereExists(subQueryCondicaoCliente);
                     disjuncaoDasSubqueries.Add(Subqueries.WhereProperty<Material>(m => m.Id_material).In(subQueryCondicaoCliente) );
 
                     Cliente cliente = _clientes.BuscaPeloCodigo(filtro.IdDoCliente).Single();
@@ -91,12 +92,9 @@ namespace Progas.Portal.Application.Queries.Implementations
                     CondicaoDePrecoRegiao condicaoDePrecoRegiao = null;
 
                     QueryOver<CondicaoDePrecoRegiao, CondicaoDePrecoRegiao> subQueryCondicaoRegiao = QueryOver.Of(() => condicaoDePrecoRegiao)
-                        //.Where(Restrictions.EqProperty(Projections.Property(() => material.Id_material),
-                        //    Projections.Property(() => condicaoDePrecoRegiao.Id_material)))
                         .Where(() => condicaoDePrecoRegiao.Regiao == cliente.Uf)
                         .Select(Projections.Property(() => condicaoDePrecoRegiao.Id_material));
 
-                    //queryOver.WithSubquery.WhereExists(subQueryCondicaoRegiao);
                     disjuncaoDasSubqueries.Add(Subqueries.WhereProperty<Material>(m => m.Id_material).In(subQueryCondicaoRegiao));
 
                 }

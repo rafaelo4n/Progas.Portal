@@ -377,7 +377,7 @@
                 $("#Transportadora_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadora.configurarJanelaModalParaTransportadora("#Transportadora_Codigo", "divSelecionarTransportadora", "#btnSelecionarTransportadora", funcaoParaRetornarCamposDaBuscaDeTransportadora);
+            selecionarTransportadora.configurarJanelaModalParaTransportadora("#Transportadora_Codigo", "divSelecionarTransportadora", "#btnSelecionarTransportadora", '#AreaDeVenda', funcaoParaRetornarCamposDaBuscaDeTransportadora);
 
             var selecionarTransportadoraDeRedespacho = new SelecionarFornecedor();
 
@@ -387,7 +387,7 @@
                 $("#TransportadoraDeRedespacho_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadoraDeRedespacho.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespacho_Codigo", "divSelecionarTransportadoraDeRedespacho", "#btnSelecionarTransportadoraDeRedespacho", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
+            selecionarTransportadoraDeRedespacho.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespacho_Codigo", "divSelecionarTransportadoraDeRedespacho", "#btnSelecionarTransportadoraDeRedespacho", '#AreaDeVenda', funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
 
             var selecionarTransportadoraDeRedespachoCif = new SelecionarFornecedor();
 
@@ -397,7 +397,7 @@
                 $("#TransportadoraDeRedespachoCif_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadoraDeRedespachoCif.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespachoCif_Codigo", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif", funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
+            selecionarTransportadoraDeRedespachoCif.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespachoCif_Codigo", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif", '#AreaDeVenda', funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
 
             var selecionarCliente = new SelecionarCliente();
             var funcaoParaRetornarCamposDaBuscaDeCliente = function() {
@@ -425,7 +425,7 @@
                 $('#CodigoUnidadeMedida').val(produtoSelecionado.UnidadeMedida);
             };
 
-            selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscaMaterial', '#id_centro', '#Cliente_Codigo', funcaoParaPreencherOsDadosDeRetornoDoProduto);
+            selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscaMaterial', '#Cliente_Codigo', '#AreaDeVenda', funcaoParaPreencherOsDadosDeRetornoDoProduto);
 
             $('#AreaDeVenda').change(function() {
                 var areaDeVendaSelecionada = $(this).val();
@@ -626,7 +626,7 @@
                     },
                     {
                         field: "Desconto",
-                        width: 80,
+                        width: 75,
                         title: "Desconto Manual",
                         template: function(dataItem) {
                             return dataItem.Desconto ? dataItem.Desconto : "";
@@ -640,7 +640,7 @@
                     },
                     {
                         field: "ValorTabela",
-                        width: 50,
+                        width: 70,
                         title: "Tabela",
                         format: "{0:n2}",
                         attributes: {
@@ -650,7 +650,7 @@
                     },
                     {
                         field: "ValorPolitica",
-                        width: 50,
+                        width: 70,
                         title: "Política",
                         format: "{0:n2}",
                         attributes: {

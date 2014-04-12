@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Progas.Portal.Domain.Entities
 {
@@ -26,6 +27,7 @@ namespace Progas.Portal.Domain.Entities
         public virtual string hora_criacao { get; protected set; }
         public virtual string Grupo_contas { get; protected set; }
         public virtual string Eliminacao { get; protected set; }
+        public virtual IList<FornecedorDaEmpresa> Empresas { get; protected set; }
 
         
         //public virtual IList<Produto>  Produtos { get; protected set; }
@@ -57,6 +59,7 @@ namespace Progas.Portal.Domain.Entities
 
         protected Fornecedor()
         { 
+            Empresas = new List<FornecedorDaEmpresa>();
         
         }
 

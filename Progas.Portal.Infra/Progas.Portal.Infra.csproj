@@ -134,7 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builders\MenuUsuarioBuilder.cs" />
-    <Compile Include="CondicaoDePagamentoDoClienteMap.cs" />
+    <Compile Include="Mappings\CondicaoDePagamentoDoClienteMap.cs" />
     <Compile Include="DataAccess\CascadeConvention.cs" />
     <Compile Include="DataAccess\SapConnect.cs" />
     <Compile Include="DataAccess\SessionManager.cs" />
@@ -148,6 +148,7 @@
     <Compile Include="Mappings\CondicaoDePrecoGeralMap.cs" />
     <Compile Include="Mappings\CondicaoDePrecoMap.cs" />
     <Compile Include="Mappings\CondicaoDePrecoRegiaoMap.cs" />
+    <Compile Include="Mappings\FornecedorDaEmpresaMap.cs" />
     <Compile Include="Mappings\FornecedorMap.cs" />
     <Compile Include="Mappings\IncotermLinhasMap.cs" />
     <Compile Include="Mappings\IncotermMap.cs" />
