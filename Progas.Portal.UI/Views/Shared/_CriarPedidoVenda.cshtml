@@ -344,6 +344,7 @@
                 success: function(data) {
                     if (data.Sucesso) {
                         linhasAdicionadas = data.Itens;
+                        numeroDeItensInseridos = data.Itens.length;
                         $('#gridLinhasAdicionadas').data("kendoGrid").dataSource.read();
 
                         if (copia) {
@@ -503,13 +504,11 @@
                     return;
                 }
 
-                numeroDeItensInseridos++;
                 var codigoDoMotivoDeRecusa = $('#CodigoDoMotivoDeRecusa :selected').val();
 
                 // grava a linha no array de fornecedor
                 // Array que sera enviado para o controller que salva os pedidos
                 var item = {
-                    NumeroDoItem: numeroDeItensInseridos * 10,
                     IdMaterial: $('#IdDoMaterial').val(),
                     CodigoMaterial: $('#CodigoDoMaterial').val(),
                     DescricaoMaterial: $('#NomeDoMaterial').val(),
@@ -524,11 +523,14 @@
 
                 // grava na variavel linhasAdicionadas os dados que seram manipulados antes de serem salvos
                 if (indiceEdicao == -1) {
+                    numeroDeItensInseridos++;
+                    item.NumeroDoItem = numeroDeItensInseridos * 10,
                     linhasAdicionadas.push(item);
 
                 } else {
                     // array que sera exibido no grid
                     var itemAtual = linhasAdicionadas[indiceEdicao];
+                    item.NumeroDoItem = itemAtual.NumeroDoItem;
                     item.ValorTabela = itemAtual.ValorTabela;
                     item.ValorPolitica = itemAtual.ValorPolitica;
 
@@ -578,7 +580,6 @@
                         title: ' ',
                         width: 30,
                         template: function (dataItem) {
-                            debugger;
                             if (permiteAlterarItem(dataItem)) {
                                 return '<input type="button" class="button_edit"></input>';
                             } else {
@@ -771,6 +772,7 @@
                 var itens = new Array();
                 $.each(linhasAdicionadas, function(indice, item) {
                     itens.push({
+                        Numero: item.NumeroDoItem,
                         IdDoItem: item.Id,
                         IdMaterial: item.IdMaterial,
                         Quantidade: item.Quantidade,

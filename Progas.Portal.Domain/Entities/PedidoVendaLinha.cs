@@ -21,8 +21,9 @@ namespace Progas.Portal.Domain.Entities
             CondicoesDePreco = new List<CondicaoDePreco>();
         }
 
-        public PedidoVendaLinha(Material material, decimal quantidade, ListaPreco listaDePreco, decimal descontoManual, MotivoDeRecusa motivoDeRecusa) : this()
+        public PedidoVendaLinha(string numero, Material material, decimal quantidade, ListaPreco listaDePreco, decimal descontoManual, MotivoDeRecusa motivoDeRecusa) : this()
         {
+            Numero = numero;
             Material = material;
             Quantidade = quantidade;
             ListaDePreco = listaDePreco;

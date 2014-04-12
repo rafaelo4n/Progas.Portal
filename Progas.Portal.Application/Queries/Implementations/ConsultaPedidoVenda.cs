@@ -75,6 +75,7 @@ namespace Progas.Portal.Application.Queries.Implementations
             List<PedidoVendaLinhaCadastroVm> linhas = itens.Select(item => new PedidoVendaLinhaCadastroVm()
             {
                 Id = item.Id,
+                NumeroDoItem = item.Numero,
                 IdMaterial = item.Material.pro_id_material,
                 CodigoMaterial = item.Material.Id_material,
                 DescricaoMaterial = item.Material.Descricao,

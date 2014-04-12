@@ -118,7 +118,6 @@ namespace Progas.Portal.Application.Services.Implementations
                 {
 
                     pedidoVenda = new PedidoVenda(pedido.Tipo,
-                        //fReadTable.GetString("COTACAO"),
                         pedido.CodigoTipoPedido,
                         clienteVendas.Org_vendas,
                         cliente,
@@ -165,7 +164,7 @@ namespace Progas.Portal.Application.Services.Implementations
                         ? null
                         : motivosDeRecusaDosItens.Single(m => m.Codigo == item.CodigoDoMotivoDeRecusa);
 
-                    var linhasPedido = new PedidoVendaLinha(material,item.Quantidade,listaDePreco,item.Desconto,motivoDeRecusa);
+                    var linhasPedido = new PedidoVendaLinha(item.Numero,material,item.Quantidade,listaDePreco,item.Desconto,motivoDeRecusa);
                     
                     pedidoVenda.AdicionarItem(linhasPedido);
                 }

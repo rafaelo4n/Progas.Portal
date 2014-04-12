@@ -4,6 +4,7 @@
     {
         public int IdDoItem { get; set; }
         public int IdMaterial { get; set; }
+        public string Numero { get; set; }
         public decimal Quantidade { get; set; }
         public string CodigoDaListaDePreco { get; set; }
         public decimal Desconto { get; set; }

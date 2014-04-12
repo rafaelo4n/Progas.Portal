@@ -30,15 +30,14 @@ namespace Progas.Portal.Application.Services.Implementations
 
                     IRfcFunction fReadTable = rfcRepository.CreateFunction("ZFXI_SD06");
                     RfcStructureMetadata t_item = rfcRepository.GetStructureMetadata("ZSTSD007");
-                    IRfcStructure linha_envio_item = t_item.CreateStructure();
                     IRfcTable envio_item = fReadTable.GetTable("TI_ITEM");
                     RfcStructureMetadata t_condicoes = rfcRepository.GetStructureMetadata("ZSTSD008");
-                    IRfcStructure linha_envio_cond = t_condicoes.CreateStructure();
                     IRfcTable envio_condicao = fReadTable.GetTable("TI_CONDICOES");
 
                     IRfcStructure i_cabecalho = fReadTable.GetStructure("I_CABECALHO");
 
                     fReadTable.SetValue("I_TIPO_ENVIO", pedidoVenda.Tipo);
+                    i_cabecalho.SetValue("COTACAO", pedidoVenda.Id_cotacao);
                     i_cabecalho.SetValue("BSTKD", pedidoVenda.NumeroDoPedido);
                     i_cabecalho.SetValue("AUART", pedidoVenda.TipoPedido);
                     i_cabecalho.SetValue("WERKS", pedidoVenda.Id_centro);
@@ -60,7 +59,9 @@ namespace Progas.Portal.Application.Services.Implementations
                     foreach (var item in pedidoVenda.Itens)
                     {
                         // LINHAS (Estrutura tipo tabela)
-                        linha_envio_item.SetValue("POSNR", contadorDeItens);
+                        IRfcStructure linha_envio_item = t_item.CreateStructure();
+
+                        linha_envio_item.SetValue("POSNR", item.Numero);
                         linha_envio_item.SetValue("MATNR", item.Material.Id_material);
                         linha_envio_item.SetValue("MENGE", item.Quantidade);
                         linha_envio_item.SetValue("MEINS", item.Material.Uni_med);
@@ -70,8 +71,10 @@ namespace Progas.Portal.Application.Services.Implementations
                         // CONDICAO (Estrutura tipo tabela) 
                         if (item.DescontoManual > 0)
                         {
-                            linha_envio_cond.SetValue("POSNR", contadorDeItens);
-                            linha_envio_cond.SetValue("KWERT", item.DescontoManual);
+                            IRfcStructure linha_envio_cond = t_condicoes.CreateStructure();
+
+                            linha_envio_cond.SetValue("POSNR", item.Numero);
+                            linha_envio_cond.SetValue("KBETR", item.DescontoManual);
                             linha_envio_cond.SetValue("KSCHL", "ZDEM");
                             envio_condicao.Insert(linha_envio_cond);
                         }
@@ -116,8 +119,8 @@ namespace Progas.Portal.Application.Services.Implementations
                             : 
                             motivosDeRecusa.Single(x => x.Codigo == codigoDoMotivoDeRecusa);
 
-                        itemDoPedido.Alterar(retornoItem.GetString("POSNR"), Convert.ToDecimal(retornoItem.GetString("VLRTAB")),
-                                Convert.ToDecimal(retornoItem.GetString("VLRPOL")), motivoDeRecusa);
+                        itemDoPedido.Alterar(retornoItem.GetString("POSNR"), Convert.ToDecimal(retornoItem.GetString("VLRPOL")),
+                                Convert.ToDecimal(retornoItem.GetString("VLRTAB")), motivoDeRecusa);
 
                         itemDoPedido.CondicoesDePreco.Clear();
 

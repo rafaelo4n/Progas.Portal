@@ -6,6 +6,7 @@ namespace Progas.Portal.ViewModel
     public class PedidoVendaLinhaCadastroVm
     {
         public int Id { get; set; }
+        public string NumeroDoItem { get; set; }
 
         public int IdMaterial { get; set; }
 
