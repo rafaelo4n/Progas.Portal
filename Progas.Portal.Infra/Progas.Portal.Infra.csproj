@@ -158,6 +158,7 @@
     <Compile Include="Mappings\MotivoDeRecusaMap.cs" />
     <Compile Include="Mappings\PedidoVendaLinhaMap.cs" />
     <Compile Include="Mappings\PedidoVendaMap.cs" />
+    <Compile Include="Mappings\StatusDoPedidoDeVendaMap.cs" />
     <Compile Include="Mappings\TipoPedidoMap.cs" />
     <Compile Include="Mappings\UnidadeDeMedidaMap.cs" />
     <Compile Include="Mappings\UsuarioMap.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Repositories\Contracts\IMateriais.cs" />
     <Compile Include="Repositories\Contracts\IMotivosDeRecusa.cs" />
     <Compile Include="Repositories\Contracts\IPedidosVenda.cs" />
+    <Compile Include="Repositories\Contracts\IRepositorioDeStatusDoPedidoDeVenda.cs" />
     <Compile Include="Repositories\Contracts\ITipoPedidos.cs" />
     <Compile Include="Repositories\Contracts\IUnidadesDeMedida.cs" />
     <Compile Include="Repositories\Contracts\ICondicoesDePagamento.cs" />
@@ -201,6 +203,7 @@
     <Compile Include="Repositories\Implementations\CondicoesDePagamento.cs" />
     <Compile Include="Repositories\Implementations\MotivosDeRecusa.cs" />
     <Compile Include="Repositories\Implementations\PedidosVenda.cs" />
+    <Compile Include="Repositories\Implementations\RepositorioDeStatusDoPedidoDeVenda.cs" />
     <Compile Include="Repositories\Implementations\TipoPedidos.cs" />
     <Compile Include="Repositories\Implementations\UnidadesDeMedida.cs" />
     <Compile Include="Repositories\Implementations\Fornecedores.cs" />

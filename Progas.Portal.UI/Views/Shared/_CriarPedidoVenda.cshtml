@@ -220,7 +220,7 @@
         var simular = "S";
         var gravar = "G";
         var numeroDeItensInseridos = 0;
-        var somenteLeitura = '@(Model != null && (Model.SomenteLeitura || (!string.IsNullOrEmpty(Model.status) && Model.status != "P") ) )'.boolean();
+        var somenteLeitura = '@(Model != null && (Model.SomenteLeitura || (!string.IsNullOrEmpty(Model.status) && Model.status != "Pendente") ) )'.boolean();
         var copia = '@(Model != null && Model.Copia )'.boolean();
         var edicao = !copia && '@(Model != null && !string.IsNullOrEmpty(Model.id_cotacao))'.boolean();
 
@@ -364,6 +364,7 @@
 
         function passarCamposParaSomenteLeitura() {
             $('form :input').attr('disabled', true);
+            $('#btnGravar, #btnSimular').attr('disabled', true);
         }
 
         $(function() {
@@ -808,7 +809,7 @@
                             $('#vlrtot').val(Globalize.format(retorno.ValorTotal));
                             $('#status').val(retorno.Status);
 
-                            somenteLeitura = retorno.Status != 'P';
+                            somenteLeitura = retorno.Status != 'Pendente';
 
                             if (somenteLeitura) {
                                 passarCamposParaSomenteLeitura();
@@ -913,6 +914,7 @@
 
             $('#btnNovo').click(function () {
                 $('form :input').removeAttr('disabled');
+                $('#btnGravar, #btnSimular').removeAttr('disabled');
 
                 habilitarCampoData();
                 linhasAdicionadas = [];

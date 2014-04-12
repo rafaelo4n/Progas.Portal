@@ -17,10 +17,10 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.Condpgto);
             Map(x => x.Id_repre);
             Map(x => x.Observacao,"Obs");
-            Map(x => x.Status);
             Map(x => x.ValorTotal,"Vlrtot");
             Map(x => x.Tipo);
 
+            References(x => x.Status,"Status");
             References(x => x.Cliente, "Id_cliente");
             References(x => x.AreaDeVenda, "pro_id_cliente_vendas");
             References(x => x.Transportadora,"CodigoDaTransportadora");

@@ -103,6 +103,7 @@
     <Compile Include="Entities\MotivoDeRecusa.cs" />
     <Compile Include="Entities\PedidoVenda.cs" />
     <Compile Include="Entities\PedidoVendaLinha.cs" />
+    <Compile Include="Entities\StatusDoPedidoDeVenda.cs" />
     <Compile Include="Entities\TipoPedido.cs" />
     <Compile Include="Entities\UnidadeDeMedida.cs" />
     <Compile Include="Entities\Usuario.cs" />

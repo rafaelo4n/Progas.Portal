@@ -13,10 +13,12 @@ namespace Progas.Portal.Application.Services.Implementations
     {
 
         private readonly IMotivosDeRecusa _motivosDeRecusa;
+        private readonly IRepositorioDeStatusDoPedidoDeVenda _statusDoPedidoDeVenda;
 
-        public ComunicacaoSap(IMotivosDeRecusa motivosDeRecusa)
+        public ComunicacaoSap(IMotivosDeRecusa motivosDeRecusa, IRepositorioDeStatusDoPedidoDeVenda statusDoPedidoDeVenda)
         {
             _motivosDeRecusa = motivosDeRecusa;
+            _statusDoPedidoDeVenda = statusDoPedidoDeVenda;
         }
 
         public void EnviarPedido(PedidoVenda pedidoVenda)
@@ -24,122 +26,133 @@ namespace Progas.Portal.Application.Services.Implementations
             var conexaoSap = new SapConnect();
             try
             {
-                
-                    RfcDestination rfcDestination = conexaoSap.Conectar();
-                    RfcRepository rfcRepository = rfcDestination.Repository;
 
-                    IRfcFunction fReadTable = rfcRepository.CreateFunction("ZFXI_SD06");
-                    RfcStructureMetadata t_item = rfcRepository.GetStructureMetadata("ZSTSD007");
-                    IRfcTable envio_item = fReadTable.GetTable("TI_ITEM");
-                    RfcStructureMetadata t_condicoes = rfcRepository.GetStructureMetadata("ZSTSD008");
-                    IRfcTable envio_condicao = fReadTable.GetTable("TI_CONDICOES");
+                RfcDestination rfcDestination = conexaoSap.Conectar();
+                RfcRepository rfcRepository = rfcDestination.Repository;
 
-                    IRfcStructure i_cabecalho = fReadTable.GetStructure("I_CABECALHO");
+                IRfcFunction fReadTable = rfcRepository.CreateFunction("ZFXI_SD06");
+                RfcStructureMetadata t_item = rfcRepository.GetStructureMetadata("ZSTSD007");
+                IRfcTable envio_item = fReadTable.GetTable("TI_ITEM");
+                RfcStructureMetadata t_condicoes = rfcRepository.GetStructureMetadata("ZSTSD008");
+                IRfcTable envio_condicao = fReadTable.GetTable("TI_CONDICOES");
 
-                    fReadTable.SetValue("I_TIPO_ENVIO", pedidoVenda.Tipo);
-                    i_cabecalho.SetValue("COTACAO", pedidoVenda.Id_cotacao);
-                    i_cabecalho.SetValue("BSTKD", pedidoVenda.NumeroDoPedido);
-                    i_cabecalho.SetValue("AUART", pedidoVenda.TipoPedido);
-                    i_cabecalho.SetValue("WERKS", pedidoVenda.Id_centro);
-                    i_cabecalho.SetValue("VKORG", pedidoVenda.Id_centro);
-                    i_cabecalho.SetValue("VTWEG", pedidoVenda.AreaDeVenda.Can_dist);
-                    i_cabecalho.SetValue("SPART", pedidoVenda.AreaDeVenda.Set_ativ);
-                    i_cabecalho.SetValue("KUNNR", pedidoVenda.Cliente.Id_cliente);
-                    i_cabecalho.SetValue("ZTERM", pedidoVenda.Condpgto);
-                    i_cabecalho.SetValue("INCO1", pedidoVenda.Incoterm1.CodigoIncotermCab);
-                    i_cabecalho.SetValue("INCO2", pedidoVenda.Incoterm2.IncotermLinha);
-                    i_cabecalho.SetValue("TRANS", pedidoVenda.Transportadora != null ? pedidoVenda.Transportadora.Codigo : null);
-                    i_cabecalho.SetValue("TRANSRED", pedidoVenda.TransportadoraDeRedespacho != null ? pedidoVenda.TransportadoraDeRedespacho.Codigo : null);
-                    i_cabecalho.SetValue("TRANSREDCIF", pedidoVenda.TransportadoraDeRedespachoCif != null ? pedidoVenda.TransportadoraDeRedespachoCif.Codigo : null);
-                    i_cabecalho.SetValue("REPRE", pedidoVenda.Id_repre);
-                    i_cabecalho.SetValue("OBSERVACAO", pedidoVenda.Observacao);
+                IRfcStructure i_cabecalho = fReadTable.GetStructure("I_CABECALHO");
 
-                    var contadorDeItens = 1;
+                fReadTable.SetValue("I_TIPO_ENVIO", pedidoVenda.Tipo);
+                i_cabecalho.SetValue("COTACAO", pedidoVenda.Id_cotacao);
+                i_cabecalho.SetValue("BSTKD", pedidoVenda.NumeroDoPedido);
+                i_cabecalho.SetValue("AUART", pedidoVenda.TipoPedido);
+                i_cabecalho.SetValue("WERKS", pedidoVenda.Id_centro);
+                i_cabecalho.SetValue("VKORG", pedidoVenda.Id_centro);
+                i_cabecalho.SetValue("VTWEG", pedidoVenda.AreaDeVenda.Can_dist);
+                i_cabecalho.SetValue("SPART", pedidoVenda.AreaDeVenda.Set_ativ);
+                i_cabecalho.SetValue("KUNNR", pedidoVenda.Cliente.Id_cliente);
+                i_cabecalho.SetValue("ZTERM", pedidoVenda.Condpgto);
+                i_cabecalho.SetValue("INCO1", pedidoVenda.Incoterm1.CodigoIncotermCab);
+                i_cabecalho.SetValue("INCO2", pedidoVenda.Incoterm2.IncotermLinha);
+                i_cabecalho.SetValue("TRANS",
+                    pedidoVenda.Transportadora != null ? pedidoVenda.Transportadora.Codigo : null);
+                i_cabecalho.SetValue("TRANSRED",
+                    pedidoVenda.TransportadoraDeRedespacho != null
+                        ? pedidoVenda.TransportadoraDeRedespacho.Codigo
+                        : null);
+                i_cabecalho.SetValue("TRANSREDCIF",
+                    pedidoVenda.TransportadoraDeRedespachoCif != null
+                        ? pedidoVenda.TransportadoraDeRedespachoCif.Codigo
+                        : null);
+                i_cabecalho.SetValue("REPRE", pedidoVenda.Id_repre);
+                i_cabecalho.SetValue("OBSERVACAO", pedidoVenda.Observacao);
 
-                    for (int i = pedidoVenda.Itens.Count - 1; i >= 0; i--)
+                var contadorDeItens = 1;
+
+                for (int i = pedidoVenda.Itens.Count - 1; i >= 0; i--)
+                {
+
+                    var item = pedidoVenda.Itens[i];
+                    // LINHAS (Estrutura tipo tabela)
+                    IRfcStructure linha_envio_item = t_item.CreateStructure();
+
+                    linha_envio_item.SetValue("POSNR", item.Numero);
+                    linha_envio_item.SetValue("MATNR", item.Material.Id_material);
+                    linha_envio_item.SetValue("MENGE", item.Quantidade);
+                    linha_envio_item.SetValue("MEINS", item.Material.UnidadeDeMedida.Id_unidademedida);
+                    linha_envio_item.SetValue("PLTYP", item.ListaDePreco.Codigo);
+                    envio_item.Insert(linha_envio_item);
+
+                    // CONDICAO (Estrutura tipo tabela) 
+                    if (item.DescontoManual > 0)
                     {
+                        IRfcStructure linha_envio_cond = t_condicoes.CreateStructure();
 
-                        var item = pedidoVenda.Itens[i];
-                        // LINHAS (Estrutura tipo tabela)
-                        IRfcStructure linha_envio_item = t_item.CreateStructure();
-
-                        linha_envio_item.SetValue("POSNR", item.Numero);
-                        linha_envio_item.SetValue("MATNR", item.Material.Id_material);
-                        linha_envio_item.SetValue("MENGE", item.Quantidade);
-                        linha_envio_item.SetValue("MEINS", item.Material.UnidadeDeMedida.Id_unidademedida);
-                        linha_envio_item.SetValue("PLTYP", item.ListaDePreco.Codigo);
-                        envio_item.Insert(linha_envio_item);
-
-                        // CONDICAO (Estrutura tipo tabela) 
-                        if (item.DescontoManual > 0)
-                        {
-                            IRfcStructure linha_envio_cond = t_condicoes.CreateStructure();
-
-                            linha_envio_cond.SetValue("POSNR", item.Numero);
-                            linha_envio_cond.SetValue("KBETR", item.DescontoManual);
-                            linha_envio_cond.SetValue("KSCHL", "ZDEM");
-                            envio_condicao.Insert(linha_envio_cond);
-                        }
-                        // Apos inserir o ultimo item na estrutura do SAP, realiza a chamada da Função e salva para o tipo Gravação e retornar as linhas.
-                        contadorDeItens++;
+                        linha_envio_cond.SetValue("POSNR", item.Numero);
+                        linha_envio_cond.SetValue("KBETR", item.DescontoManual);
+                        linha_envio_cond.SetValue("KSCHL", "ZDEM");
+                        envio_condicao.Insert(linha_envio_cond);
                     }
+                    // Apos inserir o ultimo item na estrutura do SAP, realiza a chamada da Função e salva para o tipo Gravação e retornar as linhas.
+                    contadorDeItens++;
+                }
 
-                    fReadTable.Invoke(rfcDestination);
+                fReadTable.Invoke(rfcDestination);
 
-                    string status = fReadTable.GetString("E_STATUS");
+                string status = fReadTable.GetString("E_STATUS");
 
-                    IRfcTable mensagensDeRetorno = fReadTable.GetTable("TE_MENSAGENS");
+                IRfcTable mensagensDeRetorno = fReadTable.GetTable("TE_MENSAGENS");
 
-                    if (status == "E")
+                if (status == "E")
+                {
+                    throw new Exception(string.Join(". ", mensagensDeRetorno.Select(m => m.GetString("MESSAGE"))));
+                }
+
+                IRfcTable retornoItens = fReadTable.GetTable("TE_ITEM");
+
+                IRfcStructure primeiroItem = retornoItens.First();
+
+                StatusDoPedidoDeVenda statusDoPedidoDeVenda = _statusDoPedidoDeVenda.BuscaPorCodigo(status).Single();
+
+                pedidoVenda.Alterar(primeiroItem.GetString("COTACAO"), statusDoPedidoDeVenda);
+
+                IRfcTable retornoCondicoes = fReadTable.GetTable("TE_CONDICOES");
+
+                string[] codigoDosMotivosDeRecusa = retornoItens
+                    .Where(x => !string.IsNullOrEmpty(x.GetString("ABGRU")))
+                    .Select(x => x.GetString("ABGRU")).Distinct().ToArray();
+
+                IList<MotivoDeRecusa> motivosDeRecusa = _motivosDeRecusa.BuscarLista(codigoDosMotivosDeRecusa).List();
+
+
+                for (int i = 0; i < retornoItens.Count; i++)
+                {
+                    IRfcStructure retornoItem = retornoItens[i];
+                    PedidoVendaLinha itemDoPedido = pedidoVenda.Itens[i];
+
+                    string codigoDoMotivoDeRecusa = retornoItem.GetString("ABGRU");
+                    MotivoDeRecusa motivoDeRecusa = string.IsNullOrEmpty(codigoDoMotivoDeRecusa)
+                        ? null
+                        : motivosDeRecusa.Single(x => x.Codigo == codigoDoMotivoDeRecusa);
+
+                    itemDoPedido.Alterar(retornoItem.GetString("POSNR"),
+                        Convert.ToDecimal(retornoItem.GetString("VLRPOL")),
+                        Convert.ToDecimal(retornoItem.GetString("VLRTAB")), motivoDeRecusa);
+
+                    itemDoPedido.CondicoesDePreco.Clear();
+
+                    foreach (var condicaoRetornada in
+                        retornoCondicoes.Where(
+                            condicao => condicao.GetString("POSNR") == retornoItem.GetString("POSNR")))
                     {
-                        throw new Exception(string.Join(". ", mensagensDeRetorno.Select(m => m.GetString("MESSAGE"))));
+                        var condicaoDePreco = new CondicaoDePreco(condicaoRetornada.GetString("STUNR"),
+                            condicaoRetornada.GetString("KSCHL"),
+                            condicaoRetornada.GetDecimal("KAWRT"), condicaoRetornada.GetDecimal("KBETR"),
+                            condicaoRetornada.GetDecimal("KWERT"));
+
+                        itemDoPedido.AdicionarCondicao(condicaoDePreco);
+
                     }
+                }
 
-                    IRfcTable retornoItens = fReadTable.GetTable("TE_ITEM");
-
-                    IRfcStructure primeiroItem = retornoItens.First();
-
-                    pedidoVenda.Alterar(primeiroItem.GetString("COTACAO"), status);
-
-                    IRfcTable retornoCondicoes = fReadTable.GetTable("TE_CONDICOES");
-
-                    string[] codigoDosMotivosDeRecusa = retornoItens
-                        .Where(x => !string.IsNullOrEmpty(x.GetString("ABGRU")))
-                        .Select(x => x.GetString("ABGRU")).Distinct().ToArray();
-
-                    IList<MotivoDeRecusa> motivosDeRecusa = _motivosDeRecusa.BuscarLista(codigoDosMotivosDeRecusa).List();
-
-
-                    for (int i = 0; i < retornoItens.Count; i++)
-                    {
-                        IRfcStructure retornoItem = retornoItens[i];
-                        PedidoVendaLinha itemDoPedido = pedidoVenda.Itens[i];
-
-                        string codigoDoMotivoDeRecusa = retornoItem.GetString("ABGRU");
-                        MotivoDeRecusa motivoDeRecusa = string.IsNullOrEmpty(codigoDoMotivoDeRecusa)
-                            ? null
-                            : 
-                            motivosDeRecusa.Single(x => x.Codigo == codigoDoMotivoDeRecusa);
-
-                        itemDoPedido.Alterar(retornoItem.GetString("POSNR"), Convert.ToDecimal(retornoItem.GetString("VLRPOL")),
-                                Convert.ToDecimal(retornoItem.GetString("VLRTAB")), motivoDeRecusa);
-
-                        itemDoPedido.CondicoesDePreco.Clear();
-
-                        foreach (var condicaoRetornada in
-                                retornoCondicoes.Where(
-                                    condicao => condicao.GetString("POSNR") == retornoItem.GetString("POSNR")))
-                        {
-                            var condicaoDePreco = new CondicaoDePreco(condicaoRetornada.GetString("STUNR"), condicaoRetornada.GetString("KSCHL"),
-                                condicaoRetornada.GetDecimal("KAWRT"), condicaoRetornada.GetDecimal("KBETR"), condicaoRetornada.GetDecimal("KWERT"));
-
-                            itemDoPedido.AdicionarCondicao(condicaoDePreco);
-
-                        }
-                    }
-
-                    // retornar apenas a lista de itens
-                    pedidoVenda.CalcularTotal();
+                // retornar apenas a lista de itens
+                pedidoVenda.CalcularTotal();
 
             }
             finally
@@ -148,10 +161,8 @@ namespace Progas.Portal.Application.Services.Implementations
                 {
                     RfcDestinationManager.UnregisterDestinationConfiguration(conexaoSap);
                 }
-                
+
             }
-
-
 
         }
     }

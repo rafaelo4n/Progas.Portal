@@ -199,7 +199,7 @@ namespace Progas.Portal.Application.Services.Implementations
                 var dtoDeRetorno = new PedidoSapRetornoDTO
                 {
                     IdDoPedido = pedidoVenda.Id_cotacao,
-                    Status = pedidoVenda.Status,
+                    Status = pedidoVenda.Status.Descricao,
                     ValorTotal = pedidoVenda.ValorTotal,
                     Itens = pedidoVenda.Itens.Select(item => new PedidoSapItemRetornoDTO
                     {

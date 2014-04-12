@@ -23,7 +23,7 @@ namespace Progas.Portal.Domain.Entities
         public virtual Fornecedor TransportadoraDeRedespachoCif { get; set; }
         public virtual string Id_repre { get; set; }
         public virtual string Observacao { get; set; }
-        public virtual string Status { get; set; }
+        public virtual StatusDoPedidoDeVenda Status { get; set; }
         public virtual decimal ValorTotal { get; set; }
         public virtual ClienteVenda AreaDeVenda{ get; set; }
         public virtual IList<PedidoVendaLinha> Itens { get; protected set; }
@@ -85,7 +85,7 @@ namespace Progas.Portal.Domain.Entities
             return ValorTotal;
         }
 
-        public virtual void Alterar(string numeroDaCotacao, string status)
+        public virtual void Alterar(string numeroDaCotacao, StatusDoPedidoDeVenda status)
         {
             this.Id_cotacao = numeroDaCotacao;
             this.Status = status;

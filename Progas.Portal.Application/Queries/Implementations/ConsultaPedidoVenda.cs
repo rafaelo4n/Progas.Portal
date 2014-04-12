@@ -113,7 +113,7 @@ namespace Progas.Portal.Application.Queries.Implementations
             PedidoVendaCadastroVm pedidoVendaCadastroVm = queryable.Select(pedido => new PedidoVendaCadastroVm
             {
                 id_cotacao = pedido.Id_cotacao,
-                status = pedido.Status,
+                status = pedido.Status.Descricao,
                 IdDaAreaDeVenda = pedido.AreaDeVenda.Id,
                 Cliente = new ClienteDoPedidoDeVendaVm
                 {
