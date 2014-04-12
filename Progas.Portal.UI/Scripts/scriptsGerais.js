@@ -157,9 +157,12 @@ $.fn.customDialog = function (configuracao) {
     if (!configuracao.position) {
         configuracao.position = { at: "top" };
     }
-    configuracao.beforeClose = function () {
-        $(this).empty();
-    };
+
+    if (!configuracao.beforeClose) {
+        configuracao.beforeClose = function () {
+            $(this).empty();
+        };
+    }
 
     if (!configuracao.width) {
         configuracao.width = 800;

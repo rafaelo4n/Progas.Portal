@@ -195,7 +195,7 @@
         <input type="button" id="btnGravar"              value="Gravar"           class="blue"/>
     </div>
 
-    <div id="divCondicoesDePreco" class="janelaModal" @*style="display: none"*@>
+    <div id="divCondicoesDePreco" class="janelaModal">
         <div id="gridCondicoesDePreco" class="divGrid"></div>
     </div>
 </div>
@@ -874,7 +874,8 @@
 
             $('#divCondicoesDePreco').customDialog({
                 title: 'Condições de Preço',
-                position:{at:'center'}
+                position: { at: 'center' },
+                beforeClose: function(){}
             });
 
 
