@@ -182,6 +182,10 @@
       <Project>{52496ac5-d00f-4ae4-84b9-06ad65dadb47}</Project>
       <Name>Progas.Portal.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Progas.Portal.Domain.Services.Contracts\Progas.Portal.Domain.Services.Contracts.csproj">
+      <Project>{9B5E0FEA-003B-41B8-847E-66CA20165FAE}</Project>
+      <Name>Progas.Portal.Domain.Services.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Progas.Portal.Domain\Progas.Portal.Domain.csproj">
       <Project>{2b790b52-c827-486c-b871-1392cfad1c48}</Project>
       <Name>Progas.Portal.Domain</Name>

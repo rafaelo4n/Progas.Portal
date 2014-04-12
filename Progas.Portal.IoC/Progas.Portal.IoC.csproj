@@ -97,6 +97,7 @@
   <ItemGroup>
     <Compile Include="AplicationServiceRegistry.cs" />
     <Compile Include="BuildersRegistry.cs" />
+    <Compile Include="DomainServiceRegistry.cs" />
     <Compile Include="QueriesRegistry.cs" />
     <Compile Include="InfraServiceRegistry.cs" />
     <Compile Include="IoCWorker.cs" />
@@ -115,6 +116,14 @@
     <ProjectReference Include="..\Progas.Portal.Common\Progas.Portal.Common.csproj">
       <Project>{52496AC5-D00F-4AE4-84B9-06AD65DADB47}</Project>
       <Name>Progas.Portal.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Progas.Portal.Domain.Services.Contracts\Progas.Portal.Domain.Services.Contracts.csproj">
+      <Project>{9B5E0FEA-003B-41B8-847E-66CA20165FAE}</Project>
+      <Name>Progas.Portal.Domain.Services.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Progas.Portal.Domain.Services.Implementations\Progas.Portal.Domain.Services.Implementations.csproj">
+      <Project>{30EE1CC4-DE5A-4EAA-B41F-E9D46ACEC943}</Project>
+      <Name>Progas.Portal.Domain.Services.Implementations</Name>
     </ProjectReference>
     <ProjectReference Include="..\Progas.Portal.Domain\Progas.Portal.Domain.csproj">
       <Project>{2B790B52-C827-486C-B871-1392CFAD1C48}</Project>

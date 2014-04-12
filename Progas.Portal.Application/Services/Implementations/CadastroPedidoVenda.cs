@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Progas.Portal.Application.Services.Contracts;
 using Progas.Portal.Domain.Entities;
+using Progas.Portal.Domain.Services.Contracts;
 using Progas.Portal.DTO;
 using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.ViewModel;
@@ -23,11 +24,12 @@ namespace Progas.Portal.Application.Services.Implementations
         private readonly IListasPreco _listasPreco;
         private readonly IMotivosDeRecusa _motivosDeRecusa;
         private readonly IComunicacaoSap _comunicacaoSap;
+        private readonly IAtualizadorDeItensDoPedidoDeVenda _atualizadorDeItens;
 
         public CadastroPedidoVenda(IUnitOfWork unitOfWork, IPedidosVenda pedidosVenda, 
             IUsuarios usuarios, IClienteVendas clienteVendas, IMateriais materiais, IClientes clientes,
             IFornecedores fornecedores, IIncotermsCabs incotermsCabs, IIncotermsLinhas incotermsLinhas, 
-            IListasPreco listasPreco, IComunicacaoSap comunicacaoSap, IMotivosDeRecusa motivosDeRecusa)
+            IListasPreco listasPreco, IComunicacaoSap comunicacaoSap, IMotivosDeRecusa motivosDeRecusa, IAtualizadorDeItensDoPedidoDeVenda atualizadorDeItens)
         {
             _unitOfWork = unitOfWork;
             _pedidosVenda = pedidosVenda;
@@ -41,6 +43,7 @@ namespace Progas.Portal.Application.Services.Implementations
             _listasPreco = listasPreco;
             _comunicacaoSap = comunicacaoSap;
             _motivosDeRecusa = motivosDeRecusa;
+            _atualizadorDeItens = atualizadorDeItens;
         }               
 
         private class TransportadorasDoPedido
@@ -152,22 +155,31 @@ namespace Progas.Portal.Application.Services.Implementations
                 
                 IList<MotivoDeRecusa> motivosDeRecusaDosItens = _motivosDeRecusa.BuscarLista(codigoDosMotivosDeRecusa).List();
 
-                for (int i = 0; i < pedido.Itens.Count; i++)
+                if (!string.IsNullOrEmpty(pedido.IdDaCotacao))
                 {
-                    PedidoVendaSalvarItemVm item = pedido.Itens[i];
-
-                    Material material = materiaisDosItens.Single(x => x.pro_id_material == item.IdMaterial);
-
-                    ListaPreco listaDePreco = listasDePreco.Single(lista => lista.Codigo == item.CodigoDaListaDePreco);
-
-                    MotivoDeRecusa motivoDeRecusa = string.IsNullOrEmpty(item.CodigoDoMotivoDeRecusa)
-                        ? null
-                        : motivosDeRecusaDosItens.Single(m => m.Codigo == item.CodigoDoMotivoDeRecusa);
-
-                    var linhasPedido = new PedidoVendaLinha(item.Numero,material,item.Quantidade,listaDePreco,item.Desconto,motivoDeRecusa);
-                    
-                    pedidoVenda.AdicionarItem(linhasPedido);
+                    _atualizadorDeItens.Atualizar(pedidoVenda, pedido);
                 }
+                else
+                {
+                    for (int i = 0; i < pedido.Itens.Count; i++)
+                    {
+                        PedidoVendaSalvarItemVm item = pedido.Itens[i];
+
+                        Material material = materiaisDosItens.Single(x => x.pro_id_material == item.IdMaterial);
+
+                        ListaPreco listaDePreco = listasDePreco.Single(lista => lista.Codigo == item.CodigoDaListaDePreco);
+
+                        MotivoDeRecusa motivoDeRecusa = string.IsNullOrEmpty(item.CodigoDoMotivoDeRecusa)
+                            ? null
+                            : motivosDeRecusaDosItens.Single(m => m.Codigo == item.CodigoDoMotivoDeRecusa);
+
+                        var linhasPedido = new PedidoVendaLinha(item.Numero, material, item.Quantidade, listaDePreco, item.Desconto, motivoDeRecusa);
+
+                        pedidoVenda.AdicionarItem(linhasPedido);
+                    }
+                    
+                }
+
 
                 _comunicacaoSap.EnviarPedido(pedidoVenda);
 

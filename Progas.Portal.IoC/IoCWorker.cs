@@ -40,6 +40,7 @@ namespace Progas.Portal.IoC
                 x.AddRegistry<BuildersRegistry>();
                 x.AddRegistry<RepositoryRegistry>();
                 x.AddRegistry<InfraServiceRegistry>();
+                x.AddRegistry<DomainServiceRegistry>();
             });
         }
     }

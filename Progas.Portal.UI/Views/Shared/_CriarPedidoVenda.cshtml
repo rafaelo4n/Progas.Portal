@@ -530,6 +530,7 @@
                 } else {
                     // array que sera exibido no grid
                     var itemAtual = linhasAdicionadas[indiceEdicao];
+                    item.Id = itemAtual.Id;
                     item.NumeroDoItem = itemAtual.NumeroDoItem;
                     item.ValorTabela = itemAtual.ValorTabela;
                     item.ValorPolitica = itemAtual.ValorPolitica;
@@ -556,7 +557,8 @@
                         model: {
                             id: 'Codigo',
                             fields: {
-                                NumeroDoItem: { type: "number" },
+                                Id: { type:"number"},
+                                NumeroDoItem: { type: "string" },
                                 IdMaterial: { type: "number" },
                                 CodigoMaterial: { type: "string" },
                                 DescricaoMaterial: { type: "string" },
@@ -601,7 +603,7 @@
 
                     },
                     {
-                        width: 40,
+                        width: 60,
                         field: "NumeroDoItem",
                         title: "Item"
                     },
