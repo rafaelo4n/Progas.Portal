@@ -220,7 +220,7 @@
         var simular = "S";
         var gravar = "G";
         var numeroDeItensInseridos = 0;
-        var somenteLeitura = '@(Model != null && (Model.SomenteLeitura || (!string.IsNullOrEmpty(Model.status) && Model.status != "S") ) )'.boolean();
+        var somenteLeitura = '@(Model != null && (Model.SomenteLeitura || (!string.IsNullOrEmpty(Model.status) && Model.status != "P") ) )'.boolean();
         var copia = '@(Model != null && Model.Copia )'.boolean();
         var edicao = !copia && '@(Model != null && !string.IsNullOrEmpty(Model.id_cotacao))'.boolean();
 
@@ -808,7 +808,7 @@
                             $('#vlrtot').val(Globalize.format(retorno.ValorTotal));
                             $('#status').val(retorno.Status);
 
-                            somenteLeitura = retorno.Status != 'S';
+                            somenteLeitura = retorno.Status != 'P';
 
                             if (somenteLeitura) {
                                 passarCamposParaSomenteLeitura();

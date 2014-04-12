@@ -66,7 +66,7 @@ namespace Progas.Portal.Application.Services.Implementations
                         linha_envio_item.SetValue("POSNR", item.Numero);
                         linha_envio_item.SetValue("MATNR", item.Material.Id_material);
                         linha_envio_item.SetValue("MENGE", item.Quantidade);
-                        linha_envio_item.SetValue("MEINS", item.Material.Uni_med);
+                        linha_envio_item.SetValue("MEINS", item.Material.UnidadeDeMedida.Id_unidademedida);
                         linha_envio_item.SetValue("PLTYP", item.ListaDePreco.Codigo);
                         envio_item.Insert(linha_envio_item);
 

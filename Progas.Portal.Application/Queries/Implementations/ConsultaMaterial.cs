@@ -33,8 +33,12 @@ namespace Progas.Portal.Application.Queries.Implementations
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, MaterialFiltroVm filtro)
         {
             Material material = null;
+            UnidadeDeMedida unidadeDeMedida = null;
 
-            IQueryOver<Material,Material> queryOver = _unitOfWorkNh.Session.QueryOver(() => material);
+            IQueryOver<Material, Material> queryOver = _unitOfWorkNh.Session.QueryOver(() => material);
+
+            queryOver = queryOver.JoinAlias(x => x.UnidadeDeMedida, () => unidadeDeMedida);
+                
 
             queryOver.Where(
                 Restrictions.Disjunction()
@@ -110,7 +114,13 @@ namespace Progas.Portal.Application.Queries.Implementations
                 .Select(x => material.Descricao).WithAlias(() => materialCadastroVm.Descricao)
                 .Select(x => material.Id_centro).WithAlias(() => materialCadastroVm.Centro)
                 .Select(x => material.Tip_mat).WithAlias(() => materialCadastroVm.Tipo)
-                .Select(x => material.Uni_med).WithAlias(() => materialCadastroVm.UnidadeMedida)
+                //.Select(() => unidadeDeMedida.Descricao ) .WithAlias(() => materialCadastroVm.UnidadeMedida)
+                //.Select(x => unidadeDeMedida.Id_unidademedida /*+ " - " + unidadeDeMedida.Descricao */) .WithAlias(() => materialCadastroVm.UnidadeMedida)
+                .Select(Projections.SqlFunction("concat", NHibernateUtil.String,
+                    Projections.Property(() => unidadeDeMedida.Id_unidademedida),
+                    Projections.Constant(" - "),
+                    Projections.Property(() => unidadeDeMedida.Descricao)))
+                .WithAlias(() => materialCadastroVm.UnidadeMedida)
                 );
 
             var kendoGridVm = new KendoGridVm()

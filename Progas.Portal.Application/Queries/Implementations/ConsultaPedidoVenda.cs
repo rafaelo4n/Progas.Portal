@@ -80,7 +80,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                 CodigoMaterial = item.Material.Id_material,
                 DescricaoMaterial = item.Material.Descricao,
                 Quantidade = item.Quantidade,
-                CodigoUnidadeMedida = item.Material.Uni_med,
+                CodigoUnidadeMedida = item.Material.UnidadeDeMedida.Id_unidademedida + " - " + item.Material.UnidadeDeMedida.Descricao,
                 CodigoListaPreco = item.ListaDePreco.Codigo,
                 DescricaoListaPreco = item.ListaDePreco.Descricao,
                 Desconto = item.DescontoManual,
