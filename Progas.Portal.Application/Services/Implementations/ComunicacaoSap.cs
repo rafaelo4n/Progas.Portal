@@ -110,6 +110,11 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 StatusDoPedidoDeVenda statusDoPedidoDeVenda = _statusDoPedidoDeVenda.BuscaPorCodigo(status).Single();
 
+                if (statusDoPedidoDeVenda == null)
+                {
+                    throw new Exception("SAP retornou um status de Pedido inválido: " + status);
+                }
+
                 pedidoVenda.Alterar(primeiroItem.GetString("COTACAO"), statusDoPedidoDeVenda);
 
                 IRfcTable retornoCondicoes = fReadTable.GetTable("TE_CONDICOES");
