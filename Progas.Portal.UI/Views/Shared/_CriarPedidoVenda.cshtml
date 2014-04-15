@@ -1,5 +1,4 @@
-﻿@using NHibernate.Mapping
-@using Progas.Portal.UI.Helpers
+﻿@using Progas.Portal.UI.Helpers
 @using Progas.Portal.ViewModel
 @model PedidoVendaCadastroVm
 
@@ -14,17 +13,21 @@
     <fieldset>
         <legend>Pesquisa Cotação</legend> 
         <div id="Copiar" class="divBotaoCopiar linha">
-            <div class="coluna3">
+            <div class="coluna4">
                 @Html.LabelFor(x => x.id_cotacao)
                 @Html.TextBox("IdDaCotacaoParaCopiar", "", new { @class = "campopequeno" })
                 <input type="button" id="btnCopiar" value="Copiar" class="blue" />
-                <input type="reset" id="btnNovo"   value="Novo"   class="blue" />
+                <input type="button" id="btnNovo"   value="Novo"   class="blue" />
             </div>
-            <div class="coluna3">
+            <div class="coluna4">
+                @Html.Label("Nº da Cotação Atual")
+                @Html.TextBoxFor(x => x.id_cotacao,new{@readonly=true,@class="campoDesabilitado campomedio"})
+            </div>
+            <div class="coluna4">
                 @Html.LabelFor(x => x.status)
                 @Html.TextBoxFor(x => x.status,new{@readonly=true,@class="campoDesabilitado campomedio"})
             </div>
-            <div class="coluna3">
+            <div class="coluna4">
                 @Html.LabelFor(x => x.vlrtot)
                 @Html.TextBoxFor(x => x.vlrtot,new{@readonly=true,@class="campoDesabilitado campomedio"})
             </div>
@@ -32,9 +35,7 @@
     </fieldset>
     <form id="formCabecalho">
 
-        @Html.HiddenFor(x => x.id_cotacao )
-        <!-- Realiza a pequisa de cotações para carregar seus dados -->           
-        <!-- Dados do Header-->   
+        @*@Html.HiddenFor(x => x.id_cotacao )*@
         <fieldset>
             <legend>Dados de Cabeçalho</legend>
             <div id="Cabecalho">
@@ -939,11 +940,17 @@
 
             $('#btnNovo').click(function () {
                 $('form :input').removeAttr('disabled');
+
+                $('form :input:not([type=button])').val('');
+
+                $('#Copiar :input:not([type=button])')
+                    .removeAttr('disabled')
+                    .val('');
+
                 $('#btnGravar, #btnSimular').removeAttr('disabled');
 
                 habilitarCampoData();
-                linhasAdicionadas = [];
-                numeroDeItensInseridos = 0;
+                removerItens();
             });
 
             //
