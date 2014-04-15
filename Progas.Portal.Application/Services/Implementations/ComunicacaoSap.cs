@@ -63,7 +63,6 @@ namespace Progas.Portal.Application.Services.Implementations
                 i_cabecalho.SetValue("REPRE", pedidoVenda.Id_repre);
                 i_cabecalho.SetValue("OBSERVACAO", pedidoVenda.Observacao);
 
-                var contadorDeItens = 1;
 
                 for (int i = pedidoVenda.Itens.Count - 1; i >= 0; i--)
                 {
@@ -90,29 +89,30 @@ namespace Progas.Portal.Application.Services.Implementations
                         envio_condicao.Insert(linha_envio_cond);
                     }
                     // Apos inserir o ultimo item na estrutura do SAP, realiza a chamada da Função e salva para o tipo Gravação e retornar as linhas.
-                    contadorDeItens++;
                 }
 
                 fReadTable.Invoke(rfcDestination);
 
-                string status = fReadTable.GetString("E_STATUS");
+                string statusDaComunicacao = fReadTable.GetString("E_STATUS");
 
                 IRfcTable mensagensDeRetorno = fReadTable.GetTable("TE_MENSAGENS");
 
-                if (status == "E")
+                if (statusDaComunicacao == "E")
                 {
                     throw new Exception(string.Join(". ", mensagensDeRetorno.Select(m => m.GetString("MESSAGE"))));
                 }
+
+                string statusDaCotacao = fReadTable.GetString("E_STATUS_COTACAO");
 
                 IRfcTable retornoItens = fReadTable.GetTable("TE_ITEM");
 
                 IRfcStructure primeiroItem = retornoItens.First();
 
-                StatusDoPedidoDeVenda statusDoPedidoDeVenda = _statusDoPedidoDeVenda.BuscaPorCodigo(status).Single();
+                StatusDoPedidoDeVenda statusDoPedidoDeVenda = _statusDoPedidoDeVenda.BuscaPorCodigo(statusDaCotacao).Single();
 
                 if (statusDoPedidoDeVenda == null)
                 {
-                    throw new Exception("SAP retornou um status de Pedido inválido: " + status);
+                    throw new Exception("SAP retornou um status de Pedido inválido: " + statusDaComunicacao);
                 }
 
                 pedidoVenda.Alterar(primeiroItem.GetString("COTACAO"), statusDoPedidoDeVenda);

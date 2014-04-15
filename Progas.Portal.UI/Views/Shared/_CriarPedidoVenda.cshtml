@@ -298,8 +298,6 @@
 
         }
 
-
-
         function carregarIncoterm2(incoterm1, callBack) {
             $.ajax({
                 url: '@Url.Action("ListarIncotermsDoCabecalho", "Incoterm")' + '/?idDoCabecalho=' + incoterm1,
@@ -367,6 +365,27 @@
             $('#btnGravar, #btnSimular').attr('disabled', true);
         }
 
+        function inicializarCampos() {
+            $("#Transportadora_Codigo").val('');
+            $("#Transportadora_Nome").val('');
+            $("#TransportadoraDeRedespacho_Codigo").val('');
+            $("#TransportadoraDeRedespacho_Nome").val('');
+            $("#TransportadoraDeRedespachoCif_Codigo").val('');
+            $("#TransportadoraDeRedespachoCif_Nome").val('');
+        }
+
+        function removerItens() {
+            $('#IdDoMaterial').val('');
+            $('#CodigoDoMaterial').val('');
+            $('#NomeDoMaterial').val('');
+            linhasAdicionadas.length = 0;
+            numeroDeItensInseridos = 0;
+            var gridItens = $('#gridLinhasAdicionadas').data("kendoGrid");
+            if (gridItens) {
+                gridItens.dataSource.read();
+            }
+        }
+
         $(function() {
             aplicaMascaraData();
             aplicaMascaraQuantidade();
@@ -408,6 +427,8 @@
                 if (codigoDoCliente != clienteSelecionado.Codigo) {
                     carregarAreasDeVenda(clienteSelecionado.Codigo);
                     carregarCondicoesDePagamento(clienteSelecionado.Codigo);
+                    inicializarCampos();
+                    removerItens();
                 }
                 $('#Cliente_Codigo').val(clienteSelecionado.Codigo);
                 $('#Cliente_Nome').val(clienteSelecionado.Nome);
@@ -415,6 +436,7 @@
                 $('#Cliente_Telefone').val(clienteSelecionado.Telefone);
 
             };
+
             selecionarCliente.configurarJanelaModal('#Cliente_Codigo', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
 
             var selecionarProduto = new SelecionarProduto();
@@ -437,6 +459,9 @@
                 } else {
                     $('#id_centro').val('');
                 }
+                inicializarCampos();
+                removerItens();
+
             });
 
             var carregando = '@(Model != null)'.boolean();
