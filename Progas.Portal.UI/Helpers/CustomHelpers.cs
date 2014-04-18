@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
@@ -107,6 +108,27 @@ namespace Progas.Portal.UI.Helpers
                 "</div>";
             return new HtmlString(retorno);
         }
+
+        public static IHtmlString LinhaComColunas<TModel, TValue>(this HtmlHelper<TModel> html,
+            IList<Coluna<TModel, TValue>> colunas)
+        {
+            foreach (var coluna in colunas)
+            {
+                coluna.HtmlHelper = html;
+            }
+
+            string divColunaClass = "coluna" + colunas.Count;
+
+            string retorno = colunas
+                .Select(coluna => GeraColuna(coluna, divColunaClass))
+                .Aggregate((acumulador, htmlDaColuna) => acumulador + htmlDaColuna);
+
+            retorno = 
+                "<div class=\"linha\"> " + retorno + "</div>";
+
+            return new HtmlString(retorno);
+        }
+
 
     }
 

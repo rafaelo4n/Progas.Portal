@@ -12,7 +12,8 @@ namespace Progas.Portal.Infra.Mappings
             Map(x => x.TipoPedido);
             Map(x => x.Id_centro);
             Map(x => x.Datacp);
-            Map(x => x.NumeroDoPedido, "Id_pedido");
+            Map(x => x.NumeroDoPedidoDoRepresentante, "Id_pedido");
+            Map(x => x.NumeroDoPedidoDoCliente);
             Map(x => x.Datap);
             Map(x => x.Condpgto);
             Map(x => x.Id_repre);

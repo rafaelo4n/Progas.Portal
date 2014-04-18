@@ -51,7 +51,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                     new PedidoVendaListagemVm
                     {
                         IdDaCotacao = pedido.Id_cotacao,
-                        NumeroDoPedido = pedido.NumeroDoPedido,
+                        NumeroDoPedido = pedido.NumeroDoPedidoDoRepresentante,
                         DataDeCriacao =  pedido.Datacp.ToString("dd/MM/yyyy HH:mm:ss"),
                         DataDoPedido =  pedido.Datap.ToShortDateString(),
                         NomeDoCliente =  pedido.Cliente.Nome,
@@ -150,7 +150,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                 datacp = pedido.Datacp.ToShortDateString(),
                 datap = pedido.Datap.ToShortDateString(),
                 id_centro = pedido.Id_centro ,
-                id_pedido = pedido.NumeroDoPedido ,
+                id_pedido = pedido.NumeroDoPedidoDoRepresentante ,
                 id_repre =pedido.Id_repre ,
                 IdDoIncoterm1 = Convert.ToString(pedido.Incoterm1.pro_id_incotermCab),
                 IdDoIncoterm2 = Convert.ToString(pedido.Incoterm2.pro_id_incotermLinha),

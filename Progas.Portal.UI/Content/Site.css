@@ -565,7 +565,7 @@ input[type="checkbox"].input-validation-error {
     clear: both;
 }
 
-.coluna, .coluna3, .coluna4, .coluna5 {
+.coluna, .coluna3, .coluna4, .coluna5, .coluna6 {
     display: inline-block;
     float: left;
 }
@@ -586,6 +586,11 @@ input[type="checkbox"].input-validation-error {
 .coluna5 {
     width: 19.5%;
 }
+
+.coluna6 {
+    width: 16.5%;
+}
+
 
 
 

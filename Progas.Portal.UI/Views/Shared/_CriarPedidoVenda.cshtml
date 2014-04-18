@@ -387,6 +387,8 @@
             }
         }
 
+        var carregando = '@(Model != null)'.boolean();
+
         $(function() {
             aplicaMascaraData();
             aplicaMascaraQuantidade();
@@ -460,12 +462,12 @@
                 } else {
                     $('#id_centro').val('');
                 }
-                inicializarCampos();
-                removerItens();
+                if (!carregando) {
+                    inicializarCampos();
+                    removerItens();
+                }
 
             });
-
-            var carregando = '@(Model != null)'.boolean();
 
             if (carregando) {
 
@@ -475,9 +477,13 @@
                 var idDoCliente = $('#Cliente_Codigo').val();
                 //vai entrar aqui quando estiver carregando um pedido que já foi salvo
                 carregarAreasDeVenda(idDoCliente, function() {
+
                     $('#AreaDeVenda')
                         .val(idDaAreaDeVenda)
                         .change();
+
+                    carregando = false;
+
                 });
 
                 carregarIncoterm2($('#Inco1').val(), function() {

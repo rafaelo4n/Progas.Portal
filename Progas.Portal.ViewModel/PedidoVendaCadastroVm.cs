@@ -31,10 +31,13 @@ namespace Progas.Portal.ViewModel
         [Display(Name = "Data de Criação: ")]
         public string datacp { get; set; }
 
-        [Display(Name = "N° Pedido: ")]
-        [Required(ErrorMessage = "Nº Pedido é obrigatório")]
-
+        [Display(Name = "Pedido Representante: ")]
+        [Required(ErrorMessage = "Nº Pedido do Representante é obrigatório")]
         public string id_pedido { get; set; }
+
+        [Display(Name = "OC Cliente:")]
+        public string NumeroDoPedidoDoCliente { get; set; }
+
 
         [DataType(DataType.Date)]
         [Display(Name = "Data do Pedido: ")]

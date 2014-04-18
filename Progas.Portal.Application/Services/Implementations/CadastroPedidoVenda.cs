@@ -100,7 +100,7 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 var usuarioConectado = _usuarios.UsuarioConectado();
 
-                ClienteVenda clienteVendas = _clienteVendas.ObterPorId(pedido.IdDaAreaDeVenda);
+                ClienteVenda clienteVenda = _clienteVendas.ObterPorId(pedido.IdDaAreaDeVenda);
 
                 TransportadorasDoPedido transportadorasDoPedido = ConsultarTransportadoras(pedido);
 
@@ -116,17 +116,24 @@ namespace Progas.Portal.Application.Services.Implementations
                 {
                     pedidoVenda = _pedidosVenda.FiltraPorId(pedido.IdDaCotacao).Single();
 
+                    pedidoVenda
+                        .AlterarCliente(clienteVenda, cliente)
+                        .AlterarTransportadora(transportadorasDoPedido.Transportadora, transportadorasDoPedido.TransportadoraDeRedespacho, transportadorasDoPedido.TransportadoraDeRedespachoCif)
+                        .AlterarIncoterm(incoterm1, incoterm2)
+                        .AlterarDados(pedido.NumeroPedidoDoRepresentante, pedido.NumeroPedidoDoCliente, pedido.DataDoPedido, pedido.CodigoDaCondicaoDePagamento, pedido.Observacao);
+
                 }
                 else
                 {
 
                     pedidoVenda = new PedidoVenda(pedido.Tipo,
                         pedido.CodigoTipoPedido,
-                        clienteVendas.Org_vendas,
+                        clienteVenda.Org_vendas,
                         cliente,
-                        clienteVendas,
+                        clienteVenda,
                         DateTime.Now,
-                        pedido.NumeroPedido,
+                        pedido.NumeroPedidoDoRepresentante,
+                        pedido.NumeroPedidoDoCliente,
                         pedido.DataDoPedido,
                         pedido.CodigoDaCondicaoDePagamento,
                         incoterm1,
@@ -136,7 +143,6 @@ namespace Progas.Portal.Application.Services.Implementations
                         transportadorasDoPedido.TransportadoraDeRedespachoCif,
                         Convert.ToString(usuarioConectado.CodigoDoFornecedor),
                         pedido.Observacao
-                        //status
                         );
                 }
 

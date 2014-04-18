@@ -40,7 +40,7 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 fReadTable.SetValue("I_TIPO_ENVIO", pedidoVenda.Tipo);
                 i_cabecalho.SetValue("COTACAO", pedidoVenda.Id_cotacao);
-                i_cabecalho.SetValue("BSTKD", pedidoVenda.NumeroDoPedido);
+                i_cabecalho.SetValue("BSTKD", pedidoVenda.NumeroDoPedidoDoRepresentante);
                 i_cabecalho.SetValue("AUART", pedidoVenda.TipoPedido);
                 i_cabecalho.SetValue("WERKS", pedidoVenda.Id_centro);
                 i_cabecalho.SetValue("VKORG", pedidoVenda.Id_centro);
@@ -68,7 +68,6 @@ namespace Progas.Portal.Application.Services.Implementations
                 {
 
                     var item = pedidoVenda.Itens[i];
-                    // LINHAS (Estrutura tipo tabela)
                     IRfcStructure linha_envio_item = t_item.CreateStructure();
 
                     linha_envio_item.SetValue("POSNR", item.Numero);
@@ -78,7 +77,6 @@ namespace Progas.Portal.Application.Services.Implementations
                     linha_envio_item.SetValue("PLTYP", item.ListaDePreco.Codigo);
                     envio_item.Insert(linha_envio_item);
 
-                    // CONDICAO (Estrutura tipo tabela) 
                     if (item.DescontoManual > 0)
                     {
                         IRfcStructure linha_envio_cond = t_condicoes.CreateStructure();
@@ -88,7 +86,6 @@ namespace Progas.Portal.Application.Services.Implementations
                         linha_envio_cond.SetValue("KSCHL", "ZDEM");
                         envio_condicao.Insert(linha_envio_cond);
                     }
-                    // Apos inserir o ultimo item na estrutura do SAP, realiza a chamada da Função e salva para o tipo Gravação e retornar as linhas.
                 }
 
                 fReadTable.Invoke(rfcDestination);
