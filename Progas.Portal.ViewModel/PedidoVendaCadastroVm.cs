@@ -36,7 +36,7 @@ namespace Progas.Portal.ViewModel
         public string id_pedido { get; set; }
 
         [Display(Name = "OC Cliente:")]
-        public string NumeroDoPedidoDoCliente { get; set; }
+        public string NumeroPedidoDoCliente { get; set; }
 
 
         [DataType(DataType.Date)]
@@ -45,7 +45,7 @@ namespace Progas.Portal.ViewModel
         public string datap { get; set; }
 
         [Required(ErrorMessage = "Condição de Pagamento é obrigatória")]
-        [Display(Name = "Condição de Pagamento")]
+        [Display(Name = "Condição Pagamento:")]
         public string condpgto { get; set; }
 
         [Display(Name = "Incoterm 1: ")]

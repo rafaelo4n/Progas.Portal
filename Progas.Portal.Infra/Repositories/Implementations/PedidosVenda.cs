@@ -76,7 +76,8 @@ namespace Progas.Portal.Infra.Repositories.Implementations
 
         public IPedidosVenda ContendoMaterial(int idDoMaterial)
         {
-            Query = Query.Where(pedido => pedido.Itens.Select(item => item.Material.pro_id_material).Contains(idDoMaterial));
+            //Query = Query.Where(pedido => pedido.Itens.Select(item => item.Material.pro_id_material).Contains(idDoMaterial));
+            Query = Query.Where(pedido => pedido.Itens.Any(item => item.Material.pro_id_material == idDoMaterial));
             return this;
         }
 

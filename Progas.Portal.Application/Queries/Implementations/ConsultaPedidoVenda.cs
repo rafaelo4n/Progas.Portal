@@ -26,9 +26,9 @@ namespace Progas.Portal.Application.Queries.Implementations
         {
             var usuarioConectado = _usuarios.UsuarioConectado();
 
-            if (!string.IsNullOrEmpty(filtro.id_cliente))
+            if (!string.IsNullOrEmpty(filtro.CodigoDoCliente))
             {
-                _pedidosVenda.DoCliente(filtro.id_cliente);
+                _pedidosVenda.DoCliente(filtro.CodigoDoCliente);
 
             }
 
@@ -151,6 +151,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                 datap = pedido.Datap.ToShortDateString(),
                 id_centro = pedido.Id_centro ,
                 id_pedido = pedido.NumeroDoPedidoDoRepresentante ,
+                NumeroPedidoDoCliente = pedido.NumeroDoPedidoDoCliente,
                 id_repre =pedido.Id_repre ,
                 IdDoIncoterm1 = Convert.ToString(pedido.Incoterm1.pro_id_incotermCab),
                 IdDoIncoterm2 = Convert.ToString(pedido.Incoterm2.pro_id_incotermLinha),

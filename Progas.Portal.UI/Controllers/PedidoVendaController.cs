@@ -99,6 +99,7 @@ namespace Progas.Portal.UI.Controllers
             PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDoPedido);
             pedidoVendaCadastroVm.Copia = true;
             pedidoVendaCadastroVm.id_pedido = "";
+            pedidoVendaCadastroVm.NumeroPedidoDoCliente = "";
             pedidoVendaCadastroVm.status = "";
             return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
             

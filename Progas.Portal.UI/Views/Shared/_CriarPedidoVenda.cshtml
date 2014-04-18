@@ -1,4 +1,5 @@
-﻿@using Progas.Portal.UI.Helpers
+﻿@using FluentNHibernate.Testing.Values
+@using Progas.Portal.UI.Helpers
 @using Progas.Portal.ViewModel
 @model PedidoVendaCadastroVm
 
@@ -60,22 +61,23 @@
                     new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Nome,"campogrande campoDesabilitado"),
                     new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Cnpj, "campogrande campoDesabilitado"),
                     new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Cliente.Telefone, "campogrande campoDesabilitado"))
-                
-                
+
                 @{
                     var comboDeAreaDeVendas = new ColunaComDropDown<PedidoVendaCadastroVm, int>
-                        (x => x.IdDaAreaDeVenda, new List<SelectListItem>(), "AreaDeVenda");
-                           
+                        (x =>x.IdDaAreaDeVenda , new List<SelectListItem>(), "AreaDeVenda");
+
                     var condpgto = new ColunaComDropDown<PedidoVendaCadastroVm, string>
                         (x => x.condpgto, new List<SelectListItem>(), "condpgto");                            
                 }
                 
-                @Html.LinhaComCincoColunas(comboDeAreaDeVendas,
+                @Html.LinhaComSeisColunas(comboDeAreaDeVendas,
                     new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.id_centro,"campomedio campoDesabilitado"),
                     condpgto,
                     new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.datap, "campomedio campoDatePicker maskdata"),
-                    new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.id_pedido,"campomedio")
+                    new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.id_pedido,"campomedio"),
+                    new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.NumeroPedidoDoCliente, "campomedio")
                     )
+                
                 
                 @{
                     var inco1 = new ColunaComDropDown<PedidoVendaCadastroVm, object>
@@ -791,7 +793,8 @@
                     CodigoTipoPedido: $('#CodigoTipoPedido').val(),
                     CodigoDaCondicaoDePagamento: $('#condpgto').val(),
                     DataDoPedido: $('#datap').val(),
-                    NumeroPedido: $('#id_pedido').val(),
+                    NumeroPedidoDoRepresentante: $('#id_pedido').val(),
+                    NumeroPedidoDoCliente: $('#NumeroPedidoDoCliente').val(),
                     CodigoDaTransportadora: $('#Transportadora_Codigo').val(),
                     CodigoDaTransportadoraDeRedespacho: $('#TransportadoraDeRedespacho_Codigo').val(),
                     CodigoDaTransportadoraDeRedespachoCif: $('#TransportadoraDeRedespachoCif_Codigo').val(),
@@ -995,4 +998,4 @@
         });
     </script>
 
-}
+},

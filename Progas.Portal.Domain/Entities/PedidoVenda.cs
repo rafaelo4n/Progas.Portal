@@ -91,14 +91,14 @@ namespace Progas.Portal.Domain.Entities
             this.Status = status;
         }
 
-        public PedidoVenda AlterarCliente(ClienteVenda areaDeVEnda, Cliente cliente)
+        public virtual PedidoVenda AlterarCliente(ClienteVenda areaDeVEnda, Cliente cliente)
         {
             this.AreaDeVenda = areaDeVEnda;
             this.Cliente = cliente;
             return this;
         }
 
-        public PedidoVenda AlterarTransportadora(Fornecedor transportadora, Fornecedor transportadoraDeRedespacho, Fornecedor transportadoraDeRedespachoCif)
+        public virtual PedidoVenda AlterarTransportadora(Fornecedor transportadora, Fornecedor transportadoraDeRedespacho, Fornecedor transportadoraDeRedespachoCif)
         {
             this.Transportadora = transportadora;
             this.TransportadoraDeRedespacho = transportadoraDeRedespacho;
@@ -107,7 +107,7 @@ namespace Progas.Portal.Domain.Entities
             return this;
         }
 
-        public PedidoVenda AlterarIncoterm(IncotermCab incoterm1, IncotermLinhas incoterm2)
+        public virtual PedidoVenda AlterarIncoterm(IncotermCab incoterm1, IncotermLinhas incoterm2)
         {
             this.Incoterm1 = incoterm1;
             this.Incoterm2 = incoterm2;
@@ -115,7 +115,7 @@ namespace Progas.Portal.Domain.Entities
             return this;
         }
 
-        public PedidoVenda AlterarDados(string numeroDoPedidoDoRepresentante, string numeroDoPedidoDoCliente, DateTime dataDoPedido, string codigoDaCondicaoDePagamento, string observacao)
+        public virtual PedidoVenda AlterarDados(string numeroDoPedidoDoRepresentante, string numeroDoPedidoDoCliente, DateTime dataDoPedido, string codigoDaCondicaoDePagamento, string observacao)
         {
             this.NumeroDoPedidoDoRepresentante = numeroDoPedidoDoRepresentante;
             this.NumeroDoPedidoDoCliente = numeroDoPedidoDoCliente;

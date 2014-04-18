@@ -75,6 +75,13 @@ namespace Progas.Portal.Application.Services.Implementations
                     linha_envio_item.SetValue("MENGE", item.Quantidade);
                     linha_envio_item.SetValue("MEINS", item.Material.UnidadeDeMedida.Id_unidademedida);
                     linha_envio_item.SetValue("PLTYP", item.ListaDePreco.Codigo);
+
+                    if (item.MotivoDeRecusa != null)
+                    {
+                        linha_envio_item.SetValue("ABGRU", item.MotivoDeRecusa.Codigo);
+                    }
+
+
                     envio_item.Insert(linha_envio_item);
 
                     if (item.DescontoManual > 0)
