@@ -94,8 +94,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                 {
                     Nivel = condicaoDePreco.Nivel,
                     Tipo = condicaoDePreco.Tipo,
-                    Base = condicaoDePreco.Base,
-                    Montante = condicaoDePreco.Montante,
+                    Descricao = condicaoDePreco.Descricao,
                     Valor = condicaoDePreco.Valor
 
                 })
@@ -173,30 +172,5 @@ namespace Progas.Portal.Application.Queries.Implementations
             return count == 1;
         }
 
-        public KendoGridVm ListarCondicoesDePreco(PedidoVendaLinhaChaveVm item)
-        {
-            IQueryable<PedidoVenda> queryable = _pedidosVenda.FiltraPorId(item.IdDoPedido).GetQuery();
-
-            var condicoesDePreco = (from pedido in queryable
-                from itemDoPedido in pedido.Itens
-                from condicaoDePreco in itemDoPedido.CondicoesDePreco
-                where itemDoPedido.Id == item.IdDoItem
-                select new CondicaoDePrecoDTO
-                {
-                    Nivel = condicaoDePreco.Nivel,
-                    Tipo = condicaoDePreco.Tipo,
-                    Base = condicaoDePreco.Base,
-                    Montante = condicaoDePreco.Montante,
-                    Valor = condicaoDePreco.Valor
-                }).Cast<ListagemVm>().ToList();
-
-            return new KendoGridVm
-            {
-                QuantidadeDeRegistros = condicoesDePreco.Count,
-                Registros = condicoesDePreco
-            };
-
-
-        }
     }
 }

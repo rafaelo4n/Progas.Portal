@@ -723,8 +723,7 @@
                             fields: {
                                 Nivel: { type: "string" },
                                 Tipo: { type: "string" },
-                                Base: { type: "number" },
-                                Montante: { type: "number" },
+                                Descricao: { type: "string" },
                                 Valor: { type: "number" }
                             }
                         },
@@ -744,22 +743,9 @@
                         field: "Tipo"
                     },
                     {
-                        field: "Base",
-                        width: '20%',
-                        format: "{0:n2}",
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: right;"
-                        }
-                    },
-                    {
-                        field: "Montante",
-                        width: '20%',
-                        format: "{0:n2}",
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: right;"
-                        }
+                        width: '40%',
+                        field: "Descricao",
+                        title: "Descrição"
                     },
                     {
                         field: "Valor",

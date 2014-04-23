@@ -41,6 +41,8 @@ namespace Progas.Portal.Application.Services.Implementations
                 fReadTable.SetValue("I_TIPO_ENVIO", pedidoVenda.Tipo);
                 i_cabecalho.SetValue("COTACAO", pedidoVenda.Id_cotacao);
                 i_cabecalho.SetValue("BSTKD", pedidoVenda.NumeroDoPedidoDoRepresentante);
+                i_cabecalho.SetValue("BSTKD_OC", pedidoVenda.NumeroDoPedidoDoCliente);
+                
                 i_cabecalho.SetValue("AUART", pedidoVenda.TipoPedido);
                 i_cabecalho.SetValue("WERKS", pedidoVenda.Id_centro);
                 i_cabecalho.SetValue("VKORG", pedidoVenda.Id_centro);
@@ -84,15 +86,12 @@ namespace Progas.Portal.Application.Services.Implementations
 
                     envio_item.Insert(linha_envio_item);
 
-                    if (item.DescontoManual > 0)
-                    {
-                        IRfcStructure linha_envio_cond = t_condicoes.CreateStructure();
+                    IRfcStructure linha_envio_cond = t_condicoes.CreateStructure();
 
-                        linha_envio_cond.SetValue("POSNR", item.Numero);
-                        linha_envio_cond.SetValue("KBETR", item.DescontoManual);
-                        linha_envio_cond.SetValue("KSCHL", "ZDEM");
-                        envio_condicao.Insert(linha_envio_cond);
-                    }
+                    linha_envio_cond.SetValue("POSNR", item.Numero);
+                    linha_envio_cond.SetValue("KBETR", item.DescontoManual);
+                    linha_envio_cond.SetValue("KSCHL", "ZDEM");
+                    envio_condicao.Insert(linha_envio_cond);
                 }
 
                 fReadTable.Invoke(rfcDestination);
@@ -151,7 +150,7 @@ namespace Progas.Portal.Application.Services.Implementations
                             condicao => condicao.GetString("POSNR") == retornoItem.GetString("POSNR")))
                     {
                         var condicaoDePreco = new CondicaoDePreco(condicaoRetornada.GetString("STUNR"),
-                            condicaoRetornada.GetString("KSCHL"),
+                            condicaoRetornada.GetString("VTEXT"), condicaoRetornada.GetString("KSCHL"),
                             condicaoRetornada.GetDecimal("KAWRT"), condicaoRetornada.GetDecimal("KBETR"),
                             condicaoRetornada.GetDecimal("KWERT"));
 

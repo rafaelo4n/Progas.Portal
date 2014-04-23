@@ -217,9 +217,8 @@ namespace Progas.Portal.Application.Services.Implementations
                         CondicoesDePreco = item.CondicoesDePreco.Select(condicaoDePreco => new CondicaoDePrecoDTO
                         {
                             Nivel = condicaoDePreco.Nivel,
+                            Descricao = condicaoDePreco.Descricao,
                             Tipo = condicaoDePreco.Tipo,
-                            Base = condicaoDePreco.Base,
-                            Montante = condicaoDePreco.Montante,
                             Valor = condicaoDePreco.Valor
                         }).ToList()
                     }).ToList()
