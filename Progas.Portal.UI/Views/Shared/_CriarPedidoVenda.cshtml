@@ -365,7 +365,10 @@
 
         function passarCamposParaSomenteLeitura() {
             $('form :input').attr('disabled', true);
-            $('#btnGravar, #btnSimular').attr('disabled', true);
+            $('#btnGravar, #btnSimular, #btnAdicionarItem')
+                .attr('disabled', true)
+                .removeClass('blue')
+                .addClass('desabilitado');
         }
 
         function inicializarCampos() {
@@ -942,7 +945,10 @@
                     .removeAttr('disabled')
                     .val('');
 
-                $('#btnGravar, #btnSimular').removeAttr('disabled');
+                $('#btnGravar, #btnSimular, #btnAdicionarItem')
+                    .removeAttr('disabled')
+                    .removeClass('desabilitado')
+                    .addClass('blue');
 
                 habilitarCampoData();
                 removerItens();
