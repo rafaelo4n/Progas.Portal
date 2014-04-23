@@ -86,5 +86,15 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             Query = Query.Where(pedido => pedido.Cliente.Id_cliente == codigoDoCliente);
             return this;
         }
+
+        public IPedidosVenda NoStatus(string status)
+        {
+            if (!string.IsNullOrEmpty(status))
+            {
+                Query = Query.Where(pedido => pedido.Status.Codigo == status);
+            }
+
+            return this;
+        }
     }
 }

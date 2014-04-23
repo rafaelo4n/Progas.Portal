@@ -7,5 +7,6 @@
         public string id_pedido  {   get; set; }
         public string datap { get; set; }
         public int? IdDoMaterial   { get; set; }
+        public string Status { get; set; }
     }
 }

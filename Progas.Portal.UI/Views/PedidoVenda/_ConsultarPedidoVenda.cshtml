@@ -1,7 +1,4 @@
-﻿@using Progas.Portal.ViewModel
-@model PedidoVendaCadastroVm
-
-@{
+﻿@{
     ViewBag.TituloDaPagina = "Consultar Pedido de Vendas";
 }
 
@@ -54,6 +51,10 @@
                 @Html.Label("Data do Pedido:")
                 @Html.TextBox("datap", "", new { @class = "campoDatePicker maskdata campopequeno" })
             </div>
+            <div class="coluna">
+                @Html.Label("Status:")
+                @Html.DropDownList("Status", (IEnumerable<SelectListItem>)ViewBag.ListaDeStatus,"Escolha>>")
+            </div>
         </div>
         <div class="divBotao">
             <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
@@ -101,6 +102,7 @@
                     model: {
                         fields: {
                             IdDaCotacao: { type: "string" },
+                            Status: { type: "string" },
                             NomeDoCliente: { type: "string" },
                             DataDeCriacao: { type: "string" },
                             NumeroDoPedido: { type: "string" },
@@ -123,7 +125,8 @@
                                     datacp: $('#datacp').val(),
                                     id_pedido: $('#id_pedido').val(),
                                     datap: $('#datap').val(),
-                                    IdDoMaterial: $('#IdDoMaterial').val()
+                                    IdDoMaterial: $('#IdDoMaterial').val(),
+                                    Status: $('#Status').val()
                                 };
                             }
                         }
@@ -156,7 +159,11 @@
                     },
                     {
                         width: 90,
-                        field: "DataDoPedido",
+                        field: "Status"
+                    },
+                    {
+                        width: 90,
+                        field: "DataDeCriacao",
                         title: "Data de Criação"
                     },
                     {

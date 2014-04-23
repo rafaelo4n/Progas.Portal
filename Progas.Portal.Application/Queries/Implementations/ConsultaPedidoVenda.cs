@@ -41,7 +41,8 @@ namespace Progas.Portal.Application.Queries.Implementations
                 .DataCriacaoContendo(filtro.datacp)
                 .PedidoCodigoContendo(filtro.id_pedido)
                 .DataPedidoContendo(filtro.datap)
-                .CotacaoRepresentante(usuarioConectado.CodigoDoFornecedor);
+                .CotacaoRepresentante(usuarioConectado.CodigoDoFornecedor)
+                .NoStatus(filtro.Status);
 
 
             var kendoGridVmn = new KendoGridVm()
@@ -51,6 +52,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                     new PedidoVendaListagemVm
                     {
                         IdDaCotacao = pedido.Id_cotacao,
+                        Status = pedido.Status.Descricao,
                         NumeroDoPedido = pedido.NumeroDoPedidoDoRepresentante,
                         DataDeCriacao =  pedido.Datacp.ToString("dd/MM/yyyy HH:mm:ss"),
                         DataDoPedido =  pedido.Datap.ToShortDateString(),

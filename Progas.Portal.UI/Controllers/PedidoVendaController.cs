@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Progas.Portal.Application.Queries.Contracts;
+using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.UI.Filters;
 using Progas.Portal.ViewModel;
 
@@ -13,30 +15,28 @@ namespace Progas.Portal.UI.Controllers
         #region Repositorios
 
         private readonly IConsultaTipoPedido _consultaTipoPedido;
-        private readonly IConsultaCondicaoPagamento _consultaCondicaoPagamento;
         private readonly IConsultaListaPreco _consultaListaPreco;
         private readonly IConsultaMaterial _consultaMaterial;
         private readonly IConsultaIncotermCab _consultaIncotermCab;
         private readonly IConsultaPedidoVenda _consultaPedidoVenda;
-
+        private readonly IConsultaStatusDoPedidoDeVenda _consultaStatusDoPedidoDeVenda;
         private readonly IConsultaMotivoDeRecusa _consultaMotivoDeRecusa;
 
         // implementa os valores dos repositorios que serao usados nas views (Lista de valrores dos campos)
-        public PedidoVendaController(
-            IConsultaCondicaoPagamento consultaCondicaoPagamento,
-            IConsultaTipoPedido consultaTipoPedido,
+        public PedidoVendaController(IConsultaTipoPedido consultaTipoPedido,
             IConsultaListaPreco consultaListaPreco,
             IConsultaMaterial consultaMaterial,
             IConsultaIncotermCab consultaIncotermCab,
-            IConsultaPedidoVenda consultaPedidoVenda, IConsultaMotivoDeRecusa consultaMotivoDeRecusa)
+            IConsultaPedidoVenda consultaPedidoVenda, IConsultaMotivoDeRecusa consultaMotivoDeRecusa,
+            IConsultaStatusDoPedidoDeVenda consultaStatusDoPedidoDeVenda)
         {
-            _consultaCondicaoPagamento = consultaCondicaoPagamento;
             _consultaTipoPedido = consultaTipoPedido;
             _consultaListaPreco = consultaListaPreco;
             _consultaMaterial = consultaMaterial;
             _consultaIncotermCab = consultaIncotermCab;
             _consultaPedidoVenda = consultaPedidoVenda;
             _consultaMotivoDeRecusa = consultaMotivoDeRecusa;
+            _consultaStatusDoPedidoDeVenda = consultaStatusDoPedidoDeVenda;
         }
 
         #endregion
@@ -113,6 +113,14 @@ namespace Progas.Portal.UI.Controllers
         // Consulta Pedido de Venda
         public ActionResult Consultar()
         {
+            ViewBag.ListaDeStatus = _consultaStatusDoPedidoDeVenda.ListarTodos().Select(status =>
+                new SelectListItem
+                {
+                    Value = status.Codigo,
+                    Text = status.Descricao,
+                    Selected = false
+
+                });
             return View("_ConsultarPedidoVenda");
         }
 
