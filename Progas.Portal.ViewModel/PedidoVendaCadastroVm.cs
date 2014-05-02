@@ -48,12 +48,12 @@ namespace Progas.Portal.ViewModel
         [Display(Name = "Condição Pagamento:")]
         public string condpgto { get; set; }
 
-        [Display(Name = "Incoterm 1: ")]
-        [Required(ErrorMessage = "Incoterm 1 é obrigatória")]
+        [Display(Name = "Tipo de Frete: ")]
+        [Required(ErrorMessage = "Tipo de Frete é obrigatório")]
         public string IdDoIncoterm1 { get; set; }
 
-        [Display(Name = "Incoterm 2: ")]
-        [Required(ErrorMessage = "Incoterm 2 é obrigatória")]
+        [Display(Name = "Modelo de Frete: ")]
+        [Required(ErrorMessage = "Modelo de Frete é obrigatório")]
         public string IdDoIncoterm2 { get; set; }
 
         [Display(Name = "Representante: ")]

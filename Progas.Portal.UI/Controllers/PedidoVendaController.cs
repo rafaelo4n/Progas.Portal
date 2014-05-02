@@ -60,7 +60,7 @@ namespace Progas.Portal.UI.Controllers
         {
             PrepararViewBagParaTelaDeCadastroDePedido();
             ViewBag.TituloDaPagina = "Criar Pedido de Venda";
-            return View("_CriarPedidoVenda");
+            return View("_CriarPedidoVenda", new PedidoVendaCadastroVm{datap = DateTime.Today.ToShortDateString()});
 
         }
 
@@ -101,6 +101,7 @@ namespace Progas.Portal.UI.Controllers
             pedidoVendaCadastroVm.id_pedido = "";
             pedidoVendaCadastroVm.NumeroPedidoDoCliente = "";
             pedidoVendaCadastroVm.status = "";
+            pedidoVendaCadastroVm.datap = DateTime.Today.ToShortDateString();
             return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
             
         }

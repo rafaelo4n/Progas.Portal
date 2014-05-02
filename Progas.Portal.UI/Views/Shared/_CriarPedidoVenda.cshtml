@@ -73,7 +73,7 @@
                 @Html.LinhaComSeisColunas(comboDeAreaDeVendas,
                     new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.id_centro,"campomedio campoDesabilitado"),
                     condpgto,
-                    new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.datap, "campomedio campoDatePicker maskdata"),
+                    new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.datap, new{@readonly=true, @class="campomedio campoDesabilitado maskdata"}),
                     new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.id_pedido,"campomedio"),
                     new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.NumeroPedidoDoCliente, "campomedio")
                     )
@@ -109,10 +109,10 @@
                 
                 @{
                     var buscaDeTransportadoraDeRedespacho = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespacho.Codigo,
-                        new { @readonly = true, @class = "campomedio campoDesabilitado" },"Código Transp Redespacho:", "btnSelecionarTransportadoraDeRedespacho", "button_visualize");
+                        new { @readonly = true, @class = "campomedio campoDesabilitado" },"Cód Transp Redesp FOB:", "btnSelecionarTransportadoraDeRedespacho", "button_visualize");
 
                     var campoComNomeDaTransportadoraDeRedespacho = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespacho.Nome, 
-                        new{@class="campogrande campoDesabilitado"} , "Nome Transp Redespacho:");
+                        new{@class="campogrande campoDesabilitado"} , "Nome Transp Redesp FOB:");
 
                     var buscaDeTransportadoraDeRedespachoCif = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespachoCif.Codigo,
                         new { @readonly = true, @class = "campomedio campoDesabilitado" }, "Cód Transp Redespacho Cif:", "btnSelecionarTransportadoraDeRedespachoCif", "button_visualize");
@@ -170,16 +170,16 @@
                     var comboDeMotivoDeRecusa = new ColunaComDropDown<PedidoVendaCadastroVm, string>(x => x.motrec, motivosDeRecusa, "CodigoDoMotivoDeRecusa");
                 }
 
-
-                
-                
                 @Html.LinhaComQuatroColunas(new ColunaComTextBox<PedidoVendaCadastroVm, decimal>(x => x.Quant,"maskquantidade campopequeno"),listapreco,
                     new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Desconto, "maskquantidade campopequeno")
                     , comboDeMotivoDeRecusa)
 
-                <div class="divBotao">
+                <div class="divBotao" style="padding-left: 10%">
                     <input type="button" id="btnAdicionarItem" value="Adicionar" class="blue" />
                     <input type="button" id="btnCancelarEdicao" value="Cancelar" class="blue"  style="display: none"/>
+                    <div style="width: 25%; margin-right: 3%; float: right">
+                        <span class="labelDestaque" >Descontos de Política são adicionados automaticamente!</span>
+                    </div>
                 </div>
                     
             </form>           
@@ -380,6 +380,10 @@
             $("#TransportadoraDeRedespachoCif_Nome").val('');
         }
 
+        function inicializarFormularioDoItem() {
+            $('#formItens :input:not([type=button])').val('');
+        }
+
         function removerItens() {
             $('#IdDoMaterial').val('');
             $('#CodigoDoMaterial').val('');
@@ -392,7 +396,7 @@
             }
         }
 
-        var carregando = '@(Model != null)'.boolean();
+        var carregando = '@(Model != null && !string.IsNullOrEmpty(Model.id_cotacao) )'.boolean();
 
         $(function() {
             aplicaMascaraData();
@@ -529,6 +533,7 @@
                 indiceEdicao = -1;
                 $('#btnAdicionarItem').val('Adicionar');
                 $('#btnCancelarEdicao').hide();
+                inicializarFormularioDoItem();
             }
 
             $('#btnCancelarEdicao').click(function() {
@@ -579,6 +584,8 @@
                 }
 
                 atualizaGrid();
+
+                inicializarFormularioDoItem();
             });
 
             function permiteAlterarItem(dataItem) {
@@ -927,19 +934,17 @@
                 enviarPedido(gravar, "O Pedido foi gravado com sucesso.");
             });
 
-            function habilitarCampoData() {
-                $('#Data')
-                    .attr('readonly', false)
-                    .removeClass('campoDesabilitado')
-                    .val('');
-
-                $("#Data").datepicker();
+            function convertDate(data) {
+                function pad(s) { return (s < 10) ? '0' + s : s; }
+                return [pad(data.getDate()), pad(data.getMonth() + 1), data.getFullYear()].join('/');
             }
 
             $('#btnNovo').click(function () {
                 $('form :input').removeAttr('disabled');
 
                 $('form :input:not([type=button])').val('');
+
+                $('#datap').val(convertDate(new Date()));
 
                 $('#Copiar :input:not([type=button])')
                     .removeAttr('disabled')
@@ -950,7 +955,6 @@
                     .removeClass('desabilitado')
                     .addClass('blue');
 
-                habilitarCampoData();
                 removerItens();
             });
 
