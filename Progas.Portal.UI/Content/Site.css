@@ -638,11 +638,7 @@ input[type="checkbox"].input-validation-error {
     padding-right: 1px;
     /*border: solid 0.5px gray*/
 }
-/*.paginaCadastro legend .visivel {
-    display: inline
-}*/
-.button_edit{
-    background-image: url(/images/icons/editar_16.png); /* 16px x 16px */
+.button_edit, .button_remove, .button_add, .button_visualize,.button_schedule, .button_sendmail, .button_information, .button_rubber{
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
@@ -652,81 +648,39 @@ input[type="checkbox"].input-validation-error {
     width: 16px;
     padding-left: 32px;     /* make text start to the right of the image */
     vertical-align: middle; /* align the text vertically centered */
+}
+
+.button_edit {
+    background-image: url(/images/icons/editar_16.png); /* 16px x 16px */
+
 }
 .button_remove{
     background-image: url(/images/icons/DeleteRed_16.png); /* 16px x 16px */
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0 0;  /* equivalent to 'top left' */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 16px;           /* make this the size of your image */
-    width: 16px;
-    padding-left: 32px;     /* make text start to the right of the image */
-    vertical-align: middle; /* align the text vertically centered */
 }
 .button_add{
     background-image: url(/images/icons/add_16.png); /* 16px x 16px */
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0 0;  /* equivalent to 'top left' */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 16px;           /* make this the size of your image */
-    width: 16px;
-    padding-left: 32px;     /* make text start to the right of the image */
-    vertical-align: middle; /* align the text vertically centered */
 }
 .button_visualize{
     background-image: url(/images/icons/mag_16.png); /* 16px x 16px */
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0 0;  /* equivalent to 'top left' */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 16px;           /* make this the size of your image */
-    width: 16px;
-    /*padding-left: 32px; */    /* make text start to the right of the image */
-    vertical-align: middle; /* align the text vertically centered */
+    padding-left: 0.5em; 
 }
 
 .button_schedule{
-    background-image: url(/images/icons/schedule_16.png); /* 16px x 16px */
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0 0;  /* equivalent to 'top left' */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 16px;           /* make this the size of your image */
-    width: 16px;
-    padding-left: 32px;     /* make text start to the right of the image */
-    vertical-align: middle; /* align the text vertically centered */
+    background-image: url(/images/icons/schedule_16.png); 
 }
 
 .button_sendmail{
-    background-image: url(/images/icons/enviar_email_16.png); /* 16px x 16px */
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0 0;  /* equivalent to 'top left' */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 16px;           /* make this the size of your image */
-    width: 16px;
-    padding-left: 32px;     /* make text start to the right of the image */
-    vertical-align: middle; /* align the text vertically centered */
+    background-image: url(/images/icons/enviar_email_16.png); 
 }
 .button_information{
     background-image: url(/images/icons/information_16.png);
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    border: none;
-    cursor: pointer;
-    height: 16px;
-    width: 16px;
-    padding-left: 32px;
-    vertical-align: middle;
 }
+
+.button_rubber{
+    background-image: url(/images/icons/rubber_16.png);
+    padding-left: 0.5em;
+}
+
 
 .gradienteVerde{
 	background: #c9de96; /* Old browsers */

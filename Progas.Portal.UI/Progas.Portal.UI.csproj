@@ -300,6 +300,7 @@
     <Content Include="Images\icons\enviar_email_16.png" />
     <Content Include="Images\icons\information_16.png" />
     <Content Include="Images\icons\mag_16.png" />
+    <Content Include="Images\icons\rubber_16.png" />
     <Content Include="Images\icons\schedule_16.png" />
     <Content Include="Images\banner.JPG" />
     <Content Include="Scripts\AgendamentoDeCarga\Cadastro.js" />

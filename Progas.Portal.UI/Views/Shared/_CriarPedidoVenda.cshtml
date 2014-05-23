@@ -97,7 +97,7 @@
 
                     var buscaDeTransportadora = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, object>(x => x.Transportadora.Codigo,
                         new { @readonly = true, @class = "campomedio campoDesabilitado" },"Código Transportadora:", 
-                        "btnSelecionarTransportadora", "button_visualize");
+                        "btnSelecionarTransportadora", "button_visualize","btnLimparTransportadora");
 
                     var campoComNomeDaTransportadora = new ColunaComTextBox<PedidoVendaCadastroVm, object>(x => x.Transportadora.Nome, 
                         new { @class = "campogrande campoDesabilitado" },"Nome Transportadora:");
@@ -109,13 +109,13 @@
                 
                 @{
                     var buscaDeTransportadoraDeRedespacho = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespacho.Codigo,
-                        new { @readonly = true, @class = "campomedio campoDesabilitado" },"Cód Transp Redesp FOB:", "btnSelecionarTransportadoraDeRedespacho", "button_visualize");
+                        new { @readonly = true, @class = "campomedio campoDesabilitado" },"Cód Transp Redesp FOB:", "btnSelecionarTransportadoraDeRedespacho", "button_visualize", "btnLimparTransportadoraDeRedespacho");
 
                     var campoComNomeDaTransportadoraDeRedespacho = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespacho.Nome, 
                         new{@class="campogrande campoDesabilitado"} , "Nome Transp Redesp FOB:");
 
                     var buscaDeTransportadoraDeRedespachoCif = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespachoCif.Codigo,
-                        new { @readonly = true, @class = "campomedio campoDesabilitado" }, "Cód Transp Redespacho Cif:", "btnSelecionarTransportadoraDeRedespachoCif", "button_visualize");
+                        new { @readonly = true, @class = "campomedio campoDesabilitado" }, "Cód Transp Redespacho Cif:", "btnSelecionarTransportadoraDeRedespachoCif", "button_visualize", "btnLimparTransportadoraDeRedespachoCif");
                     
                     var campoComNomeDaTransportadoraDeRedespachoCif = new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.TransportadoraDeRedespachoCif.Nome,
                         new{@class="campogrande campoDesabilitado"} , "Nome Transp Redespacho Cif:");
@@ -431,6 +431,24 @@
             };
 
             selecionarTransportadoraDeRedespachoCif.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespachoCif_Codigo", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif", '#AreaDeVenda', funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
+
+            $('#btnLimparTransportadora').click(function() {
+                $("#Transportadora_Codigo").val('');
+                $("#Transportadora_Nome").val('');
+                selecionarTransportadora.removerSelecao();
+            });
+
+            $('#btnLimparTransportadoraDeRedespacho').click(function () {
+                $("#TransportadoraDeRedespacho_Codigo").val('');
+                $("#TransportadoraDeRedespacho_Nome").val('');
+                selecionarTransportadoraDeRedespacho.removerSelecao();
+            });
+
+            $('#btnLimparTransportadoraDeRedespachoCif').click(function () {
+                $("#TransportadoraDeRedespachoCif_Codigo").val('');
+                $("#TransportadoraDeRedespachoCif_Nome").val('');
+                selecionarTransportadoraDeRedespachoCif.removerSelecao();
+            });
 
             var selecionarCliente = new SelecionarCliente();
             var funcaoParaRetornarCamposDaBuscaDeCliente = function() {

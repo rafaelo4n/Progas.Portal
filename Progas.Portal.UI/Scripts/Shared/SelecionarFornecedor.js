@@ -206,6 +206,8 @@
         configurarJanelaModal(idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, idDoCampoDaAreaDeVenda, funcaoParaPreencherOsDadosDeRetorno);
     };
 
-
+    this.removerSelecao = function() {
+        this.fornecedorSelecionado = null;
+    }
 
 }
