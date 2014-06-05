@@ -85,7 +85,7 @@ namespace Progas.Portal.ViewModel
         public string CodigoDaListaDePreco { get; set; }
 
         // Desconto Manual
-        [Display(Name = "Desconto:")]
+        [Display(Name = "Desconto Autorizado Fábrica:")]
         public string Desconto { get; set; }
 
         [Display(Name = "Área de Venda:")]

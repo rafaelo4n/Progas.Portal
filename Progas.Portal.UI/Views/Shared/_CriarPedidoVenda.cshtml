@@ -170,7 +170,7 @@
                     var comboDeMotivoDeRecusa = new ColunaComDropDown<PedidoVendaCadastroVm, string>(x => x.motrec, motivosDeRecusa, "CodigoDoMotivoDeRecusa");
                 }
 
-                @Html.LinhaComQuatroColunas(new ColunaComTextBox<PedidoVendaCadastroVm, decimal>(x => x.Quant,"maskquantidade campopequeno"),listapreco,
+                @Html.LinhaComQuatroColunas(new ColunaComTextBox<PedidoVendaCadastroVm, decimal>(x => x.Quant,"maskquantidade campomedio"),listapreco,
                     new ColunaComTextBox<PedidoVendaCadastroVm, string>(x => x.Desconto, "maskquantidade campopequeno")
                     , comboDeMotivoDeRecusa)
 
