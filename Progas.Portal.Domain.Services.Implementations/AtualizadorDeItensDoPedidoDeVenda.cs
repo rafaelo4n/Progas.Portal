@@ -86,7 +86,7 @@ namespace Progas.Portal.Domain.Services.Implementations
             }
 
             IEnumerable<PedidoVendaSalvarItemVm> itensParaAdicionar = pedidoAlterado.Itens.Where(
-                itemAlterado => pedidoVenda.Itens.All(itemAtual => itemAtual.Id != itemAlterado.IdDoItem));
+                itemAlterado => itemAlterado.IdDoItem == 0);
 
             foreach (var itemParaAdicionar in itensParaAdicionar)
             {

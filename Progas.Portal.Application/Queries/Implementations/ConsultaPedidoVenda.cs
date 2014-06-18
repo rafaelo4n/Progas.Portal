@@ -59,6 +59,8 @@ namespace Progas.Portal.Application.Queries.Implementations
                         NomeDoCliente =  pedido.Cliente.Nome,
                         ValorTotal = pedido.ValorTotal
                     })
+                    .Skip(paginacaoVm.Skip)
+                    .Take(paginacaoVm.Take)
                     .Cast<ListagemVm>()
                     .ToList()
             };

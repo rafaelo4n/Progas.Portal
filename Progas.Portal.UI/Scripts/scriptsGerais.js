@@ -119,7 +119,7 @@ $.fn.customKendoGrid = function (configuracao) {
         configuracao.pageable =
         {
             refresh: true,
-            pageSizes: true,
+            pageSizes: [5,10,20,50,100],
             messages: {
                 display: '{0:n0} - {1:n0} de {2:n0} registros',
                 empty: 'Nenhum registro encontrado',
