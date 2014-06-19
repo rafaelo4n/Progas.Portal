@@ -177,7 +177,7 @@ namespace Progas.Portal.Application.Queries.Implementations
 
         }
 
-        public IList<CondicaoDePagamentoCadastroVm> ListarCondicoesDePagamento(string idDoCliente)
+        public IList<CondicaoDePagamentoCadastroVm> ListarCondicoesDePagamento(string idDoCliente, string codigoDaCondicaoDePagamento)
         {
             IQueryable<Cliente> queryable = _clientes
                 .BuscaPeloCodigo(idDoCliente)
@@ -186,7 +186,7 @@ namespace Progas.Portal.Application.Queries.Implementations
             var condicoesDePagamento = (from cliente in queryable
                 from condicaoDoCliente in cliente.CondicoesDePagamento
                 let condicaoDePagamento = condicaoDoCliente.CondicaoDePagamento
-                where (condicaoDoCliente.Eliminacao == null || condicaoDoCliente.Eliminacao != "X")
+                where (condicaoDoCliente.Eliminacao == null || condicaoDoCliente.Eliminacao != "X" || codigoDaCondicaoDePagamento == null || condicaoDePagamento.Codigo == codigoDaCondicaoDePagamento)
                       && condicaoDoCliente.DataDeValidade >= DateTime.Today
                       && (condicaoDePagamento.Eliminacao == null || condicaoDePagamento.Eliminacao != "X")
                 select new CondicaoDePagamentoCadastroVm

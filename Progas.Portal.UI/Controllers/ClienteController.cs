@@ -16,11 +16,11 @@ namespace Progas.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult ListarCondicoesDePagamento(string idDoCliente)
+        public ActionResult ListarCondicoesDePagamento(string idDoCliente,string  codigoDaCondicaoDePagamento)
         {
             try
             {
-                IList<CondicaoDePagamentoCadastroVm> condicoesDePagamento = _consultaCliente.ListarCondicoesDePagamento(idDoCliente);
+                IList<CondicaoDePagamentoCadastroVm> condicoesDePagamento = _consultaCliente.ListarCondicoesDePagamento(idDoCliente,codigoDaCondicaoDePagamento);
                 return Json(new { Sucesso = true, condicoesDePagamento}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

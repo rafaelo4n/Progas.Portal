@@ -18,11 +18,11 @@ namespace Progas.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult ListarPorCliente(string idDoCliente)
+        public ActionResult ListarPorCliente(string idDoCliente, int? idDaAreaDeVenda)
         {
             try
             {
-                IList<AreaDeVendaVm> areasDeVenda = _consultaAreasDeVenda.ListarPorCliente(idDoCliente);
+                IList<AreaDeVendaVm> areasDeVenda = _consultaAreasDeVenda.ListarPorCliente(idDoCliente,idDaAreaDeVenda);
                 return Json(new{Sucesso = true, areasDeVenda}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

@@ -1,4 +1,6 @@
-﻿using Progas.Portal.Infra.Repositories.Contracts;
+﻿using System.Collections.Generic;
+using NHibernate.Linq;
+using Progas.Portal.Infra.Repositories.Contracts;
 using System.Linq;
 using Progas.Portal.Domain.Entities;
 
@@ -23,6 +25,15 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         {
             Query = Query.Where(x => x.Cliente.Id_cliente == idDoCliente);
             return this;
+        }
+
+        public IList<ClienteVenda> CarregarSempre(int idDaAreaDeVenda)
+        {
+            List<ClienteVenda> carregarSempre = UnitOfWorkNh.Session.Query<ClienteVenda>()
+                .Where(x => x.Id == idDaAreaDeVenda)
+                .ToList();
+
+            return Query.ToList().Union(carregarSempre).ToList();
         }
 
         public ClienteVenda ObterPorId(int idDaAreaDeVenda)

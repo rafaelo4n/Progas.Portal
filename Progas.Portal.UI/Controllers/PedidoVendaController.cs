@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Progas.Portal.Application.Queries.Contracts;
-using Progas.Portal.Infra.Repositories.Contracts;
+using Progas.Portal.DTO;
 using Progas.Portal.UI.Filters;
 using Progas.Portal.ViewModel;
 
@@ -21,6 +21,7 @@ namespace Progas.Portal.UI.Controllers
         private readonly IConsultaPedidoVenda _consultaPedidoVenda;
         private readonly IConsultaStatusDoPedidoDeVenda _consultaStatusDoPedidoDeVenda;
         private readonly IConsultaMotivoDeRecusa _consultaMotivoDeRecusa;
+        private readonly IConsultaUsuario _consultaUsuario;
 
         // implementa os valores dos repositorios que serao usados nas views (Lista de valrores dos campos)
         public PedidoVendaController(IConsultaTipoPedido consultaTipoPedido,
@@ -28,7 +29,7 @@ namespace Progas.Portal.UI.Controllers
             IConsultaMaterial consultaMaterial,
             IConsultaIncotermCab consultaIncotermCab,
             IConsultaPedidoVenda consultaPedidoVenda, IConsultaMotivoDeRecusa consultaMotivoDeRecusa,
-            IConsultaStatusDoPedidoDeVenda consultaStatusDoPedidoDeVenda)
+            IConsultaStatusDoPedidoDeVenda consultaStatusDoPedidoDeVenda, IConsultaUsuario consultaUsuario)
         {
             _consultaTipoPedido = consultaTipoPedido;
             _consultaListaPreco = consultaListaPreco;
@@ -37,6 +38,7 @@ namespace Progas.Portal.UI.Controllers
             _consultaPedidoVenda = consultaPedidoVenda;
             _consultaMotivoDeRecusa = consultaMotivoDeRecusa;
             _consultaStatusDoPedidoDeVenda = consultaStatusDoPedidoDeVenda;
+            _consultaUsuario = consultaUsuario;
         }
 
         #endregion
@@ -122,7 +124,10 @@ namespace Progas.Portal.UI.Controllers
                     Selected = false
 
                 });
-            return View("_ConsultarPedidoVenda");
+
+            RepresentanteDTO representanteDTO = _consultaUsuario.RepresentanteDoUsuarioLogado();
+
+            return View("_ConsultarPedidoVenda",representanteDTO);
         }
 
         // Listar Pedido Venda

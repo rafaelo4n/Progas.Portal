@@ -4,6 +4,7 @@ using Progas.Portal.Application.Queries.Builders;
 using Progas.Portal.Application.Queries.Contracts;
 using Progas.Portal.Common;
 using Progas.Portal.Domain.Entities;
+using Progas.Portal.DTO;
 using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.ViewModel;
 
@@ -58,6 +59,22 @@ namespace Progas.Portal.Application.Queries.Implementations
 
             return usuario != null ? login : null;
 
+        }
+
+        public RepresentanteDTO RepresentanteDoUsuarioLogado()
+        {
+            Usuario usuarioConectado = _usuarios.UsuarioConectado();
+
+            if (usuarioConectado.Fornecedor == null)
+            {
+                return null;
+            }
+            return new RepresentanteDTO
+            {
+                Codigo = usuarioConectado.Fornecedor.Codigo,
+                Nome = usuarioConectado.Fornecedor.Nome
+            };
+             
         }
     }
 }

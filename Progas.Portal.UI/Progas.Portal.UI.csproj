@@ -381,7 +381,6 @@
     <Content Include="Scripts\scriptsGerais.js" />
     <Content Include="Scripts\Shared\SelecionarCliente.js" />
     <Content Include="Scripts\Shared\SelecionarProduto.js" />
-    <Content Include="Scripts\Shared\SelecionarRepresentante.js" />
     <Content Include="Scripts\Shared\SelecionarFornecedor.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

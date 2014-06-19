@@ -13,19 +13,15 @@ namespace Progas.Portal.Application.Queries.Implementations
     public class ConsultaPedidoVenda : IConsultaPedidoVenda
     {
         private readonly IPedidosVenda _pedidosVenda;
-        private readonly IUsuarios _usuarios;
 
-        public ConsultaPedidoVenda(IPedidosVenda pedidosVenda, IUsuarios usuarios)
+        public ConsultaPedidoVenda(IPedidosVenda pedidosVenda)
         {
             _pedidosVenda = pedidosVenda;
-            _usuarios = usuarios;
         }
 
         // Pesquisa da tela de Listar Pedidos ( Cabecalho)
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, PedidoVendaFiltroVm filtro)
         {
-            var usuarioConectado = _usuarios.UsuarioConectado();
-
             if (!string.IsNullOrEmpty(filtro.CodigoDoCliente))
             {
                 _pedidosVenda.DoCliente(filtro.CodigoDoCliente);
@@ -41,7 +37,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                 .DataCriacaoContendo(filtro.datacp)
                 .PedidoCodigoContendo(filtro.id_pedido)
                 .DataPedidoContendo(filtro.datap)
-                .CotacaoRepresentante(usuarioConectado.CodigoDoFornecedor)
+                .CotacaoRepresentante(filtro.CodigoDoRepresentante)
                 .NoStatus(filtro.Status);
 
 

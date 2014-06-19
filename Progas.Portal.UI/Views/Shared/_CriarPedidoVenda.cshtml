@@ -225,7 +225,7 @@
         var copia = '@(Model != null && Model.Copia )'.boolean();
         var edicao = !copia && '@(Model != null && !string.IsNullOrEmpty(Model.id_cotacao))'.boolean();
 
-        function carregarAreasDeVenda(idDoCliente, callBack) {
+        function carregarAreasDeVenda(idDoCliente, callBack, idDaAreaDeVendaSelecionada) {
             ///<param name="callBack">funcao para executar alguma ação após carregar as áreas de venda. Por exemplo, setar um valor</param>
             var comboDeAreaDeVenda = $('#AreaDeVenda');
             comboDeAreaDeVenda
@@ -233,7 +233,7 @@
                 .change();
 
             $.ajax({
-                url: '@Url.Action("ListarPorCliente", "AreaDeVenda")' + '/?idDoCliente=' + idDoCliente,
+                url: '@Url.Action("ListarPorCliente", "AreaDeVenda")' + '/?idDoCliente=' + idDoCliente + '&idDaAreaDeVenda=' + (somenteLeitura ? idDaAreaDeVendaSelecionada: null),
                 type: 'GET',
                 cache: false,
                 contentType: "application/json; charset=utf-8",
@@ -262,7 +262,7 @@
 
         }
 
-        function carregarCondicoesDePagamento(idDoCliente, callBack) {
+        function carregarCondicoesDePagamento(idDoCliente, callBack, codigoDaCondicaoDePagamentoSelecionada) {
             ///<param name="callBack">funcao para executar alguma ação após carregar as condições de pagamento. Por exemplo, setar um valor</param>
             var comboDeCondicaoDePagamento = $('#condpgto');
             comboDeCondicaoDePagamento
@@ -270,7 +270,7 @@
                 .change();
 
             $.ajax({
-                url: '@Url.Action("ListarCondicoesDePagamento", "Cliente")' + '/?idDoCliente=' + idDoCliente,
+                url: '@Url.Action("ListarCondicoesDePagamento", "Cliente")' + '/?idDoCliente=' + idDoCliente + "&codigoDaCondicaoDePagamento=" + (somenteLeitura ? codigoDaCondicaoDePagamentoSelecionada : null),
                 type: 'GET',
                 cache: false,
                 contentType: "application/json; charset=utf-8",
@@ -509,7 +509,7 @@
 
                     carregando = false;
 
-                });
+                }, idDaAreaDeVenda);
 
                 carregarIncoterm2($('#Inco1').val(), function() {
                     $('#Inco2').val(idDoIncoterm2);
@@ -517,7 +517,7 @@
 
                 carregarCondicoesDePagamento(idDoCliente,function() {
                     $('#condpgto').val(codigoDaCondicaoDePagamento);
-                });
+                }, codigoDaCondicaoDePagamento);
 
                 if (edicao) {
                     $('#btnGravar').val('Gravar Edição');
@@ -966,6 +966,10 @@
                     .removeAttr('disabled')
                     .val('');
 
+                $('#AreaDeVenda').children(':not(:first)').remove();
+                $('#condpgto').children(':not(:first)').remove();
+                $('#Inco2').children(':not(:first)').remove();
+
                 $('#btnGravar, #btnSimular, #btnAdicionarItem')
                     .removeAttr('disabled')
                     .removeClass('desabilitado')
@@ -1010,4 +1014,4 @@
         });
     </script>
 
-},
+}

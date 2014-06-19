@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Progas.Portal.DTO;
 using Progas.Portal.ViewModel;
 
 namespace Progas.Portal.Application.Queries.Contracts
@@ -9,5 +10,6 @@ namespace Progas.Portal.Application.Queries.Contracts
         UsuarioConsultaVm ConsultaPorLogin(string login);
         IList<PerfilVm> PerfisDoUsuario(string login);
         string ConfirmaLogin(string login);
+        RepresentanteDTO RepresentanteDoUsuarioLogado();
     }
 }
