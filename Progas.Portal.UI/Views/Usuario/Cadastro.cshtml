@@ -39,7 +39,8 @@
         @Html.LinhaComDuasColunas(new ColunaComTextBox<UsuarioConsultaVm, string>(x => x.Login,atributosDoCampoDeLogin), 
             new ColunaComTextBox<UsuarioConsultaVm, string>(x => x.Nome,new{@class="campogrande", @maxlength=80}))
         @Html.LinhaComDuasColunas(new ColunaComTextBox<UsuarioConsultaVm, string>(x => x.Email,new{@class="campogrande", @maxlength=240}),
-            new ColunaComBotaoDeBusca<UsuarioConsultaVm, string>(x => x.NomeDoRepresentante, new { @class = "campogrande campoDesabilitado", @readonly = true }, "btnSelecionarRepresentante", "button_visualize"))
+            new ColunaComBotaoDeBusca<UsuarioConsultaVm, string>(x => x.NomeDoRepresentante, new { @class = "campogrande campoDesabilitado", @readonly = true }, 
+                "btnSelecionarRepresentante", "button_visualize","btnLimparRepresentante"))
         @Html.LinhaComUmaColuna(new ColunaComLabel<UsuarioConsultaVm, string>(x => x.Status))
         
         @Html.HiddenFor(x => x.CodigoFornecedor)
@@ -140,7 +141,7 @@
                 [
                     {
                         field: 'Codigo',
-                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        title: ' ',
                         width: 40,
                         sortable: false,
                         template: '<input type="button" class="button_add" data-codigoperfil="${Codigo}"></input>'
@@ -190,7 +191,13 @@
             return '@(!string.IsNullOrEmpty(Model.Login) ? Model.Login : "")';
         }
 
-        $(function() {
+        $(function () {
+
+            $('#btnLimparRepresentante').click(function() {
+                $('#CodigoFornecedor').val('');
+                $('#NomeDoRepresentante').val('');
+                selecionarRepresentante.removerSelecao();
+            });
 
             $.ajax({
                 url: '@Url.Action("Listar", "Perfil")',
@@ -316,7 +323,7 @@
                 $.ajax({
                     url: '@Url.Action("Ativar", "GerenciadorUsuario")',
                     type: 'POST',
-                    data: { Login: '@Model.Login' },
+                    data: { Login: $('#Login').val() },
                     cache: false,
                     dataType: 'json',
                     success: function(data) {
@@ -337,7 +344,7 @@
                 $.ajax({
                     url: '@Url.Action("Bloquear", "GerenciadorUsuario")',
                     type: 'POST',
-                    data: { Login: '@Model.Login' },
+                    data: { Login: $('#Login').val() },
                     cache: false,
                     dataType: 'json',
                     success: function(data) {
@@ -359,7 +366,7 @@
                 $.ajax({
                     url: '@Url.Action("CriarSenha", "GerenciadorUsuario")',
                     type: 'POST',
-                    data: { Login: '@Model.Login' },
+                    data: { Login: $('#Login').val() },
                     cache: false,
                     dataType: 'json',
                     success: function(data) {

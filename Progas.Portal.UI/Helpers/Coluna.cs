@@ -125,14 +125,14 @@ namespace Progas.Portal.UI.Helpers
         private readonly string _idDoBotaoParaLimparCampos;
 
         public ColunaComBotaoDeBusca(Expression<Func<TModel, TValue>> expressao, object inputAttributes, string idDoBotaoDeBusca, string classeDoBotao)
-            : base(expressao, inputAttributes, null, true)
-        {
-            _idDoBotaoDeBusca = idDoBotaoDeBusca;
-            _classeDoBotao = classeDoBotao;
-            _idDoBotaoParaLimparCampos = "";
-        }
+            : this(expressao, inputAttributes, idDoBotaoDeBusca,classeDoBotao,""){}
 
-        public ColunaComBotaoDeBusca(Expression<Func<TModel, TValue>> expressao, object inputAttributes, string textoDaLabel, string idDoBotaoDeBusca, string classeDoBotao, string idDoBotaoParaLimparCampos)
+        public ColunaComBotaoDeBusca(Expression<Func<TModel, TValue>> expressao, object inputAttributes, string idDoBotaoDeBusca, string classeDoBotao, string idDoBotaoParaLimparCampos)
+            : this(expressao,inputAttributes,"",idDoBotaoDeBusca,classeDoBotao,idDoBotaoParaLimparCampos){}
+
+
+        public ColunaComBotaoDeBusca(Expression<Func<TModel, TValue>> expressao, object inputAttributes, string textoDaLabel, string idDoBotaoDeBusca, 
+            string classeDoBotao, string idDoBotaoParaLimparCampos)
             : base(expressao,textoDaLabel, inputAttributes,null, true)
         {
             _idDoBotaoDeBusca = idDoBotaoDeBusca;

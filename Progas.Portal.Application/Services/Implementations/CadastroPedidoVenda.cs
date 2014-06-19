@@ -117,6 +117,7 @@ namespace Progas.Portal.Application.Services.Implementations
                     pedidoVenda = _pedidosVenda.FiltraPorId(pedido.IdDaCotacao).Single();
 
                     pedidoVenda
+                        .AlterarTipo(pedido.Tipo)
                         .AlterarCliente(clienteVenda, cliente)
                         .AlterarTransportadora(transportadorasDoPedido.Transportadora, transportadorasDoPedido.TransportadoraDeRedespacho, transportadorasDoPedido.TransportadoraDeRedespachoCif)
                         .AlterarIncoterm(incoterm1, incoterm2)

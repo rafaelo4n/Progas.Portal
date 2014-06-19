@@ -125,5 +125,12 @@ namespace Progas.Portal.Domain.Entities
 
             return this;
         }
+
+        public virtual PedidoVenda AlterarTipo(string tipo)
+        {
+            this.Tipo = tipo;
+
+            return this;
+        }
     }
 }
