@@ -149,6 +149,7 @@
     <Compile Include="Business\Implementation\CondicaoPagamentoRepository.cs" />
     <Compile Include="Business\Implementation\FornecedorEmpresaRepository.cs" />
     <Compile Include="Business\Implementation\FornecedorRepository.cs" />
+    <Compile Include="Business\Implementation\FornecedorTransportadoraLiberadaRepository.cs" />
     <Compile Include="Business\Implementation\IncotermsCabRepository.cs" />
     <Compile Include="Business\Implementation\IncotermsLinhaRepository.cs" />
     <Compile Include="Business\Implementation\MaterialRepository.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Business\Repository\ICondicaoPagamentoRepository.cs" />
     <Compile Include="Business\Repository\IFornecedorEmpresaRepository.cs" />
     <Compile Include="Business\Repository\IFornecedorRepository.cs" />
+    <Compile Include="Business\Repository\IFornecedorTransportadoraLiberadaRepository.cs" />
     <Compile Include="Business\Repository\IIncotermsCabRepository.cs" />
     <Compile Include="Business\Repository\IIncotermsLinhaRepository.cs" />
     <Compile Include="Business\Repository\IMaterialRepository.cs" />
@@ -185,6 +187,7 @@
     <Compile Include="Entity\CondicaoPagamento.cs" />
     <Compile Include="Entity\Fornecedor.cs" />
     <Compile Include="Entity\FornecedorEmpresa.cs" />
+    <Compile Include="Entity\FornecedorTransportadoraLiberada.cs" />
     <Compile Include="Entity\IncotermsCab.cs" />
     <Compile Include="Entity\IncotermsLinhas.cs" />
     <Compile Include="Entity\ListaPreco.cs" />
@@ -216,6 +219,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="hibernate.cfg.xml" />
+    <EmbeddedResource Include="Mappings\FornecedorTransportadoraLiberada.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Mappings\ClienteTransportadoraLiberada.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

@@ -484,8 +484,40 @@ GO
  GO
  ALTER TABLE pro_vcab ADD CONSTRAINT FK_PedidoVenda_Incoterm1 FOREIGN KEY (pro_id_incotermCab) REFERENCES pro_incotermcab(CodigoIncotermCab);
  
- 
- 
+GO
+ALTER TABLE pro_incotermlinha ADD parc_redesp_cif bit;
+
+GO
+ALTER TABLE pro_incotermlinha ADD parc_redesp_fob bit;
+
+GO
+CREATE TABLE pro_cliente_trans_lib
+(
+	Id INT NOT NULL IDENTITY,
+	Id_cliente VARCHAR(10) NULL,
+	Funcao_parceiro VARCHAR(2)  NULL,
+	Numero_agente_frete VARCHAR(10) NULL,
+	Padrao BIT,
+	Pacote NCHAR (30) NULL,
+	Data_criacao DATE NULL,
+	Hora_criacao NCHAR (8) NULL,	
+	constraint PK_cliente_trans_lib PRIMARY KEY (Id),
+);
+
+GO
+
+CREATE TABLE pro_fornecedor_trans_lib
+(
+	Id INT NOT NULL IDENTITY,
+	Codigo VARCHAR(10) NULL,
+	Funcao_parceiro VARCHAR(2)  NULL,
+	Numero_agente_frete VARCHAR(10) NULL,
+	Padrao BIT,
+	Pacote NCHAR (30) NULL,
+	Data_criacao DATE NULL,
+	Hora_criacao NCHAR (8) NULL,	
+	constraint PK_fornecedor_trans_lib PRIMARY KEY (Id),
+);
  
  
  

@@ -482,6 +482,10 @@ namespace Portal.DadosSap
                 FornecedorEmpresaRepository fornecedorEmpresaRepository = new FornecedorEmpresaRepository();
                 FornecedorEmpresa fornecedorEmpresa = new FornecedorEmpresa();
 
+                FornecedorTransportadoraLiberadaRepository fornecedorTransportadoraLiberadaRepository = new FornecedorTransportadoraLiberadaRepository();
+                FornecedorTransportadoraLiberada fornecedorTransportadoraLiberada = new FornecedorTransportadoraLiberada();
+
+
                 // ZTBSD060
                 IRfcTable it_fornecedor = function.GetTable("IT_FORNECEDOR");
 
@@ -501,6 +505,16 @@ namespace Portal.DadosSap
                 // RETORNO - BAPIRET2
                 RfcStructureMetadata bapiret2emp = repEmp.GetStructureMetadata("BAPIRET2");
                 IRfcStructure linha_retorno_emp = bapiret2emp.CreateStructure();
+
+                // ZTBSD086 - ZTBXI_101
+                IRfcTable it_fornecedor_trans_lib = function.GetTable("IT_FORNECEDOR_TL");
+
+                // Implementa Repositorio Rfc de resposta
+                RfcRepository repfornecedorTrans = context.Repository;
+
+                // RETORNO
+                RfcStructureMetadata bapiret2Trans = repfornecedorTrans.GetStructureMetadata("BAPIRET2");
+                IRfcStructure linha_retorno_trans = bapiret2Trans.CreateStructure();
 
                 // Se a interface de Fornecedor estiver marcada para Reiniciar "X" marca os registros das 2 tabebas como Eliminados.
                 if (deletar != ' ')
@@ -589,12 +603,7 @@ namespace Portal.DadosSap
                         retorno.Insert(linha_retorno);
                     }
                 }
-
-                IRfcTable retornoSucesso = function.GetTable("IT_RETURN");
-                linha_retorno.SetValue("TYPE", "S");
-                linha_retorno.SetValue("MESSAGE", "Registros com Sucesso Fornecedor: " + v_cont);
-                retornoSucesso.Insert(linha_retorno);
-
+               
                 //
                 // FIM FORNECEDOR
 
@@ -635,6 +644,65 @@ namespace Portal.DadosSap
                         retorno.Insert(linha_retorno_emp);
                     }
                 }
+
+                //
+                // FIM FORNECEDOR EMPRESA
+
+                //
+                // FORNECEDOR TRANSPORTADORAS LIBERADAS
+                //                                
+
+                int v_cont_tras_lib = 0;
+                foreach (IRfcStructure row in it_fornecedor_trans_lib)
+                {
+                    fornecedorTransportadoraLiberada.Codigo = row.GetString("LIFNR");
+                    fornecedorTransportadoraLiberada.Funcao_parceiro = row.GetString("PARVW");
+                    fornecedorTransportadoraLiberada.Numero_agente_frete = row.GetString("TDLNR");
+                    String v_padrao = row.GetString("PADRAO");
+                    if (v_padrao != "")
+                    {
+                        fornecedorTransportadoraLiberada.Padrao = Convert.ToBoolean(1);
+                    }
+                    fornecedorTransportadoraLiberada.Pacote = row.GetString("PACOTE");
+                    fornecedorTransportadoraLiberada.Data_criacao = Convert.ToDateTime(row.GetString("ERDAT"));
+                    fornecedorTransportadoraLiberada.Hora_criacao = row.GetString("ERZET");
+
+                    v_cont_tras_lib = v_cont_tras_lib + 1;
+                    try
+                    {
+                        IList<FornecedorTransportadoraLiberada> fromDB = fornecedorTransportadoraLiberadaRepository.ObterRegistrosDoisCampos("Codigo", fornecedorTransportadoraLiberada.Codigo, "Numero_agente_frete", fornecedorTransportadoraLiberada.Numero_agente_frete);
+                        if (fromDB.Count == 0)
+                        {
+                            fornecedorTransportadoraLiberadaRepository.Salvar(fornecedorTransportadoraLiberada);
+                        }
+                        else
+                        {
+                            foreach (FornecedorTransportadoraLiberada dados in fromDB)
+                            {
+                                fornecedorTransportadoraLiberada.Id = dados.Id;
+                            }
+                            fornecedorTransportadoraLiberadaRepository.Alterar(fornecedorTransportadoraLiberada);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Em caso de erro retorna o erro
+                        Console.Write("Erro ao inserir a Tranpostadora do Fornecedor, Mensagem: " + ex);
+                        IRfcTable retorno = function.GetTable("IT_RETURN");
+                        linha_retorno_trans.SetValue("TYPE", "E");
+                        linha_retorno_trans.SetValue("MESSAGE", ex.Message);
+                        linha_retorno_trans.SetValue("MESSAGE", "Erro ao inserir a Tranpostadora do Fornecedor " + fornecedorTransportadoraLiberada.Codigo + " - Numero Agente Frete: " + fornecedorTransportadoraLiberada.Numero_agente_frete);
+                        retorno.Insert(linha_retorno_trans);
+                    }
+                }
+                // FIM FORNECEDOR TRANSPORTADORAS LIBERADAS
+
+
+                IRfcTable retornoSucesso = function.GetTable("IT_RETURN");
+                linha_retorno.SetValue("TYPE", "S");
+                linha_retorno.SetValue("MESSAGE", "Registros com Sucesso Fornecedor: " + v_cont);
+                retornoSucesso.Insert(linha_retorno);
+
                 IRfcTable retornoSucessoEmp = function.GetTable("IT_RETURN");
                 linha_retorno_emp.SetValue("TYPE", "S");
                 linha_retorno_emp.SetValue("MESSAGE", "Registros com Sucesso Forn. Empresa: " + v_cont_emp);
