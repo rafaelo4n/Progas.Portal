@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Criterion;
@@ -34,6 +35,11 @@ namespace Progas.Portal.Application.Queries.Implementations
             Cliente cliente = null;
 
             IQueryOver<Cliente, Cliente> queryOver = _unitOfWorkNh.Session.QueryOver<Cliente>(() => cliente);
+
+            queryOver.Where(
+                Restrictions.Disjunction()
+                    .Add(() => cliente.Eliminacao == null)
+                    .Add(() => cliente.Eliminacao != "X"));
 
             if (!string.IsNullOrEmpty(filtro.Nome))
             {
@@ -171,5 +177,26 @@ namespace Progas.Portal.Application.Queries.Implementations
 
         }
 
+        public IList<CondicaoDePagamentoCadastroVm> ListarCondicoesDePagamento(string idDoCliente, string codigoDaCondicaoDePagamento)
+        {
+            IQueryable<Cliente> queryable = _clientes
+                .BuscaPeloCodigo(idDoCliente)
+                .GetQuery();
+
+            var condicoesDePagamento = (from cliente in queryable
+                from condicaoDoCliente in cliente.CondicoesDePagamento
+                let condicaoDePagamento = condicaoDoCliente.CondicaoDePagamento
+                where (condicaoDoCliente.Eliminacao == null || condicaoDoCliente.Eliminacao != "X" || codigoDaCondicaoDePagamento == null || condicaoDePagamento.Codigo == codigoDaCondicaoDePagamento)
+                      && condicaoDoCliente.DataDeValidade >= DateTime.Today
+                      && (condicaoDePagamento.Eliminacao == null || condicaoDePagamento.Eliminacao != "X")
+                select new CondicaoDePagamentoCadastroVm
+                {
+                    Codigo = condicaoDePagamento.Codigo,
+                    Descricao = string.Format("{0} - {1}", condicaoDePagamento.Codigo, condicaoDePagamento.Descricao)
+                }).ToList();
+
+            return condicoesDePagamento;
+
+        }
     }
 }

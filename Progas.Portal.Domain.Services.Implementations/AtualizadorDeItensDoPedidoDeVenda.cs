@@ -26,7 +26,7 @@ namespace Progas.Portal.Domain.Services.Implementations
         {
             IEnumerable<int> idDosItensParaRemover = pedidoVenda.Itens
                 .Where(itemAtual => pedidoAlterado.Itens.All(itemAlterado => itemAlterado.IdDoItem != itemAtual.Id))
-                .Select(itemAtual => itemAtual.Id);
+                .Select(itemAtual => itemAtual.Id).ToList();
 
             foreach (var id in idDosItensParaRemover)
             {
@@ -57,10 +57,12 @@ namespace Progas.Portal.Domain.Services.Implementations
                 {
                     ItemAtual = itemAtual,
                     ItemAlterado = itemAlterado
-                });
+                }).ToList();
 
-            foreach (var itemParaAlterar in itensParaAlterar)
+            for (int i = 0; i < itensParaAlterar.Count; i++)
             {
+                var itemParaAlterar = itensParaAlterar[i];
+
                 PedidoVendaSalvarItemVm itemAlterado = itemParaAlterar.ItemAlterado;
                 Material material = materiaisDosItens.Single(m => m.pro_id_material == itemAlterado.IdMaterial);
                 ListaPreco listaPreco = listasDePreco.Single(l => l.Codigo == itemAlterado.CodigoDaListaDePreco);
@@ -80,10 +82,11 @@ namespace Progas.Portal.Domain.Services.Implementations
 
                 itemParaAlterar.ItemAtual.Alterar(itemDeVenda);
 
+                
             }
 
             IEnumerable<PedidoVendaSalvarItemVm> itensParaAdicionar = pedidoAlterado.Itens.Where(
-                itemAlterado => pedidoVenda.Itens.All(itemAtual => itemAtual.Id != itemAlterado.IdDoItem));
+                itemAlterado => itemAlterado.IdDoItem == 0);
 
             foreach (var itemParaAdicionar in itensParaAdicionar)
             {
@@ -94,7 +97,7 @@ namespace Progas.Portal.Domain.Services.Implementations
                     ? null
                     : motivosDeRecusa.Single(m => m.Codigo == itemParaAdicionar.CodigoDoMotivoDeRecusa);
 
-                var linhasPedido = new PedidoVendaLinha(material,itemParaAdicionar.Quantidade,listaDePreco,itemParaAdicionar.Desconto, motivoDeRecusa);
+                var linhasPedido = new PedidoVendaLinha(itemParaAdicionar.Numero, material,itemParaAdicionar.Quantidade,listaDePreco,itemParaAdicionar.Desconto, motivoDeRecusa);
 
                 pedidoVenda.AdicionarItem(linhasPedido);
                 

@@ -120,29 +120,35 @@ namespace Progas.Portal.UI.Helpers
 
     public class ColunaComBotaoDeBusca<TModel, TValue> : Coluna<TModel, TValue>
     {
-        private readonly string _idDoBotao;
+        private readonly string _idDoBotaoDeBusca;
         private readonly string _classeDoBotao;
+        private readonly string _idDoBotaoParaLimparCampos;
 
-        public ColunaComBotaoDeBusca(Expression<Func<TModel, TValue>> expressao, object inputAttributes, string idDoBotao, string classeDoBotao)
-            : base(expressao, inputAttributes, null, true)
-        {
-            _idDoBotao = idDoBotao;
-            _classeDoBotao = classeDoBotao;
-        }
+        public ColunaComBotaoDeBusca(Expression<Func<TModel, TValue>> expressao, object inputAttributes, string idDoBotaoDeBusca, string classeDoBotao)
+            : this(expressao, inputAttributes, idDoBotaoDeBusca,classeDoBotao,""){}
 
-        public ColunaComBotaoDeBusca(Expression<Func<TModel, TValue>> expressao, object inputAttributes, string textoDaLabel, string idDoBotao, string classeDoBotao)
+        public ColunaComBotaoDeBusca(Expression<Func<TModel, TValue>> expressao, object inputAttributes, string idDoBotaoDeBusca, string classeDoBotao, string idDoBotaoParaLimparCampos)
+            : this(expressao,inputAttributes,"",idDoBotaoDeBusca,classeDoBotao,idDoBotaoParaLimparCampos){}
+
+
+        public ColunaComBotaoDeBusca(Expression<Func<TModel, TValue>> expressao, object inputAttributes, string textoDaLabel, string idDoBotaoDeBusca, 
+            string classeDoBotao, string idDoBotaoParaLimparCampos)
             : base(expressao,textoDaLabel, inputAttributes,null, true)
         {
-            _idDoBotao = idDoBotao;
+            _idDoBotaoDeBusca = idDoBotaoDeBusca;
             _classeDoBotao = classeDoBotao;
+            _idDoBotaoParaLimparCampos = idDoBotaoParaLimparCampos;
         }
 
 
         public override MvcHtmlString GeraInput()
         {
-            string htmlDoBotao = string.Format("<input type=\"button\" id=\"{0}\" class=\"{1}\"/>", _idDoBotao, _classeDoBotao);
+            string htmlDoBotaoDeBusca = string.Format("<input type=\"button\" id=\"{0}\" class=\"{1}\"/>", _idDoBotaoDeBusca, _classeDoBotao);
+            string htmlDoBotaoParaLimparCampos = !string.IsNullOrEmpty(_idDoBotaoParaLimparCampos) ?
+                string.Format("<input type=\"button\" id=\"{0}\" class=\"button_rubber\" style=\"margin-left:0.5em;\" title=\"Limpar item selecionado\"/>",_idDoBotaoParaLimparCampos)
+                : "";
 
-            return new MvcHtmlString(System.Web.Mvc.Html.InputExtensions.TextBoxFor(HtmlHelper, Expressao, InputAttributes) + htmlDoBotao);
+            return new MvcHtmlString(System.Web.Mvc.Html.InputExtensions.TextBoxFor(HtmlHelper, Expressao, InputAttributes) + htmlDoBotaoDeBusca + htmlDoBotaoParaLimparCampos);
         }
 
         

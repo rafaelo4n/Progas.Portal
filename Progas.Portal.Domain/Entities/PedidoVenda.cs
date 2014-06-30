@@ -13,7 +13,8 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Id_centro { get; set; }
         public virtual Cliente Cliente { get; set; }
         public virtual DateTime Datacp { get; set; }
-        public virtual string NumeroDoPedido { get; set; }
+        public virtual string NumeroDoPedidoDoRepresentante { get; set; }
+        public virtual string NumeroDoPedidoDoCliente { get; set; }
         public virtual DateTime Datap { get; set; }
         public virtual string Condpgto { get; set; }
         public virtual IncotermCab Incoterm1 { get; set; }
@@ -23,7 +24,7 @@ namespace Progas.Portal.Domain.Entities
         public virtual Fornecedor TransportadoraDeRedespachoCif { get; set; }
         public virtual string Id_repre { get; set; }
         public virtual string Observacao { get; set; }
-        public virtual string Status { get; set; }
+        public virtual StatusDoPedidoDeVenda Status { get; set; }
         public virtual decimal ValorTotal { get; set; }
         public virtual ClienteVenda AreaDeVenda{ get; set; }
         public virtual IList<PedidoVendaLinha> Itens { get; protected set; }
@@ -41,7 +42,8 @@ namespace Progas.Portal.Domain.Entities
             Cliente cliente,
             ClienteVenda areaDeVenda,
             DateTime datacp,
-            string numeroDoPedido,
+            string numeroDoPedidoDoRepresentante,
+            string numeroDoPedidoDoCliente,
             DateTime datap,
             string condpgto,
             IncotermCab incoterm1,
@@ -50,18 +52,17 @@ namespace Progas.Portal.Domain.Entities
             Fornecedor transportadoraDeRedespacho,
             Fornecedor transportadoraDeRedespachoCif,
             string id_repre,
-            string observacao/*,
-            string status*/
+            string observacao
             ) : this()
         {
             Tipo = tipo;
-            //Id_cotacao = id_cotacao;
             TipoPedido = tipoPedido;
             Id_centro = id_centro;
             Cliente = cliente;
             AreaDeVenda = areaDeVenda;
             Datacp = datacp;
-            NumeroDoPedido = numeroDoPedido;
+            NumeroDoPedidoDoRepresentante = numeroDoPedidoDoRepresentante;
+            NumeroDoPedidoDoCliente = numeroDoPedidoDoCliente;
             Datap = datap;
             Condpgto = condpgto;
             Incoterm1 = incoterm1;
@@ -71,7 +72,6 @@ namespace Progas.Portal.Domain.Entities
             TransportadoraDeRedespachoCif = transportadoraDeRedespachoCif;
             Id_repre = id_repre;
             Observacao = observacao;
-            //Status = status;
         }
 
         public virtual void AdicionarItem(PedidoVendaLinha item)
@@ -85,10 +85,52 @@ namespace Progas.Portal.Domain.Entities
             return ValorTotal;
         }
 
-        public virtual void Alterar(string numeroDaCotacao, string status)
+        public virtual void Alterar(string numeroDaCotacao, StatusDoPedidoDeVenda status)
         {
             this.Id_cotacao = numeroDaCotacao;
             this.Status = status;
+        }
+
+        public virtual PedidoVenda AlterarCliente(ClienteVenda areaDeVEnda, Cliente cliente)
+        {
+            this.AreaDeVenda = areaDeVEnda;
+            this.Cliente = cliente;
+            return this;
+        }
+
+        public virtual PedidoVenda AlterarTransportadora(Fornecedor transportadora, Fornecedor transportadoraDeRedespacho, Fornecedor transportadoraDeRedespachoCif)
+        {
+            this.Transportadora = transportadora;
+            this.TransportadoraDeRedespacho = transportadoraDeRedespacho;
+            this.TransportadoraDeRedespachoCif = transportadoraDeRedespachoCif;
+
+            return this;
+        }
+
+        public virtual PedidoVenda AlterarIncoterm(IncotermCab incoterm1, IncotermLinhas incoterm2)
+        {
+            this.Incoterm1 = incoterm1;
+            this.Incoterm2 = incoterm2;
+
+            return this;
+        }
+
+        public virtual PedidoVenda AlterarDados(string numeroDoPedidoDoRepresentante, string numeroDoPedidoDoCliente, DateTime dataDoPedido, string codigoDaCondicaoDePagamento, string observacao)
+        {
+            this.NumeroDoPedidoDoRepresentante = numeroDoPedidoDoRepresentante;
+            this.NumeroDoPedidoDoCliente = numeroDoPedidoDoCliente;
+            this.Datap = dataDoPedido;
+            this.Condpgto = codigoDaCondicaoDePagamento;
+            this.Observacao = observacao;
+
+            return this;
+        }
+
+        public virtual PedidoVenda AlterarTipo(string tipo)
+        {
+            this.Tipo = tipo;
+
+            return this;
         }
     }
 }

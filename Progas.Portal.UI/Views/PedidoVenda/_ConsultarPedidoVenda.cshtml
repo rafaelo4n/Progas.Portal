@@ -1,6 +1,5 @@
-﻿@using Progas.Portal.ViewModel
-@model PedidoVendaCadastroVm
-
+﻿@using Progas.Portal.Common
+@model Progas.Portal.DTO.RepresentanteDTO
 @{
     ViewBag.TituloDaPagina = "Consultar Pedido de Vendas";
 }
@@ -13,52 +12,70 @@
     <fieldset>
         <legend>Filtros</legend>
         <form>
-        <div class="linha">
-            <div class="coluna">
-                @Html.Hidden("id_cliente")
-                @Html.Label("Código do Cliente:")
-                @Html.TextBox("CodigoDoCliente","",new{@class="campopequeno campoDesabilitado"})                        
-                <input type="button" id="btnBuscarCliente" class="button_visualize"/>
+            <div class="linha">
+                <div class="coluna">
+                    @Html.Hidden("id_cliente")
+                    @Html.Label("Código do Cliente:")
+                    @Html.TextBox("CodigoDoCliente","",new{@class="campopequeno campoDesabilitado"})                        
+                    <input type="button" id="btnBuscarCliente" class="button_visualize"/>
+                </div>
+                <div class="coluna">
+                    @Html.Label("Nome do Cliente:")
+                    @Html.TextBox("NomeDoCliente","",new{@class="campogrande campoDesabilitado"})                        
+                </div>
             </div>
-            <div class="coluna">
-                @Html.Label("Nome do Cliente:")
-                @Html.TextBox("NomeDoCliente","",new{@class="campogrande campoDesabilitado"})                        
-            </div>
-        </div>
                 
-        <div class="linha">
-            <div class="coluna">
-                @Html.Hidden("IdDoMaterial")
-                @Html.Label("Código do Material:")
-                @Html.TextBox("CodigoDoMaterial","",new{@class="campopequeno campoDesabilitado"})                        
-                <input type="button" id="btnBuscarMaterial" class="button_visualize"/>
+            <div class="linha">
+                <div class="coluna">
+                    @Html.Hidden("IdDoMaterial")
+                    @Html.Label("Código do Material:")
+                    @Html.TextBox("CodigoDoMaterial","",new{@class="campopequeno campoDesabilitado"})                        
+                    <input type="button" id="btnBuscarMaterial" class="button_visualize"/>
+                </div>
+                <div class="coluna">
+                    @Html.Label("Nome do Material:")
+                    @Html.TextBox("NomeDoMaterial","",new{@class="campogrande campoDesabilitado"})                        
+                </div>
             </div>
-            <div class="coluna">
-                @Html.Label("Nome do Material:")
-                @Html.TextBox("NomeDoMaterial","",new{@class="campogrande campoDesabilitado"})                        
-            </div>
-        </div>
 
-        <div class="linha">
-            <div class="coluna">
-                @Html.Label("Data de Criação:")
-                @Html.TextBox("datacp", "", new { @class = "campoDatePicker maskdata campopequeno" })
-            </div>        
-            <div class="coluna">
-                @Html.Label("Nº do Pedido:")                
-                @Html.TextBox("id_pedido","", new{@class="campopequeno"})
+            <div class="linha">
+                <div class="coluna">
+                    @Html.Label("Data de Criação:")
+                    @Html.TextBox("datacp", "", new { @class = "campoDatePicker maskdata campopequeno" })
+                </div>        
+                <div class="coluna">
+                    @Html.Label("Nº do Pedido:")                
+                    @Html.TextBox("id_pedido","", new{@class="campopequeno"})
+                </div>
             </div>
-        </div>
-        <div class="linha">
-            <div class="coluna">
-                @Html.Label("Data do Pedido:")
-                @Html.TextBox("datap", "", new { @class = "campoDatePicker maskdata campopequeno" })
+            <div class="linha">
+                <div class="coluna">
+                    @Html.Label("Data do Pedido:")
+                    @Html.TextBox("datap", "", new { @class = "campoDatePicker maskdata campopequeno" })
+                </div>
+                <div class="coluna">
+                    @Html.Label("Status:")
+                    @Html.DropDownList("Status", (IEnumerable<SelectListItem>)ViewBag.ListaDeStatus,"Escolha>>")
+                </div>
             </div>
-        </div>
-        <div class="divBotao">
-            <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
-            <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
-        </div>
+            <div class="linha">
+                <div class="coluna">
+                    @Html.LabelFor(x => x.Nome)
+                    @Html.TextBoxFor(x => x.Nome, new { @class = "campomedio", @id="NomeDoRepresentante" })
+                    
+                    @if (Model == null)
+                    {
+                        <input type="button" class="button_visualize" id="btnSelecionarRepresentante"/>
+                        <input type="button" class="button_rubber" id="btnLimparRepresentante"/>
+                    }
+                    @Html.HiddenFor(x => x.Codigo,new{@id="CodigoDoRepresentante"})
+                </div>
+            </div>
+
+            <div class="divBotao">
+                <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+                <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
+            </div>
         </form>
     </fieldset>
 </div>
@@ -70,6 +87,7 @@
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarCliente.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarProduto.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
 
     <script>
     $(document).ready(function () {
@@ -92,7 +110,33 @@
             $('#NomeDoMaterial').val(selecionarProduto.produtoSelecionado.Descricao);
         };
 
-        selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscarMaterial', null,null, funcaoParaPreencherOsDadosDeRetornoDoProduto);
+        selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscarMaterial', null, null, funcaoParaPreencherOsDadosDeRetornoDoProduto);
+
+        var possuiRepresentante = '@(Model != null)'.boolean();
+
+        if (possuiRepresentante) {
+            $('#NomeDoRepresentante')
+                .attr('readonly', true)
+                .addClass('campoDesabilitado');
+
+        } else {
+            var selecionarRepresentante = new SelecionarFornecedor();
+
+            var funcaoParaPreencherOsCamposDoRepresentante = function () {
+                var representanteSelecionado = selecionarRepresentante.fornecedorSelecionado;
+                $('#CodigoDoRepresentante').val(representanteSelecionado.Codigo);
+                $('#NomeDoRepresentante').val(representanteSelecionado.Nome);
+            };
+
+            selecionarRepresentante.configurarJanelaModalParaFornecedor("#CodigoRepresentante", "divSelecionarRepresentante", "#btnSelecionarRepresentante", null, funcaoParaPreencherOsCamposDoRepresentante);
+
+            $('#btnLimparRepresentante').click(function () {
+                $('#CodigoDoRepresentante').val('');
+                $('#NomeDoRepresentante').val('');
+                selecionarRepresentante.removerSelecao();
+            });
+            
+        }
 
         $("#gridPedidos").customKendoGrid({
             dataSource: {
@@ -101,6 +145,7 @@
                     model: {
                         fields: {
                             IdDaCotacao: { type: "string" },
+                            Status: { type: "string" },
                             NomeDoCliente: { type: "string" },
                             DataDeCriacao: { type: "string" },
                             NumeroDoPedido: { type: "string" },
@@ -119,12 +164,14 @@
                             cache: false,
                             data: function() {
                                 return {
-                                    // Envia para o controler os valores dos parametros
-                                    id_cliente: $('#id_cliente').val(),
+                                    CodigoDoCliente: $('#CodigoDoCliente').val(),
                                     datacp: $('#datacp').val(),
                                     id_pedido: $('#id_pedido').val(),
                                     datap: $('#datap').val(),
-                                    IdDoMaterial: $('#IdDoMaterial').val()
+                                    IdDoMaterial: $('#IdDoMaterial').val(),
+                                    Status: $('#Status').val(),
+                                    CodigoDoRepresentante: $('#CodigoDoRepresentante').val()
+
                                 };
                             }
                         }
@@ -157,7 +204,11 @@
                     },
                     {
                         width: 90,
-                        field: "DataDoPedido",
+                        field: "Status"
+                    },
+                    {
+                        width: 90,
+                        field: "DataDeCriacao",
                         title: "Data de Criação"
                     },
                     {
@@ -173,7 +224,12 @@
                     {
                         width: 100,
                         field: "ValorTotal",
-                        title: "Valor Final"
+                        title: "Valor Final",
+                        format: "{0:n2}",
+                        attributes: {
+                            style: "text-align: right;"
+                        }
+
                     }
                 ]
             });

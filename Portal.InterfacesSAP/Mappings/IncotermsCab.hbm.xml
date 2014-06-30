@@ -5,8 +5,15 @@
 
   <class name="IncotermsCab" table="pro_incotermcab">
 
-    <id name="CodigoIncotermCab" access="property" column="CodigoIncotermCab" type="string" length="3" >
+    <id name="pro_id_incotermCab" access="property" column="pro_id_incotermCab" type="Int32">
+      <generator class="identity">
+        <param name="identity">pro_id_incotermCab</param>
+      </generator>
     </id>
+
+    <property name="CodigoIncotermCab" not-null="false" access="property" type="String">
+      <column name="CodigoIncotermCab" length="3" />
+    </property>
 
     <property name="Descricao" not-null="false" access="property" type="String">
       <column name="Descricao" length="30" />

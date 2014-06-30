@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 
@@ -9,7 +8,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
     {
         public Fornecedores(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
-            Query = Query.Where(f => (f.Codigo_eliminacao == null || !f.Codigo_eliminacao.Equals("X")));
+            Query = Query.Where(f => (f.Eliminacao == null || !f.Eliminacao.Equals("X")));
         }
 
         public Fornecedor BuscaPeloCodigo(string codigoSap)
@@ -79,7 +78,6 @@ namespace Progas.Portal.Infra.Repositories.Implementations
             Query = Query.Where(f => f.Grupo_contas == "ZTRA");
             return this;
         }
-
 
         public IFornecedores MunicipioContendo(string municipio)
         {

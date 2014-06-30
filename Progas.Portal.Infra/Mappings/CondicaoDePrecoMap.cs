@@ -10,6 +10,7 @@ namespace Progas.Portal.Infra.Mappings
             Table("pro_item_condicaopreco");
             Id(x => x.Id).GeneratedBy.Identity();
             Map(x => x.Nivel);
+            Map(x => x.Descricao);
             Map(x => x.Tipo);
             Map(x => x.Base);
             Map(x => x.Montante);

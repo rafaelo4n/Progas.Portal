@@ -10,9 +10,9 @@ namespace Portal.DadosSap.Entity
     {
         public virtual string Codigo { get; set; }
         public virtual string Descricao { get; set; }
-        public virtual DateTime Data_criacao { get; set; }
-        public virtual string Pacote { get; set; }
-        public virtual string Hora_criacao { get; set; }
+        public virtual DateTime data_criacao { get; set; }
+        public virtual string pacote { get; set; }
+        public virtual string hora_criacao { get; set; }
         public virtual string Eliminacao { get; set; }
     }
 }

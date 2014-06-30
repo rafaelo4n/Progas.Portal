@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
@@ -108,7 +109,55 @@ namespace Progas.Portal.UI.Helpers
             return new HtmlString(retorno);
         }
 
+        public static IHtmlString LinhaComSeisColunas<TModel1, TValue1, TValue2>(this HtmlHelper<TModel1> html,
+            Coluna<TModel1, TValue1> coluna1, Coluna<TModel1, TValue2> coluna2, Coluna<TModel1, TValue2> coluna3,
+            Coluna<TModel1, TValue2> coluna4, Coluna<TModel1, TValue2> coluna5, Coluna<TModel1, TValue2> coluna6)
+        {
+            coluna1.HtmlHelper = html;
+            coluna2.HtmlHelper = html;
+            coluna3.HtmlHelper = html;
+            coluna4.HtmlHelper = html;
+            coluna5.HtmlHelper = html;
+            coluna6.HtmlHelper = html;
+
+            string retorno =
+                "<div class=\"linha\"> " +
+                    GeraColuna(coluna1, "coluna6") +
+                    GeraColuna(coluna2, "coluna6") +
+                    GeraColuna(coluna3, "coluna6") +
+                    GeraColuna(coluna4, "coluna6") +
+                    GeraColuna(coluna5, "coluna6") +
+                    GeraColuna(coluna6, "coluna6") +
+                "</div>";
+
+            return new HtmlString(retorno);
+        }
+
+
+
+        public static IHtmlString LinhaComColunas<TModel, TValue>(this HtmlHelper<TModel> html,
+            IList<Coluna<TModel, TValue>> colunas)
+        {
+            foreach (var coluna in colunas)
+            {
+                coluna.HtmlHelper = html;
+            }
+
+            string divColunaClass = "coluna" + colunas.Count;
+
+            string retorno = colunas
+                .Select(coluna => GeraColuna(coluna, divColunaClass))
+                .Aggregate((acumulador, htmlDaColuna) => acumulador + htmlDaColuna);
+
+            retorno = 
+                "<div class=\"linha\"> " + retorno + "</div>";
+
+            return new HtmlString(retorno);
+        }
+
+
     }
 
 
 }
+

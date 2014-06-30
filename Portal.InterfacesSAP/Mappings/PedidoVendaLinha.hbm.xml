@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Portal.DadosSap"
+                   namespace="Portal.DadosSap.Entity" >
+
+  <class name="PedidoVendaLinha" table="pro_vitem">
+
+    <id name="Id" access="property" column="pro_id_item" type="Int32">
+    </id>
+    
+    <property name="Id_cotacao" not-null="false" access="property" type="String">
+      <column name="Id_cotacao" length="10" />
+    </property>
+
+    <property name="Id_item" not-null="false" access="property" type="String">
+      <column name="Id_item" length="10" />
+    </property>
+
+    <property name="Material" not-null="false" access="property" type="Int32">
+      <column name="pro_id_material"/>
+    </property>
+    
+    <property name="Quantidade" not-null="false" access="property">
+      <column name="Quant" scale="3" precision="15" sql-type="number(15,3)" />
+    </property>
+
+    <property name="ListaDePreco" not-null="false" access="property" type="String">
+      <column name="Listpre"  length="3"/>
+    </property>
+
+    <property name="ValorTabela" not-null="false" access="property">
+      <column name="Valtab" scale="2" precision="13" sql-type="number(13,2)" />
+    </property>
+    
+    <property name="ValorPolitica" not-null="false" access="property">
+      <column name="Valpol" scale="2" precision="13" sql-type="number(13,2)" />
+    </property>
+    
+    <property name="DescontoManual" not-null="false" access="property">
+      <column name="Descma" scale="2" precision="13" sql-type="number(13,2)" />
+    </property>
+    
+    <property name="MotivoDeRecusa" not-null="false" access="property" type="String">
+      <column name="Motrec" length="2" />
+    </property>
+
+    <property name="Status" not-null="false" access="property" type="String">
+      <column name="Status" length="1" />
+    </property>   
+
+  </class>
+
+</hibernate-mapping>

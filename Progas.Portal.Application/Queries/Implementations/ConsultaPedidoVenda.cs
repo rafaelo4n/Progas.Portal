@@ -13,22 +13,18 @@ namespace Progas.Portal.Application.Queries.Implementations
     public class ConsultaPedidoVenda : IConsultaPedidoVenda
     {
         private readonly IPedidosVenda _pedidosVenda;
-        private readonly IUsuarios _usuarios;
 
-        public ConsultaPedidoVenda(IPedidosVenda pedidosVenda, IUsuarios usuarios)
+        public ConsultaPedidoVenda(IPedidosVenda pedidosVenda)
         {
             _pedidosVenda = pedidosVenda;
-            _usuarios = usuarios;
         }
 
         // Pesquisa da tela de Listar Pedidos ( Cabecalho)
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, PedidoVendaFiltroVm filtro)
         {
-            var usuarioConectado = _usuarios.UsuarioConectado();
-
-            if (!string.IsNullOrEmpty(filtro.id_cliente))
+            if (!string.IsNullOrEmpty(filtro.CodigoDoCliente))
             {
-                _pedidosVenda.DoCliente(filtro.id_cliente);
+                _pedidosVenda.DoCliente(filtro.CodigoDoCliente);
 
             }
 
@@ -41,7 +37,8 @@ namespace Progas.Portal.Application.Queries.Implementations
                 .DataCriacaoContendo(filtro.datacp)
                 .PedidoCodigoContendo(filtro.id_pedido)
                 .DataPedidoContendo(filtro.datap)
-                .CotacaoRepresentante(usuarioConectado.CodigoDoFornecedor);
+                .CotacaoRepresentante(filtro.CodigoDoRepresentante)
+                .NoStatus(filtro.Status);
 
 
             var kendoGridVmn = new KendoGridVm()
@@ -51,12 +48,15 @@ namespace Progas.Portal.Application.Queries.Implementations
                     new PedidoVendaListagemVm
                     {
                         IdDaCotacao = pedido.Id_cotacao,
-                        NumeroDoPedido = pedido.NumeroDoPedido,
+                        Status = pedido.Status.Descricao,
+                        NumeroDoPedido = pedido.NumeroDoPedidoDoRepresentante,
                         DataDeCriacao =  pedido.Datacp.ToString("dd/MM/yyyy HH:mm:ss"),
                         DataDoPedido =  pedido.Datap.ToShortDateString(),
                         NomeDoCliente =  pedido.Cliente.Nome,
                         ValorTotal = pedido.ValorTotal
                     })
+                    .Skip(paginacaoVm.Skip)
+                    .Take(paginacaoVm.Take)
                     .Cast<ListagemVm>()
                     .ToList()
             };
@@ -75,11 +75,12 @@ namespace Progas.Portal.Application.Queries.Implementations
             List<PedidoVendaLinhaCadastroVm> linhas = itens.Select(item => new PedidoVendaLinhaCadastroVm()
             {
                 Id = item.Id,
+                NumeroDoItem = item.Numero,
                 IdMaterial = item.Material.pro_id_material,
                 CodigoMaterial = item.Material.Id_material,
                 DescricaoMaterial = item.Material.Descricao,
                 Quantidade = item.Quantidade,
-                CodigoUnidadeMedida = item.Material.Uni_med,
+                CodigoUnidadeMedida = item.Material.UnidadeDeMedida.Id_unidademedida + " - " + item.Material.UnidadeDeMedida.Descricao,
                 CodigoListaPreco = item.ListaDePreco.Codigo,
                 DescricaoListaPreco = item.ListaDePreco.Descricao,
                 Desconto = item.DescontoManual,
@@ -91,8 +92,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                 {
                     Nivel = condicaoDePreco.Nivel,
                     Tipo = condicaoDePreco.Tipo,
-                    Base = condicaoDePreco.Base,
-                    Montante = condicaoDePreco.Montante,
+                    Descricao = condicaoDePreco.Descricao,
                     Valor = condicaoDePreco.Valor
 
                 })
@@ -112,7 +112,7 @@ namespace Progas.Portal.Application.Queries.Implementations
             PedidoVendaCadastroVm pedidoVendaCadastroVm = queryable.Select(pedido => new PedidoVendaCadastroVm
             {
                 id_cotacao = pedido.Id_cotacao,
-                status = pedido.Status,
+                status = pedido.Status.Descricao,
                 IdDaAreaDeVenda = pedido.AreaDeVenda.Id,
                 Cliente = new ClienteDoPedidoDeVendaVm
                 {
@@ -149,7 +149,8 @@ namespace Progas.Portal.Application.Queries.Implementations
                 datacp = pedido.Datacp.ToShortDateString(),
                 datap = pedido.Datap.ToShortDateString(),
                 id_centro = pedido.Id_centro ,
-                id_pedido = pedido.NumeroDoPedido ,
+                id_pedido = pedido.NumeroDoPedidoDoRepresentante ,
+                NumeroPedidoDoCliente = pedido.NumeroDoPedidoDoCliente,
                 id_repre =pedido.Id_repre ,
                 IdDoIncoterm1 = Convert.ToString(pedido.Incoterm1.pro_id_incotermCab),
                 IdDoIncoterm2 = Convert.ToString(pedido.Incoterm2.pro_id_incotermLinha),
@@ -169,30 +170,5 @@ namespace Progas.Portal.Application.Queries.Implementations
             return count == 1;
         }
 
-        public KendoGridVm ListarCondicoesDePreco(PedidoVendaLinhaChaveVm item)
-        {
-            IQueryable<PedidoVenda> queryable = _pedidosVenda.FiltraPorId(item.IdDoPedido).GetQuery();
-
-            var condicoesDePreco = (from pedido in queryable
-                from itemDoPedido in pedido.Itens
-                from condicaoDePreco in itemDoPedido.CondicoesDePreco
-                where itemDoPedido.Id == item.IdDoItem
-                select new CondicaoDePrecoDTO
-                {
-                    Nivel = condicaoDePreco.Nivel,
-                    Tipo = condicaoDePreco.Tipo,
-                    Base = condicaoDePreco.Base,
-                    Montante = condicaoDePreco.Montante,
-                    Valor = condicaoDePreco.Valor
-                }).Cast<ListagemVm>().ToList();
-
-            return new KendoGridVm
-            {
-                QuantidadeDeRegistros = condicoesDePreco.Count,
-                Registros = condicoesDePreco
-            };
-
-
-        }
     }
 }

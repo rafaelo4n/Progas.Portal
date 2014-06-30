@@ -37,7 +37,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
         {
             if (!string.IsNullOrEmpty(filtroPedido))
             {
-                Query = Query.Where(x => x.NumeroDoPedido.Contains(filtroPedido));
+                Query = Query.Where(x => x.NumeroDoPedidoDoRepresentante.Contains(filtroPedido));
             }
 
             return this;
@@ -76,13 +76,24 @@ namespace Progas.Portal.Infra.Repositories.Implementations
 
         public IPedidosVenda ContendoMaterial(int idDoMaterial)
         {
-            Query = Query.Where(pedido => pedido.Itens.Select(item => item.Material.pro_id_material).Contains(idDoMaterial));
+            //Query = Query.Where(pedido => pedido.Itens.Select(item => item.Material.pro_id_material).Contains(idDoMaterial));
+            Query = Query.Where(pedido => pedido.Itens.Any(item => item.Material.pro_id_material == idDoMaterial));
             return this;
         }
 
         public IPedidosVenda DoCliente(string codigoDoCliente)
         {
             Query = Query.Where(pedido => pedido.Cliente.Id_cliente == codigoDoCliente);
+            return this;
+        }
+
+        public IPedidosVenda NoStatus(string status)
+        {
+            if (!string.IsNullOrEmpty(status))
+            {
+                Query = Query.Where(pedido => pedido.Status.Codigo == status);
+            }
+
             return this;
         }
     }

@@ -141,6 +141,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AreaDeVendaController.cs" />
     <Compile Include="Controllers\CadastrosController.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\IncotermController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />
@@ -299,6 +300,7 @@
     <Content Include="Images\icons\enviar_email_16.png" />
     <Content Include="Images\icons\information_16.png" />
     <Content Include="Images\icons\mag_16.png" />
+    <Content Include="Images\icons\rubber_16.png" />
     <Content Include="Images\icons\schedule_16.png" />
     <Content Include="Images\banner.JPG" />
     <Content Include="Scripts\AgendamentoDeCarga\Cadastro.js" />
@@ -379,7 +381,6 @@
     <Content Include="Scripts\scriptsGerais.js" />
     <Content Include="Scripts\Shared\SelecionarCliente.js" />
     <Content Include="Scripts\Shared\SelecionarProduto.js" />
-    <Content Include="Scripts\Shared\SelecionarRepresentante.js" />
     <Content Include="Scripts\Shared\SelecionarFornecedor.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -429,10 +430,8 @@
     <Content Include="Views\Cadastros\_CondicaoPagamento.cshtml" />
     <Content Include="Views\Cadastros\_Cliente.cshtml" />
     <Content Include="Views\Cadastros\_Fornecedor.cshtml" />
-    <Content Include="Views\Usuario\CadastrarUsuario.cshtml" />
     <Content Include="Views\Shared\_SelecionarCliente.cshtml" />
     <Content Include="Views\Shared\_SelecionarProduto.cshtml" />
-    <Content Include="Views\PedidoVenda\CondicaoDePreco.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

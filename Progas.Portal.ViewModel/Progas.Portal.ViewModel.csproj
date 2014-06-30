@@ -104,7 +104,6 @@
     <Compile Include="PedidoVendaCadastroVm.cs" />
     <Compile Include="PedidoVendaFiltroVm.cs" />
     <Compile Include="PedidoVendaLinhaCadastroVm.cs" />
-    <Compile Include="PedidoVendaLinhaChaveVm.cs" />
     <Compile Include="PedidoVendaSalvarItemVm.cs" />
     <Compile Include="PedidoVendaSalvarVm.cs" />
     <Compile Include="PedidoVendaLinhaVm.cs" />

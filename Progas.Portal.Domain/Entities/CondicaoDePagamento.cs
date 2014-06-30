@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progas.Portal.Domain.Entities
 {
@@ -12,7 +8,8 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Descricao { get; protected set;}
         public virtual string pacote { get; set; }
         public virtual string hora_criacao { get; set; }
-        public virtual DateTime data_criacao { get; set; } 
+        public virtual DateTime data_criacao { get; set; }
+        public virtual string Eliminacao {get;  protected set; }
 
         protected CondicaoDePagamento(){}
         public CondicaoDePagamento(string codigo, string descricao)

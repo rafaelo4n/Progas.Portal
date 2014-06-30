@@ -119,7 +119,7 @@ $.fn.customKendoGrid = function (configuracao) {
         configuracao.pageable =
         {
             refresh: true,
-            pageSizes: true,
+            pageSizes: [5,10,20,50,100],
             messages: {
                 display: '{0:n0} - {1:n0} de {2:n0} registros',
                 empty: 'Nenhum registro encontrado',
@@ -157,13 +157,36 @@ $.fn.customDialog = function (configuracao) {
     if (!configuracao.position) {
         configuracao.position = { at: "top" };
     }
-    configuracao.beforeClose = function () {
-        $(this).empty();
-    };
+
+    if (!configuracao.beforeClose) {
+        configuracao.beforeClose = function () {
+            $(this).empty();
+        };
+    }
 
     if (!configuracao.width) {
         configuracao.width = 800;
     }
+
+    configuracao.create = function (event, ui) {
+
+        //$(event.target).parent().find('.ui-dialog-buttonpane').addClass('divBotao');
+        var buttonSet = $(event.target).parent().find('.ui-dialog-buttonset');
+
+        var buttons = buttonSet.children();
+        buttons.removeClass('ui-widget ui-state-default').addClass('blue');
+
+    };
+
+    if (configuracao.buttons) {
+        $.each(configuracao.buttons, function (index, button) {
+            button.mousemove = function () {
+                $(this).removeClass("ui-state-hover");
+            };
+        });
+
+    }
+
 
     this.dialog(configuracao);
 };

@@ -141,6 +141,7 @@
     <Compile Include="Queries\Contracts\IConsultaMotivoDeRecusa.cs" />
     <Compile Include="Queries\Contracts\IConsultaPedidoVenda.cs" />
     <Compile Include="Queries\Contracts\IConsultaPedidoVendaLinha.cs" />
+    <Compile Include="Queries\Contracts\IConsultaStatusDoPedidoDeVenda.cs" />
     <Compile Include="Queries\Contracts\IConsultaTipoPedido.cs" />
     <Compile Include="Queries\Contracts\IConsultaTransRedespacho.cs" />
     <Compile Include="Queries\Contracts\IConsultaTransRedespachoCif.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Queries\Implementations\ConsultaMotivoDeRecusa.cs" />
     <Compile Include="Queries\Implementations\ConsultaPedidoVenda.cs" />
     <Compile Include="Queries\Implementations\ConsultaPerfil.cs" />
+    <Compile Include="Queries\Implementations\ConsultaStatusDoPedidoDeVenda.cs" />
     <Compile Include="Queries\Implementations\ConsultaTipoPedido.cs" />
     <Compile Include="Queries\Implementations\ConsultaTransRedespacho.cs" />
     <Compile Include="Queries\Implementations\consultaTransRedespachoCif.cs" />
@@ -181,6 +183,10 @@
     <ProjectReference Include="..\Progas.Portal.Common\Progas.Portal.Common.csproj">
       <Project>{52496ac5-d00f-4ae4-84b9-06ad65dadb47}</Project>
       <Name>Progas.Portal.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Progas.Portal.Domain.Services.Contracts\Progas.Portal.Domain.Services.Contracts.csproj">
+      <Project>{9B5E0FEA-003B-41B8-847E-66CA20165FAE}</Project>
+      <Name>Progas.Portal.Domain.Services.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Progas.Portal.Domain\Progas.Portal.Domain.csproj">
       <Project>{2b790b52-c827-486c-b871-1392cfad1c48}</Project>

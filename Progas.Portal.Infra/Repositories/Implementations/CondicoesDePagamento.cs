@@ -8,7 +8,9 @@ namespace Progas.Portal.Infra.Repositories.Implementations
     {
         public CondicoesDePagamento(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
-            Query = Query.OrderBy(x => x.Codigo);
+            Query = Query
+                .Where(x => (x.Eliminacao == null || !x.Eliminacao.Equals("X")))
+                .OrderBy(x => x.Codigo);
         }
 
         public CondicaoDePagamento BuscaPeloCodigo(string codigoSap)

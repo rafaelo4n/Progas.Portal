@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Progas.Portal.Application.Queries.Contracts;
+using Progas.Portal.DTO;
 using Progas.Portal.UI.Filters;
 using Progas.Portal.ViewModel;
 
@@ -12,30 +15,30 @@ namespace Progas.Portal.UI.Controllers
         #region Repositorios
 
         private readonly IConsultaTipoPedido _consultaTipoPedido;
-        private readonly IConsultaCondicaoPagamento _consultaCondicaoPagamento;
         private readonly IConsultaListaPreco _consultaListaPreco;
         private readonly IConsultaMaterial _consultaMaterial;
         private readonly IConsultaIncotermCab _consultaIncotermCab;
         private readonly IConsultaPedidoVenda _consultaPedidoVenda;
-
+        private readonly IConsultaStatusDoPedidoDeVenda _consultaStatusDoPedidoDeVenda;
         private readonly IConsultaMotivoDeRecusa _consultaMotivoDeRecusa;
+        private readonly IConsultaUsuario _consultaUsuario;
 
         // implementa os valores dos repositorios que serao usados nas views (Lista de valrores dos campos)
-        public PedidoVendaController(
-            IConsultaCondicaoPagamento consultaCondicaoPagamento,
-            IConsultaTipoPedido consultaTipoPedido,
+        public PedidoVendaController(IConsultaTipoPedido consultaTipoPedido,
             IConsultaListaPreco consultaListaPreco,
             IConsultaMaterial consultaMaterial,
             IConsultaIncotermCab consultaIncotermCab,
-            IConsultaPedidoVenda consultaPedidoVenda, IConsultaMotivoDeRecusa consultaMotivoDeRecusa)
+            IConsultaPedidoVenda consultaPedidoVenda, IConsultaMotivoDeRecusa consultaMotivoDeRecusa,
+            IConsultaStatusDoPedidoDeVenda consultaStatusDoPedidoDeVenda, IConsultaUsuario consultaUsuario)
         {
-            _consultaCondicaoPagamento = consultaCondicaoPagamento;
             _consultaTipoPedido = consultaTipoPedido;
             _consultaListaPreco = consultaListaPreco;
             _consultaMaterial = consultaMaterial;
             _consultaIncotermCab = consultaIncotermCab;
             _consultaPedidoVenda = consultaPedidoVenda;
             _consultaMotivoDeRecusa = consultaMotivoDeRecusa;
+            _consultaStatusDoPedidoDeVenda = consultaStatusDoPedidoDeVenda;
+            _consultaUsuario = consultaUsuario;
         }
 
         #endregion
@@ -44,7 +47,7 @@ namespace Progas.Portal.UI.Controllers
 
         private void PrepararViewBagParaTelaDeCadastroDePedido()
         {
-            ViewBag.CondicoesDePagamento = _consultaCondicaoPagamento.ListarTodas();
+            ViewBag.CondicoesDePagamento = new List<CondicaoDePagamentoCadastroVm>();
             ViewBag.TipoPedidos = _consultaTipoPedido.ListarTodas();
             ViewBag.ListaPreco = _consultaListaPreco.ListarTodas();
             ViewBag.Centro = _consultaMaterial.ListarCentro();
@@ -59,7 +62,7 @@ namespace Progas.Portal.UI.Controllers
         {
             PrepararViewBagParaTelaDeCadastroDePedido();
             ViewBag.TituloDaPagina = "Criar Pedido de Venda";
-            return View("_CriarPedidoVenda");
+            return View("_CriarPedidoVenda", new PedidoVendaCadastroVm{datap = DateTime.Today.ToShortDateString()});
 
         }
 
@@ -98,7 +101,9 @@ namespace Progas.Portal.UI.Controllers
             PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDoPedido);
             pedidoVendaCadastroVm.Copia = true;
             pedidoVendaCadastroVm.id_pedido = "";
+            pedidoVendaCadastroVm.NumeroPedidoDoCliente = "";
             pedidoVendaCadastroVm.status = "";
+            pedidoVendaCadastroVm.datap = DateTime.Today.ToShortDateString();
             return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
             
         }
@@ -111,7 +116,18 @@ namespace Progas.Portal.UI.Controllers
         // Consulta Pedido de Venda
         public ActionResult Consultar()
         {
-            return View("_ConsultarPedidoVenda");
+            ViewBag.ListaDeStatus = _consultaStatusDoPedidoDeVenda.ListarTodos().Select(status =>
+                new SelectListItem
+                {
+                    Value = status.Codigo,
+                    Text = status.Descricao,
+                    Selected = false
+
+                });
+
+            RepresentanteDTO representanteDTO = _consultaUsuario.RepresentanteDoUsuarioLogado();
+
+            return View("_ConsultarPedidoVenda",representanteDTO);
         }
 
         // Listar Pedido Venda
@@ -145,17 +161,7 @@ namespace Progas.Portal.UI.Controllers
         }
 
         #endregion
-        [HttpGet]
-        public ActionResult ListarCondicoesDePreco(PedidoVendaLinhaChaveVm item)
-        {
-            KendoGridVm kendoGridVm = _consultaPedidoVenda.ListarCondicoesDePreco(item);
 
-            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
-        }
 
-        public ActionResult CondicoesDePreco(PedidoVendaLinhaChaveVm item)
-        {
-            return PartialView("CondicaoDePreco", item);
-        }
     }
 }

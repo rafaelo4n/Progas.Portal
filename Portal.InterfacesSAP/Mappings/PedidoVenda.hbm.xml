@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Portal.DadosSap"
+                   namespace="Portal.DadosSap.Entity" >
+
+  <class name="PedidoVenda" table="pro_vcab">
+
+    <id name="Id_cotacao" access="property" column="id_cotacao" type="String"  length="10">
+    </id>
+
+    <property name="TipoPedido" not-null="false" access="property" type="String">
+      <column name="TipoPedido" length="4" />
+    </property>
+    
+    <property name="Id_centro" not-null="false" access="property" type="String">
+      <column name="Id_centro" length="4" />
+    </property>
+
+    <property name="Cliente" not-null="false" access="property" type="String">
+      <column name="Id_cliente" length="10" />
+    </property>    
+
+    <property name="Datacp" not-null="false" access="property" type="DateTime">
+      <column name="Datacp"/>
+    </property>
+
+    <property name="NumeroDoPedido" not-null="false" access="property" type="String">
+      <column name="Id_pedido" length="35" />
+    </property>
+
+    <property name="Datap" not-null="false" access="property" type="DateTime">
+      <column name="Datap"/>
+    </property>
+
+    <property name="Condpgto" not-null="false" access="property" type="String">
+      <column name="Condpgto" length="4" />
+    </property>
+
+    <property name="Id_repre" not-null="false" access="property" type="String">
+      <column name="Id_repre" length="15" />
+    </property>
+
+    <property name="Observacao" not-null="false" access="property" type="String">
+      <column name="Obs" length="60" />
+    </property>
+
+    <property name="Status" not-null="false" access="property" type="String">
+      <column name="Status" length="20" />
+    </property>
+    
+    <property name="ValorTotal" not-null="false" access="property">
+      <column name="Vlrtot" scale="2" precision="11" sql-type="number(11,2)" />
+    </property>
+
+    <property name="Tipo" not-null="false" access="property" type="String">
+      <column name="Tipo" length="1" />
+    </property>
+
+    <property name="AreaDeVenda" not-null="false" access="property" type="Int32">
+      <column name="pro_id_cliente_vendas"/>
+    </property>
+
+    <property name="Transportadora" not-null="false" access="property" type="String">
+      <column name="CodigoDaTransportadora" length="10"/>
+    </property>
+    
+    <property name="TransportadoraDeRedespacho" not-null="false" access="property" type="String">
+      <column name="CodigoDaTransportadoraDeRedespacho" length="10"/>
+    </property>
+
+    <property name="TransportadoraDeRedespachoCif" not-null="false" access="property" type="String">
+      <column name="CodigoDaTransportadoraDeRedespachoCif" length="10"/>
+    </property>
+
+    <property name="Incoterm1" not-null="false" access="property" type="Int32">
+      <column name="pro_id_incotermCab"/>
+    </property>
+
+    <property name="Incoterm2" not-null="false" access="property" type="Int32">
+      <column name="pro_id_incotermLinha"/>
+    </property>
+
+    <property name="NumeroDoPedidoDoCliente" not-null="false" access="property" type="String">
+      <column name="NumeroDoPedidoDoCliente" length="35" />
+    </property>
+
+  </class>
+
+</hibernate-mapping>

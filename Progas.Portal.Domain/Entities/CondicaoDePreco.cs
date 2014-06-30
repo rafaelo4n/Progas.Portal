@@ -4,9 +4,10 @@
     {
         protected CondicaoDePreco() { }
 
-        public CondicaoDePreco(string nivel, string tipo, decimal @base, decimal montante, decimal valor)
+        public CondicaoDePreco(string nivel, string descricao, string tipo, decimal @base, decimal montante, decimal valor)
         {
             Nivel = nivel;
+            Descricao = descricao;
             Tipo = tipo;
             Base = @base;
             Montante = montante;
@@ -14,6 +15,7 @@
         }
 
         public virtual int Id { get; set; }
+        public virtual  string Descricao { get; set; }
         public virtual string Nivel{ get; protected set; }
         public virtual string Tipo { get; set; }
         public virtual decimal Base { get; set; }

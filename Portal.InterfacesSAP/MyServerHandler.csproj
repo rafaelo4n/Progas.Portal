@@ -141,6 +141,7 @@
   <ItemGroup>
     <Compile Include="Business\Implementation\ClienteCondicaoLiberadaRepository.cs" />
     <Compile Include="Business\Implementation\ClienteRepository.cs" />
+    <Compile Include="Business\Implementation\ClienteTransportadoraLiberadaRepository.cs" />
     <Compile Include="Business\Implementation\ClienteVendasRepository.cs" />
     <Compile Include="Business\Implementation\CondicaoDePrecoClienteRepository.cs" />
     <Compile Include="Business\Implementation\CondicaoDePrecoGeralRepository.cs" />
@@ -151,10 +152,13 @@
     <Compile Include="Business\Implementation\IncotermsCabRepository.cs" />
     <Compile Include="Business\Implementation\IncotermsLinhaRepository.cs" />
     <Compile Include="Business\Implementation\MaterialRepository.cs" />
+    <Compile Include="Business\Implementation\PedidoVendaLinhaRepository .cs" />
+    <Compile Include="Business\Implementation\PedidoVendaRepository.cs" />
     <Compile Include="Business\Implementation\RepositoryBase.cs" />
     <Compile Include="Business\Implementation\UnidadeMedidaRepository.cs" />
     <Compile Include="Business\Repository\IClienteCondicaoLiberadaRepository.cs" />
     <Compile Include="Business\Repository\IClienteRepository.cs" />
+    <Compile Include="Business\Repository\IClienteTransportadoraLiberadaRepository.cs" />
     <Compile Include="Business\Repository\IClienteVendasRepository.cs" />
     <Compile Include="Business\Repository\ICondicaoDePrecoClienteRepository.cs" />
     <Compile Include="Business\Repository\ICondicaoDePrecoGeralRepository.cs" />
@@ -165,12 +169,16 @@
     <Compile Include="Business\Repository\IIncotermsCabRepository.cs" />
     <Compile Include="Business\Repository\IIncotermsLinhaRepository.cs" />
     <Compile Include="Business\Repository\IMaterialRepository.cs" />
+    <Compile Include="Business\Repository\IPedidoVendaLinhaRepository.cs" />
+    <Compile Include="Business\Repository\IPedidoVendaRepository.cs" />
     <Compile Include="Business\Repository\IRepositoryBase.cs" />
     <Compile Include="Business\Repository\IUnidadeMedidaRepository.cs" />
     <Compile Include="ConexaoNHibernate.cs" />
     <Compile Include="Entity\Cliente.cs" />
     <Compile Include="Entity\ClienteCondicaoLiberada.cs" />
+    <Compile Include="Entity\ClienteTransportadoraLiberada.cs" />
     <Compile Include="Entity\ClienteVendas.cs" />
+    <Compile Include="Entity\CondicaoDePreco.cs" />
     <Compile Include="Entity\CondicaoDePrecoCliente.cs" />
     <Compile Include="Entity\CondicaoDePrecoGeral.cs" />
     <Compile Include="Entity\CondicaoDePrecoRegiao.cs" />
@@ -179,7 +187,11 @@
     <Compile Include="Entity\FornecedorEmpresa.cs" />
     <Compile Include="Entity\IncotermsCab.cs" />
     <Compile Include="Entity\IncotermsLinhas.cs" />
+    <Compile Include="Entity\ListaPreco.cs" />
     <Compile Include="Entity\Material.cs" />
+    <Compile Include="Entity\MotivoDeRecusa.cs" />
+    <Compile Include="Entity\PedidoVenda.cs" />
+    <Compile Include="Entity\PedidoVendaLinha.cs" />
     <Compile Include="Entity\UnidadeMedida.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="ProjectInstaller.cs">
@@ -204,6 +216,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="hibernate.cfg.xml" />
+    <EmbeddedResource Include="Mappings\ClienteTransportadoraLiberada.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\PedidoVenda.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\PedidoVendaLinha.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\MotivoDeRecusa.hbm.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\ListaPreco.hbm.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Mappings\FornecedorEmpresa.hbm.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -227,6 +258,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Mappings\IncotermsLinhas.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Mappings\ClienteVendas.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -240,6 +272,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Mappings\CondicaoPagamento.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Mappings\Cliente.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

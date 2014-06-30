@@ -3,15 +3,13 @@ using System.Collections.Generic;
 
 namespace Progas.Portal.ViewModel
 {
-    // View que recebera os valores da pagina que serão utilizados no CRUD
     public class PedidoVendaSalvarVm
     {
-        // cabecalho
         public string IdDaCotacao { get; set; }
         public string Tipo { get; set; } 
-        public string NumeroPedido { get; set; } 
+        public string NumeroPedidoDoRepresentante { get; set; }
+        public string NumeroPedidoDoCliente { get; set; } 
         public string CodigoDaCondicaoDePagamento { get; set; } 
-        public string Centro { get; set; } 
         public DateTime DataDoPedido { get; set; }
         public string CodigoTipoPedido { get; set; } 
         public string CodigoDaTransportadora { get; set; } 

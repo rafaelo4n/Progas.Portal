@@ -8,7 +8,6 @@ namespace Progas.Portal.Application.Queries.Contracts
         
 
         IList<CondicaoDePagamentoCadastroVm> Listar(PaginacaoVm paginacaoVm, CondicaoDePagamentoCadastroVm filtro);
-        IList<CondicaoDePagamentoCadastroVm> ListarTodas();
         KendoGridVm Listar(PaginacaoVm paginacaoVm, CondicaoPagamentoFiltroVm filtro);
     }
 

@@ -1,71 +1,84 @@
 ﻿using System.Linq;
-using System.Collections.Generic;
+using NHibernate;
+using NHibernate.Criterion;
 using Progas.Portal.Application.Queries.Builders;
 using Progas.Portal.Application.Queries.Contracts;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.ViewModel;
-
-//using StructureMap;
+using StructureMap;
 
 namespace Progas.Portal.Application.Queries.Implementations
 {
     public class ConsultaFornecedor: IConsultaFornecedor
     {
         private readonly IFornecedores _fornecedores;
+        private readonly IClienteVendas _clienteVendas;
         private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builderFornecedor;
-        //private readonly IBuilder<Produto, ProdutoCadastroVm> _builderProduto;
 
-        public ConsultaFornecedor(IFornecedores fornecedores, IBuilder<Fornecedor, FornecedorCadastroVm> builderFornecedor)
+        public ConsultaFornecedor(IFornecedores fornecedores, IBuilder<Fornecedor, FornecedorCadastroVm> builderFornecedor, IClienteVendas clienteVendas)
         {
             _builderFornecedor = builderFornecedor;
-            //_builderProduto = builderProduto;
+            _clienteVendas = clienteVendas;
             _fornecedores = fornecedores;
         }       
 
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, FornecedorFiltroVm filtro)
         {
-            _fornecedores
-                .CodigoContendo(filtro.Codigo)
-                .NomeContendo(filtro.Nome)
-                .ComCnpj(filtro.Cnpj)
-                .ComCpf(filtro.Cpf);
+            var unitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
+
+            Fornecedor fornecedor = null;
+            IQueryOver<Fornecedor,Fornecedor> queryOver = unitOfWorkNh.Session.QueryOver(() => fornecedor)
+                .Where(f => f.Eliminacao == null || f.Eliminacao != "X");
 
             if (filtro.SomenteTransportadora)
             {
-                _fornecedores.SomenteTransportadora();
+                queryOver = queryOver.And(f => f.Grupo_contas == "ZTRA");
             }
-            
-            var kendoGridVm = new KendoGridVm()
-                {
-                    QuantidadeDeRegistros = _fornecedores.Count(),
-                    Registros =
-                        _builderFornecedor.BuildList(_fornecedores.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
-                                .Cast<ListagemVm>()
-                                .ToList()
 
-                };
-            return kendoGridVm;
-        }
-
-        public IList<FornecedorCadastroVm> Listar(PaginacaoVm paginacaoVm, FornecedorCadastroVm filtro)
-        {
             if (!string.IsNullOrEmpty(filtro.Codigo))
             {
-                _fornecedores.BuscaPeloCodigo(filtro.Codigo);
-
+                queryOver = queryOver.And(f => f.Codigo.IsInsensitiveLike(filtro.Codigo, MatchMode.Anywhere));
             }
 
             if (!string.IsNullOrEmpty(filtro.Nome))
             {
-                _fornecedores.FiltraPelaDescricao(filtro.Nome);
+                queryOver = queryOver.And(f => f.Nome.IsInsensitiveLike(filtro.Nome, MatchMode.Anywhere));
             }
-            int skip = (paginacaoVm.Page - 1) * paginacaoVm.PageSize;
 
-            //paginacaoVm.TotalRecords = _condicoesDePagamento.Count();
+            if (!string.IsNullOrEmpty(filtro.Cnpj))
+            {
+                queryOver = queryOver.And(f => f.Cnpj == filtro.Cnpj);
+            }
 
-            return _builderFornecedor.BuildList(_fornecedores.Skip(skip).Take(paginacaoVm.Take).List());
+            if (!string.IsNullOrEmpty(filtro.Cpf))
+            {
+                queryOver = queryOver.And(f => f.Cpf == filtro.Cpf);
+            }
 
+            if (filtro.IdDaAreaDeVenda.HasValue)
+            {
+                ClienteVenda areaDeVenda = _clienteVendas.ObterPorId(filtro.IdDaAreaDeVenda.Value);
+                FornecedorDaEmpresa fornecedorDaEmpresa = null;
+
+                QueryOver<FornecedorDaEmpresa, FornecedorDaEmpresa> subQuery = QueryOver.Of(() => fornecedorDaEmpresa)
+                    .Where(Restrictions.EqProperty(Projections.Property(() => fornecedor.Codigo), Projections.Property(() => fornecedorDaEmpresa.Fornecedor.Codigo)))
+                    .And(x => x.Empresa == areaDeVenda.Org_vendas)
+                    .Select(Projections.Property(() => fornecedorDaEmpresa.Empresa));
+
+                queryOver.WithSubquery.WhereExists(subQuery);
+            }
+
+            var kendoGridVm = new KendoGridVm
+            {
+                QuantidadeDeRegistros = queryOver.RowCount(),
+                Registros =
+                    _builderFornecedor.BuildList(queryOver.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
+                        .Cast<ListagemVm>()
+                        .ToList()
+
+            };
+            return kendoGridVm;
         }
 
         public FornecedorCadastroVm ConsultaPorCodigo(string codigoDoFornecedor)
@@ -73,10 +86,5 @@ namespace Progas.Portal.Application.Queries.Implementations
             return _builderFornecedor.BuildSingle(_fornecedores.BuscaPeloCodigo(codigoDoFornecedor));
         }
 
-        public string ConsultaPorCnpj(string cnpj)
-        {
-            _fornecedores.BuscaPeloCnpj(cnpj);
-            return (from fornecedor in _fornecedores.GetQuery() select fornecedor.Nome).FirstOrDefault();
-        }
     }
 }

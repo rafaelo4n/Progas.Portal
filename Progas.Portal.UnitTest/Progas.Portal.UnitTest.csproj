@@ -59,6 +59,8 @@
     <Compile Include="ConsultaDeClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConsultaDeMaterialTests.cs" />
+    <Compile Include="ConsultaDeCondicaoDePagamentoTests.cs" />
+    <Compile Include="ConsultaDePedidoDeVendaTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Progas.Portal.Application\Progas.Portal.Application.csproj">

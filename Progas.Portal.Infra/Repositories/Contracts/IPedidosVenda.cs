@@ -17,5 +17,6 @@ namespace Progas.Portal.Infra.Repositories.Contracts
         IPedidosVenda ContendoMaterial(int idDoMaterial);
 
         IPedidosVenda DoCliente(string codigoDoCliente);
+        IPedidosVenda NoStatus(string status);
     }
 }

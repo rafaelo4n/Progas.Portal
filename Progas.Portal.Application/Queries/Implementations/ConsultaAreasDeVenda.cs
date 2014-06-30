@@ -17,11 +17,12 @@ namespace Progas.Portal.Application.Queries.Implementations
             _clienteVendas = clienteVendas;
         }
 
-        public IList<AreaDeVendaVm> ListarPorCliente(string idDoCliente)
+        public IList<AreaDeVendaVm> ListarPorCliente(string idDoCliente, int? idDaAreaDeVenda)
         {
-            IQueryable<ClienteVenda> queryable = _clienteVendas
-                .DoCliente(idDoCliente)
-                .GetQuery();
+
+            _clienteVendas.DoCliente(idDoCliente);
+
+            IList<ClienteVenda> queryable = idDaAreaDeVenda.HasValue ? _clienteVendas.CarregarSempre(idDaAreaDeVenda.Value) : _clienteVendas.List();
 
             return queryable.Select(c => new AreaDeVendaVm
             {

@@ -83,6 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CondicaoDePagamentoDoCliente.cs" />
     <Compile Include="Entities\Cliente.cs" />
     <Compile Include="Entities\ClienteVenda.cs" />
     <Compile Include="Entities\CondicaoDePagamento.cs" />
@@ -90,8 +91,8 @@
     <Compile Include="Entities\CondicaoDePrecoCliente.cs" />
     <Compile Include="Entities\CondicaoDePrecoGeral.cs" />
     <Compile Include="Entities\CondicaoDePrecoRegiao.cs" />
-    <Compile Include="Entities\CondicaoPagamento.cs" />
     <Compile Include="Entities\Fornecedor.cs" />
+    <Compile Include="Entities\FornecedorDaEmpresa.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
     <Compile Include="Entities\Incoterm.cs" />
     <Compile Include="Entities\IncotermCab.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Entities\MotivoDeRecusa.cs" />
     <Compile Include="Entities\PedidoVenda.cs" />
     <Compile Include="Entities\PedidoVendaLinha.cs" />
+    <Compile Include="Entities\StatusDoPedidoDeVenda.cs" />
     <Compile Include="Entities\TipoPedido.cs" />
     <Compile Include="Entities\UnidadeDeMedida.cs" />
     <Compile Include="Entities\Usuario.cs" />

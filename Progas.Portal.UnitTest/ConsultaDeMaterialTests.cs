@@ -22,11 +22,12 @@ namespace Progas.Portal.UnitTest
             var filtro = new MaterialFiltroVm
             {
                 IdDoCliente = "0001000188",
-                ComPrecoAtivo = true
+                ComPrecoAtivo = true,
+                IdDaAreaDeVenda = 336
             };
             KendoGridVm kendoGridVm = consultaMaterial.Listar(paginacao, filtro);
 
-            Assert.AreEqual(2,kendoGridVm.QuantidadeDeRegistros);
+            Assert.AreEqual(545,kendoGridVm.QuantidadeDeRegistros);
         }
     }
 }

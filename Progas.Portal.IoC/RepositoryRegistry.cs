@@ -66,6 +66,10 @@ namespace Progas.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<MotivosDeRecusa>();
 
+            For<IRepositorioDeStatusDoPedidoDeVenda>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<RepositorioDeStatusDoPedidoDeVenda>();
+
         }
     }
 }

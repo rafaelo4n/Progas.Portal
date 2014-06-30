@@ -6,7 +6,7 @@ namespace Progas.Portal.Infra.Repositories.Contracts
     {
         // Consulta os clientes pelo id
         Cliente ConsultaClientes (string id_cliente);
-        Cliente BuscaPeloCodigo(string codigoSap);
+        IClientes BuscaPeloCodigo(string codigoSap);
         IClientes CodigoContendo(string filtroCodigo);
         IClientes FiltraPelaDescricao(string descricao);
         IClientes NomeContendo(string filtroNome);

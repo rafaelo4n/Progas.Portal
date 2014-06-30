@@ -15,5 +15,7 @@ namespace Portal.DadosSap.Entity
         public virtual string Pacote              { get; set; }
         public virtual string Hora_criacao        { get; set; }
         public virtual string Eliminacao          { get; set; }
+        public virtual bool parc_redesp_cif    { get; set; }
+        public virtual bool parc_redesp_fob { get; set; }
     }
 }

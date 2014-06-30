@@ -8,12 +8,15 @@ namespace Progas.Portal.Infra.Repositories.Implementations
     {
         public Clientes(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
-            Query = Query.OrderBy(x => x.Nome);
+            Query = Query
+                .Where(x => x.Eliminacao == null || x.Eliminacao != "X")
+                .OrderBy(x => x.Nome);
         }
 
-        public Cliente BuscaPeloCodigo(string codigoSap)
+        public IClientes BuscaPeloCodigo(string codigoSap)
         {
-            return Query.SingleOrDefault(x => x.Id_cliente == codigoSap);
+            Query =  Query.Where(x => x.Id_cliente == codigoSap);
+            return this;
         }
 
         public IClientes FiltraPelaDescricao(string descricao)

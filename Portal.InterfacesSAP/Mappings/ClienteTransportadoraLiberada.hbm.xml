@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Portal.DadosSap"
+                   namespace="Portal.DadosSap.Entity" >
+
+  <class name="ClienteTransportadoraLiberada" table="pro_cliente_trans_lib">
+
+    <id name="Id" access="property" column="Id" type="Int32">
+      <generator class="identity">
+        <param name="identity">Id</param>
+      </generator>
+    </id>
+    
+    <property name="Id_cliente" not-null="false" access="property" type="String">
+      <column name="Id_cliente" length="10" />
+    </property>
+
+    <property name="Funcao_parceiro" not-null="false" access="property" type="String">
+      <column name="Funcao_parceiro" length="2" />
+    </property>
+
+    <property name="Numero_agente_frete" not-null="false" access="property" type="String">
+      <column name="Numero_agente_frete" length="10" />
+    </property>
+   
+    <property name="Padrao" not-null="false" access="property" type="boolean">
+      <column name="Padrao" />
+    </property>
+    
+    <property name="Data_criacao" not-null="false" access="property" type="DateTime">
+      <column name="Data_criacao"/>
+    </property>
+
+    <property name="Pacote" not-null="false" access="property" type="String">
+      <column name="Pacote" length="30" />
+    </property>
+
+    <property name="Hora_criacao" not-null="false" access="property" type="String">
+      <column name="Hora_criacao" length="8" />
+    </property>
+
+  </class>
+
+</hibernate-mapping>

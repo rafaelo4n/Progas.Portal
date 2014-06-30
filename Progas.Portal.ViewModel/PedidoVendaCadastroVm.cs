@@ -31,10 +31,13 @@ namespace Progas.Portal.ViewModel
         [Display(Name = "Data de Criação: ")]
         public string datacp { get; set; }
 
-        [Display(Name = "N° Pedido: ")]
-        [Required(ErrorMessage = "Nº Pedido é obrigatório")]
-
+        [Display(Name = "Pedido Representante: ")]
+        [Required(ErrorMessage = "Nº Pedido do Representante é obrigatório")]
         public string id_pedido { get; set; }
+
+        [Display(Name = "OC Cliente:")]
+        public string NumeroPedidoDoCliente { get; set; }
+
 
         [DataType(DataType.Date)]
         [Display(Name = "Data do Pedido: ")]
@@ -42,15 +45,15 @@ namespace Progas.Portal.ViewModel
         public string datap { get; set; }
 
         [Required(ErrorMessage = "Condição de Pagamento é obrigatória")]
-        [Display(Name = "Condição de Pagamento")]
+        [Display(Name = "Condição Pagamento:")]
         public string condpgto { get; set; }
 
-        [Display(Name = "Incoterm 1: ")]
-        [Required(ErrorMessage = "Incoterm 1 é obrigatória")]
+        [Display(Name = "Tipo de Frete: ")]
+        [Required(ErrorMessage = "Tipo de Frete é obrigatório")]
         public string IdDoIncoterm1 { get; set; }
 
-        [Display(Name = "Incoterm 2: ")]
-        [Required(ErrorMessage = "Incoterm 2 é obrigatória")]
+        [Display(Name = "Modelo de Frete: ")]
+        [Required(ErrorMessage = "Modelo de Frete é obrigatório")]
         public string IdDoIncoterm2 { get; set; }
 
         [Display(Name = "Representante: ")]
@@ -82,7 +85,7 @@ namespace Progas.Portal.ViewModel
         public string CodigoDaListaDePreco { get; set; }
 
         // Desconto Manual
-        [Display(Name = "Desconto:")]
+        [Display(Name = "Desconto Autorizado Fábrica:")]
         public string Desconto { get; set; }
 
         [Display(Name = "Área de Venda:")]

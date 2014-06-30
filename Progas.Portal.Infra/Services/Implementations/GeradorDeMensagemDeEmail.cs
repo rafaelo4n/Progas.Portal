@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using Progas.Portal.Domain.Entities;
 using Progas.Portal.Infra.Model;
 using Progas.Portal.Infra.Services.Contracts;
@@ -12,7 +13,7 @@ namespace Progas.Portal.Infra.Services.Implementations
             string mensagem = "Prezado(a) " + usuario.Nome + Environment.NewLine + Environment.NewLine +
             "Conforme foi solicitado através do Portal de Vendas da PROGAS, segue abaixo a sua nova senha de acesso ao site. " + 
             "Esta senha foi gerada automaticamente no momento da sua solicitação. "+
-            "Recomenda-se que acesse o site http://portaldevendas.progas.com.br/ e altere a senha para uma de sua preferência." + Environment.NewLine + Environment.NewLine +
+            "Recomenda-se que acesse o site " + ConfigurationManager.AppSettings["EnderecoDoSite"] + " e altere a senha para uma de sua preferência." + Environment.NewLine + Environment.NewLine +
             "Dados de Acesso:" + Environment.NewLine + Environment.NewLine + 
             "Login: " + usuario.Login + Environment.NewLine +
             "Nova Senha: " + novaSenha + Environment.NewLine +

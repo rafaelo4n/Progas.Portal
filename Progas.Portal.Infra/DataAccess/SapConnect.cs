@@ -2,27 +2,24 @@
 
 using System;
 using System.Configuration;
-using NHibernate.Criterion;
 using SAP.Middleware.Connector;
 
 namespace Progas.Portal.Infra.DataAccess
 {
     public class SapConnect : IDestinationConfiguration
     {
-        // Dados de Parametros do Web.config
-        public static string appserverhost = ConfigurationSettings.AppSettings["AppServerHost"];
-        public static string saprouter = ConfigurationSettings.AppSettings["SAPRouter"];
-        public static string systemnumber = ConfigurationSettings.AppSettings["SystemNumber"];
-        public static string systemid = ConfigurationSettings.AppSettings["SystemID"];
-        public static string user = ConfigurationSettings.AppSettings["User"];
-        public static string password = ConfigurationSettings.AppSettings["Password"];
-        public static string client = ConfigurationSettings.AppSettings["Client"];
-        public static string poolsize = ConfigurationSettings.AppSettings["PoolSize"];
-        public static string repositorydestination = ConfigurationSettings.AppSettings["RepositoryDestination"];
-
-        public RfcConfigParameters GetParameters(String destinationName)
+        public RfcConfigParameters GetParameters(string destinationName)
         {
-            if (repositorydestination != destinationName) return null;
+
+            string appserverhost = ConfigurationManager.AppSettings["AppServerHost"];
+            string saprouter = ConfigurationManager.AppSettings["SAPRouter"];
+            string systemnumber = ConfigurationManager.AppSettings["SystemNumber"];
+            string systemid = ConfigurationManager.AppSettings["SystemID"];
+            string user = ConfigurationManager.AppSettings["User"];
+            string password = ConfigurationManager.AppSettings["Password"];
+            string client = ConfigurationManager.AppSettings["Client"];
+            string poolsize = ConfigurationManager.AppSettings["PoolSize"];
+
             var parametros = new RfcConfigParameters
             {
                 {RfcConfigParameters.AppServerHost, appserverhost},
@@ -39,7 +36,8 @@ namespace Progas.Portal.Infra.DataAccess
 
         public RfcDestination Conectar()
         {
-            GetParameters("DEV");
+            string destinationName = ConfigurationManager.AppSettings["DestinationName"];
+            GetParameters(destinationName);
 
             RfcDestinationManager.RegisterDestinationConfiguration(this);
             RfcDestination dest = RfcDestinationManager.GetDestination("DEV");
@@ -48,7 +46,6 @@ namespace Progas.Portal.Infra.DataAccess
 
         }
 
-        // The following two are not used in this example:
         public bool ChangeEventsSupported()
         {
             return false;

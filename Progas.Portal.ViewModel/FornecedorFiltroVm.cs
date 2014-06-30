@@ -8,5 +8,7 @@ namespace Progas.Portal.ViewModel
         public string Cnpj { get; set; }
         public string Cpf { get; set; }
         public bool SomenteTransportadora { get; set; }
+        public int? IdDaAreaDeVenda { get; set; }
+        public string Empresa { get; set; }
     }
 }

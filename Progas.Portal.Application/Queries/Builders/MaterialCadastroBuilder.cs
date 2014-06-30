@@ -1,4 +1,5 @@
-﻿using Progas.Portal.Domain.Entities;
+﻿using NHibernate.Criterion;
+using Progas.Portal.Domain.Entities;
 using Progas.Portal.ViewModel;
 
 namespace Progas.Portal.Application.Queries.Builders
@@ -14,7 +15,7 @@ namespace Progas.Portal.Application.Queries.Builders
                 Descricao = material.Descricao,
                 Centro = material.Id_centro,
                 Tipo = material.Tip_mat,
-                UnidadeMedida = material.Uni_med
+                UnidadeMedida = material.UnidadeDeMedida.Id_unidademedida
             };
         }
     }

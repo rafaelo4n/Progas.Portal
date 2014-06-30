@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Progas.Portal.Domain.Entities;
+﻿using Progas.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace Progas.Portal.Infra.Mappings
@@ -14,11 +9,11 @@ namespace Progas.Portal.Infra.Mappings
         {
             Table("pro_condpgto");
             Id(x => x.Codigo);
-            //Map(x => x.Codigo);
             Map(x => x.Descricao);
             Map(x => x.pacote);
             Map(x => x.hora_criacao);
             Map(x => x.data_criacao);
+            Map(x => x.Eliminacao);
         }
     }
 }

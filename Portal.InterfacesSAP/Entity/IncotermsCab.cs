@@ -8,6 +8,7 @@ namespace Portal.DadosSap.Entity
 {
     public class IncotermsCab
     {
+        public virtual int pro_id_incotermCab   { get; set; }
         public virtual string CodigoIncotermCab { get; set; }
         public virtual string Descricao         { get; set; }
         public virtual DateTime Data_criacao    { get; set; }
