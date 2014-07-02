@@ -35,6 +35,14 @@
       <column name="Eliminacao" length="1" />
     </property>
 
+    <property name="parc_redesp_cif" not-null="false" access="property" type="boolean">
+      <column name="parc_redesp_cif" />
+    </property>
+
+    <property name="parc_redesp_fob" not-null="false" access="property" type="boolean">
+      <column name="parc_redesp_fob" />
+    </property>
+
   </class>
 
 </hibernate-mapping>

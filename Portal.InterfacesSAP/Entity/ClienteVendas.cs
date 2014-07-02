@@ -20,23 +20,5 @@ namespace Portal.DadosSap.Entity
         public virtual string Hora_criacao   { get; set; }
         public virtual string Denominacao    { get; set; }
         public virtual string Eliminacao     { get; set; }
-
-        public override bool Equals(Object o)
-        {
-            if (o == null)
-            {
-                return false;
-            }
-            if (this.GetType() == o.GetType())
-            {
-                return o.GetHashCode() == this.GetHashCode();
-            }
-            return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
     }
 }

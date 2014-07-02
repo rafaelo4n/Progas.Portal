@@ -12,16 +12,16 @@
       <column name="Descricao" length="30" />
     </property>
 
-    <property name="Data_criacao" not-null="false" access="property" type="DateTime">
-      <column name="Data_criacao"/>
+    <property name="data_criacao" not-null="false" access="property" type="DateTime">
+      <column name="data_criacao"/>
     </property>
 
-    <property name="Pacote" not-null="false" access="property" type="String">
-      <column name="Pacote" length="30" />
+    <property name="pacote" not-null="false" access="property" type="String">
+      <column name="pacote" length="30" />
     </property>
 
-    <property name="Hora_criacao" not-null="false" access="property" type="String">
-      <column name="Hora_criacao" length="8"/>
+    <property name="hora_criacao" not-null="false" access="property" type="String">
+      <column name="hora_criacao" length="8"/>
     </property>
 
     <property name="Eliminacao" not-null="false" access="property" type="String">
