@@ -5,6 +5,8 @@
 
     var somenteTransportadora;
     var areaDeVenda;
+    var campoDoCliente;
+    var parceiro;
 
     function configurarGridDeSelecao() {
 
@@ -36,13 +38,18 @@
                 serverPaging: true,
                 transport: {
                     read: {
-                        url: UrlPadrao.ListarFornecedoresParaSelecao,
+                        url: somenteTransportadora ? UrlPadrao.ListarTransportadorasParaSelecao : UrlPadrao.ListarFornecedoresParaSelecao,
                         type: 'GET',
                         cache: false,
                         data: function () {
                             var filtro = $('#filtrosDeFornecedor').serializeObject();
-                            filtro.SomenteTransportadora = somenteTransportadora;
                             filtro.IdDaAreaDeVenda = areaDeVenda;
+                            if (campoDoCliente) {
+                                filtro.IdDoCliente = $(campoDoCliente).val();
+                            }
+                            if (parceiro) {
+                                filtro.TipoDeParceiro = parceiro;
+                            }
                             return filtro;
                         }
                     }
@@ -182,7 +189,6 @@
 
             }
 
-
             var idDoFornecedor = $(idDoCampoDoIdDoFornecedor).val();
 
             if (idDoFornecedor) {
@@ -201,8 +207,11 @@
         configurarJanelaModal(idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, idDoCampoDaAreaDeVenda, funcaoParaPreencherOsDadosDeRetorno);
     };
 
-    this.configurarJanelaModalParaTransportadora = function (idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, idDoCampoDaAreaDeVenda, funcaoParaPreencherOsDadosDeRetorno) {
+    this.configurarJanelaModalParaTransportadora = function (idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor,
+        idDoCampoDaAreaDeVenda, idDoCampoDoCliente, tipoDeParceiro, funcaoParaPreencherOsDadosDeRetorno) {
         somenteTransportadora = true;
+        campoDoCliente = idDoCampoDoCliente;
+        parceiro = tipoDeParceiro;
         configurarJanelaModal(idDoCampoDoIdDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor, idDoCampoDaAreaDeVenda, funcaoParaPreencherOsDadosDeRetorno);
     };
 

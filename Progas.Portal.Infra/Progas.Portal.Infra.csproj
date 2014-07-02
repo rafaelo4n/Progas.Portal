@@ -150,7 +150,7 @@
     <Compile Include="Mappings\CondicaoDePrecoRegiaoMap.cs" />
     <Compile Include="Mappings\FornecedorDaEmpresaMap.cs" />
     <Compile Include="Mappings\FornecedorMap.cs" />
-    <Compile Include="Mappings\IncotermLinhasMap.cs" />
+    <Compile Include="Mappings\IncotermLinhaMap.cs" />
     <Compile Include="Mappings\IncotermMap.cs" />
     <Compile Include="Mappings\IncotermsCabMap.cs" />
     <Compile Include="Mappings\ListaPrecoMap.cs" />
@@ -160,6 +160,8 @@
     <Compile Include="Mappings\PedidoVendaMap.cs" />
     <Compile Include="Mappings\StatusDoPedidoDeVendaMap.cs" />
     <Compile Include="Mappings\TipoPedidoMap.cs" />
+    <Compile Include="Mappings\TransportadoraDoClienteMap.cs" />
+    <Compile Include="Mappings\TransportadoraDoRepresentanteMap.cs" />
     <Compile Include="Mappings\UnidadeDeMedidaMap.cs" />
     <Compile Include="Mappings\UsuarioMap.cs" />
     <Compile Include="Model\ContaDeEmail.cs" />

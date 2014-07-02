@@ -2,7 +2,7 @@
 
 namespace Progas.Portal.Infra.Repositories.Contracts
 {
-    public interface IIncotermsLinhas : ICompleteRepository<IncotermLinhas>
+    public interface IIncotermsLinhas : ICompleteRepository<IncotermLinha>
     {
         IIncotermsLinhas FiltraPorId(int id);
         IIncotermsLinhas DoCabecalho(string codigoDoCabecalho);

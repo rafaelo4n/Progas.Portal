@@ -130,11 +130,11 @@ namespace Progas.Portal.Application.Queries.Implementations
                 }
                 : null,
 
-                TransportadoraDeRedespacho = pedido.TransportadoraDeRedespacho != null
+                TransportadoraDeRedespacho = pedido.TransportadoraDeRedespachoFob != null
                 ?new TransportadoraDoPedidoDeVenda
                 {
-                    Codigo = pedido.TransportadoraDeRedespacho.Codigo,
-                    Nome =  pedido.TransportadoraDeRedespacho.Nome
+                    Codigo = pedido.TransportadoraDeRedespachoFob.Codigo,
+                    Nome =  pedido.TransportadoraDeRedespachoFob.Nome
                 }
                 : null,
 
@@ -152,8 +152,8 @@ namespace Progas.Portal.Application.Queries.Implementations
                 id_pedido = pedido.NumeroDoPedidoDoRepresentante ,
                 NumeroPedidoDoCliente = pedido.NumeroDoPedidoDoCliente,
                 id_repre =pedido.Id_repre ,
-                IdDoIncoterm1 = Convert.ToString(pedido.Incoterm1.pro_id_incotermCab),
-                IdDoIncoterm2 = Convert.ToString(pedido.Incoterm2.pro_id_incotermLinha),
+                IdDoIncoterm1 = Convert.ToString(pedido.ModeloDeFrete.pro_id_incotermCab),
+                IdDoIncoterm2 = Convert.ToString(pedido.TipoDeFrete.Id),
                 vlrtot = pedido.ValorTotal,
                 obs = pedido.Observacao
 

@@ -29,6 +29,7 @@ namespace Progas.Portal.Infra.Mappings
 
             HasMany(x => x.Empresas).KeyColumn("Codigo");
 
+
         }
     }
 }

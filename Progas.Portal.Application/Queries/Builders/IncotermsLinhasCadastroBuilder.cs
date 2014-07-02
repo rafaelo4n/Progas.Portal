@@ -6,18 +6,18 @@ using Progas.Portal.ViewModel;
 
 namespace Progas.Portal.Application.Queries.Builders
 {
-    public class IncotermsLinhasCadastroBuilder : IBuilder<IncotermLinhas, IncotermLinhasCadastroVm>
+    public class IncotermsLinhasCadastroBuilder : IBuilder<IncotermLinha, IncotermLinhasCadastroVm>
     {
-        public IncotermLinhasCadastroVm BuildSingle(IncotermLinhas incotermLinhas)
+        public IncotermLinhasCadastroVm BuildSingle(IncotermLinha incotermLinhas)
         {
             return new IncotermLinhasCadastroVm()
             {
-                Id = incotermLinhas.pro_id_incotermLinha,
-                IncotermLinha = incotermLinhas.IncotermLinha
+                Id = incotermLinhas.Id,
+                IncotermLinha = incotermLinhas.Descricao
             };
         }
 
-        public IList<IncotermLinhasCadastroVm> BuildList(IList<IncotermLinhas> incotermLinhas)
+        public IList<IncotermLinhasCadastroVm> BuildList(IList<IncotermLinha> incotermLinhas)
         {
             return incotermLinhas.Select(BuildSingle).ToList();
         }

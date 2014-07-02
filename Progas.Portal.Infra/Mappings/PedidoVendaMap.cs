@@ -25,10 +25,10 @@ namespace Progas.Portal.Infra.Mappings
             References(x => x.Cliente, "Id_cliente");
             References(x => x.AreaDeVenda, "pro_id_cliente_vendas");
             References(x => x.Transportadora,"CodigoDaTransportadora");
-            References(x => x.TransportadoraDeRedespacho, "CodigoDaTransportadoraDeRedespacho");
+            References(x => x.TransportadoraDeRedespachoFob, "CodigoDaTransportadoraDeRedespacho");
             References(x => x.TransportadoraDeRedespachoCif,"CodigoDaTransportadoraDeRedespachoCif");
-            References(x => x.Incoterm1, "pro_id_incotermCab");
-            References(x => x.Incoterm2, "pro_id_incotermLinha");
+            References(x => x.ModeloDeFrete, "pro_id_incotermCab");
+            References(x => x.TipoDeFrete, "pro_id_incotermLinha");
 
             HasMany(x => x.Itens)
                 .KeyColumn("Id_cotacao")

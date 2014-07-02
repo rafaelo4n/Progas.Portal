@@ -17,10 +17,10 @@ namespace Progas.Portal.Domain.Entities
         public virtual string NumeroDoPedidoDoCliente { get; set; }
         public virtual DateTime Datap { get; set; }
         public virtual string Condpgto { get; set; }
-        public virtual IncotermCab Incoterm1 { get; set; }
-        public virtual IncotermLinhas Incoterm2 { get; set; }
+        public virtual IncotermCab ModeloDeFrete { get; set; }
+        public virtual IncotermLinha TipoDeFrete { get; set; }
         public virtual Fornecedor Transportadora { get; set; }
-        public virtual Fornecedor TransportadoraDeRedespacho { get; set; }
+        public virtual Fornecedor TransportadoraDeRedespachoFob { get; set; }
         public virtual Fornecedor TransportadoraDeRedespachoCif { get; set; }
         public virtual string Id_repre { get; set; }
         public virtual string Observacao { get; set; }
@@ -46,15 +46,26 @@ namespace Progas.Portal.Domain.Entities
             string numeroDoPedidoDoCliente,
             DateTime datap,
             string condpgto,
-            IncotermCab incoterm1,
-            IncotermLinhas incoterm2,
+            IncotermCab modeloDeFrete,
+            IncotermLinha tipoDeFrete,
             Fornecedor transportadora,
-            Fornecedor transportadoraDeRedespacho,
+            Fornecedor transportadoraDeRedespachoFob,
             Fornecedor transportadoraDeRedespachoCif,
             string id_repre,
             string observacao
             ) : this()
         {
+
+            if (tipoDeFrete.ExigeTransportadoraDeRedespachoFob && transportadoraDeRedespachoFob == null)
+            {
+                throw new Exception("É necessário informar a Transportadora de Redespacho FOB");
+            }
+
+            if (tipoDeFrete.ExigeTransportadoraDeRedespachoCif && transportadoraDeRedespachoCif == null)
+            {
+                throw new Exception("É necessário informar a Transportadora de Redespacho CIF");
+            }
+
             Tipo = tipo;
             TipoPedido = tipoPedido;
             Id_centro = id_centro;
@@ -65,10 +76,10 @@ namespace Progas.Portal.Domain.Entities
             NumeroDoPedidoDoCliente = numeroDoPedidoDoCliente;
             Datap = datap;
             Condpgto = condpgto;
-            Incoterm1 = incoterm1;
-            Incoterm2 = incoterm2;
+            ModeloDeFrete = modeloDeFrete;
+            TipoDeFrete = tipoDeFrete;
             Transportadora = transportadora;
-            TransportadoraDeRedespacho = transportadoraDeRedespacho;
+            TransportadoraDeRedespachoFob = transportadoraDeRedespachoFob;
             TransportadoraDeRedespachoCif = transportadoraDeRedespachoCif;
             Id_repre = id_repre;
             Observacao = observacao;
@@ -101,16 +112,16 @@ namespace Progas.Portal.Domain.Entities
         public virtual PedidoVenda AlterarTransportadora(Fornecedor transportadora, Fornecedor transportadoraDeRedespacho, Fornecedor transportadoraDeRedespachoCif)
         {
             this.Transportadora = transportadora;
-            this.TransportadoraDeRedespacho = transportadoraDeRedespacho;
+            this.TransportadoraDeRedespachoFob = transportadoraDeRedespacho;
             this.TransportadoraDeRedespachoCif = transportadoraDeRedespachoCif;
 
             return this;
         }
 
-        public virtual PedidoVenda AlterarIncoterm(IncotermCab incoterm1, IncotermLinhas incoterm2)
+        public virtual PedidoVenda AlterarIncoterm(IncotermCab incoterm1, IncotermLinha incoterm2)
         {
-            this.Incoterm1 = incoterm1;
-            this.Incoterm2 = incoterm2;
+            this.ModeloDeFrete = incoterm1;
+            this.TipoDeFrete = incoterm2;
 
             return this;
         }

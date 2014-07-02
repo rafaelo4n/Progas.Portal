@@ -106,7 +106,7 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 IncotermCab incoterm1 = _incotermsCabs.FiltraPorId(pedido.IdDoIncoterm1).Single();
 
-                IncotermLinhas incoterm2 = _incotermsLinhas.FiltraPorId(pedido.IdDoIncoterm2).Single();
+                IncotermLinha incoterm2 = _incotermsLinhas.FiltraPorId(pedido.IdDoIncoterm2).Single();
 
                 Cliente cliente = _clientes.BuscaPeloCodigo(pedido.CodigoDoCliente).Single();
 

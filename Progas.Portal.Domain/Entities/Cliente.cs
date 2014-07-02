@@ -35,6 +35,7 @@ namespace Progas.Portal.Domain.Entities
         public virtual DateTime Data_criacao { get; set; }
         public virtual IList<ClienteVenda> AreasDeVenda { get; protected set; }
         public virtual IList<CondicaoDePagamentoDoCliente> CondicoesDePagamento { get; protected set; }
+        public virtual IList<TransportadoraDoCliente> Transportadores { get; protected set; }
         public virtual string Eliminacao { get; set; }
 
         public Cliente( string id_cliente, string nome, string cpf, string cnpj, string nr_ie_cli,

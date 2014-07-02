@@ -4,7 +4,7 @@ using Progas.Portal.Infra.Repositories.Contracts;
 
 namespace Progas.Portal.Infra.Repositories.Implementations
 {
-    public class IncotermsLinhas : CompleteRepositoryNh<IncotermLinhas>, IIncotermsLinhas
+    public class IncotermsLinhas : CompleteRepositoryNh<IncotermLinha>, IIncotermsLinhas
     {
         public IncotermsLinhas(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
@@ -12,7 +12,7 @@ namespace Progas.Portal.Infra.Repositories.Implementations
 
         public IIncotermsLinhas FiltraPorId(int id)
         {
-            Query = Query.Where(x => x.pro_id_incotermLinha == id);
+            Query = Query.Where(x => x.Id == id);
             return this;
         }
 

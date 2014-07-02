@@ -408,7 +408,8 @@
                 $("#Transportadora_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadora.configurarJanelaModalParaTransportadora("#Transportadora_Codigo", "divSelecionarTransportadora", "#btnSelecionarTransportadora", '#AreaDeVenda', funcaoParaRetornarCamposDaBuscaDeTransportadora);
+            selecionarTransportadora.configurarJanelaModalParaTransportadora("#Transportadora_Codigo", "divSelecionarTransportadora",
+                "#btnSelecionarTransportadora", '#AreaDeVenda', '#Cliente_Codigo', 'SP', funcaoParaRetornarCamposDaBuscaDeTransportadora);
 
             var selecionarTransportadoraDeRedespacho = new SelecionarFornecedor();
 
@@ -418,7 +419,8 @@
                 $("#TransportadoraDeRedespacho_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadoraDeRedespacho.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespacho_Codigo", "divSelecionarTransportadoraDeRedespacho", "#btnSelecionarTransportadoraDeRedespacho", '#AreaDeVenda', funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
+            selecionarTransportadoraDeRedespacho.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespacho_Codigo", "divSelecionarTransportadoraDeRedespacho",
+                "#btnSelecionarTransportadoraDeRedespacho", '#AreaDeVenda', '#Cliente_Codigo', 'ZC', funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
 
             var selecionarTransportadoraDeRedespachoCif = new SelecionarFornecedor();
 
@@ -428,7 +430,8 @@
                 $("#TransportadoraDeRedespachoCif_Nome").val(transportadoraSelecionada.Nome);
             };
 
-            selecionarTransportadoraDeRedespachoCif.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespachoCif_Codigo", "divSelecionarTransportadoraDeRedespachoCif", "#btnSelecionarTransportadoraDeRedespachoCif", '#AreaDeVenda', funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
+            selecionarTransportadoraDeRedespachoCif.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespachoCif_Codigo", "divSelecionarTransportadoraDeRedespachoCif",
+                "#btnSelecionarTransportadoraDeRedespachoCif", '#AreaDeVenda', '#Cliente_Codigo', 'ZT', funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
 
             $('#btnLimparTransportadora').click(function() {
                 $("#Transportadora_Codigo").val('');

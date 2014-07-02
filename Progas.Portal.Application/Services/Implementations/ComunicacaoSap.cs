@@ -50,13 +50,13 @@ namespace Progas.Portal.Application.Services.Implementations
                 i_cabecalho.SetValue("SPART", pedidoVenda.AreaDeVenda.Set_ativ);
                 i_cabecalho.SetValue("KUNNR", pedidoVenda.Cliente.Id_cliente);
                 i_cabecalho.SetValue("ZTERM", pedidoVenda.Condpgto);
-                i_cabecalho.SetValue("INCO1", pedidoVenda.Incoterm1.CodigoIncotermCab);
-                i_cabecalho.SetValue("INCO2", pedidoVenda.Incoterm2.IncotermLinha);
+                i_cabecalho.SetValue("INCO1", pedidoVenda.ModeloDeFrete.CodigoIncotermCab);
+                i_cabecalho.SetValue("INCO2", pedidoVenda.TipoDeFrete.Descricao);
                 i_cabecalho.SetValue("TRANS",
                     pedidoVenda.Transportadora != null ? pedidoVenda.Transportadora.Codigo : null);
                 i_cabecalho.SetValue("TRANSRED",
-                    pedidoVenda.TransportadoraDeRedespacho != null
-                        ? pedidoVenda.TransportadoraDeRedespacho.Codigo
+                    pedidoVenda.TransportadoraDeRedespachoFob != null
+                        ? pedidoVenda.TransportadoraDeRedespachoFob.Codigo
                         : null);
                 i_cabecalho.SetValue("TRANSREDCIF",
                     pedidoVenda.TransportadoraDeRedespachoCif != null

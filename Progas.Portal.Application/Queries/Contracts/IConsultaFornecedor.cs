@@ -6,7 +6,7 @@ namespace Progas.Portal.Application.Queries.Contracts
     {
 
         KendoGridVm Listar(PaginacaoVm paginacaoVm, FornecedorFiltroVm filtro);
-
+        KendoGridVm ListarTransportadoras(PaginacaoVm paginacaoVm, TransportadoraFiltroVm filtro);
         FornecedorCadastroVm ConsultaPorCodigo(string codigoDoFornecedor);
     }
 }

@@ -28,6 +28,8 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Grupo_contas { get; protected set; }
         public virtual string Eliminacao { get; protected set; }
         public virtual IList<FornecedorDaEmpresa> Empresas { get; protected set; }
+        public virtual IList<TransportadoraDoRepresentante> Transportadoras { get; protected set; }
+
 
         
         //public virtual IList<Produto>  Produtos { get; protected set; }

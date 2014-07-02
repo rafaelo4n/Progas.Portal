@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Progas.Portal.Application.Queries.Contracts;
+using Progas.Portal.Infra.Repositories.Contracts;
 using Progas.Portal.UI.Filters;
 using Progas.Portal.ViewModel;
 
@@ -26,6 +27,14 @@ namespace Progas.Portal.UI.Controllers
             KendoGridVm kendoGridVm = _consultaFornecedor.Listar(paginacaoVm, filtro);
             return Json(kendoGridVm,JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult ListarTransportadoras(PaginacaoVm paginacaoVm, TransportadoraFiltroVm filtro)
+        {
+            KendoGridVm kendoGridVm = _consultaFornecedor.ListarTransportadoras(paginacaoVm, filtro);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public ViewResult Cadastro(string codigoFornecedor)
         {

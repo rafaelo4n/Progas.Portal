@@ -91,6 +91,7 @@
     <Compile Include="CondicaoDePrecoRegiaoCadastroVm.cs" />
     <Compile Include="CondicaoPagamentoFiltroVm.cs" />
     <Compile Include="CotacaoFiltroVm.cs" />
+    <Compile Include="TransportadoraFiltroVm.cs" />
     <Compile Include="FornecedorFiltroVm.cs" />
     <Compile Include="IncotermCadastroVm.cs" />
     <Compile Include="IncotermLinhasCadastroVm.cs" />

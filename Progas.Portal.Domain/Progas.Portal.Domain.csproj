@@ -96,7 +96,7 @@
     <Compile Include="Entities\IAggregateRoot.cs" />
     <Compile Include="Entities\Incoterm.cs" />
     <Compile Include="Entities\IncotermCab.cs" />
-    <Compile Include="Entities\IncotermLinhas.cs" />
+    <Compile Include="Entities\IncotermLinha.cs" />
     <Compile Include="Entities\LinhaPedido.cs" />
     <Compile Include="Entities\ListaPreco.cs" />
     <Compile Include="Entities\Material.cs" />
@@ -105,6 +105,8 @@
     <Compile Include="Entities\PedidoVendaLinha.cs" />
     <Compile Include="Entities\StatusDoPedidoDeVenda.cs" />
     <Compile Include="Entities\TipoPedido.cs" />
+    <Compile Include="Entities\TransportadoraDoCliente.cs" />
+    <Compile Include="Entities\TransportadoraDoRepresentante.cs" />
     <Compile Include="Entities\UnidadeDeMedida.cs" />
     <Compile Include="Entities\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

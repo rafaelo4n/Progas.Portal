@@ -12,10 +12,10 @@ namespace Progas.Portal.Application.Queries.Implementations
     {
         private readonly IIncotermsLinhas _incotermsLinhas;
         private readonly IIncotermsCabs _incotermsCabs;
-        private readonly IBuilder<IncotermLinhas, IncotermLinhasCadastroVm> _builder;
+        private readonly IBuilder<IncotermLinha, IncotermLinhasCadastroVm> _builder;
 
         // Recebe dados Interface do repositorio do Tipo pedido e monta a lista com a Entidade + ViewModel
-        public ConsultaIncotermLinhas(IIncotermsLinhas incotermsLinhas, IBuilder<IncotermLinhas, IncotermLinhasCadastroVm> builder, IIncotermsCabs incotermsCabs)
+        public ConsultaIncotermLinhas(IIncotermsLinhas incotermsLinhas, IBuilder<IncotermLinha, IncotermLinhasCadastroVm> builder, IIncotermsCabs incotermsCabs)
         {
             _incotermsLinhas = incotermsLinhas;
             _builder         = builder;
@@ -35,8 +35,8 @@ namespace Progas.Portal.Application.Queries.Implementations
                 .GetQuery()
                 .Select(x => new IncotermLinhasCadastroVm
                 {
-                    Id = x.pro_id_incotermLinha,
-                    IncotermLinha = x.IncotermLinha
+                    Id = x.Id,
+                    IncotermLinha = x.Descricao
                 }).ToList();
         }
     }
