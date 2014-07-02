@@ -11,6 +11,7 @@ namespace Progas.Portal.Domain.Entities
         {
             this.AreasDeVenda = new List<ClienteVenda>();
             this.CondicoesDePagamento = new List<CondicaoDePagamentoDoCliente>();
+            this.Transportadores = new List<TransportadoraDoCliente>();
         }
 
         public virtual string Id_cliente { get; set; }
@@ -34,6 +35,9 @@ namespace Progas.Portal.Domain.Entities
         public virtual string Hora_criacao { get; set; }
         public virtual DateTime Data_criacao { get; set; }
         public virtual IList<ClienteVenda> AreasDeVenda { get; set; }
+        public virtual IList<CondicaoDePagamentoDoCliente> CondicoesDePagamento { get; protected set; }
+        public virtual IList<TransportadoraDoCliente> Transportadores { get; protected set; }
+        public virtual string Eliminacao { get; set; }
 
         public Cliente( string id_cliente, string nome, string cpf, string cnpj, string nr_ie_cli,
                         string cep, string endereco, string numero, string complemento, 
