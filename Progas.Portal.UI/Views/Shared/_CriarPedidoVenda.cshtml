@@ -1,4 +1,4 @@
-﻿@using Progas.Portal.UI.Helpers
+@using Progas.Portal.UI.Helpers
 @using Progas.Portal.ViewModel
 @model PedidoVendaCadastroVm
 
@@ -420,7 +420,7 @@
             };
 
             selecionarTransportadoraDeRedespacho.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespacho_Codigo", "divSelecionarTransportadoraDeRedespacho",
-                "#btnSelecionarTransportadoraDeRedespacho", '#AreaDeVenda', '#Cliente_Codigo', 'ZC', funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
+                "#btnSelecionarTransportadoraDeRedespacho", '#AreaDeVenda', '#Cliente_Codigo', 'ZR', funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespacho);
 
             var selecionarTransportadoraDeRedespachoCif = new SelecionarFornecedor();
 
@@ -431,7 +431,7 @@
             };
 
             selecionarTransportadoraDeRedespachoCif.configurarJanelaModalParaTransportadora("#TransportadoraDeRedespachoCif_Codigo", "divSelecionarTransportadoraDeRedespachoCif",
-                "#btnSelecionarTransportadoraDeRedespachoCif", '#AreaDeVenda', '#Cliente_Codigo', 'ZT', funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
+                "#btnSelecionarTransportadoraDeRedespachoCif", '#AreaDeVenda', '#Cliente_Codigo', 'ZC', funcaoParaRetornarCamposDaBuscaDeTransportadoraDeRedespachoCif);
 
             $('#btnLimparTransportadora').click(function() {
                 $("#Transportadora_Codigo").val('');
