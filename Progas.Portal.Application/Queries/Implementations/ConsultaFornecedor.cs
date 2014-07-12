@@ -25,7 +25,23 @@ namespace Progas.Portal.Application.Queries.Implementations
             _fornecedores = fornecedores;
         }
 
-        private IQueryOver<Fornecedor, Fornecedor> AplicarFiltros(FornecedorFiltroVm filtro)
+        private void AplicarFiltroDeAreaDeVenda(IQueryOver<Fornecedor, Fornecedor> queryOver, int idDaAreaDeVenda)
+        {
+            ClienteVenda areaDeVenda = _clienteVendas.ObterPorId(idDaAreaDeVenda);
+            FornecedorDaEmpresa fornecedorDaEmpresa = null;
+            Fornecedor fornecedor = null;
+
+            QueryOver<FornecedorDaEmpresa, FornecedorDaEmpresa> subQuery = QueryOver.Of(() => fornecedorDaEmpresa)
+                .Where(Restrictions.EqProperty(Projections.Property(() => fornecedor.Codigo), Projections.Property(() => fornecedorDaEmpresa.Fornecedor.Codigo)))
+                .And(x => x.Empresa == areaDeVenda.Org_vendas)
+                .Select(Projections.Property(() => fornecedorDaEmpresa.Empresa));
+
+            queryOver.WithSubquery.WhereExists(subQuery);
+
+            
+        }
+
+        private IQueryOver<Fornecedor, Fornecedor> AplicarFiltros(FornecedorFiltroVm filtro, bool aplicarFiltroDeAreaDeVenda)
         {
             var unitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
 
@@ -53,17 +69,9 @@ namespace Progas.Portal.Application.Queries.Implementations
                 queryOver = queryOver.And(f => f.Cpf == filtro.Cpf);
             }
 
-            if (filtro.IdDaAreaDeVenda.HasValue)
+            if (aplicarFiltroDeAreaDeVenda && filtro.IdDaAreaDeVenda.HasValue)
             {
-                ClienteVenda areaDeVenda = _clienteVendas.ObterPorId(filtro.IdDaAreaDeVenda.Value);
-                FornecedorDaEmpresa fornecedorDaEmpresa = null;
-
-                QueryOver<FornecedorDaEmpresa, FornecedorDaEmpresa> subQuery = QueryOver.Of(() => fornecedorDaEmpresa)
-                    .Where(Restrictions.EqProperty(Projections.Property(() => fornecedor.Codigo), Projections.Property(() => fornecedorDaEmpresa.Fornecedor.Codigo)))
-                    .And(x => x.Empresa == areaDeVenda.Org_vendas)
-                    .Select(Projections.Property(() => fornecedorDaEmpresa.Empresa));
-
-                queryOver.WithSubquery.WhereExists(subQuery);
+                AplicarFiltroDeAreaDeVenda(queryOver, filtro.IdDaAreaDeVenda.Value);
             }
 
             return queryOver;
@@ -71,7 +79,7 @@ namespace Progas.Portal.Application.Queries.Implementations
 
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, FornecedorFiltroVm filtro)
         {
-            IQueryOver<Fornecedor, Fornecedor> queryOver = AplicarFiltros(filtro);
+            IQueryOver<Fornecedor, Fornecedor> queryOver = AplicarFiltros(filtro, true);
 
             var kendoGridVm = new KendoGridVm
             {
@@ -87,7 +95,7 @@ namespace Progas.Portal.Application.Queries.Implementations
 
         public KendoGridVm ListarTransportadoras(PaginacaoVm paginacaoVm, TransportadoraFiltroVm filtro)
         {
-            IQueryOver<Fornecedor, Fornecedor> queryOverBase = AplicarFiltros(filtro);
+            IQueryOver<Fornecedor, Fornecedor> queryOverBase = AplicarFiltros(filtro,false);
             queryOverBase = queryOverBase.And(f => f.Grupo_contas == "ZTRA");
 
             Fornecedor fornecedor = null;
@@ -102,18 +110,28 @@ namespace Progas.Portal.Application.Queries.Implementations
 
             var queryCliente =  queryOverBase.Clone().WithSubquery.WhereExists(subQueryCliente);
 
-            var kendoGridVm = new KendoGridVm
-            {
-                QuantidadeDeRegistros = queryCliente.RowCount(),
-                Registros =
-                    _builderFornecedor.BuildList(queryCliente.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
-                        .Cast<ListagemVm>()
-                        .ToList()
+            KendoGridVm kendoGridVm;
 
-            };
 
-            if (kendoGridVm.QuantidadeDeRegistros > 0)
+            int quantidadeDeTransportadoras = queryCliente.RowCount();
+            if (quantidadeDeTransportadoras > 0)
             {
+
+                if (filtro.IdDaAreaDeVenda.HasValue)
+                {
+                    AplicarFiltroDeAreaDeVenda(queryCliente, filtro.IdDaAreaDeVenda.Value);
+                    quantidadeDeTransportadoras = queryCliente.RowCount();
+                }
+                kendoGridVm = new KendoGridVm
+                {
+                    QuantidadeDeRegistros = quantidadeDeTransportadoras,
+                    Registros =
+                        _builderFornecedor.BuildList(queryCliente.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
+                            .Cast<ListagemVm>()
+                            .ToList()
+
+                };
+
                 return kendoGridVm;
             }
 
@@ -132,22 +150,37 @@ namespace Progas.Portal.Application.Queries.Implementations
 
                 var queryOverRepresentante = queryOverBase.Clone().WithSubquery.WhereExists(subQuery);
 
-                kendoGridVm = new KendoGridVm
-                {
-                    QuantidadeDeRegistros = queryOverRepresentante.RowCount(),
-                    Registros =
-                        _builderFornecedor.BuildList(queryOverRepresentante.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
-                            .Cast<ListagemVm>()
-                            .ToList()
+                quantidadeDeTransportadoras = queryOverRepresentante.RowCount();
 
-                };
-
-                if (kendoGridVm.QuantidadeDeRegistros > 0)
+                if (quantidadeDeTransportadoras > 0)
                 {
+
+                    if (filtro.IdDaAreaDeVenda.HasValue)
+                    {
+                        AplicarFiltroDeAreaDeVenda(queryOverRepresentante, filtro.IdDaAreaDeVenda.Value);
+                        quantidadeDeTransportadoras = queryCliente.RowCount();
+                    }
+                    
+
+                    kendoGridVm = new KendoGridVm
+                    {
+                        QuantidadeDeRegistros = quantidadeDeTransportadoras,
+                        Registros =
+                            _builderFornecedor.BuildList(queryOverRepresentante.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
+                                .Cast<ListagemVm>()
+                                .ToList()
+
+                    };
+
                     return kendoGridVm;
                 }
 
 
+            }
+
+            if (filtro.IdDaAreaDeVenda.HasValue)
+            {
+                AplicarFiltroDeAreaDeVenda(queryOverBase, filtro.IdDaAreaDeVenda.Value);
             }
 
             kendoGridVm = new KendoGridVm
