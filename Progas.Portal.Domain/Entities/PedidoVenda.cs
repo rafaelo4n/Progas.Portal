@@ -61,15 +61,22 @@ namespace Progas.Portal.Domain.Entities
                 throw new Exception("É necessário informar a Transportadora de Redespacho FOB");
             }
 
+            if (!tipoDeFrete.ExigeTransportadoraDeRedespachoFob && transportadoraDeRedespachoFob != null)
+            {
+                throw new Exception("A Transportadora de Redespacho FOB não deve ser informada");
+            }
+
+
+            if (!tipoDeFrete.ExigeTransportadoraDeRedespachoCif && transportadoraDeRedespachoCif != null)
+            {
+                throw new Exception("A Transportadora de Redespacho CIF não deve ser informada");
+            }
+
             if (tipoDeFrete.ExigeTransportadoraDeRedespachoCif && transportadoraDeRedespachoCif == null)
             {
                 throw new Exception("É necessário informar a Transportadora de Redespacho CIF");
             }
 
-            if (tipoDeFrete.ExigeTransportadoraDeRedespachoCif && !tipoDeFrete.ExigeTransportadoraDeRedespachoFob && transportadoraDeRedespachoFob != null)
-            {
-                throw new Exception("A Transportadora de Redespacho FOB não deve ser informada");
-            }
 
             Tipo = tipo;
             TipoPedido = tipoPedido;
