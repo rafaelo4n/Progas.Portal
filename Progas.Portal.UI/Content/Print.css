@@ -1,10 +1,10 @@
 ﻿body {
-    font: 10pt "Times New Roman", Times, serif;
+    font: 9pt Helvetica, "Times New Roman", Times, serif;
     color: #000;
 }
 
 @page {
-    margin: 0.5cm;
+    margin: 1.5cm 0.5cm;
 }
 
 hr {
@@ -16,7 +16,7 @@ img {
 }
 
 .conteudo {
-    max-width: 21cm;
+    max-width: 20cm;
     border: none;
     float: none;
 }

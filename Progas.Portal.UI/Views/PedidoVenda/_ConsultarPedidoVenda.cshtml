@@ -61,7 +61,7 @@
             <div class="linha">
                 <div class="coluna">
                     @Html.LabelFor(x => x.Nome)
-                    @Html.TextBoxFor(x => x.Nome, new { @class = "campomedio", @id="NomeDoRepresentante" })
+                    @Html.TextBoxFor(x => x.Nome, new { @class = (Model == null ? "campograndebusca": "campogrande"), @id="NomeDoRepresentante" })
                     
                     @if (Model == null)
                     {
@@ -209,7 +209,7 @@
                         title: "Cliente"
                     },
                     {
-                        width: 90,
+                        width: 80,
                         field: "Status"
                     },
                     {
@@ -228,7 +228,7 @@
                         title: "Data do Pedido"
                     },
                     {
-                        width: 100,
+                        width: 80,
                         field: "ValorTotal",
                         title: "Valor Final",
                         format: "{0:n2}",
