@@ -49,7 +49,7 @@ namespace Progas.Portal.Application.Services.Implementations
                 i_cabecalho.SetValue("VTWEG", pedidoVenda.AreaDeVenda.Can_dist);
                 i_cabecalho.SetValue("SPART", pedidoVenda.AreaDeVenda.Set_ativ);
                 i_cabecalho.SetValue("KUNNR", pedidoVenda.Cliente.Id_cliente);
-                i_cabecalho.SetValue("ZTERM", pedidoVenda.Condpgto);
+                i_cabecalho.SetValue("ZTERM", pedidoVenda.CondicaoDePagamento.Codigo);
                 i_cabecalho.SetValue("INCO1", pedidoVenda.ModeloDeFrete.CodigoIncotermCab);
                 i_cabecalho.SetValue("INCO2", pedidoVenda.TipoDeFrete.Descricao);
                 i_cabecalho.SetValue("TRANS",
@@ -62,7 +62,7 @@ namespace Progas.Portal.Application.Services.Implementations
                     pedidoVenda.TransportadoraDeRedespachoCif != null
                         ? pedidoVenda.TransportadoraDeRedespachoCif.Codigo
                         : null);
-                i_cabecalho.SetValue("REPRE", pedidoVenda.Id_repre);
+                i_cabecalho.SetValue("REPRE", pedidoVenda.Representante.Codigo);
                 i_cabecalho.SetValue("OBSERVACAO", pedidoVenda.Observacao);
 
 

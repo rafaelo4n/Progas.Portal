@@ -1,4 +1,5 @@
-﻿using Progas.Portal.ViewModel;
+﻿using Progas.Portal.DTO;
+using Progas.Portal.ViewModel;
 using System.Collections.Generic;
 
 
@@ -12,5 +13,7 @@ namespace Progas.Portal.Application.Queries.Contracts
 
         PedidoVendaCadastroVm Consultar(string idDoPedido);
         bool PedidoExiste(string idDoPedido);
+
+        PedidoVendaImprimirDto Impressao(string idDaCotacao);
     }
 }

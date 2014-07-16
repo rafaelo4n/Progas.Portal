@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="CondicaoDePrecoDTO.cs" />
     <Compile Include="PedidoSapRetornoDTO.cs" />
+    <Compile Include="PedidoVendaImprimirDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepresentanteDTO.cs" />
     <Compile Include="StatusDoPedidoDeVendaDTO.cs" />

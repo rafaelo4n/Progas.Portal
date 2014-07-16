@@ -1,0 +1,101 @@
+﻿body {
+    font: 10pt "Times New Roman", Times, serif;
+    color: #000;
+}
+
+@page {
+    margin: 0.5cm;
+}
+
+hr {
+    border-color: black
+}
+
+img {
+    max-width: 100%;
+}
+
+.conteudo {
+    max-width: 21cm;
+    border: none;
+    float: none;
+}
+.titulo {
+    font-size: 24pt;
+    width: 69%;
+}
+
+.subtitulo {
+    font-size: 16pt;
+}
+
+.titulo, .subtitulo {
+    text-align: center;
+    font-weight: bold;
+
+}
+.logotipo {
+    -moz-min-width: 15%;
+    -ms-min-width: 15%;
+    -o-min-width: 15%;
+    -webkit-min-width: 15%;
+    min-width: 15%;
+    max-width:15%
+}
+
+.linha {
+    overflow: auto;
+}
+
+.coluna10, .coluna25, .coluna33, .coluna50, .coluna75, .coluna90, .coluna100, .titulo, .logotipo {
+    display: inline-block;
+    float: left;
+    /*border: 1px solid black;
+    border-collapse: collapse*/
+}
+
+.coluna10 {
+    width: 10%
+}
+
+.coluna25 {
+    width: 24.5%
+}
+.coluna33 {
+    width: 33%
+}
+
+.coluna50 {
+    width: 49.5%
+}
+
+.coluna75 {
+    width: 75%
+}
+
+.coluna90 {
+    width: 89%
+}
+.coluna100 {
+    width: 99.5%
+}
+
+.textolivre {
+    min-height: 10px;
+}
+
+table {
+    width: 100%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+th, td {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-collapse: collapse;
+}
+
+.camponumerico {
+    text-align: right
+}
+

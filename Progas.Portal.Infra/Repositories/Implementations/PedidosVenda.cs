@@ -56,14 +56,14 @@ namespace Progas.Portal.Infra.Repositories.Implementations
 
         public PedidoVenda CotacaoPedidoContendo(string filtroCotacao, string representante)
         {
-            return Query.SingleOrDefault(x => x.Id_cotacao == filtroCotacao && x.Id_repre == representante);
+            return Query.SingleOrDefault(x => x.Id_cotacao == filtroCotacao && x.Representante.Codigo == representante);
         }
 
         public IPedidosVenda CotacaoRepresentante(string id_representante)
         {   
             if (!string.IsNullOrEmpty(id_representante))
             {
-                Query = Query.Where(x => x.Id_repre.Contains(id_representante)) ;
+                Query = Query.Where(x => x.Representante.Codigo.Contains(id_representante)) ;
             }
             return this;
         }

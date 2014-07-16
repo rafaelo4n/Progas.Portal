@@ -16,13 +16,13 @@ namespace Progas.Portal.Domain.Entities
         public virtual string NumeroDoPedidoDoRepresentante { get; set; }
         public virtual string NumeroDoPedidoDoCliente { get; set; }
         public virtual DateTime Datap { get; set; }
-        public virtual string Condpgto { get; set; }
+        public virtual CondicaoDePagamento CondicaoDePagamento { get; set; }
         public virtual IncotermCab ModeloDeFrete { get; set; }
         public virtual IncotermLinha TipoDeFrete { get; set; }
         public virtual Fornecedor Transportadora { get; set; }
         public virtual Fornecedor TransportadoraDeRedespachoFob { get; set; }
         public virtual Fornecedor TransportadoraDeRedespachoCif { get; set; }
-        public virtual string Id_repre { get; set; }
+        public virtual Fornecedor Representante { get; set; }
         public virtual string Observacao { get; set; }
         public virtual StatusDoPedidoDeVenda Status { get; set; }
         public virtual decimal ValorTotal { get; set; }
@@ -45,13 +45,13 @@ namespace Progas.Portal.Domain.Entities
             string numeroDoPedidoDoRepresentante,
             string numeroDoPedidoDoCliente,
             DateTime datap,
-            string condpgto,
+            CondicaoDePagamento condicaoDePagamento,
             IncotermCab modeloDeFrete,
             IncotermLinha tipoDeFrete,
             Fornecedor transportadora,
             Fornecedor transportadoraDeRedespachoFob,
             Fornecedor transportadoraDeRedespachoCif,
-            string id_repre,
+            Fornecedor representante,
             string observacao
             ) : this()
         {
@@ -87,13 +87,13 @@ namespace Progas.Portal.Domain.Entities
             NumeroDoPedidoDoRepresentante = numeroDoPedidoDoRepresentante;
             NumeroDoPedidoDoCliente = numeroDoPedidoDoCliente;
             Datap = datap;
-            Condpgto = condpgto;
+            CondicaoDePagamento = condicaoDePagamento;
             ModeloDeFrete = modeloDeFrete;
             TipoDeFrete = tipoDeFrete;
             Transportadora = transportadora;
             TransportadoraDeRedespachoFob = transportadoraDeRedespachoFob;
             TransportadoraDeRedespachoCif = transportadoraDeRedespachoCif;
-            Id_repre = id_repre;
+            Representante = representante;
             Observacao = observacao;
         }
 
@@ -138,12 +138,12 @@ namespace Progas.Portal.Domain.Entities
             return this;
         }
 
-        public virtual PedidoVenda AlterarDados(string numeroDoPedidoDoRepresentante, string numeroDoPedidoDoCliente, DateTime dataDoPedido, string codigoDaCondicaoDePagamento, string observacao)
+        public virtual PedidoVenda AlterarDados(string numeroDoPedidoDoRepresentante, string numeroDoPedidoDoCliente, DateTime dataDoPedido, CondicaoDePagamento codigoDaCondicaoDePagamento, string observacao)
         {
             this.NumeroDoPedidoDoRepresentante = numeroDoPedidoDoRepresentante;
             this.NumeroDoPedidoDoCliente = numeroDoPedidoDoCliente;
             this.Datap = dataDoPedido;
-            this.Condpgto = codigoDaCondicaoDePagamento;
+            this.CondicaoDePagamento = codigoDaCondicaoDePagamento;
             this.Observacao = observacao;
 
             return this;

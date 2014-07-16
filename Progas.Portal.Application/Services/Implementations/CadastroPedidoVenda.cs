@@ -21,6 +21,7 @@ namespace Progas.Portal.Application.Services.Implementations
         private readonly IFornecedores _fornecedores;
         private readonly IIncotermsCabs _incotermsCabs;
         private readonly IIncotermsLinhas _incotermsLinhas;
+        private readonly ICondicoesDePagamento _condicoesDePagamento;
         private readonly IListasPreco _listasPreco;
         private readonly IMotivosDeRecusa _motivosDeRecusa;
         private readonly IComunicacaoSap _comunicacaoSap;
@@ -29,7 +30,8 @@ namespace Progas.Portal.Application.Services.Implementations
         public CadastroPedidoVenda(IUnitOfWork unitOfWork, IPedidosVenda pedidosVenda, 
             IUsuarios usuarios, IClienteVendas clienteVendas, IMateriais materiais, IClientes clientes,
             IFornecedores fornecedores, IIncotermsCabs incotermsCabs, IIncotermsLinhas incotermsLinhas, 
-            IListasPreco listasPreco, IComunicacaoSap comunicacaoSap, IMotivosDeRecusa motivosDeRecusa, IAtualizadorDeItensDoPedidoDeVenda atualizadorDeItens)
+            IListasPreco listasPreco, IComunicacaoSap comunicacaoSap, IMotivosDeRecusa motivosDeRecusa, 
+            IAtualizadorDeItensDoPedidoDeVenda atualizadorDeItens, ICondicoesDePagamento condicoesDePagamento)
         {
             _unitOfWork = unitOfWork;
             _pedidosVenda = pedidosVenda;
@@ -44,6 +46,7 @@ namespace Progas.Portal.Application.Services.Implementations
             _comunicacaoSap = comunicacaoSap;
             _motivosDeRecusa = motivosDeRecusa;
             _atualizadorDeItens = atualizadorDeItens;
+            _condicoesDePagamento = condicoesDePagamento;
         }               
 
         private class TransportadorasDoPedido
@@ -110,6 +113,8 @@ namespace Progas.Portal.Application.Services.Implementations
 
                 Cliente cliente = _clientes.BuscaPeloCodigo(pedido.CodigoDoCliente).Single();
 
+                CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigo(pedido.CodigoDaCondicaoDePagamento);
+
                 PedidoVenda pedidoVenda;
 
                 if (!string.IsNullOrEmpty(pedido.IdDaCotacao))
@@ -121,7 +126,7 @@ namespace Progas.Portal.Application.Services.Implementations
                         .AlterarCliente(clienteVenda, cliente)
                         .AlterarTransportadora(transportadorasDoPedido.Transportadora, transportadorasDoPedido.TransportadoraDeRedespacho, transportadorasDoPedido.TransportadoraDeRedespachoCif)
                         .AlterarIncoterm(incoterm1, incoterm2)
-                        .AlterarDados(pedido.NumeroPedidoDoRepresentante, pedido.NumeroPedidoDoCliente, pedido.DataDoPedido, pedido.CodigoDaCondicaoDePagamento, pedido.Observacao);
+                        .AlterarDados(pedido.NumeroPedidoDoRepresentante, pedido.NumeroPedidoDoCliente, pedido.DataDoPedido, condicaoDePagamento, pedido.Observacao);
 
                 }
                 else
@@ -136,13 +141,13 @@ namespace Progas.Portal.Application.Services.Implementations
                         pedido.NumeroPedidoDoRepresentante,
                         pedido.NumeroPedidoDoCliente,
                         pedido.DataDoPedido,
-                        pedido.CodigoDaCondicaoDePagamento,
+                        condicaoDePagamento, 
                         incoterm1,
                         incoterm2,
                         transportadorasDoPedido.Transportadora,
                         transportadorasDoPedido.TransportadoraDeRedespacho,
                         transportadorasDoPedido.TransportadoraDeRedespachoCif,
-                        Convert.ToString(usuarioConectado.CodigoDoFornecedor),
+                        usuarioConectado.Fornecedor,
                         pedido.Observacao
                         );
                 }

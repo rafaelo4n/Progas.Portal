@@ -1,0 +1,100 @@
+﻿@model Progas.Portal.DTO.PedidoVendaImprimirDto
+
+@{
+    ViewBag.Title = "Pedido de Venda - Imprimir";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Pedido de Venda - Imprimir</title>
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Print.css")" media="all" />
+    </head>
+    <body>
+        <div class="conteudo">
+            <div class="linha">
+                <div class="logotipo">
+                    <img src="@Url.Content("~/Images/logo_progas.jpg")" alt="Progás"/>
+                </div>
+                <div class="titulo">PEDIDO DE VENDA</div>
+                <div class="logotipo">
+                    <img src="@Url.Content("~/Images/logo_braesi.jpg")" alt="Braesi"/>
+                </div>
+            </div>
+            <div class="linha">
+                <hr/>
+            </div>
+            <div class="linha">
+                <div class="coluna10">Centro: @Html.DisplayFor(x => x.Centro)</div>
+                <div class="coluna90">Representante: @Html.DisplayFor(x => x.Representante)</div>
+            </div>
+            <div class="linha">
+                <div class="coluna50">Número da Cotação: @Html.DisplayFor(x => x.NumeroDaCotacao)</div>
+                <div class="coluna50">Nº Pedido Representante: @Html.DisplayFor(x => x.NumeroDoPedido)</div>
+            </div>
+            <hr/>
+            <div class="linha">
+                <div class="coluna50">Cliente: @Html.DisplayFor(x => x.Cliente)</div>
+                <div class="coluna25">CNPJ: @Html.DisplayFor(x => x.Cnpj)</div>
+                <div class="coluna25">Telefone: @Html.DisplayFor(x => x.Telefone)</div>
+            </div>
+            <div class="linha">
+                <div class="coluna25">Cidade: @Html.DisplayFor(x => x.Cidade)</div>
+                <div class="coluna25">Estado: @Html.DisplayFor(x => x.Estado)</div>
+            </div>
+            <hr/>
+            <div class="subtitulo">Itens</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:2cm">Código</th>
+                        <th>Material</th>
+                        <th>Quantidade</th>
+                        <th>Preço Total Tabela</th>
+                        <th>Preço Total Líquido</th>
+                        <th>IPI%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Itens)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(x => item.Codigo)</td>
+                            <td>@Html.DisplayFor(x => item.Descricao)</td>
+                            <td class="camponumerico">@Html.DisplayFor(x => item.Quantidade)</td>
+                            <td class="camponumerico">@Html.DisplayFor(x => item.PrecoDeTabela)</td>
+                            <td class="camponumerico">@Html.DisplayFor(x => item.ValorLiquido)</td>
+                            <td class="camponumerico">@Html.DisplayFor(x => item.PercentualDeIpi)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <hr/>
+            <div class="linha">
+                <div class="coluna100">Condição de Pagamento: @Html.DisplayFor(x => x.CondicaoDePagamento)</div>
+            </div>
+            <div class="linha">
+                <div class="coluna50">Tipo de Frete: @Html.DisplayFor(x => x.TipoDeFrete)</div>
+                <div class="coluna50">Modelo de Frete: @Html.DisplayFor(x => x.ModeloDeFrete)</div>
+            </div>
+            <div class="linha">
+                <div class="coluna100">Transportadora: @Html.DisplayFor(x => x.Transportadora)</div>
+            </div>
+            <div class="linha">
+                <div class="coluna100">Transportadora de Redespacho FOB: @Html.DisplayFor(x => x.TransportadoraDeRedespachoFob)</div>
+            </div>
+            <div class="linha">
+                <div class="coluna100">Transportadora de Redespacho CIF: @Html.DisplayFor(x => x.TransportadoraDeRedespachoCif)</div>
+            </div>
+            <hr/>    
+            <div class="coluna100">
+                <p>Observações:</p>
+                <p class="textolivre">@Html.DisplayFor(x => x.Observacao)</p>
+            </div>
+    
+        </div>
+
+    </body>
+    
+</html>

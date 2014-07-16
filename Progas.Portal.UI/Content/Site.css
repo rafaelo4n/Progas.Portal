@@ -638,7 +638,7 @@ input[type="checkbox"].input-validation-error {
     padding-right: 1px;
     /*border: solid 0.5px gray*/
 }
-.button_edit, .button_remove, .button_add, .button_visualize,.button_schedule, .button_sendmail, .button_information, .button_rubber{
+.button_edit, .button_remove, .button_add, .button_visualize,.button_schedule, .button_sendmail, .button_information, .button_rubber, .button_printer{
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
@@ -680,6 +680,11 @@ input[type="checkbox"].input-validation-error {
     background-image: url(/images/icons/rubber_16.png);
     padding-left: 0.5em;
 }
+
+.button_printer{
+    background-image: url(/images/icons/printer_16.png);
+}
+
 
 
 .gradienteVerde{

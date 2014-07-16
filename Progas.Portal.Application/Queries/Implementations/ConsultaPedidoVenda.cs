@@ -145,13 +145,13 @@ namespace Progas.Portal.Application.Queries.Implementations
                     Nome = pedido.TransportadoraDeRedespachoCif.Nome
                 }
                 : null,
-                condpgto = pedido.Condpgto,
+                condpgto = pedido.CondicaoDePagamento.Codigo,
                 datacp = pedido.Datacp.ToShortDateString(),
                 datap = pedido.Datap.ToShortDateString(),
                 id_centro = pedido.Id_centro ,
                 id_pedido = pedido.NumeroDoPedidoDoRepresentante ,
                 NumeroPedidoDoCliente = pedido.NumeroDoPedidoDoCliente,
-                id_repre =pedido.Id_repre ,
+                id_repre =pedido.Representante.Codigo ,
                 IdDoIncoterm1 = Convert.ToString(pedido.ModeloDeFrete.pro_id_incotermCab),
                 IdDoIncoterm2 = Convert.ToString(pedido.TipoDeFrete.Id),
                 vlrtot = pedido.ValorTotal,
@@ -170,5 +170,56 @@ namespace Progas.Portal.Application.Queries.Implementations
             return count == 1;
         }
 
+        public PedidoVendaImprimirDto Impressao(string idDaCotacao)
+        {
+            PedidoVenda pedidoVenda = _pedidosVenda.FiltraPorId(idDaCotacao).Single();
+            Cliente cliente = pedidoVenda.Cliente;
+            var pedidoVendaImprimirDto = new PedidoVendaImprimirDto
+            {
+                Centro = pedidoVenda.Id_centro,
+                Representante = string.Format("{0} - {1}", pedidoVenda.Representante.Codigo, pedidoVenda.Representante.Nome),
+                NumeroDaCotacao = pedidoVenda.Id_cotacao,
+                NumeroDoPedido = pedidoVenda.NumeroDoPedidoDoRepresentante,
+                Cliente =  string.Format("{0} - {1}", cliente.Id_cliente, cliente.Nome),
+                Cnpj =  cliente.Cnpj,
+                Telefone = cliente.Tel_res,
+                Cidade = cliente.Municipio,
+                Estado = cliente.Uf,
+                CondicaoDePagamento = string.Format("{0} - {1}", pedidoVenda.CondicaoDePagamento.Codigo, pedidoVenda.CondicaoDePagamento.Descricao),
+                TipoDeFrete = pedidoVenda.TipoDeFrete.Descricao,
+                ModeloDeFrete = pedidoVenda.ModeloDeFrete.Descricao,
+                Observacao = pedidoVenda.Observacao,
+                Itens = pedidoVenda.Itens.Select(item => new PedidoVendaItemImprimirDto
+                {
+                    Codigo = item.Material.Id_material,
+                    Descricao = item.Material.Descricao,
+                    Quantidade = item.Quantidade,
+                    PrecoDeTabela = item.ValorTabela,
+                    ValorLiquido =  item.ValorPolitica,
+                    PercentualDeIpi = item.CondicoesDePreco.SingleOrDefault(cp => cp.Tipo == "BX23") != null ?
+                    item.CondicoesDePreco.Single(cp => cp.Tipo == "BX23").Valor : 0
+                }).ToList()
+            };
+
+            Fornecedor transportadora = pedidoVenda.Transportadora;
+            if (transportadora != null)
+            {
+                pedidoVendaImprimirDto.Transportadora = string.Format("{0} - {1}", transportadora.Codigo, transportadora.Nome);
+            }
+
+            Fornecedor transportadoraDeRedespachoFob = pedidoVenda.TransportadoraDeRedespachoFob;
+            if (transportadoraDeRedespachoFob != null)
+            {
+                pedidoVendaImprimirDto.TransportadoraDeRedespachoFob = string.Format("{0} - {1}", transportadoraDeRedespachoFob.Codigo, transportadoraDeRedespachoFob.Nome);
+            }
+
+            Fornecedor transportadoraDeRedespachoCif = pedidoVenda.TransportadoraDeRedespachoCif;
+            if (transportadoraDeRedespachoCif != null)
+            {
+                pedidoVendaImprimirDto.Transportadora = string.Format("{0} - {1}", transportadoraDeRedespachoCif.Codigo, transportadoraDeRedespachoCif.Nome);
+            }
+
+            return pedidoVendaImprimirDto;
+        }
     }
 }

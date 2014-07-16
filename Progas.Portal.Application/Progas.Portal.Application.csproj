@@ -123,7 +123,6 @@
     <Compile Include="Queries\Builders\IncotermsLinhasCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\ListaPrecoCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\MaterialCadastroBuilder.cs" />
-    <Compile Include="Queries\Builders\PedidoVendaCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\PedidoVendaLinhaCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\PedidoVendaListagemVm.cs" />
     <Compile Include="Queries\Builders\TipoPedidoCadastroBuilder.cs" />

@@ -60,10 +60,6 @@ namespace Progas.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ClienteCadastroBuilder>();
 
-            For<IBuilder<PedidoVenda, PedidoVendaCadastroVm>>()
-                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<PedidoVendaCadastroBuilder>();
-
             For<IBuilder<PedidoVendaLinha, PedidoVendaLinhaCadastroVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<PedidoVendaLinhaCadastroBuilder>();

@@ -90,76 +90,76 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
 
     <script>
-    $(document).ready(function () {
+        $(document).ready(function() {
 
-        var selecionarCliente = new SelecionarCliente();
-        var funcaoParaRetornarCamposDaBuscaDeCliente = function () {
-            var clienteSelecionado = selecionarCliente.clienteSelecionado;
-            $('#id_cliente').val(clienteSelecionado.Id);
-            $('#CodigoDoCliente').val(clienteSelecionado.Codigo);
-            $('#NomeDoCliente').val(clienteSelecionado.Nome);
-        };
-
-        selecionarCliente.configurarJanelaModal('#id_cliente', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
-
-        var selecionarProduto = new SelecionarProduto();
-
-        var funcaoParaPreencherOsDadosDeRetornoDoProduto = function () {
-            $('#IdDoMaterial').val(selecionarProduto.produtoSelecionado.Id);
-            $('#CodigoDoMaterial').val(selecionarProduto.produtoSelecionado.Id_material);
-            $('#NomeDoMaterial').val(selecionarProduto.produtoSelecionado.Descricao);
-        };
-
-        selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscarMaterial', null, null, funcaoParaPreencherOsDadosDeRetornoDoProduto);
-
-        var possuiRepresentante = '@(Model != null)'.boolean();
-
-        if (possuiRepresentante) {
-            $('#NomeDoRepresentante')
-                .attr('readonly', true)
-                .addClass('campoDesabilitado');
-
-        } else {
-            var selecionarRepresentante = new SelecionarFornecedor();
-
-            var funcaoParaPreencherOsCamposDoRepresentante = function () {
-                var representanteSelecionado = selecionarRepresentante.fornecedorSelecionado;
-                $('#CodigoDoRepresentante').val(representanteSelecionado.Codigo);
-                $('#NomeDoRepresentante').val(representanteSelecionado.Nome);
+            var selecionarCliente = new SelecionarCliente();
+            var funcaoParaRetornarCamposDaBuscaDeCliente = function() {
+                var clienteSelecionado = selecionarCliente.clienteSelecionado;
+                $('#id_cliente').val(clienteSelecionado.Id);
+                $('#CodigoDoCliente').val(clienteSelecionado.Codigo);
+                $('#NomeDoCliente').val(clienteSelecionado.Nome);
             };
 
-            selecionarRepresentante.configurarJanelaModalParaFornecedor("#CodigoRepresentante", "divSelecionarRepresentante", "#btnSelecionarRepresentante", null, funcaoParaPreencherOsCamposDoRepresentante);
+            selecionarCliente.configurarJanelaModal('#id_cliente', 'divSelecionarCliente', "#btnBuscarCliente", funcaoParaRetornarCamposDaBuscaDeCliente);
 
-            $('#btnLimparRepresentante').click(function () {
-                $('#CodigoDoRepresentante').val('');
-                $('#NomeDoRepresentante').val('');
-                selecionarRepresentante.removerSelecao();
-            });
-            
-        }
+            var selecionarProduto = new SelecionarProduto();
 
-        $("#gridPedidos").customKendoGrid({
-            dataSource: {
-                schema: {
-                    data: 'Registros',
-                    model: {
-                        fields: {
-                            IdDaCotacao: { type: "string" },
-                            Status: { type: "string" },
-                            NomeDoCliente: { type: "string" },
-                            DataDeCriacao: { type: "string" },
-                            NumeroDoPedido: { type: "string" },
-                            DataDoPedido: { type: "string" },
-                            ValorTotal: { type: "number" }
-                        }
+            var funcaoParaPreencherOsDadosDeRetornoDoProduto = function() {
+                $('#IdDoMaterial').val(selecionarProduto.produtoSelecionado.Id);
+                $('#CodigoDoMaterial').val(selecionarProduto.produtoSelecionado.Id_material);
+                $('#NomeDoMaterial').val(selecionarProduto.produtoSelecionado.Descricao);
+            };
+
+            selecionarProduto.configurarJanelaModal('#IdDoMaterial', 'divSelecionarProduto', '#btnBuscarMaterial', null, null, funcaoParaPreencherOsDadosDeRetornoDoProduto);
+
+            var possuiRepresentante = '@(Model != null)'.boolean();
+
+            if (possuiRepresentante) {
+                $('#NomeDoRepresentante')
+                    .attr('readonly', true)
+                    .addClass('campoDesabilitado');
+
+            } else {
+                var selecionarRepresentante = new SelecionarFornecedor();
+
+                var funcaoParaPreencherOsCamposDoRepresentante = function() {
+                    var representanteSelecionado = selecionarRepresentante.fornecedorSelecionado;
+                    $('#CodigoDoRepresentante').val(representanteSelecionado.Codigo);
+                    $('#NomeDoRepresentante').val(representanteSelecionado.Nome);
+                };
+
+                selecionarRepresentante.configurarJanelaModalParaFornecedor("#CodigoRepresentante", "divSelecionarRepresentante", "#btnSelecionarRepresentante", null, funcaoParaPreencherOsCamposDoRepresentante);
+
+                $('#btnLimparRepresentante').click(function() {
+                    $('#CodigoDoRepresentante').val('');
+                    $('#NomeDoRepresentante').val('');
+                    selecionarRepresentante.removerSelecao();
+                });
+
+            }
+
+            $("#gridPedidos").customKendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'Registros',
+                        model: {
+                            fields: {
+                                IdDaCotacao: { type: "string" },
+                                Status: { type: "string" },
+                                NomeDoCliente: { type: "string" },
+                                DataDeCriacao: { type: "string" },
+                                NumeroDoPedido: { type: "string" },
+                                DataDoPedido: { type: "string" },
+                                ValorTotal: { type: "number" }
+                            }
+                        },
+                        total: 'QuantidadeDeRegistros'
                     },
-                    total: 'QuantidadeDeRegistros'
-                },
-                serverFiltering: true,
-                serverPaging: true,
-                transport: {
-                    read: {
-                        url: '@Url.Action("ListarPedidoVenda", "PedidoVenda")',
+                    serverFiltering: true,
+                    serverPaging: true,
+                    transport: {
+                        read: {
+                            url: '@Url.Action("ListarPedidoVenda", "PedidoVenda")',
                             type: 'GET',
                             cache: false,
                             data: function() {
@@ -187,10 +187,16 @@
                         template: '<input type="button" class="button_visualize" data-cotacao="${IdDaCotacao}"></input>'
                     },
                     {
-                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        title: ' ',
                         width: 30,
                         sortable: false,
                         template: '<input type="button" class="button_edit" data-cotacao="${IdDaCotacao}"></input>'
+                    },
+                    {
+                        title: ' ',
+                        width: 30,
+                        sortable: false,
+                        template: '<input type="button" class="button_printer"></input>'
                     },
                     {
                         field: "IdDaCotacao",
@@ -246,13 +252,21 @@
                 e.preventDefault();
                 var pedidoSelecionado = $('#gridPedidos').data("kendoGrid").obterRegistroSelecionado();
                 location.href = '@Url.Action("EditarPedido", "PedidoVenda")' + '/?idDaCotacao=' + pedidoSelecionado.IdDaCotacao;
-        });
+            });
 
-        $('#btnLimpar').click(function () {
-            $('form').find('input[type=hidden]').val('');
-        });
+            $("#gridPedidos").off('click', '.button_printer');
+            $("#gridPedidos").on('click', '.button_printer', function (e) {
+                e.preventDefault();
+                var pedidoSelecionado = $('#gridPedidos').data("kendoGrid").obterRegistroSelecionado();
+                window.open('@Url.Action("Imprimir","PedidoVenda")' + '/?idDaCotacao=' + pedidoSelecionado.IdDaCotacao);
+                
+            });
 
-    });
+            $('#btnLimpar').click(function() {
+                $('form').find('input[type=hidden]').val('');
+            });
+
+        });
     </script>
     
 }

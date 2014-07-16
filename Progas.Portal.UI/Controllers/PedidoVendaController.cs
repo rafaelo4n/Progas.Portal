@@ -160,6 +160,13 @@ namespace Progas.Portal.UI.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult Imprimir(string idDaCotacao)
+        {
+            PedidoVendaImprimirDto pedidoVendaImprimirDto = _consultaPedidoVenda.Impressao(idDaCotacao);
+            return View(pedidoVendaImprimirDto);
+        }
+
         #endregion
 
 

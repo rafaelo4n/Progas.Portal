@@ -228,6 +228,7 @@
     <Content Include="Content\kendo\2012.3.1114\textures\stripe5.png" />
     <Content Include="Content\kendo\2012.3.1114\textures\stripe6.png" />
     <Content Include="Content\Modal.css" />
+    <Content Include="Content\Print.css" />
     <Content Include="Content\Relatorio.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -300,9 +301,12 @@
     <Content Include="Images\icons\enviar_email_16.png" />
     <Content Include="Images\icons\information_16.png" />
     <Content Include="Images\icons\mag_16.png" />
+    <Content Include="Images\icons\printer_16.png" />
     <Content Include="Images\icons\rubber_16.png" />
     <Content Include="Images\icons\schedule_16.png" />
     <Content Include="Images\banner.JPG" />
+    <Content Include="Images\logo_braesi.jpg" />
+    <Content Include="Images\logo_progas.jpg" />
     <Content Include="Scripts\AgendamentoDeCarga\Cadastro.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridNotasFiscais.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridAgendamentosDoDia.js" />
@@ -432,6 +436,7 @@
     <Content Include="Views\Cadastros\_Fornecedor.cshtml" />
     <Content Include="Views\Shared\_SelecionarCliente.cshtml" />
     <Content Include="Views\Shared\_SelecionarProduto.cshtml" />
+    <Content Include="Views\PedidoVenda\Imprimir.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
