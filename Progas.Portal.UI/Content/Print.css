@@ -50,8 +50,6 @@ img {
 .coluna10, .coluna25, .coluna33, .coluna50, .coluna75, .coluna90, .coluna100, .titulo, .logotipo {
     display: inline-block;
     float: left;
-    /*border: 1px solid black;
-    border-collapse: collapse*/
 }
 
 .coluna10 {
@@ -81,7 +79,7 @@ img {
 }
 
 .textolivre {
-    min-height: 10px;
+    min-height: 10pt;
 }
 
 table {
@@ -91,7 +89,7 @@ table {
 }
 
 thead th, tbody td {
-    border: 1px solid black;
+    border: 1pt solid black;
 }
 
 tfoot {
@@ -107,7 +105,7 @@ th {
 }
 
 .totalizador {
-    border: 1px solid black;
+    border: 1pt solid black;
 }
 
 p {
