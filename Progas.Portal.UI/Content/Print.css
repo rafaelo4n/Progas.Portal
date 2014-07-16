@@ -88,9 +88,18 @@ table {
     border-style: none;
 }
 
-thead th, tbody td {
+thead th{
     border: 1pt solid black;
 }
+
+tbody td {
+    border-left: 1pt solid black;
+    border-right: 1pt solid black;
+}
+tbody > tr:last-child {
+    border-bottom: 1pt solid black;
+}
+
 
 tfoot {
     font-weight: bold
