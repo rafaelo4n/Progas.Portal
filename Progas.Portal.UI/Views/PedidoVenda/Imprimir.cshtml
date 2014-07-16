@@ -15,19 +15,19 @@
         <div class="conteudo">
             <div class="linha">
                 <div class="logotipo">
-                    <img src="@Url.Content("~/Images/logo_progas.jpg")" alt="Progás"/>
+                    <img src="@Url.Content("~/Images/logo_progas.png")" alt="Progás"/>
                 </div>
                 <div class="titulo">PEDIDO DE VENDA</div>
                 <div class="logotipo">
-                    <img src="@Url.Content("~/Images/logo_braesi.jpg")" alt="Braesi"/>
+                    <img src="@Url.Content("~/Images/logo_braesi.png")" alt="Braesi"/>
                 </div>
             </div>
             <div class="linha">
                 <hr/>
             </div>
             <div class="linha">
-                <div class="coluna10">Centro: @Html.DisplayFor(x => x.Centro)</div>
-                <div class="coluna90">Representante: @Html.DisplayFor(x => x.Representante)</div>
+                <div class="coluna25">Empresa: @Html.DisplayFor(x => x.Empresa)</div>
+                <div class="coluna75">Representante: @Html.DisplayFor(x => x.Representante)</div>
             </div>
             <div class="linha">
                 <div class="coluna50">Número da Cotação: @Html.DisplayFor(x => x.NumeroDaCotacao)</div>
@@ -69,6 +69,13 @@
                         </tr>
                     }
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" style="text-align: right">Total:</td>
+                        <td class="camponumerico totalizador">@Html.DisplayFor(x => x.TotalTabela)</td>
+                        <td class="camponumerico totalizador">@Html.DisplayFor(x => x.TotalLiquido)</td>
+                    </tr>
+                </tfoot>
             </table>
             <hr/>
             <div class="linha">
@@ -94,6 +101,11 @@
             </div>
     
         </div>
+        <script type="text/javascript">
+            (function () {
+                window.print();
+            })();
+        </script>
 
     </body>
     

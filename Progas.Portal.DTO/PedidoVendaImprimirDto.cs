@@ -18,7 +18,7 @@ namespace Progas.Portal.DTO
 
     public class PedidoVendaImprimirDto
     {
-        public string Centro { get; set; }
+        public string Empresa { get; set; }
         public string NumeroDaCotacao { get; set; }
         public string NumeroDoPedido{ get; set; }
         public string Representante { get; set; }
@@ -34,6 +34,8 @@ namespace Progas.Portal.DTO
         public string TransportadoraDeRedespachoFob { get; set; }
         public string TransportadoraDeRedespachoCif { get; set; }
         public string Observacao { get; set; }
+        public decimal TotalLiquido { get; set; }
+        public decimal TotalTabela { get; set; }
         public IList<PedidoVendaItemImprimirDto> Itens { get; set; }
 
     }

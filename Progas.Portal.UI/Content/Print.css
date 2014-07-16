@@ -86,16 +86,31 @@ img {
 
 table {
     width: 100%;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-}
-th, td {
-    border-left: 1px solid black;
-    border-right: 1px solid black;
     border-collapse: collapse;
+    border-style: none;
+}
+
+thead th, tbody td {
+    border: 1px solid black;
+}
+
+tfoot {
+    font-weight: bold
+}
+
+th {
+    background-color: lightgray
 }
 
 .camponumerico {
     text-align: right
+}
+
+.totalizador {
+    border: 1px solid black;
+}
+
+p {
+    margin-top: 2pt;
 }
 

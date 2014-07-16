@@ -170,13 +170,32 @@ namespace Progas.Portal.Application.Queries.Implementations
             return count == 1;
         }
 
+        private string ObterNomeDaEmpresa(string idCentro)
+        {
+            string nomeDaEmpresa;
+            switch (idCentro)
+            {
+                case "1000":
+                    nomeDaEmpresa = "PROGÁS";
+                    break;
+                case "1010":
+                    nomeDaEmpresa = "BRAESI";
+                    break;
+                default:
+                    nomeDaEmpresa = "";
+                    break;
+            }
+
+            return nomeDaEmpresa == "" ? idCentro : string.Format("{0} - {1}", idCentro, nomeDaEmpresa);
+        }
+
         public PedidoVendaImprimirDto Impressao(string idDaCotacao)
         {
             PedidoVenda pedidoVenda = _pedidosVenda.FiltraPorId(idDaCotacao).Single();
             Cliente cliente = pedidoVenda.Cliente;
             var pedidoVendaImprimirDto = new PedidoVendaImprimirDto
             {
-                Centro = pedidoVenda.Id_centro,
+                Empresa = ObterNomeDaEmpresa(pedidoVenda.Id_centro),
                 Representante = string.Format("{0} - {1}", pedidoVenda.Representante.Codigo, pedidoVenda.Representante.Nome),
                 NumeroDaCotacao = pedidoVenda.Id_cotacao,
                 NumeroDoPedido = pedidoVenda.NumeroDoPedidoDoRepresentante,
@@ -189,6 +208,8 @@ namespace Progas.Portal.Application.Queries.Implementations
                 TipoDeFrete = pedidoVenda.TipoDeFrete.Descricao,
                 ModeloDeFrete = pedidoVenda.ModeloDeFrete.Descricao,
                 Observacao = pedidoVenda.Observacao,
+                TotalTabela = pedidoVenda.Itens.Sum(x => x.ValorTabela),
+                TotalLiquido = pedidoVenda.ValorTotal, 
                 Itens = pedidoVenda.Itens.Select(item => new PedidoVendaItemImprimirDto
                 {
                     Codigo = item.Material.Id_material,
