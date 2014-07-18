@@ -95,6 +95,7 @@ namespace Progas.Portal.Application.Queries.Implementations
 
         public KendoGridVm ListarTransportadoras(PaginacaoVm paginacaoVm, TransportadoraFiltroVm filtro)
         {
+            IQueryOver<Fornecedor, Fornecedor> queryOverRetorno;
             IQueryOver<Fornecedor, Fornecedor> queryOverBase = AplicarFiltros(filtro,false);
             queryOverBase = queryOverBase.And(f => f.Grupo_contas == "ZTRA");
 
@@ -110,10 +111,12 @@ namespace Progas.Portal.Application.Queries.Implementations
 
             var queryCliente =  queryOverBase.Clone().WithSubquery.WhereExists(subQueryCliente);
 
-            KendoGridVm kendoGridVm;
-
+            queryOverRetorno = queryCliente;
 
             int quantidadeDeTransportadoras = queryCliente.RowCount();
+
+            Usuario usuarioConectado = _usuarios.UsuarioConectado();
+
             if (quantidadeDeTransportadoras > 0)
             {
 
@@ -122,22 +125,10 @@ namespace Progas.Portal.Application.Queries.Implementations
                     AplicarFiltroDeAreaDeVenda(queryCliente, filtro.IdDaAreaDeVenda.Value);
                     quantidadeDeTransportadoras = queryCliente.RowCount();
                 }
-                kendoGridVm = new KendoGridVm
-                {
-                    QuantidadeDeRegistros = quantidadeDeTransportadoras,
-                    Registros =
-                        _builderFornecedor.BuildList(queryCliente.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
-                            .Cast<ListagemVm>()
-                            .ToList()
 
-                };
-
-                return kendoGridVm;
+                queryOverRetorno = queryCliente;
             }
-
-            Usuario usuarioConectado = _usuarios.UsuarioConectado();
-
-            if (!string.IsNullOrEmpty(usuarioConectado.CodigoDoFornecedor))
+            else if (!string.IsNullOrEmpty(usuarioConectado.CodigoDoFornecedor))
             {
 
                 TransportadoraDoRepresentante transportadoraDoRepresentante = null;
@@ -150,50 +141,29 @@ namespace Progas.Portal.Application.Queries.Implementations
 
                 var queryOverRepresentante = queryOverBase.Clone().WithSubquery.WhereExists(subQuery);
 
-                quantidadeDeTransportadoras = queryOverRepresentante.RowCount();
-
-                if (quantidadeDeTransportadoras > 0)
+                if (filtro.IdDaAreaDeVenda.HasValue)
                 {
-
-                    if (filtro.IdDaAreaDeVenda.HasValue)
-                    {
-                        AplicarFiltroDeAreaDeVenda(queryOverRepresentante, filtro.IdDaAreaDeVenda.Value);
-                        quantidadeDeTransportadoras = queryCliente.RowCount();
-                    }
-                    
-
-                    kendoGridVm = new KendoGridVm
-                    {
-                        QuantidadeDeRegistros = quantidadeDeTransportadoras,
-                        Registros =
-                            _builderFornecedor.BuildList(queryOverRepresentante.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
-                                .Cast<ListagemVm>()
-                                .ToList()
-
-                    };
-
-                    return kendoGridVm;
+                    AplicarFiltroDeAreaDeVenda(queryOverRepresentante, filtro.IdDaAreaDeVenda.Value);
                 }
 
+                quantidadeDeTransportadoras = queryOverRepresentante.RowCount();
+
+                queryOverRetorno = queryOverRepresentante;
 
             }
 
-            if (filtro.IdDaAreaDeVenda.HasValue)
+            var kendoGridVm = new KendoGridVm
             {
-                AplicarFiltroDeAreaDeVenda(queryOverBase, filtro.IdDaAreaDeVenda.Value);
-            }
-
-            kendoGridVm = new KendoGridVm
-            {
-                QuantidadeDeRegistros = queryOverBase.RowCount(),
+                QuantidadeDeRegistros = quantidadeDeTransportadoras,
                 Registros =
-                    _builderFornecedor.BuildList(queryOverBase.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
+                    _builderFornecedor.BuildList(queryOverRetorno.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
                         .Cast<ListagemVm>()
                         .ToList()
 
             };
 
             return kendoGridVm;
+
 
         }
 
