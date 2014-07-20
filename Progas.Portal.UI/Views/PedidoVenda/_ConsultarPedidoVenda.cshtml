@@ -150,7 +150,8 @@
                                 DataDeCriacao: { type: "string" },
                                 NumeroDoPedido: { type: "string" },
                                 DataDoPedido: { type: "string" },
-                                ValorTotal: { type: "number" }
+                                ValorTotal: { type: "number" },
+                                ExibirBotaoDeImpressao: { type: "boolean" }
                             }
                         },
                         total: 'QuantidadeDeRegistros'
@@ -196,7 +197,9 @@
                         title: ' ',
                         width: 30,
                         sortable: false,
-                        template: '<input type="button" class="button_printer"></input>'
+                        template: function(data) {
+                            return data.ExibirBotaoDeImpressao ? '<input type="button" class="button_printer"></input>' : "";
+                        }
                     },
                     {
                         field: "IdDaCotacao",
@@ -209,16 +212,16 @@
                         title: "Cliente"
                     },
                     {
-                        width: 80,
+                        width: 70,
                         field: "Status"
                     },
                     {
-                        width: 90,
+                        width: 115,
                         field: "DataDeCriacao",
                         title: "Data de Criação"
                     },
                     {
-                        width: 80,
+                        width: 65,
                         field: "NumeroDoPedido",
                         title: "N° Pedido"
                     },

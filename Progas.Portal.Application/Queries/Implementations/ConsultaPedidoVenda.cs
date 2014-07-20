@@ -53,7 +53,8 @@ namespace Progas.Portal.Application.Queries.Implementations
                         DataDeCriacao =  pedido.Datacp.ToString("dd/MM/yyyy HH:mm:ss"),
                         DataDoPedido =  pedido.Datap.ToShortDateString(),
                         NomeDoCliente =  pedido.Cliente.Nome,
-                        ValorTotal = pedido.ValorTotal
+                        ValorTotal = pedido.ValorTotal,
+                        ExibirBotaoDeImpressao = pedido.Status.Codigo == "C"
                     })
                     .Skip(paginacaoVm.Skip)
                     .Take(paginacaoVm.Take)
@@ -199,6 +200,7 @@ namespace Progas.Portal.Application.Queries.Implementations
                 Representante = string.Format("{0} - {1}", pedidoVenda.Representante.Codigo, pedidoVenda.Representante.Nome),
                 NumeroDaCotacao = pedidoVenda.Id_cotacao,
                 NumeroDoPedido = pedidoVenda.NumeroDoPedidoDoRepresentante,
+                DataDeCriacao = pedidoVenda.Datacp.ToShortDateString(),
                 Cliente =  string.Format("{0} - {1}", cliente.Id_cliente, cliente.Nome),
                 Cnpj =  cliente.Cnpj,
                 Telefone = cliente.Tel_res,

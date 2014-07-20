@@ -11,5 +11,6 @@ namespace Progas.Portal.Application.Queries.Builders
         public string DataDeCriacao { get; set; }
         public string DataDoPedido { get; set; }
         public decimal ValorTotal { get; set; }
+        public bool ExibirBotaoDeImpressao { get; set; }
     }
 }

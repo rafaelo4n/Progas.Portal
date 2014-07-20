@@ -21,6 +21,7 @@ namespace Progas.Portal.DTO
         public string Empresa { get; set; }
         public string NumeroDaCotacao { get; set; }
         public string NumeroDoPedido{ get; set; }
+        public string DataDeCriacao { get; set; }
         public string Representante { get; set; }
         public string Cliente { get; set; }
         public string Cnpj { get; set; }
