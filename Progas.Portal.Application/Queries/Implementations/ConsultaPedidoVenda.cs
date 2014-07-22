@@ -239,7 +239,7 @@ namespace Progas.Portal.Application.Queries.Implementations
             Fornecedor transportadoraDeRedespachoCif = pedidoVenda.TransportadoraDeRedespachoCif;
             if (transportadoraDeRedespachoCif != null)
             {
-                pedidoVendaImprimirDto.Transportadora = string.Format("{0} - {1}", transportadoraDeRedespachoCif.Codigo, transportadoraDeRedespachoCif.Nome);
+                pedidoVendaImprimirDto.TransportadoraDeRedespachoCif = string.Format("{0} - {1}", transportadoraDeRedespachoCif.Codigo, transportadoraDeRedespachoCif.Nome);
             }
 
             return pedidoVendaImprimirDto;
