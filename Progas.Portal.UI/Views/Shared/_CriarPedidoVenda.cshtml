@@ -344,11 +344,19 @@
                     if (data.Sucesso) {
                         linhasAdicionadas = data.Itens;
                         numeroDeItensInseridos = data.Itens.length;
-                        $('#gridLinhasAdicionadas').data("kendoGrid").dataSource.read();
 
                         if (copia) {
                             $('#id_cotacao').val('');
+
+                            $.each(data.Itens, function (indice, item) {
+                                item.CodigoDoMotivoDeRecusa = null;
+                                item.DescricaoDoMotivoDeRecusa = null;
+                            });
+
                         }
+
+                        $('#gridLinhasAdicionadas').data("kendoGrid").dataSource.read();
+
 
                     } else {
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os itens do Pedido. Detalhe: ' + data.Mensagem);

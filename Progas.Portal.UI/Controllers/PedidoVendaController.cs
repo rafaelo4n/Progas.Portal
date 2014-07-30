@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Progas.Portal.Application.Queries.Contracts;
 using Progas.Portal.DTO;
+using Progas.Portal.UI.App_Start;
 using Progas.Portal.UI.Filters;
 using Progas.Portal.ViewModel;
 
@@ -56,15 +58,31 @@ namespace Progas.Portal.UI.Controllers
 
         }
 
-        // Criacao de um novo pedido de venda
         [HttpGet]
         public ActionResult Index()
         {
             PrepararViewBagParaTelaDeCadastroDePedido();
             ViewBag.TituloDaPagina = "Criar Pedido de Venda";
-            return View("_CriarPedidoVenda", new PedidoVendaCadastroVm{datap = DateTime.Today.ToShortDateString()});
+            PedidoVendaCadastroVm pedidoVendaCadastroVm = TempData["PedidoVenda"] as PedidoVendaCadastroVm ?? 
+                new PedidoVendaCadastroVm { datap = DateTime.Today.ToShortDateString() };
+            return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
+        }
+
+        [HttpGet]
+        public ActionResult CopiarPedido(string idDoPedido)
+        {
+            PedidoVendaCadastroVm pedidoVenda = _consultaPedidoVenda.Consultar(idDoPedido);
+            pedidoVenda.Copia = true;
+            pedidoVenda.id_pedido = "";
+            pedidoVenda.NumeroPedidoDoCliente = "";
+            pedidoVenda.status = "";
+            
+            TempData["PedidoVenda"] = pedidoVenda;
+
+            return RedirectToAction("Index");
 
         }
+
 
         [HttpGet]
         public ActionResult EditarPedido(string idDaCotacao)
@@ -92,22 +110,6 @@ namespace Progas.Portal.UI.Controllers
             bool pedidoExiste = _consultaPedidoVenda.PedidoExiste(idDoPedido);
             return Json(pedidoExiste, JsonRequestBehavior.AllowGet);
         }
-
-        [HttpGet]
-        public ActionResult CopiarPedido(string idDoPedido)
-        {
-            PrepararViewBagParaTelaDeCadastroDePedido();
-            ViewBag.TituloDaPagina = "Criar Pedido de Venda";
-            PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDoPedido);
-            pedidoVendaCadastroVm.Copia = true;
-            pedidoVendaCadastroVm.id_pedido = "";
-            pedidoVendaCadastroVm.NumeroPedidoDoCliente = "";
-            pedidoVendaCadastroVm.status = "";
-            pedidoVendaCadastroVm.datap = DateTime.Today.ToShortDateString();
-            return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
-            
-        }
-
 
         #endregion
 
