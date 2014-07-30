@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Routing;
 using Progas.Portal.Application.Queries.Contracts;
 using Progas.Portal.DTO;
-using Progas.Portal.UI.App_Start;
 using Progas.Portal.UI.Filters;
 using Progas.Portal.ViewModel;
 
