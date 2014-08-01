@@ -18,5 +18,7 @@ namespace Progas.Portal.Infra.Repositories.Contracts
 
         IPedidosVenda DoCliente(string codigoDoCliente);
         IPedidosVenda NoStatus(string status);
+
+        IPedidosVenda OrdenarPeloUltimoPedidoCriado();
     }
 }

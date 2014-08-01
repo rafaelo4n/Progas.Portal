@@ -96,5 +96,11 @@ namespace Progas.Portal.Infra.Repositories.Implementations
 
             return this;
         }
+
+        public IPedidosVenda OrdenarPeloUltimoPedidoCriado()
+        {
+            Query = Query.OrderByDescending(x => x.Datacp);
+            return this;
+        }
     }
 }

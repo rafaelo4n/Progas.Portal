@@ -38,8 +38,8 @@ namespace Progas.Portal.Application.Queries.Implementations
                 .PedidoCodigoContendo(filtro.id_pedido)
                 .DataPedidoContendo(filtro.datap)
                 .CotacaoRepresentante(filtro.CodigoDoRepresentante)
-                .NoStatus(filtro.Status);
-
+                .NoStatus(filtro.Status)
+                .OrdenarPeloUltimoPedidoCriado();
 
             var kendoGridVmn = new KendoGridVm()
             {
