@@ -152,8 +152,6 @@
     <Compile Include="Controllers\SelecionarClienteController.cs" />
     <Compile Include="Controllers\SelecionarFornecedorController.cs" />
     <Compile Include="Controllers\SelecionarRepresentanteController.cs" />
-    <Compile Include="Controllers\SelecionarTransRedespachoCifController.cs" />
-    <Compile Include="Controllers\SelecionarTransRedespachoController.cs" />
     <Compile Include="Controllers\TipoPedidoController.cs" />
     <Compile Include="Controllers\GerenciadorUsuarioController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -422,14 +420,13 @@
     <Content Include="Views\Usuario\Cadastro.cshtml" />
     <Content Include="Views\Account\EsqueciMinhaSenha.cshtml" />
     <Content Include="Views\Shared\_SelecionarFornecedor.cshtml" />
-    <Content Include="Views\Shared\_CriarPedidoVenda.cshtml" />
+    <Content Include="Views\PedidoVenda\CriarPedidoVenda.cshtml" />
     <Content Include="Views\Shared\_SelecionarTipoPedido.cshtml" />
-    <Content Include="Views\Shared\_SelecionarTransRedespacho.cshtml" />
     <Content Include="Views\Material\_Material.cshtml" />
     <Content Include="Views\Material\Cadastro.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Cadastros\_Material.cshtml" />
-    <Content Include="Views\PedidoVenda\_ConsultarPedidoVenda.cshtml" />
+    <Content Include="Views\PedidoVenda\ConsultarPedidoVenda.cshtml" />
     <Content Include="Views\Cadastros\_UnidadeMedida.cshtml" />
     <Content Include="Views\Cadastros\_CondicaoPagamento.cshtml" />
     <Content Include="Views\Cadastros\_Cliente.cshtml" />

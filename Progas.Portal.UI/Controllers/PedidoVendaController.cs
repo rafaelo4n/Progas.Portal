@@ -63,7 +63,7 @@ namespace Progas.Portal.UI.Controllers
             ViewBag.TituloDaPagina = "Criar Pedido de Venda";
             PedidoVendaCadastroVm pedidoVendaCadastroVm = TempData["PedidoVenda"] as PedidoVendaCadastroVm ?? 
                 new PedidoVendaCadastroVm { datap = DateTime.Today.ToShortDateString() };
-            return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
+            return View("CriarPedidoVenda", pedidoVendaCadastroVm);
         }
 
         [HttpGet]
@@ -88,7 +88,7 @@ namespace Progas.Portal.UI.Controllers
             PrepararViewBagParaTelaDeCadastroDePedido();
             ViewBag.TituloDaPagina = "Editar Pedido de Venda";
             PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDaCotacao);
-            return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
+            return View("CriarPedidoVenda", pedidoVendaCadastroVm);
         }
 
         [HttpGet]
@@ -98,7 +98,7 @@ namespace Progas.Portal.UI.Controllers
             ViewBag.TituloDaPagina = "Visualizar Pedido de Venda";
             PedidoVendaCadastroVm pedidoVendaCadastroVm = _consultaPedidoVenda.Consultar(idDaCotacao);
             pedidoVendaCadastroVm.SomenteLeitura = true;
-            return View("_CriarPedidoVenda", pedidoVendaCadastroVm);
+            return View("CriarPedidoVenda", pedidoVendaCadastroVm);
 
         }
 
@@ -127,7 +127,7 @@ namespace Progas.Portal.UI.Controllers
 
             RepresentanteDTO representanteDTO = _consultaUsuario.RepresentanteDoUsuarioLogado();
 
-            return View("_ConsultarPedidoVenda",representanteDTO);
+            return View("ConsultarPedidoVenda",representanteDTO);
         }
 
         // Listar Pedido Venda
