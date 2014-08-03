@@ -305,10 +305,6 @@
     <Content Include="Images\banner.JPG" />
     <Content Include="Images\logo_braesi.png" />
     <Content Include="Images\logo_progas.png" />
-    <Content Include="Scripts\AgendamentoDeCarga\Cadastro.js" />
-    <Content Include="Scripts\AgendamentoDeCarga\GridNotasFiscais.js" />
-    <Content Include="Scripts\AgendamentoDeCarga\GridAgendamentosDoDia.js" />
-    <Content Include="Scripts\Cadastro\gridFornecedor.js" />
     <None Include="Properties\PublishProfiles\Progas - Portal.pubxml" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\globalize.culture.pt-BR.js" />
