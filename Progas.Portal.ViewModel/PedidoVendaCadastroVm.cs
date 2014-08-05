@@ -50,11 +50,11 @@ namespace Progas.Portal.ViewModel
 
         [Display(Name = "Tipo de Frete: ")]
         [Required(ErrorMessage = "Tipo de Frete é obrigatório")]
-        public string IdDoIncoterm1 { get; set; }
+        public string Inco1 { get; set; }
 
         [Display(Name = "Modelo de Frete: ")]
         [Required(ErrorMessage = "Modelo de Frete é obrigatório")]
-        public string IdDoIncoterm2 { get; set; }
+        public string Inco2 { get; set; }
 
         [Display(Name = "Representante: ")]
         public string id_repre { get; set; }

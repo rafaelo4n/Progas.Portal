@@ -153,8 +153,8 @@ namespace Progas.Portal.Application.Queries.Implementations
                 id_pedido = pedido.NumeroDoPedidoDoRepresentante ,
                 NumeroPedidoDoCliente = pedido.NumeroDoPedidoDoCliente,
                 id_repre =pedido.Representante.Codigo ,
-                IdDoIncoterm1 = Convert.ToString(pedido.ModeloDeFrete.pro_id_incotermCab),
-                IdDoIncoterm2 = Convert.ToString(pedido.TipoDeFrete.Id),
+                Inco1 = Convert.ToString(pedido.ModeloDeFrete.pro_id_incotermCab),
+                Inco2 = Convert.ToString(pedido.TipoDeFrete.Id),
                 vlrtot = pedido.ValorTotal,
                 obs = pedido.Observacao
 

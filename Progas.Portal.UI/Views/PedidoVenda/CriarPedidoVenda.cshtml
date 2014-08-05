@@ -79,18 +79,18 @@
                 
                 @{
                     var inco1 = new ColunaComDropDown<PedidoVendaCadastroVm, object>
-                        (x => x.IdDoIncoterm1, ((List<IncotermsCabCadastroVm>) ViewBag.Incoterms)
+                        (x => x.Inco1, ((List<IncotermsCabCadastroVm>) ViewBag.Incoterms)
                             .Select(x => new SelectListItem()
                             {
                                 Text = string.Format("{0} - {1}", x.CodigoIncotermCab, x.Descricao),
                                 Value = Convert.ToString(x.Id),
-                                Selected = Model != null && Convert.ToString( x.Id) == Model.IdDoIncoterm1
+                                Selected = Model != null && Convert.ToString( x.Id) == Model.Inco1
                             }
                             ), "Inco1"
                         );
 
                     var inco2 = new ColunaComDropDown<PedidoVendaCadastroVm, object>
-                        (x => x.IdDoIncoterm2, new List<SelectListItem>(), "Inco2"
+                        (x => x.Inco2, new List<SelectListItem>(), "Inco2"
                         );
 
                     var buscaDeTransportadora = new ColunaComBotaoDeBusca<PedidoVendaCadastroVm, object>(x => x.Transportadora.Codigo,
@@ -508,7 +508,7 @@
             if (carregando) {
 
                 var idDaAreaDeVenda = '@(Model != null ? Model.IdDaAreaDeVenda: 0)';
-                var idDoIncoterm2 = '@(Model != null ? Model.IdDoIncoterm2: "")';
+                var idDoIncoterm2 = '@(Model != null ? Model.Inco2: "")';
                 var codigoDaCondicaoDePagamento = '@(Model != null ? Model.condpgto: ""  )';
                 var idDoCliente = $('#Cliente_Codigo').val();
                 //vai entrar aqui quando estiver carregando um pedido que já foi salvo
