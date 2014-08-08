@@ -215,6 +215,7 @@ namespace Progas.Portal.Application.Services.Implementations
                     ValorTotal = pedidoVenda.ValorTotal,
                     Itens = pedidoVenda.Itens.Select(item => new PedidoSapItemRetornoDTO
                     {
+                        Id = item.Id,
                         NumeroDoItem = item.Numero,
                         ValorDeTabela = item.ValorTabela,
                         ValorPolitica = item.ValorPolitica,

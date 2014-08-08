@@ -13,6 +13,7 @@ namespace Progas.Portal.DTO
 
     public class PedidoSapItemRetornoDTO
     {
+        public int Id { get; set; }
         public string NumeroDoItem { get; set; }
         public decimal ValorDeTabela { get; set; }
         public decimal ValorPolitica { get; set; }
