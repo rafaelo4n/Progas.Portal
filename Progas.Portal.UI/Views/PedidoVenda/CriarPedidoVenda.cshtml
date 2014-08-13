@@ -343,7 +343,8 @@
                 success: function(data) {
                     if (data.Sucesso) {
                         linhasAdicionadas = data.Itens;
-                        numeroDeItensInseridos = data.Itens.length;
+                        var ultimoItem = linhasAdicionadas[linhasAdicionadas.length - 1];
+                        numeroDeItensInseridos = parseInt(ultimoItem.NumeroDoItem) / 10;
 
                         if (copia) {
                             $('#id_cotacao').val('');
