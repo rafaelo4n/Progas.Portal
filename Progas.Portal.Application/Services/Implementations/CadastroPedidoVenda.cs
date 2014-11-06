@@ -124,8 +124,8 @@ namespace Progas.Portal.Application.Services.Implementations
                     pedidoVenda
                         .AlterarTipo(pedido.Tipo)
                         .AlterarCliente(clienteVenda, cliente)
-                        .AlterarTransportadora(transportadorasDoPedido.Transportadora, transportadorasDoPedido.TransportadoraDeRedespacho, transportadorasDoPedido.TransportadoraDeRedespachoCif)
                         .AlterarIncoterm(incoterm1, incoterm2)
+                        .AlterarTransportadora(transportadorasDoPedido.Transportadora, transportadorasDoPedido.TransportadoraDeRedespacho, transportadorasDoPedido.TransportadoraDeRedespachoCif)
                         .AlterarDados(pedido.NumeroPedidoDoRepresentante, pedido.NumeroPedidoDoCliente, pedido.DataDoPedido, condicaoDePagamento, pedido.Observacao);
 
                 }

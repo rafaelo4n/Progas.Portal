@@ -29,6 +29,33 @@ namespace Progas.Portal.Domain.Entities
         public virtual ClienteVenda AreaDeVenda{ get; set; }
         public virtual IList<PedidoVendaLinha> Itens { get; protected set; }
 
+        private void ValidarTransportadoras()
+        {
+            if (this.TipoDeFrete.ExigeTransportadoraDeRedespachoFob && this.TransportadoraDeRedespachoFob == null)
+            {
+                throw new Exception("É necessário informar a Transportadora de Redespacho FOB");
+            }
+
+            if (!this.TipoDeFrete.ExigeTransportadoraDeRedespachoFob && this.TransportadoraDeRedespachoFob != null)
+            {
+                throw new Exception("A Transportadora de Redespacho FOB não deve ser informada");
+            }
+
+
+            if (!this.TipoDeFrete.ExigeTransportadoraDeRedespachoCif && this.TransportadoraDeRedespachoCif != null)
+            {
+                throw new Exception("A Transportadora de Redespacho CIF não deve ser informada");
+            }
+
+            if (this.TipoDeFrete.ExigeTransportadoraDeRedespachoCif && this.TransportadoraDeRedespachoCif == null)
+            {
+                throw new Exception("É necessário informar a Transportadora de Redespacho CIF");
+            }
+
+
+            
+        }
+
 
         protected PedidoVenda()
         {
@@ -56,27 +83,6 @@ namespace Progas.Portal.Domain.Entities
             ) : this()
         {
 
-            if (tipoDeFrete.ExigeTransportadoraDeRedespachoFob && transportadoraDeRedespachoFob == null)
-            {
-                throw new Exception("É necessário informar a Transportadora de Redespacho FOB");
-            }
-
-            if (!tipoDeFrete.ExigeTransportadoraDeRedespachoFob && transportadoraDeRedespachoFob != null)
-            {
-                throw new Exception("A Transportadora de Redespacho FOB não deve ser informada");
-            }
-
-
-            if (!tipoDeFrete.ExigeTransportadoraDeRedespachoCif && transportadoraDeRedespachoCif != null)
-            {
-                throw new Exception("A Transportadora de Redespacho CIF não deve ser informada");
-            }
-
-            if (tipoDeFrete.ExigeTransportadoraDeRedespachoCif && transportadoraDeRedespachoCif == null)
-            {
-                throw new Exception("É necessário informar a Transportadora de Redespacho CIF");
-            }
-
 
             Tipo = tipo;
             TipoPedido = tipoPedido;
@@ -95,6 +101,8 @@ namespace Progas.Portal.Domain.Entities
             TransportadoraDeRedespachoCif = transportadoraDeRedespachoCif;
             Representante = representante;
             Observacao = observacao;
+
+            this.ValidarTransportadoras();
         }
 
         public virtual void AdicionarItem(PedidoVendaLinha item)
@@ -126,6 +134,8 @@ namespace Progas.Portal.Domain.Entities
             this.Transportadora = transportadora;
             this.TransportadoraDeRedespachoFob = transportadoraDeRedespacho;
             this.TransportadoraDeRedespachoCif = transportadoraDeRedespachoCif;
+
+            this.ValidarTransportadoras();
 
             return this;
         }
