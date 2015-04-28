@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Progas.Portal.ViewModel
 {
@@ -75,6 +76,7 @@ namespace Progas.Portal.ViewModel
 
         [Display(Name = "Quantidade:")]
         [Required(ErrorMessage = "Quantidade é obrigatório")]
+        [Range(0.001,double.MaxValue ,ErrorMessage = "Quantidade deve ser maior que 0")]
         public decimal Quant { get; set; }
 
         [Display(Name = "Unidade de Medida:")]

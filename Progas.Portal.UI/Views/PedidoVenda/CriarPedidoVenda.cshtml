@@ -693,7 +693,8 @@
                     {
                         width: 70,
                         field: "Quantidade",
-                        title: "Quantidade"
+                        title: "Quantidade",
+                        format: "{0:n3}",
                     },
                     {
                         field: "DescricaoListaPreco",
@@ -923,7 +924,7 @@
                 $('#IdDoMaterial').val(item.IdMaterial);
                 $('#CodigoDoMaterial').val(item.CodigoMaterial);
                 $('#NomeDoMaterial').val(item.DescricaoMaterial);
-                $('#Quant').val(item.Quantidade);
+                $('#Quant').val(Globalize.format(item.Quantidade, 'n3'));
                 $('#CodigoUnidadeMedida').val(item.CodigoUnidadeMedida);
                 $('#CodigoDaListaDePreco').val(item.CodigoListaPreco);
                 $('#Desconto').val(item.Desconto ? item.Desconto : '');

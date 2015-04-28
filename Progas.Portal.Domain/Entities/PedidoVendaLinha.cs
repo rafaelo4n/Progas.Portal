@@ -1,20 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Progas.Portal.Domain.ValueObjects;
 
 namespace Progas.Portal.Domain.Entities
 {
     public class PedidoVendaLinha
     {
+
         public virtual int Id { get; set; }
         public virtual string  Numero { get; set; }
         public virtual Material Material { get; set; }
-        public virtual decimal Quantidade { get; set; }
+
+        public virtual decimal Quantidade
+        {
+            get { return this._quantidade; }
+            set {
+                if (value <= 0)
+                {
+                    throw new Exception("Quantidade deve ser maior que 0");
+                }
+
+                this._quantidade = value;
+            }
+        }
         public virtual ListaPreco ListaDePreco { get; set; }
         public virtual decimal ValorTabela { get; set; }
         public virtual decimal ValorPolitica { get; set; }
         public virtual decimal DescontoManual { get; set; }
         public virtual MotivoDeRecusa  MotivoDeRecusa { get; set; }
         public virtual IList<CondicaoDePreco> CondicoesDePreco  { get; protected set; }
+
+        private decimal _quantidade;
 
         protected PedidoVendaLinha()
         {
